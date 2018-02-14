@@ -1,0 +1,29 @@
+package com.javaman.olcudefteri;
+
+import android.app.Application;
+import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
+
+/**
+ * Created by javaman on 15.12.2017.
+ */
+
+public class TakeMeasureApp extends Application {
+    private static final String TAG = TakeMeasureApp.class.getSimpleName();
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.i(TAG, "onCreate()");
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Log.i(TAG, "onLowMemory()");
+    }
+}
