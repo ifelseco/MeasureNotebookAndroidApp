@@ -58,6 +58,14 @@ public class LoginPresenterImpl implements LoginPresenter,LoginIntractor.onLogin
     }
 
     @Override
+    public void openSession(String sessionId) {
+        if(mLoginView!=null){
+
+            mLoginView.openSession(sessionId);
+        }
+    }
+
+    @Override
     public void onFailure(String message) {
         if(mLoginView!=null){
             mLoginView.hideProgress();

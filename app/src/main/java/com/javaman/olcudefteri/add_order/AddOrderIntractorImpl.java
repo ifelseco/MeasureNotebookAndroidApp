@@ -1,16 +1,17 @@
-package com.javaman.olcudefteri.login;
+package com.javaman.olcudefteri.add_order;
 
-
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.javaman.olcudefteri.api.AddCustomerResponse;
 import com.javaman.olcudefteri.api.ApiClient;
 import com.javaman.olcudefteri.api.ApiError;
 import com.javaman.olcudefteri.api.ApiUtils;
 import com.javaman.olcudefteri.api.AuthResponse;
+import com.javaman.olcudefteri.login.LoginService;
+import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 import java.io.IOException;
 
@@ -20,59 +21,32 @@ import retrofit2.HttpException;
 import retrofit2.Response;
 
 /**
- * Created by javaman on 06.02.2018.
+ * Created by javaman on 15.02.2018.
  */
 
-public class LoginIntractorImpl implements LoginIntractor {
+public class AddOrderIntractorImpl implements AddOrderIntractor {
 
-    LoginService loginService;
-
+    CustomerService customerService;
 
     @Override
-    public void dummyLogin(String username, String password, final onLoginFinishedListener listener) {
-
-        if (TextUtils.isEmpty(username)) {
-            listener.onUserNameEmptyError();
-        } else if (TextUtils.isEmpty(password)) {
-            listener.onPasswordEmptyError();
-        } else if (username.equals("admin") && password.equals("12345")) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onSuccess();
-                }
-            },3000);
-
-            listener.onSuccess();
-
-
-            //or postToServer(username,password);
-        } else {
-            listener.onFailure("Kullanıcı adı yada parola hatalı");
-        }
-
-
-    }
-
-    public void login(String username, String password, final onLoginFinishedListener listener) {
-
-        if (TextUtils.isEmpty(username)) {
-            listener.onUserNameEmptyError();
-        } else if (TextUtils.isEmpty(password)) {
-            listener.onPasswordEmptyError();
+    public void addCustomer(CustomerDetailModel customerDetailModel,String headerData, final onSendCustomerListener listener) {
+        if (TextUtils.isEmpty(customerDetailModel.getNameSurname())) {
+            listener.onNameEmptyError();
+        } else if (TextUtils.isEmpty(customerDetailModel.getMobilePhone()) || TextUtils.isEmpty(customerDetailModel.getFixedPhone())) {
+            listener.onPhoneEmptyError();
         } else {
 
 
-            loginService = ApiClient.getClient().create(LoginService.class);
-            final String auth = ApiUtils.getAuthToken(username, password);
-            String contentType = "application/x-www-form-urlencoded";
+            customerService = ApiClient.getClient().create(CustomerService.class);
+            String contentType = "application/json";
+            String xAuthToken=headerData;
 
 
-            Call<AuthResponse> token = loginService.sendCredential(auth, contentType);
+            Call<AddCustomerResponse> addCustomerResponse = customerService.addCustomer(contentType,xAuthToken,customerDetailModel);
 
-            token.enqueue(new Callback<AuthResponse>() {
+            addCustomerResponse.enqueue(new Callback<AddCustomerResponse>() {
                 @Override
-                public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
+                public void onResponse(Call<AddCustomerResponse> call, Response<AddCustomerResponse> response) {
 
                     //request servera ulaştı ve herhangi bir response döndü
 
@@ -80,15 +54,13 @@ public class LoginIntractorImpl implements LoginIntractor {
 
                         //response [200 ,300) aralığında ise
 
-                        AuthResponse authResponse = response.body();
+                        AddCustomerResponse addCustomerResponse = response.body();
 
                         Log.d("Response body", response.body().toString());
-                        Log.d("Auth response:", authResponse.toString());
-                        Log.d("Session Id:", ""+response.headers().get("X-Auth-Token"));
-                        String sessionId=response.headers().get("X-Auth-Token");
-                        listener.openSession(sessionId);
-                        listener.onSuccess();
+                        Log.d("Auth response:", addCustomerResponse.toString());
 
+
+                        listener.onSuccess();
 
                     } else {
 
@@ -115,7 +87,7 @@ public class LoginIntractorImpl implements LoginIntractor {
                 }
 
                 @Override
-                public void onFailure(Call<AuthResponse> call, Throwable t) {
+                public void onFailure(Call<AddCustomerResponse> call, Throwable t) {
 
                     //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
 
@@ -146,8 +118,5 @@ public class LoginIntractorImpl implements LoginIntractor {
 
 
         }
-
     }
-
-
 }

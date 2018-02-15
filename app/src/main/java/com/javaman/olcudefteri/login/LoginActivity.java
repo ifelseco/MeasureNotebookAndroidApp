@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,6 +90,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     public void showAlert(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public void openSession(String sessionId) {
+        SharedPreferences prefs = getSharedPreferences("Session", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("sessionId", sessionId);
+        editor.commit();
     }
 
     @Override

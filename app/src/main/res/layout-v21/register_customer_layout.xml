@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="@drawable/login_bg"
+    android:background="@drawable/home_bg"
+    android:gravity="bottom"
     android:stretchColumns="1">
 
 
@@ -14,9 +14,8 @@
         android:layout_height="wrap_content">
 
 
-
-
         <android.support.v7.widget.CardView
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -44,16 +43,16 @@
                     android:padding="5dp">
 
                     <android.support.design.widget.TextInputLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
                         <EditText
                             android:id="@+id/editTextName"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Ad"
+                            android:hint="Ad Soyad"
                             android:inputType="textPersonName"
                             android:theme="@style/MyEditText">
 
@@ -63,21 +62,7 @@
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
 
-                        <EditText
-                            android:id="@+id/editTextSurname"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:hint="Soyad"
-                            android:inputType="textPersonName"
-                            android:theme="@style/MyEditText" />
-
-                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -161,26 +146,27 @@
 
                 </LinearLayout>
 
+                <ProgressBar
+                    android:id="@+id/pb_add_customer"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:gravity="center"
                     android:padding="5dp">
 
-                    <Button
-                        android:id="@+id/resetFormButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Formu Temizle"
-                        android:textColor="#ffffff"
-                        android:textSize="12sp" />
 
                     <Button
                         android:id="@+id/takeMeasureButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="Ölçü almaya başla"
+                        android:text="Kaydet"
                         android:textColor="#ffffff"
                         android:textSize="12sp" />
 
@@ -193,9 +179,7 @@
         </android.support.v7.widget.CardView>
 
 
-
     </ScrollView>
-
 
 
 </LinearLayout>

@@ -17,7 +17,7 @@ import com.javaman.olcudefteri.R;
  * Created by javaman on 14.12.2017.
  */
 
-public class AddOrderFragment extends Fragment {
+public class AddOrderFragment extends Fragment{
 
     public static final String MyPREFERENCES = "MyPrefs" ;
 
@@ -66,5 +66,6 @@ public class AddOrderFragment extends Fragment {
         }
     }
 
-    
+
+
 }

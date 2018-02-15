@@ -12,4 +12,5 @@ public interface LoginView {
     void setPasswordEmptyError();
     void navigatetoHome();
     void showAlert(String message);
+    void openSession(String sessionId);
 }
