@@ -5,12 +5,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.javaman.olcudefteri.api.AddCustomerResponse;
+import com.javaman.olcudefteri.api.response_model.AddCustomerResponse;
 import com.javaman.olcudefteri.api.ApiClient;
-import com.javaman.olcudefteri.api.ApiError;
-import com.javaman.olcudefteri.api.ApiUtils;
-import com.javaman.olcudefteri.api.AuthResponse;
-import com.javaman.olcudefteri.login.LoginService;
+import com.javaman.olcudefteri.api.response_model.ApiError;
+
 import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 import java.io.IOException;
@@ -38,11 +36,11 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
 
 
             customerService = ApiClient.getClient().create(CustomerService.class);
-            String contentType = "application/json";
+            //String contentType = "application/json";
             String xAuthToken=headerData;
 
 
-            Call<AddCustomerResponse> addCustomerResponse = customerService.addCustomer(contentType,xAuthToken,customerDetailModel);
+            Call<AddCustomerResponse> addCustomerResponse = customerService.addCustomer(xAuthToken,customerDetailModel);
 
             addCustomerResponse.enqueue(new Callback<AddCustomerResponse>() {
                 @Override
@@ -56,11 +54,17 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
 
                         AddCustomerResponse addCustomerResponse = response.body();
 
+                       Log.d("Order Date : ",addCustomerResponse.getOrderDate().toString());
+
+
+
+                        listener.onSuccess();
+
+
                         Log.d("Response body", response.body().toString());
                         Log.d("Auth response:", addCustomerResponse.toString());
 
 
-                        listener.onSuccess();
 
                     } else {
 

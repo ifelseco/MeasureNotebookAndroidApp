@@ -8,9 +8,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.javaman.olcudefteri.api.ApiClient;
-import com.javaman.olcudefteri.api.ApiError;
+import com.javaman.olcudefteri.api.response_model.ApiError;
 import com.javaman.olcudefteri.api.ApiUtils;
-import com.javaman.olcudefteri.api.AuthResponse;
+import com.javaman.olcudefteri.api.response_model.AuthResponse;
 
 import java.io.IOException;
 

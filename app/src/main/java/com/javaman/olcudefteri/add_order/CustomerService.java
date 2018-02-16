@@ -1,11 +1,12 @@
 package com.javaman.olcudefteri.add_order;
 
-import com.javaman.olcudefteri.api.AddCustomerResponse;
+import com.javaman.olcudefteri.api.response_model.AddCustomerResponse;
 import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -15,7 +16,10 @@ import retrofit2.http.POST;
 public interface CustomerService {
 
     @POST("/customer/add/")
-    Call<AddCustomerResponse> addCustomer(@Header("X-Auth-Token") String xAuthToken ,
-                                          @Header("Content-Type") String contentType,
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    Call<AddCustomerResponse> addCustomer(@Header("X-Auth-Token") String xAuthToken,
                                           @Body CustomerDetailModel customerDetailModel);
 }
