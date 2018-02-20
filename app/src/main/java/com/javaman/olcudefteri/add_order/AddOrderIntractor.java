@@ -1,5 +1,6 @@
 package com.javaman.olcudefteri.add_order;
 
+import com.javaman.olcudefteri.model.AddCustomerModel;
 import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 /**
@@ -17,7 +18,7 @@ public interface AddOrderIntractor {
     }
 
 
-    void addCustomer(CustomerDetailModel customerDetailModel,String headerData, onSendCustomerListener listener);
+    void addCustomer(AddCustomerModel addCustomerModel, String headerData, onSendCustomerListener listener);
 
 
 }

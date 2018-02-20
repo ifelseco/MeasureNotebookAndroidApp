@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.model.AddCustomerModel;
 import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,6 +45,9 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView{
 
     @BindView(R.id.checkBoxQuestion)
     CheckBox checkBoxQuestion;
+
+    @BindView(R.id.cehckBoxTobeMeasured)
+    CheckBox cehckBoxTobeMeasured;
 
     @BindView(R.id.pb_add_customer)
     ProgressBar progressBarAddCustomer;
@@ -157,10 +161,14 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView{
             customerDetailModel.setFixedPhone(editTextFixedPhone.getText().toString());
             customerDetailModel.setNewsletterAccepted(checkBoxQuestion.isChecked());
 
+            AddCustomerModel addCustomerModel=new AddCustomerModel();
+            addCustomerModel.setCustomerDetailModel(customerDetailModel);
+            addCustomerModel.setOrderStatus(cehckBoxTobeMeasured.isChecked()==true ? 2:0);
+
             SharedPreferences sharedPreferences=getActivity().getSharedPreferences("Session",Context.MODE_PRIVATE);
             String sessionId=sharedPreferences.getString("sessionId",null);
 
-            mAddOrderPresenter.addCustomer(customerDetailModel,sessionId);
+            mAddOrderPresenter.addCustomer(addCustomerModel,sessionId);
 
         }
     }

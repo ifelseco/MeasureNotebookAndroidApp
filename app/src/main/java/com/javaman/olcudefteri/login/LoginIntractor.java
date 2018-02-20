@@ -15,7 +15,10 @@ public interface LoginIntractor {
 
     }
 
-  void dummyLogin(String username, String password, onLoginFinishedListener listener);
+    void dummyLogin(String username, String password, onLoginFinishedListener listener);
 
     void login(String username, String password, onLoginFinishedListener listener);
+
+
+
 }

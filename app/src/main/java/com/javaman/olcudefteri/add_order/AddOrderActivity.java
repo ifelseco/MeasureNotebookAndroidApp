@@ -20,15 +20,13 @@ import android.view.View;
 import android.widget.Toast;
 
 
-import com.javaman.olcudefteri.HomeActivity;
+import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.OrdersActivity;
 import com.javaman.olcudefteri.reports.ReportsActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.io.Console;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

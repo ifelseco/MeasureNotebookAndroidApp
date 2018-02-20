@@ -2,6 +2,7 @@ package com.javaman.olcudefteri.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +12,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.javaman.olcudefteri.DispatcherActivity;
-import com.javaman.olcudefteri.HomeActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.SplashScreenActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
         Log.i(TAG, "onCreate()");
 
+        checkGooglePlay();
 
         setContentView(R.layout.activity_login);
         mLoginPresenter=new LoginPresenterImpl(this);
@@ -104,5 +106,20 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     protected void onDestroy() {
         super.onDestroy();
         mLoginPresenter.onDestroy();
+
+    }
+
+    public void checkGooglePlay(){
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        int code = api.isGooglePlayServicesAvailable(this);
+        if (code != ConnectionResult.SUCCESS) {
+            GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkGooglePlay();
     }
 }

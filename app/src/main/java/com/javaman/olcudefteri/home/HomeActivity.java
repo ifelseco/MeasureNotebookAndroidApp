@@ -1,5 +1,6 @@
-package com.javaman.olcudefteri;
+package com.javaman.olcudefteri.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,15 +19,22 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.add_order.AddOrderActivity;
+import com.javaman.olcudefteri.login.LoginActivity;
+import com.javaman.olcudefteri.model.FirebaseRegIdModel;
+import com.javaman.olcudefteri.notification.FirebaseUtil;
 import com.javaman.olcudefteri.orders.OrdersActivity;
 import com.javaman.olcudefteri.reports.ReportsActivity;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener ,HomeView{
 
     private static final String TAG = HomeActivity.class.getSimpleName();
+
     boolean doubleBackToExitPressedOnce = false;
+    private HomePresenter mHomePresenter;
 
 
     DrawerLayout drawer;
@@ -40,6 +48,13 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mHomePresenter=new HomePresenterImpl(this);
+
+
+        sendFirebaseRegIdToServer();
+
+        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -151,5 +166,27 @@ public class HomeActivity extends AppCompatActivity
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("lastActivity", getClass().getName());
         editor.commit();
+    }
+
+    @Override
+    public void sendFirebaseRegIdToServer() {
+
+        SharedPreferences prefSession=getSharedPreferences("Session", Context.MODE_PRIVATE);
+        String xAuthToken=prefSession.getString("sessionId",null);
+
+        SharedPreferences prefFirebase=getSharedPreferences("firebase", Context.MODE_PRIVATE);
+        String firebaseRegId=prefFirebase.getString("firebase_reg_id",null);
+
+        FirebaseRegIdModel firebaseRegIdModel=new FirebaseRegIdModel(firebaseRegId);
+
+        mHomePresenter.sendFirebaseRegIdToServer(xAuthToken,firebaseRegIdModel);
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHomePresenter.onDestroy();
     }
 }

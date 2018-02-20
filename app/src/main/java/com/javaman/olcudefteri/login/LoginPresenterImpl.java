@@ -26,6 +26,7 @@ public class LoginPresenterImpl implements LoginPresenter,LoginIntractor.onLogin
 
     }
 
+
     @Override
     public void onDestroy() {
         if(mLoginView!=null){

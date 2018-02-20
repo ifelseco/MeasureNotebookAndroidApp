@@ -9,6 +9,7 @@ import com.javaman.olcudefteri.api.response_model.AddCustomerResponse;
 import com.javaman.olcudefteri.api.ApiClient;
 import com.javaman.olcudefteri.api.response_model.ApiError;
 
+import com.javaman.olcudefteri.model.AddCustomerModel;
 import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 import java.io.IOException;
@@ -27,10 +28,11 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
     CustomerService customerService;
 
     @Override
-    public void addCustomer(CustomerDetailModel customerDetailModel,String headerData, final onSendCustomerListener listener) {
-        if (TextUtils.isEmpty(customerDetailModel.getNameSurname())) {
+    public void addCustomer(AddCustomerModel addCustomerModel, String headerData, final onSendCustomerListener listener) {
+        if (TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getNameSurname())) {
             listener.onNameEmptyError();
-        } else if (TextUtils.isEmpty(customerDetailModel.getMobilePhone()) || TextUtils.isEmpty(customerDetailModel.getFixedPhone())) {
+        } else if (TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getMobilePhone()) ||
+                TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getFixedPhone())) {
             listener.onPhoneEmptyError();
         } else {
 
@@ -40,7 +42,7 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
             String xAuthToken=headerData;
 
 
-            Call<AddCustomerResponse> addCustomerResponse = customerService.addCustomer(xAuthToken,customerDetailModel);
+            Call<AddCustomerResponse> addCustomerResponse = customerService.addCustomer(xAuthToken,addCustomerModel);
 
             addCustomerResponse.enqueue(new Callback<AddCustomerResponse>() {
                 @Override
@@ -54,7 +56,7 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
 
                         AddCustomerResponse addCustomerResponse = response.body();
 
-                       Log.d("Order Date : ",addCustomerResponse.getOrderDate().toString());
+                      // Log.d("Order Date : ",addCustomerResponse.getOrderDate().toString());
 
 
 

@@ -5,12 +5,14 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.javaman.olcudefteri.api.ApiClient;
 import com.javaman.olcudefteri.api.response_model.ApiError;
 import com.javaman.olcudefteri.api.ApiUtils;
 import com.javaman.olcudefteri.api.response_model.AuthResponse;
+import com.javaman.olcudefteri.notification.FirebaseUtil;
 
 import java.io.IOException;
 
@@ -86,6 +88,8 @@ public class LoginIntractorImpl implements LoginIntractor {
                         Log.d("Auth response:", authResponse.toString());
                         Log.d("Session Id:", ""+response.headers().get("X-Auth-Token"));
                         String sessionId=response.headers().get("X-Auth-Token");
+
+
                         listener.openSession(sessionId);
                         listener.onSuccess();
 

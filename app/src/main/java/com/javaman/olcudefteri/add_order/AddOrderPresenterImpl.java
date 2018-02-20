@@ -1,5 +1,6 @@
 package com.javaman.olcudefteri.add_order;
 
+import com.javaman.olcudefteri.model.AddCustomerModel;
 import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 /**
@@ -19,10 +20,10 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
 
 
     @Override
-    public void addCustomer(CustomerDetailModel customerDetailModel , String headerData) {
+    public void addCustomer(AddCustomerModel addCustomerModel , String headerData) {
         if(mAddOrderView!=null){
             mAddOrderView.showProgress();
-            mAddOrderIntractor.addCustomer(customerDetailModel,headerData,this);
+            mAddOrderIntractor.addCustomer(addCustomerModel,headerData,this);
         }
     }
 

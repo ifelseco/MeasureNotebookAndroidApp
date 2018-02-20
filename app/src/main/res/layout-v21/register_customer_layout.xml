@@ -143,12 +143,17 @@
                         android:layout_marginBottom="5dp"
                         android:hint="Kampanyalarımız hakkında bilgilendirilmek istermisiniz ?" />
 
+                    <CheckBox
+                        android:id="@+id/cehckBoxTobeMeasured"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:hint="Ölçüye gidilecek mi?" />
 
                 </LinearLayout>
 
                 <ProgressBar
                     android:id="@+id/pb_add_customer"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone" />

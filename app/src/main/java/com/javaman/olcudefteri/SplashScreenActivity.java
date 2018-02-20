@@ -2,10 +2,13 @@ package com.javaman.olcudefteri;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.javaman.olcudefteri.login.LoginActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -18,6 +21,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
+
 
 
         new Handler().postDelayed(new Runnable() {
@@ -39,4 +43,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onDestroy();
         Log.i(TAG, "onDestroy()");
     }
+
+
 }

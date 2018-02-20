@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.add_order;
 
 import com.javaman.olcudefteri.api.response_model.AddCustomerResponse;
+import com.javaman.olcudefteri.model.AddCustomerModel;
 import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 import retrofit2.Call;
@@ -21,5 +22,5 @@ public interface CustomerService {
             "Content-Type: application/json"
     })
     Call<AddCustomerResponse> addCustomer(@Header("X-Auth-Token") String xAuthToken,
-                                          @Body CustomerDetailModel customerDetailModel);
+                                          @Body AddCustomerModel addCustomerModel);
 }
