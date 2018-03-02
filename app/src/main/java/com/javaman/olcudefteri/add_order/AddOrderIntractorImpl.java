@@ -5,12 +5,11 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.javaman.olcudefteri.api.response_model.AddCustomerResponse;
+import com.javaman.olcudefteri.model.response_model.AddCustomerResponse;
 import com.javaman.olcudefteri.api.ApiClient;
-import com.javaman.olcudefteri.api.response_model.ApiError;
+import com.javaman.olcudefteri.model.response_model.ApiError;
 
 import com.javaman.olcudefteri.model.AddCustomerModel;
-import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 import java.io.IOException;
 
@@ -38,12 +37,8 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
 
 
             customerService = ApiClient.getClient().create(CustomerService.class);
-            //String contentType = "application/json";
             String xAuthToken=headerData;
-
-
             Call<AddCustomerResponse> addCustomerResponse = customerService.addCustomer(xAuthToken,addCustomerModel);
-
             addCustomerResponse.enqueue(new Callback<AddCustomerResponse>() {
                 @Override
                 public void onResponse(Call<AddCustomerResponse> call, Response<AddCustomerResponse> response) {

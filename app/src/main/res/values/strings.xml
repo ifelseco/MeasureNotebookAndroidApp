@@ -107,6 +107,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="serach">Ara</string>
 
     <string-array name="home_titles">
         <item>Hoşgeldin</item>

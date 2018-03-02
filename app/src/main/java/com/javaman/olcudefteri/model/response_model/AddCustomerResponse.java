@@ -1,7 +1,4 @@
-package com.javaman.olcudefteri.api.response_model;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.javaman.olcudefteri.model.response_model;
 
 import java.util.Date;
 
@@ -9,8 +6,9 @@ import java.util.Date;
  * Created by javaman on 15.02.2018.
  */
 
-public class AddCustomerResponse extends BaseResponse {
+public class AddCustomerResponse{
 
+    private BaseResponse baseResponse;
 
     private Long id;
 
@@ -22,6 +20,14 @@ public class AddCustomerResponse extends BaseResponse {
 
 
     private String customerNameSurname;
+
+    public BaseResponse getBaseResponse() {
+        return baseResponse;
+    }
+
+    public void setBaseResponse(BaseResponse baseResponse) {
+        this.baseResponse = baseResponse;
+    }
 
     public Long getId() {
         return id;

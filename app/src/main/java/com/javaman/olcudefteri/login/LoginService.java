@@ -1,6 +1,6 @@
 package com.javaman.olcudefteri.login;
 
-import com.javaman.olcudefteri.api.response_model.AuthResponse;
+import com.javaman.olcudefteri.model.response_model.AuthResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

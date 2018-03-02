@@ -1,96 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_order_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:cardCornerRadius="5dp"
-    app:cardBackgroundColor="@android:color/transparent">
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardMaxElevation="6dp"
+    app:contentPadding="15dp"
+    app:cardCornerRadius="7dp"
+    app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="?android:dividerVertical"
-            android:showDividers="middle"
+            android:padding="5dp"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:divider="?android:dividerHorizontal"
-                android:showDividers="middle"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:gravity="left"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:padding="3dp"
-                    android:orientation="horizontal">
+                    android:text="Müşt.Adı:"
+                    android:textSize="@dimen/card_text_size"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="Sipariş No :"/>
-
-                    <TextView
-                        android:id="@+id/tv_order_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1212121"/>
-
-                </LinearLayout>
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_custmer_namesurname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:padding="3dp"
-                    android:orientation="horizontal">
+                    android:text="Müşteri Adı:"
+                    android:textSize="@dimen/card_text_size" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="Müşteri Adı :"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tv_order_customer_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ayhan Mboğa"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="1">
 
-                </LinearLayout>
-                <LinearLayout
+                <CheckBox
+                    android:id="@+id/checkbox_select_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sip.No:"
+                android:textSize="@dimen/card_text_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_order_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sipariş No"
+                android:textSize="@dimen/card_text_size" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:padding="3dp"
-                    android:orientation="horizontal">
+                    android:text="Sip.Tar:"
+                    android:textSize="@dimen/card_text_size"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="Tel No :"/>
-
-                    <TextView
-                        android:id="@+id/tv_order_tel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="05xx xxx xx xx"/>
-
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/tv_order_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2017"
+                    android:textSize="@dimen/card_text_size" />
 
 
             </LinearLayout>
@@ -98,45 +124,111 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tes.Tar:"
+                    android:textSize="@dimen/card_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_delivery_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2018"
+                    android:textSize="@dimen/card_text_size" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/linear_layout_measure_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ölç.Tar:"
+                    android:textSize="@dimen/card_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_measure_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2017"
+                    android:textSize="@dimen/card_text_size" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_layout_mount_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mntj.Tar:"
+                    android:textSize="@dimen/card_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_mount_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2018"
+                    android:textSize="@dimen/card_text_size" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="Sipariş Durumu"
+                    android:background="@color/yello"
+                    android:id="@+id/tv_order_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:padding="3dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_order_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="HAZIR"
-                        android:textColor="#8BC34A"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:padding="3dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_order_remain_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3 gün kaldı"
-                        android:textColor="#8BC34A"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
+                    android:textSize="@dimen/card_text_size"
+                    android:textStyle="bold" />
 
 
 
@@ -147,6 +239,8 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
+
 
 </android.support.v7.widget.CardView>

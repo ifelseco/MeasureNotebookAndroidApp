@@ -7,4 +7,6 @@ package com.javaman.olcudefteri.home;
 public interface HomeView {
 
     void sendFirebaseRegIdToServer();
+    String getSessionIdFromPref();
+    String getFirebaseIdFromPref();
 }

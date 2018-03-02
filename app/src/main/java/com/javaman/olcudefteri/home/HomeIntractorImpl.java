@@ -1,14 +1,12 @@
 package com.javaman.olcudefteri.home;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.javaman.olcudefteri.api.ApiClient;
-import com.javaman.olcudefteri.api.response_model.ApiError;
-import com.javaman.olcudefteri.api.response_model.BaseResponse;
+import com.javaman.olcudefteri.model.response_model.ApiError;
+import com.javaman.olcudefteri.model.response_model.BaseResponse;
 import com.javaman.olcudefteri.model.FirebaseRegIdModel;
 import com.javaman.olcudefteri.notification.FirebaseService;
 

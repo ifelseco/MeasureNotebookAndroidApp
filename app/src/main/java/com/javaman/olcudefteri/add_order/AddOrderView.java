@@ -13,4 +13,5 @@ public interface AddOrderView {
     void navigateToOrder();
     void showAlert(String message);
     void checkSession();
+    String getSessionIdFromPref();
 }

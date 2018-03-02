@@ -1,4 +1,4 @@
-package com.javaman.olcudefteri.api.response_model;
+package com.javaman.olcudefteri.model.response_model;
 
 /**
  * Created by javaman on 11.02.2018.

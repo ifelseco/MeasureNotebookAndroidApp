@@ -228,7 +228,8 @@ public class AddOrderActivity extends AppCompatActivity
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    drawer.isDrawerOpen(GravityCompat.START);
+
+                    drawer.openDrawer(GravityCompat.START);
                 }
             });
         }

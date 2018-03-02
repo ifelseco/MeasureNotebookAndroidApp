@@ -1,8 +1,7 @@
 package com.javaman.olcudefteri.add_order;
 
-import com.javaman.olcudefteri.api.response_model.AddCustomerResponse;
+import com.javaman.olcudefteri.model.response_model.AddCustomerResponse;
 import com.javaman.olcudefteri.model.AddCustomerModel;
-import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

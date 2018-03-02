@@ -1,11 +1,13 @@
 package com.javaman.olcudefteri.orders;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,63 +17,98 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.widget.CheckBox;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.add_order.AddOrderActivity;
+import com.javaman.olcudefteri.model.OrdersDeleteModel;
+import com.javaman.olcudefteri.model.PageModel;
+import com.javaman.olcudefteri.model.response_model.OrderDetailResponseModel;
+import com.javaman.olcudefteri.model.response_model.OrderSummaryReponseModel;
 import com.javaman.olcudefteri.reports.ReportsActivity;
 
-public class OrdersActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class OrdersActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener {
+
+    @BindView(R.id.recycle_orders)
     RecyclerView recyclerView;
+
+    @BindView(R.id.tv_order_select_counter)
+    TextView tvOrderSelectCount;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+
+    @BindView(R.id.tv_total_orders)
+    TextView tvTotalOrders;
+
+    ActionBarDrawerToggle toggle;
+    RecyclerView.Adapter adapter;
+    LinearLayoutManager linearLayoutManager;
+    OrdersPresenter mOrdersPresenter;
+    List<OrderDetailResponseModel> orderList;
+    ArrayList<OrderDetailResponseModel> selectedOrderList=new ArrayList<>();
+
+    int first = 0;
+    int rows = 10;
+    boolean isActionModeActive = false;
+    int countSelectedOrders = 0;
+    int totalOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        initView();
+        initRcyclerView();
+        sendPageRequest(first,rows);
+    }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent measure= new Intent(OrdersActivity.this,AddOrderActivity.class);
-                startActivity(measure);
-            }
-        });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+    public void initView() {
+
+
+
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.orders);
         navigationView.setNavigationItemSelectedListener(this);
+        mOrdersPresenter = new OrdersPresenterImpl(this);
+        tvOrderSelectCount.setVisibility(View.GONE);
 
-        recyclerView=findViewById(R.id.recycle_orders);
-        OrderAdapter orderAdapter=new OrderAdapter(this,PopulateTestOrder.populateOrders());
-
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        recyclerView.setAdapter(orderAdapter);
-        recyclerView.setLayoutManager(linearLayoutManager);
 
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            Intent intent=new Intent(getApplicationContext(),HomeActivity.class);
-            startActivity(intent);
-        }
+    public void initRcyclerView() {
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    public void setRecyclerViewAdapter() {
+        Log.d("Total order size : "," "+totalOrder);
+        adapter = new OrderAdapter(this, this.orderList);
+        recyclerView.setAdapter(adapter);
+
     }
 
     @Override
@@ -91,9 +128,30 @@ public class OrdersActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.item_delete) {
+            if (this.selectedOrderList .size() > 0) {
+                sendDeleteOrderListRequest(this.selectedOrderList);
+                clearActionMode();
+            } else {
+                Toast.makeText(this, "Sipariş seçmediniz.", Toast.LENGTH_SHORT).show();
+                clearActionMode();
+            }
+
+
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void clearActionMode() {
+        isActionModeActive = false;
+        adapter.notifyDataSetChanged();
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.home);
+        showHamburgerButton();
+        tvOrderSelectCount.setVisibility(View.GONE);
+        tvOrderSelectCount.setText("0 sipariş seçildi");
+        countSelectedOrders = 0;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -102,22 +160,22 @@ public class OrdersActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
 
             case R.id.home:
-                Intent home= new Intent(OrdersActivity.this,HomeActivity.class);
+                Intent home = new Intent(OrdersActivity.this, HomeActivity.class);
                 startActivity(home);
                 break;
             case R.id.orders:
-                Intent orders= new Intent(OrdersActivity.this,OrdersActivity.class);
+                Intent orders = new Intent(OrdersActivity.this, OrdersActivity.class);
                 startActivity(orders);
                 break;
             case R.id.measure:
-                Intent measure= new Intent(OrdersActivity.this,AddOrderActivity.class);
+                Intent measure = new Intent(OrdersActivity.this, AddOrderActivity.class);
                 startActivity(measure);
                 break;
             case R.id.report:
-                Intent report= new Intent(OrdersActivity.this,ReportsActivity.class);
+                Intent report = new Intent(OrdersActivity.this, ReportsActivity.class);
                 startActivity(report);
                 break;
             // this is done, now let us go and intialise the home page.
@@ -140,5 +198,131 @@ public class OrdersActivity extends AppCompatActivity
         editor.commit();
     }
 
+    @Override
+    public void sendPageRequest(int first,int rows) {
 
+        String xAuthToken = getSessionIdFromPref();
+        PageModel pageModel = new PageModel();
+        pageModel.setFirst(first);
+        pageModel.setRows(rows);
+        mOrdersPresenter.sendPageRequest(xAuthToken, pageModel);
+
+    }
+
+    @Override
+    public void sendDeleteOrderListRequest(ArrayList<OrderDetailResponseModel> orders) {
+        String xAuthToken = getSessionIdFromPref();
+        mOrdersPresenter.sendDeleteOrderListRequest(xAuthToken, orders);
+    }
+
+    @Override
+    public void deleteOrdersFromAdapter(ArrayList<OrderDetailResponseModel> orders){
+        OrderAdapter orderAdapter=(OrderAdapter)adapter;
+        orderAdapter.deleteSelectedItems(orders);
+    }
+
+    @Override
+    public String getSessionIdFromPref() {
+        SharedPreferences prefSession = getSharedPreferences("Session", Context.MODE_PRIVATE);
+        String xAuthToken = prefSession.getString("sessionId", null);
+        return xAuthToken;
+    }
+
+    @Override
+    public void checkSession() {
+
+    }
+
+    @Override
+    public void showAlert(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getOrders(OrderSummaryReponseModel orderSummaryReponseModel) {
+
+        this.orderList = orderSummaryReponseModel.getOrderDetailPage().getContent();
+        this.totalOrder=orderSummaryReponseModel.getOrderDetailPage().getTotalElements();
+        setRecyclerViewAdapter();
+
+        if(this.totalOrder>0){
+            tvTotalOrders.setText("Toplam "+this.totalOrder+" sipariş bulundu.");
+        }else{
+            tvTotalOrders.setText("Sipaiş kaydınız bulunmamaktadır.");
+
+        }
+
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.menu_action);
+        tvOrderSelectCount.setVisibility(View.VISIBLE);
+        isActionModeActive = true;
+        adapter.notifyDataSetChanged();
+        showArrowButton();
+        return true;
+    }
+
+    public void showHamburgerButton() {
+        toggle.setDrawerIndicatorEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        toggle.syncState();
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(GravityCompat.START);
+
+            }
+        });
+    }
+
+    public void showArrowButton() {
+        toggle.setDrawerIndicatorEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);// show back button
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    public void prepareSelection(View view, int position) {
+        if (((CheckBox) view).isChecked()) {
+            selectedOrderList.add(this.orderList.get(position));
+            countSelectedOrders++;
+            updateCounter(countSelectedOrders);
+        } else {
+            selectedOrderList.remove(this.orderList.get(position));
+            Log.d("Selected Order"," "+selectedOrderList.size());
+
+            countSelectedOrders--;
+            updateCounter(countSelectedOrders);
+        }
+
+    }
+
+    public void updateCounter(int counter) {
+        if (counter == 0) {
+            tvOrderSelectCount.setText("0 sipariş seçildi");
+        } else {
+            tvOrderSelectCount.setText(counter + " sipariş seçildi");
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (isActionModeActive) {
+            clearActionMode();
+            adapter.notifyDataSetChanged();
+        } else {
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+        }
+    }
 }

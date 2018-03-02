@@ -171,17 +171,28 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void sendFirebaseRegIdToServer() {
 
-        SharedPreferences prefSession=getSharedPreferences("Session", Context.MODE_PRIVATE);
-        String xAuthToken=prefSession.getString("sessionId",null);
 
-        SharedPreferences prefFirebase=getSharedPreferences("firebase", Context.MODE_PRIVATE);
-        String firebaseRegId=prefFirebase.getString("firebase_reg_id",null);
+        String xAuthToken=getSessionIdFromPref();
+        String firebaseRegId=getFirebaseIdFromPref();
 
         FirebaseRegIdModel firebaseRegIdModel=new FirebaseRegIdModel(firebaseRegId);
-
         mHomePresenter.sendFirebaseRegIdToServer(xAuthToken,firebaseRegIdModel);
 
 
+    }
+
+    @Override
+    public String getSessionIdFromPref() {
+        SharedPreferences prefSession=getSharedPreferences("Session", Context.MODE_PRIVATE);
+        String xAuthToken=prefSession.getString("sessionId",null);
+        return xAuthToken;
+    }
+
+    @Override
+    public String getFirebaseIdFromPref() {
+        SharedPreferences prefFirebase=getSharedPreferences("firebase", Context.MODE_PRIVATE);
+        String firebaseRegId=prefFirebase.getString("firebase_reg_id",null);
+        return firebaseRegId;
     }
 
     @Override

@@ -163,10 +163,9 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView{
 
             AddCustomerModel addCustomerModel=new AddCustomerModel();
             addCustomerModel.setCustomerDetailModel(customerDetailModel);
-            addCustomerModel.setOrderStatus(cehckBoxTobeMeasured.isChecked()==true ? 2:0);
+            addCustomerModel.setOrderStatus(cehckBoxTobeMeasured.isChecked()==true ? 1:0);
 
-            SharedPreferences sharedPreferences=getActivity().getSharedPreferences("Session",Context.MODE_PRIVATE);
-            String sessionId=sharedPreferences.getString("sessionId",null);
+            String sessionId=getSessionIdFromPref();
 
             mAddOrderPresenter.addCustomer(addCustomerModel,sessionId);
 
@@ -219,6 +218,13 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView{
             startActivity(new Intent(getActivity() , LoginActivity.class));
         }*/
 
+    }
+
+    @Override
+    public String getSessionIdFromPref() {
+        SharedPreferences sharedPreferences=getActivity().getSharedPreferences("Session",Context.MODE_PRIVATE);
+        String sessionId=sharedPreferences.getString("sessionId",null);
+        return sessionId;
     }
 
     @Override

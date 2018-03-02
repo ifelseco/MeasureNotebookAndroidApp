@@ -5,14 +5,12 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.javaman.olcudefteri.api.ApiClient;
-import com.javaman.olcudefteri.api.response_model.ApiError;
+import com.javaman.olcudefteri.model.response_model.ApiError;
 import com.javaman.olcudefteri.api.ApiUtils;
-import com.javaman.olcudefteri.api.response_model.AuthResponse;
-import com.javaman.olcudefteri.notification.FirebaseUtil;
+import com.javaman.olcudefteri.model.response_model.AuthResponse;
 
 import java.io.IOException;
 

@@ -26,8 +26,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
 
-
-
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
@@ -43,9 +41,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e(TAG, "Data: " + remoteMessage.getData());
         }
     }
-
-
-
 
     private void createNotification(String messageBody){
 
@@ -87,10 +82,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(/*notification id*/0, notificationBuilder.build());
     }
-
-
-
-
-
 
 }
