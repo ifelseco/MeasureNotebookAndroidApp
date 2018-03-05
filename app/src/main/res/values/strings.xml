@@ -113,5 +113,7 @@
         <item>Hoşgeldin</item>
         <item>Bugün nasılsın?</item>
     </string-array>
+    <string name="title_order_list">Orders</string>
+    <string name="title_order_detail">Order Detail</string>
 
 </resources>

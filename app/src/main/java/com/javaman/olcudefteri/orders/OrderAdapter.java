@@ -1,7 +1,9 @@
 package com.javaman.olcudefteri.orders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,18 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.model.Order;
-import com.javaman.olcudefteri.model.response_model.OrderDetailPage;
 import com.javaman.olcudefteri.model.response_model.OrderDetailResponseModel;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,14 +32,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     OrdersActivity ordersActivity;
     LayoutInflater inflater;
     private SparseBooleanArray itemStateArray = new SparseBooleanArray();
+    private boolean mTwoPane;
 
 
-    public OrderAdapter(Context context, List<OrderDetailResponseModel> mOrders) {
+    public OrderAdapter(Context context, List<OrderDetailResponseModel> mOrders,boolean mTwoPane) {
         Log.i("track", " in adapter constructor");
         //inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater = LayoutInflater.from(context);
         ordersActivity = (OrdersActivity) context;
         this.mOrders = mOrders;
+        this.mTwoPane=mTwoPane;
     }
 
     @Override
@@ -80,7 +78,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Log.i("track", " in onBindViewHoılder");
         OrderDetailResponseModel order = mOrders.get(position);
-
+        holder.itemView.setTag(order);
 
         if (!ordersActivity.isActionModeActive) {
             holder.checkBoxSelectOrder.setVisibility(View.GONE);
@@ -139,6 +137,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             ButterKnife.bind(this, itemView);
             checkBoxSelectOrder.setOnClickListener(this);
             cardViewOrder.setOnLongClickListener(ordersActivity);
+            cardViewOrder.setOnClickListener(this);
             linearLayoutMeasureDate.setVisibility(View.GONE);
             linearLayoutMountDate.setVisibility(View.GONE);
             this.ordersActivity = ordersActivity;
@@ -207,17 +206,41 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
         @Override
         public void onClick(View view) {
-            //checkbox click
-            int adapterPosition = getAdapterPosition();
-            if (!itemStateArray.get(adapterPosition, false)) {
-                checkBoxSelectOrder.setChecked(true);
-                itemStateArray.put(adapterPosition, true);
-                ordersActivity.prepareSelection(view, getAdapterPosition());
-            } else {
-                checkBoxSelectOrder.setChecked(false);
-                itemStateArray.put(adapterPosition, false);
-                ordersActivity.prepareSelection(view, getAdapterPosition());
+
+            if(view.getId()==R.id.checkbox_select_order){
+                //checkbox click
+                int adapterPosition = getAdapterPosition();
+                if (!itemStateArray.get(adapterPosition, false)) {
+                    checkBoxSelectOrder.setChecked(true);
+                    itemStateArray.put(adapterPosition, true);
+                    ordersActivity.prepareSelection(view, getAdapterPosition());
+                } else {
+                    checkBoxSelectOrder.setChecked(false);
+                    itemStateArray.put(adapterPosition, false);
+                    ordersActivity.prepareSelection(view, getAdapterPosition());
+                }
+            }else{
+               OrderDetailResponseModel orderDetailResponseModel= (OrderDetailResponseModel) view.getTag();
+                if(!ordersActivity.isActionModeActive){
+                    if (mTwoPane) {
+                        Bundle arguments = new Bundle();
+                        arguments.putLong(OrderDetailFragment.ARG_ITEM_ID, orderDetailResponseModel.getId());
+                        OrderDetailFragment fragment = new OrderDetailFragment();
+                        fragment.setArguments(arguments);
+                        ordersActivity.getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.order_detail_container, fragment)
+                                .commit();
+                    } else {
+                        Context context = view.getContext();
+
+                        Intent intent = new Intent(context, OrderDetailActivity.class);
+                        intent.putExtra(OrderDetailFragment.ARG_ITEM_ID , orderDetailResponseModel.getId());
+                        context.startActivity(intent);
+                    }
+                }
             }
+
+
         }
 
 

@@ -38,51 +38,22 @@
         </LinearLayout>
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle_orders"
-            android:layout_marginBottom="30dp"
+
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
             android:layout_marginTop="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/deeppurple"
-            android:gravity="center"
-            android:orientation="horizontal">
+            <include layout="@layout/order_list" />
+        </FrameLayout>
 
-            <ImageButton
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
-            <TextView
-                android:id="@+id/tv_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:gravity="center"
-                android:text="SAYFA"
-                android:textColor="#ffffff"
-                android:textSize="25sp"
-                android:textStyle="bold" />
 
-            <ImageButton
-                android:id="@+id/btn_forward"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="0.5"
-                android:background="?android:selectableItemBackground"
-                app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
 
-        </LinearLayout>
 
 
     </RelativeLayout>

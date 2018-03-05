@@ -123,7 +123,6 @@ public class AddOrderActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (fragmentManager.getBackStackEntryCount() > 1) {
-
             fragmentManager.popBackStack();
         } else {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);

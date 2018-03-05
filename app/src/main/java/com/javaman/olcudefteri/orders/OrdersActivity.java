@@ -68,6 +68,7 @@ public class OrdersActivity extends AppCompatActivity
     boolean isActionModeActive = false;
     int countSelectedOrders = 0;
     int totalOrder;
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,15 @@ public class OrdersActivity extends AppCompatActivity
         setContentView(R.layout.activity_orders);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+
+        if (findViewById(R.id.order_detail_container) != null) {
+            // The detail container view will be present only in the
+            // large-screen layouts (res/values-w900dp).
+            // If this view is present, then the
+            // activity should be in two-pane mode.
+            mTwoPane = true;
+        }
+
         initView();
         initRcyclerView();
         sendPageRequest(first,rows);
@@ -106,7 +116,7 @@ public class OrdersActivity extends AppCompatActivity
 
     public void setRecyclerViewAdapter() {
         Log.d("Total order size : "," "+totalOrder);
-        adapter = new OrderAdapter(this, this.orderList);
+        adapter = new OrderAdapter(this, this.orderList,mTwoPane);
         recyclerView.setAdapter(adapter);
 
     }
