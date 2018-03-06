@@ -232,7 +232,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                                 .commit();
                     } else {
                         Context context = view.getContext();
-
                         Intent intent = new Intent(context, OrderDetailActivity.class);
                         intent.putExtra(OrderDetailFragment.ARG_ITEM_ID , orderDetailResponseModel.getId());
                         context.startActivity(intent);
@@ -253,7 +252,18 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         notifyDataSetChanged();
     }
 
+    public void updateList(List<OrderDetailResponseModel> orderList){
+        if(mOrders.size()>0){
+            mOrders.clear();
+            mOrders=orderList;
+            notifyDataSetChanged();
+        }else{
+            mOrders=orderList;
+            int size=mOrders.size();
+            notifyDataSetChanged();
+        }
 
+    }
 
 
 }

@@ -53,6 +53,7 @@ public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onG
     public void onSuccess(OrderSummaryReponseModel orderSummaryReponseModel) {
         if(mOrdersView!=null){
             mOrdersView.getOrders(orderSummaryReponseModel);
+            //mOrdersView.updateOrderFromAdapter(orderSummaryReponseModel.getOrderDetailPage().getContent());
             mOrdersView.showAlert("Siparişler başarıyla listelendi");
         }
     }

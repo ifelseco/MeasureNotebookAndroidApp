@@ -49,11 +49,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                 if (response.isSuccessful()) {
                     //response [200 ,300) aralığında ise
                     orderSummaryReponseModel = response.body();
-                    System.out.println("service sysout: "+orderSummaryReponseModel.getOrderDetailPage().getContent().toString());
-                    for (OrderDetailResponseModel orderDetailResponseModel:orderSummaryReponseModel.getOrderDetailPage().getContent()) {
-                        orderDetailResponseModels.add(orderDetailResponseModel);
-                    }
-                    orderSummaryReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
+                    //orderSummaryReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
                     listener.onSuccess(orderSummaryReponseModel);
                 } else {
                     //response [200 ,300) aralığında değil ise

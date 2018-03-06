@@ -1,6 +1,5 @@
 package com.javaman.olcudefteri.orders;
 
-import com.javaman.olcudefteri.model.PageModel;
 import com.javaman.olcudefteri.model.response_model.OrderDetailResponseModel;
 import com.javaman.olcudefteri.model.response_model.OrderSummaryReponseModel;
 
@@ -21,5 +20,6 @@ public interface OrdersView {
       void sendDeleteOrderListRequest(ArrayList<OrderDetailResponseModel> orders);
       void sendPageRequest(int first,int rows);
       void deleteOrdersFromAdapter(ArrayList<OrderDetailResponseModel> orders);
+      void updateOrderFromAdapter(List<OrderDetailResponseModel> orders);
 
 }

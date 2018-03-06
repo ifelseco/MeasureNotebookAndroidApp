@@ -35,33 +35,6 @@
         tools:context="com.javaman.olcudefteri.orders.OrderListActivity"
         tools:listitem="@layout/order_item" />
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:padding="10dp"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="Geri"/>
-
-            <Button
-                android:id="@+id/btn_next"
-                android:layout_gravity="right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="İleri"
-                />
-
-
-
-
-        </LinearLayout>
 
     </LinearLayout>
 

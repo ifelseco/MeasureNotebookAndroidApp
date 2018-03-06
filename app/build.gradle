@@ -45,6 +45,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:11.8.0'
     compile 'com.android.support:mediarouter-v7:27.0.2'
     compile 'com.android.support:multidex:1.0.2'
+    compile 'com.github.clans:fab:1.6.4'
 
 }
 

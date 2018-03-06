@@ -3,8 +3,9 @@ package com.javaman.olcudefteri.orders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,13 +19,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.add_order.AddOrderActivity;
-import com.javaman.olcudefteri.model.OrdersDeleteModel;
 import com.javaman.olcudefteri.model.PageModel;
+import com.javaman.olcudefteri.model.response_model.OrderDetailPage;
 import com.javaman.olcudefteri.model.response_model.OrderDetailResponseModel;
 import com.javaman.olcudefteri.model.response_model.OrderSummaryReponseModel;
 import com.javaman.olcudefteri.reports.ReportsActivity;
@@ -36,7 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OrdersActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener, View.OnClickListener {
 
     @BindView(R.id.recycle_orders)
     RecyclerView recyclerView;
@@ -56,15 +60,26 @@ public class OrdersActivity extends AppCompatActivity
     @BindView(R.id.tv_total_orders)
     TextView tvTotalOrders;
 
+    @BindView(R.id.btn_back)
+    ImageButton btnBack;
+
+    @BindView(R.id.btn_next)
+    ImageButton btnNext;
+
+    @BindView(R.id.tv_current_page)
+    TextView tvCurrentPage;
+
     ActionBarDrawerToggle toggle;
     RecyclerView.Adapter adapter;
     LinearLayoutManager linearLayoutManager;
     OrdersPresenter mOrdersPresenter;
     List<OrderDetailResponseModel> orderList;
-    ArrayList<OrderDetailResponseModel> selectedOrderList=new ArrayList<>();
+    ArrayList<OrderDetailResponseModel> selectedOrderList = new ArrayList<>();
 
-    int first = 0;
-    int rows = 10;
+    private int first = 0;
+    private int rows = 10;
+    private Paginator paginator = new Paginator();
+
     boolean isActionModeActive = false;
     int countSelectedOrders = 0;
     int totalOrder;
@@ -87,12 +102,12 @@ public class OrdersActivity extends AppCompatActivity
 
         initView();
         initRcyclerView();
-        sendPageRequest(first,rows);
+        sendPageRequest(first, rows);
+
     }
 
 
     public void initView() {
-
 
 
         toggle = new ActionBarDrawerToggle(
@@ -104,6 +119,11 @@ public class OrdersActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         mOrdersPresenter = new OrdersPresenterImpl(this);
         tvOrderSelectCount.setVisibility(View.GONE);
+        tvCurrentPage.setText("");
+        btnBack.setEnabled(false);
+        btnNext.setEnabled(false);
+        btnBack.setOnClickListener(this);
+        btnNext.setOnClickListener(this);
 
 
     }
@@ -112,13 +132,51 @@ public class OrdersActivity extends AppCompatActivity
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
+        setRecyclerViewAdapter();
     }
 
     public void setRecyclerViewAdapter() {
-        Log.d("Total order size : "," "+totalOrder);
-        adapter = new OrderAdapter(this, this.orderList,mTwoPane);
+        Log.d("Total order size : ", " " + totalOrder);
+
+        adapter = new OrderAdapter(this, this.orderList!=null?this.orderList:new ArrayList<OrderDetailResponseModel>(), mTwoPane);
         recyclerView.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+
+        switch (id) {
+            case R.id.btn_back:
+                first -= 10;
+                sendPageRequest(first > 10 ? first : 0, rows);
+                break;
+            case R.id.btn_next:
+                first += 10;
+                sendPageRequest(first, rows);
+                break;
+        }
+    }
+    private void updatePageInfo() {
+        if (paginator.getTotalPage() > 0) {
+            tvCurrentPage.setText("" + paginator.getCurrentPageNumber());
+        } else {
+            tvCurrentPage.setText("");
+        }
+    }
+
+    private void toggleButton() {
+        if (paginator.isFirstPage()) {
+            btnBack.setEnabled(false);
+            btnNext.setEnabled(true);
+        } else if (paginator.isLastPage()) {
+            btnBack.setEnabled(true);
+            btnNext.setEnabled(false);
+        } else {
+            btnBack.setEnabled(true);
+            btnNext.setEnabled(true);
+        }
     }
 
     @Override
@@ -139,7 +197,7 @@ public class OrdersActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.item_delete) {
-            if (this.selectedOrderList .size() > 0) {
+            if (this.selectedOrderList.size() > 0) {
                 sendDeleteOrderListRequest(this.selectedOrderList);
                 clearActionMode();
             } else {
@@ -209,7 +267,7 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
-    public void sendPageRequest(int first,int rows) {
+    public void sendPageRequest(int first, int rows) {
 
         String xAuthToken = getSessionIdFromPref();
         PageModel pageModel = new PageModel();
@@ -226,9 +284,15 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
-    public void deleteOrdersFromAdapter(ArrayList<OrderDetailResponseModel> orders){
-        OrderAdapter orderAdapter=(OrderAdapter)adapter;
+    public void deleteOrdersFromAdapter(ArrayList<OrderDetailResponseModel> orders) {
+        OrderAdapter orderAdapter = (OrderAdapter) adapter;
         orderAdapter.deleteSelectedItems(orders);
+    }
+
+    @Override
+    public void updateOrderFromAdapter(List<OrderDetailResponseModel> orders) {
+        OrderAdapter orderAdapter = (OrderAdapter) adapter;
+        orderAdapter.updateList(orders);
     }
 
     @Override
@@ -252,16 +316,30 @@ public class OrdersActivity extends AppCompatActivity
     public void getOrders(OrderSummaryReponseModel orderSummaryReponseModel) {
 
         this.orderList = orderSummaryReponseModel.getOrderDetailPage().getContent();
-        this.totalOrder=orderSummaryReponseModel.getOrderDetailPage().getTotalElements();
-        setRecyclerViewAdapter();
+        this.totalOrder = orderSummaryReponseModel.getOrderDetailPage().getTotalElements();
+        updateOrderFromAdapter(this.orderList);
 
-        if(this.totalOrder>0){
-            tvTotalOrders.setText("Toplam "+this.totalOrder+" sipariş bulundu.");
-        }else{
+
+        if (this.totalOrder > 0) {
+            tvTotalOrders.setText("Toplam " + this.totalOrder + " sipariş bulundu.");
+        } else {
             tvTotalOrders.setText("Sipaiş kaydınız bulunmamaktadır.");
 
         }
 
+        setPagination(orderSummaryReponseModel.getOrderDetailPage());
+        toggleButton();
+        updatePageInfo();
+
+    }
+
+    private void setPagination(OrderDetailPage orderDetailPage) {
+        paginator.setFirstPage(orderDetailPage.isFirst());
+        paginator.setLastPage(orderDetailPage.isLast());
+        paginator.setCurrentPageNumber(orderDetailPage.getNumber() + 1);
+        paginator.setTotalPage(orderDetailPage.getTotalPages());
+        paginator.setItemPerPage(orderDetailPage.getNumberOfElements());
+        paginator.setTotalItem(orderDetailPage.getTotalElements());
     }
 
     @Override
@@ -306,7 +384,7 @@ public class OrdersActivity extends AppCompatActivity
             updateCounter(countSelectedOrders);
         } else {
             selectedOrderList.remove(this.orderList.get(position));
-            Log.d("Selected Order"," "+selectedOrderList.size());
+            Log.d("Selected Order", " " + selectedOrderList.size());
 
             countSelectedOrders--;
             updateCounter(countSelectedOrders);
@@ -335,4 +413,6 @@ public class OrdersActivity extends AppCompatActivity
             startActivity(intent);
         }
     }
+
+
 }

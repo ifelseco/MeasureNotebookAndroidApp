@@ -1,5 +1,6 @@
 package com.javaman.olcudefteri.model.response_model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class OrderDetailPage {
 
-    private List<OrderDetailResponseModel> content;
+    private List<OrderDetailResponseModel> content=new ArrayList<>();
     private int totalPages;
     private int totalElements;
     private boolean last;
