@@ -115,5 +115,6 @@
     </string-array>
     <string name="title_order_list">Orders</string>
     <string name="title_order_detail">Order Detail</string>
+    <string name="title_activity_order_detail_tabbed">OrderDetailTabbedActivity</string>
 
 </resources>

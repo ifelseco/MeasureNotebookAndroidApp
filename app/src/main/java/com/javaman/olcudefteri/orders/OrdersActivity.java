@@ -3,8 +3,6 @@ package com.javaman.olcudefteri.orders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,18 +17,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.add_order.AddOrderActivity;
-import com.javaman.olcudefteri.model.PageModel;
-import com.javaman.olcudefteri.model.response_model.OrderDetailPage;
-import com.javaman.olcudefteri.model.response_model.OrderDetailResponseModel;
-import com.javaman.olcudefteri.model.response_model.OrderSummaryReponseModel;
+import com.javaman.olcudefteri.login.LoginActivity;
+import com.javaman.olcudefteri.orders.model.PageModel;
+import com.javaman.olcudefteri.orders.model.response.OrderDetailPage;
+import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
+import com.javaman.olcudefteri.orders.model.Paginator;
+import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
+import com.javaman.olcudefteri.orders.presenter.OrdersPresenterImpl;
+import com.javaman.olcudefteri.orders.view.OrdersView;
 import com.javaman.olcudefteri.reports.ReportsActivity;
 
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class OrdersActivity extends AppCompatActivity
     boolean isActionModeActive = false;
     int countSelectedOrders = 0;
     int totalOrder;
-    private boolean mTwoPane;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,13 +93,7 @@ public class OrdersActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        if (findViewById(R.id.order_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
+
 
         initView();
         initRcyclerView();
@@ -138,26 +133,35 @@ public class OrdersActivity extends AppCompatActivity
     public void setRecyclerViewAdapter() {
         Log.d("Total order size : ", " " + totalOrder);
 
-        adapter = new OrderAdapter(this, this.orderList!=null?this.orderList:new ArrayList<OrderDetailResponseModel>(), mTwoPane);
+        adapter = new OrderAdapter(this, this.orderList!=null?this.orderList:new ArrayList<OrderDetailResponseModel>());
         recyclerView.setAdapter(adapter);
 
     }
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
 
+        int id = v.getId();
         switch (id) {
             case R.id.btn_back:
-                first -= 10;
-                sendPageRequest(first > 10 ? first : 0, rows);
-                break;
+                if(paginator.getCurrentPageNumber()>1){
+                    first -= 10;
+                    sendPageRequest(first > 10 ? first : 0, rows);
+                    break;
+                }
+
             case R.id.btn_next:
-                first += 10;
-                sendPageRequest(first, rows);
-                break;
+                if(paginator.getCurrentPageNumber()<paginator.getTotalPage()){
+                    first += 10;
+                    sendPageRequest(first, rows);
+                    break;
+                }
+
         }
+
     }
+
+
     private void updatePageInfo() {
         if (paginator.getTotalPage() > 0) {
             tvCurrentPage.setText("" + paginator.getCurrentPageNumber());
@@ -167,17 +171,21 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     private void toggleButton() {
-        if (paginator.isFirstPage()) {
+        if (paginator.isFirstPage() && !paginator.isLastPage()) {
             btnBack.setEnabled(false);
             btnNext.setEnabled(true);
-        } else if (paginator.isLastPage()) {
+        } else if (paginator.isFirstPage() && paginator.isLastPage()) {
+            btnBack.setEnabled(false);
+            btnNext.setEnabled(false);
+        } else if(!paginator.isFirstPage() && paginator.isLastPage()) {
             btnBack.setEnabled(true);
             btnNext.setEnabled(false);
-        } else {
+        } else if(!paginator.isFirstPage() && !paginator.isLastPage()){
             btnBack.setEnabled(true);
             btnNext.setEnabled(true);
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -296,6 +304,11 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
+    public void navigateToLogin() {
+        startActivity(new Intent(OrdersActivity.this , LoginActivity.class));
+    }
+
+    @Override
     public String getSessionIdFromPref() {
         SharedPreferences prefSession = getSharedPreferences("Session", Context.MODE_PRIVATE);
         String xAuthToken = prefSession.getString("sessionId", null);
@@ -384,7 +397,7 @@ public class OrdersActivity extends AppCompatActivity
             updateCounter(countSelectedOrders);
         } else {
             selectedOrderList.remove(this.orderList.get(position));
-            Log.d("Selected Order", " " + selectedOrderList.size());
+            Log.d("SelectedOrder", " " + selectedOrderList.size());
 
             countSelectedOrders--;
             updateCounter(countSelectedOrders);

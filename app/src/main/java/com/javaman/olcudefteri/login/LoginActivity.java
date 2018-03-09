@@ -2,7 +2,6 @@ package com.javaman.olcudefteri.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,12 +15,15 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.login.presenter.LoginPresenter;
+import com.javaman.olcudefteri.login.presenter.LoginPresenterImpl;
+import com.javaman.olcudefteri.login.view.LoginView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity implements LoginView{
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -122,4 +124,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         super.onResume();
         checkGooglePlay();
     }
+
+
 }

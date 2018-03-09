@@ -1,0 +1,11 @@
+package com.javaman.olcudefteri.login.presenter;
+
+/**
+ * Created by javaman on 07.02.2018.
+ */
+
+public interface LoginPresenter {
+
+    void validateCredential(String username , String password);
+    void onDestroy();
+}

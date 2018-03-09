@@ -1,7 +1,6 @@
 package com.javaman.olcudefteri.notification;
 
-import com.javaman.olcudefteri.model.response_model.BaseResponse;
-import com.javaman.olcudefteri.model.FirebaseRegIdModel;
+import com.javaman.olcudefteri.api.model.response.BaseResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

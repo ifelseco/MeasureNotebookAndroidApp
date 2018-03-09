@@ -1,44 +1,68 @@
 package com.javaman.olcudefteri.orders;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
+import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * An activity representing a single Order detail screen. This
- * activity is only used on narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
-
- */
 public class OrderDetailActivity extends AppCompatActivity implements FloatingActionMenu.OnMenuToggleListener, View.OnClickListener {
+
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
+
+    @BindView(R.id.container)
+    ViewPager mViewPager;
 
     @BindView(R.id.fab_menu)
     FloatingActionMenu fabMenu;
 
     @BindView(R.id.fab_order_edit)
-    FloatingActionButton fabOrderEdit;
+    com.github.clans.fab.FloatingActionButton fabOrderEdit;
 
     @BindView(R.id.fab_order_delete)
-    FloatingActionButton fabOrderDelete;
+    com.github.clans.fab.FloatingActionButton fabOrderDelete;
 
     @BindView(R.id.fab_order_status)
-    FloatingActionButton fabOrderStatus;
+    com.github.clans.fab.FloatingActionButton fabOrderStatus;
 
-    @BindView(R.id.detail_toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    private OrderDetailResponseModel orderDetailResponseModel;
+    private CustomerDetailModel customerDetailModel;
+    Bundle arguments;
+
+    public static final String ARG_CURRENT_ORDER = "current_order";
+    public static final String ARG_CURRENT_CUSTOMER = "current_customer_detail";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,24 +72,20 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         ButterKnife.bind(this);
         initFabMenu();
 
+        setArgumentForFragments();
+
+        setupViewPager(mViewPager);
+        tabLayout.setupWithViewPager(mViewPager);
+
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
-        if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
+
+
+        /*if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
             Long orderId=getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID,-1);
             arguments.putLong(OrderDetailFragment.ARG_ITEM_ID,orderId);
@@ -74,7 +94,9 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.order_detail_container, fragment)
                     .commit();
-        }
+        }*/
+
+
     }
 
     public void initFabMenu(){
@@ -82,6 +104,21 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabOrderDelete.setOnClickListener(this);
         fabOrderEdit.setOnClickListener(this);
         fabOrderStatus.setOnClickListener(this);
+    }
+
+    public void setArgumentForFragments(){
+        arguments = new Bundle();
+        orderDetailResponseModel=getIntent().getExtras().getParcelable(OrderDetailActivity.ARG_CURRENT_ORDER);
+        customerDetailModel=getIntent().getExtras().getParcelable(OrderDetailActivity.ARG_CURRENT_CUSTOMER);
+        arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_ORDER,orderDetailResponseModel);
+        arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_CUSTOMER,customerDetailModel);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_order_detail_tabbed, menu);
+        return true;
     }
 
     @Override
@@ -111,15 +148,6 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         startActivity(intent);
     }
 
-    @Override
-    public void onMenuToggle(boolean opened) {
-        if (opened) {
-            showToast("Menu is açıldı");
-        } else {
-            showToast("Menu is kapandı");
-        }
-    }
-
     private void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
@@ -134,5 +162,62 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
             showToast("Sipariş durumu değiştir");
         }
         fabMenu.close(true);
+    }
+
+    @Override
+    public void onMenuToggle(boolean opened) {
+        if (opened) {
+            showToast("Menu is açıldı");
+        } else {
+            showToast("Menu is kapandı");
+        }
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        OrderDetailFragment orderDetailFragment=new OrderDetailFragment();
+        orderDetailFragment.setArguments(arguments);
+
+        CustomerDetailFragment customerDetailFragment=new CustomerDetailFragment();
+        customerDetailFragment.setArguments(arguments);
+
+        OrderLineFragment orderLineFragment=new OrderLineFragment();
+        orderLineFragment.setArguments(arguments);
+
+        adapter.addFragment(orderDetailFragment, "Sipariş Bilgileri");
+        adapter.addFragment(customerDetailFragment, "Müşteri Bilgileri");
+        adapter.addFragment(orderLineFragment, "Sipariş Ölçüleri");
+        viewPager.setAdapter(adapter);
+    }
+
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 }

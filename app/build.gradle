@@ -12,6 +12,11 @@ android {
         vectorDrawables.useSupportLibrary = true
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
     }
     buildTypes {
         release {
@@ -46,6 +51,9 @@ dependencies {
     compile 'com.android.support:mediarouter-v7:27.0.2'
     compile 'com.android.support:multidex:1.0.2'
     compile 'com.github.clans:fab:1.6.4'
+    compileOnly "org.projectlombok:lombok:1.16.18"
+    annotationProcessor "org.projectlombok:lombok:1.16.16"
+
 
 }
 

@@ -16,7 +16,7 @@ import android.view.MenuItem;
 
 import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.add_order.AddOrderActivity;
+import com.javaman.olcudefteri.orders.AddOrderActivity;
 
 import com.javaman.olcudefteri.orders.OrdersActivity;
 

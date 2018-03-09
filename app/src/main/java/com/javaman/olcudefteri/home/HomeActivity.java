@@ -21,15 +21,17 @@ import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.add_order.AddOrderActivity;
-import com.javaman.olcudefteri.login.LoginActivity;
-import com.javaman.olcudefteri.model.FirebaseRegIdModel;
+import com.javaman.olcudefteri.home.presenter.HomePresenter;
+import com.javaman.olcudefteri.home.presenter.HomePresenterImpl;
+import com.javaman.olcudefteri.home.view.HomeView;
+import com.javaman.olcudefteri.orders.AddOrderActivity;
+import com.javaman.olcudefteri.notification.FirebaseRegIdModel;
 import com.javaman.olcudefteri.notification.FirebaseUtil;
 import com.javaman.olcudefteri.orders.OrdersActivity;
 import com.javaman.olcudefteri.reports.ReportsActivity;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,HomeView{
+        implements NavigationView.OnNavigationItemSelectedListener ,HomeView {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
 

@@ -36,8 +36,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DispatcherActivity"
-            android:noHistory="true"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".add_order.AddOrderActivity"
+            android:name=".orders.AddOrderActivity"
             android:label="@string/title_activity_customer_measure"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -68,13 +68,8 @@
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".orders.OrderDetailActivity"
-            android:parentActivityName=".orders.OrdersActivity"
-            android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.javaman.olcudefteri.orders.OrdersActivity" />
-        </activity>
+            android:label="@string/title_activity_order_detail_tabbed"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -15,7 +15,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.model.response_model.OrderDetailResponseModel;
+import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,16 +32,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     OrdersActivity ordersActivity;
     LayoutInflater inflater;
     private SparseBooleanArray itemStateArray = new SparseBooleanArray();
-    private boolean mTwoPane;
 
 
-    public OrderAdapter(Context context, List<OrderDetailResponseModel> mOrders,boolean mTwoPane) {
+    public OrderAdapter(Context context, List<OrderDetailResponseModel> mOrders) {
         Log.i("track", " in adapter constructor");
         //inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater = LayoutInflater.from(context);
         ordersActivity = (OrdersActivity) context;
         this.mOrders = mOrders;
-        this.mTwoPane=mTwoPane;
     }
 
     @Override
@@ -221,21 +219,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                 }
             }else{
                OrderDetailResponseModel orderDetailResponseModel= (OrderDetailResponseModel) view.getTag();
+
                 if(!ordersActivity.isActionModeActive){
-                    if (mTwoPane) {
-                        Bundle arguments = new Bundle();
-                        arguments.putLong(OrderDetailFragment.ARG_ITEM_ID, orderDetailResponseModel.getId());
-                        OrderDetailFragment fragment = new OrderDetailFragment();
-                        fragment.setArguments(arguments);
-                        ordersActivity.getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.order_detail_container, fragment)
-                                .commit();
-                    } else {
-                        Context context = view.getContext();
-                        Intent intent = new Intent(context, OrderDetailActivity.class);
-                        intent.putExtra(OrderDetailFragment.ARG_ITEM_ID , orderDetailResponseModel.getId());
-                        context.startActivity(intent);
-                    }
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, OrderDetailActivity.class);
+                    intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , orderDetailResponseModel);
+                    intent.putExtra(OrderDetailActivity.ARG_CURRENT_CUSTOMER, orderDetailResponseModel.getCustomer());
+                    context.startActivity(intent);
                 }
             }
 
