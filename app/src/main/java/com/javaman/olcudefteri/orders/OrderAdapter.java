@@ -243,17 +243,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     }
 
     public void updateList(List<OrderDetailResponseModel> orderList){
-        if(mOrders.size()>0){
-            mOrders.clear();
-            mOrders=orderList;
-            notifyDataSetChanged();
-        }else{
-            mOrders=orderList;
-            int size=mOrders.size();
-            notifyDataSetChanged();
-        }
-
+        /*Log.d("BEFORE UPDATE :",""+mOrders);
+        mOrders.addAll(orderList);
+        Log.d("AFTER UPDATE :",""+mOrders);*/
+        notifyDataSetChanged();
     }
 
+    public void clearList(){
+        mOrders.clear();
+        notifyDataSetChanged();
+    }
 
 }

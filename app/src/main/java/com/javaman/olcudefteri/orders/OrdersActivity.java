@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,8 +18,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OrdersActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener{
+        implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.recycle_orders)
     RecyclerView recyclerView;
@@ -58,25 +62,27 @@ public class OrdersActivity extends AppCompatActivity
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
-    @BindView(R.id.tv_total_orders)
-    TextView tvTotalOrders;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
-    @BindView(R.id.tv_current_page)
-    TextView tvCurrentPage;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     ActionBarDrawerToggle toggle;
     RecyclerView.Adapter adapter;
     LinearLayoutManager linearLayoutManager;
     OrdersPresenter mOrdersPresenter;
-    List<OrderDetailResponseModel> orderList;
+    List<OrderDetailResponseModel> orderList=new ArrayList<>();
     ArrayList<OrderDetailResponseModel> selectedOrderList = new ArrayList<>();
 
     private int first = 0;
     private int rows = 10;
 
     boolean isActionModeActive = false;
+    boolean isScrooling=false;
     int countSelectedOrders = 0;
     int totalOrder;
+    private int currentItems,totalItems,scrollOutItems;
 
 
     @Override
@@ -105,7 +111,7 @@ public class OrdersActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         mOrdersPresenter = new OrdersPresenterImpl(this);
         tvOrderSelectCount.setVisibility(View.GONE);
-        tvCurrentPage.setText("");
+        swipeRefreshLayout.setOnRefreshListener(this);
 
 
     }
@@ -115,6 +121,31 @@ public class OrdersActivity extends AppCompatActivity
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         setRecyclerViewAdapter();
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState== AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
+                    isScrooling=true;
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                currentItems=linearLayoutManager.getChildCount();
+                totalItems=linearLayoutManager.getItemCount();
+                scrollOutItems=linearLayoutManager.findFirstVisibleItemPosition();
+
+                if(isScrooling && (currentItems+scrollOutItems==totalItems)){
+                    isScrooling=false;
+                    first+=10;
+                    sendPageRequest(first,rows);
+                }else{
+
+                }
+            }
+        });
     }
 
     public void setRecyclerViewAdapter() {
@@ -122,13 +153,6 @@ public class OrdersActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
 
     }
-
-
-
-
-
-
-
 
 
     @Override
@@ -253,6 +277,17 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+
+    }
+
+    @Override
     public String getSessionIdFromPref() {
         SharedPreferences prefSession = getSharedPreferences("Session", Context.MODE_PRIVATE);
         String xAuthToken = prefSession.getString("sessionId", null);
@@ -272,27 +307,17 @@ public class OrdersActivity extends AppCompatActivity
     @Override
     public void getOrders(OrderSummaryReponseModel orderSummaryReponseModel) {
 
-        this.orderList = orderSummaryReponseModel.getOrderDetailPage().getContent();
+        this.orderList.addAll(orderSummaryReponseModel.getOrderDetailPage().getContent());
         this.totalOrder = orderSummaryReponseModel.getOrderDetailPage().getTotalElements();
         updateOrderFromAdapter(this.orderList);
-
-
-        if (this.totalOrder > 0) {
-            tvTotalOrders.setText("Toplam " + this.totalOrder + " sipariş bulundu.");
-        } else {
-            tvTotalOrders.setText("Sipaiş kaydınız bulunmamaktadır.");
-
-        }
-
-
 
 
     }
 
 
-
     @Override
     public boolean onLongClick(View view) {
+        Log.d("Selecetde order :",""+selectedOrderList.size());
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.menu_action);
         tvOrderSelectCount.setVisibility(View.VISIBLE);
@@ -327,6 +352,7 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     public void prepareSelection(View view, int position) {
+        Log.d("Selecetde order :",""+selectedOrderList.size());
         if (((CheckBox) view).isChecked()) {
             selectedOrderList.add(this.orderList.get(position));
             countSelectedOrders++;
@@ -364,4 +390,16 @@ public class OrdersActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onRefresh() {
+        refreshOrder();
+    }
+
+    public void refreshOrder(){
+        first=0;
+        OrderAdapter orderAdapter = (OrderAdapter) adapter;
+        orderAdapter.clearList();
+        sendPageRequest(first,rows);
+        swipeRefreshLayout.setRefreshing(false);
+    }
 }

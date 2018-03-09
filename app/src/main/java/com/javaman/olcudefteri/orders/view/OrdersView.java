@@ -22,4 +22,6 @@ public interface OrdersView {
       void deleteOrdersFromAdapter(ArrayList<OrderDetailResponseModel> orders);
       void updateOrderFromAdapter(List<OrderDetailResponseModel> orders);
       void navigateToLogin();
+      void showProgress();
+      void hideProgress();
 }

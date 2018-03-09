@@ -13,51 +13,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:background="@color/colorAccent"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-
-
-            <TextView
-                android:id="@+id/tv_total_orders"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-
-
-        </LinearLayout>
-
-
-
-
         <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="50dp"
-            android:layout_marginTop="30dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
             <include layout="@layout/order_list" />
+
         </FrameLayout>
 
-
-
-
-
-
-
     </RelativeLayout>
+
+
 
 </LinearLayout>
 

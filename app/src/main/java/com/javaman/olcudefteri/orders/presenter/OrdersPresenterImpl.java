@@ -32,6 +32,7 @@ public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onG
     @Override
     public void sendPageRequest(String xAuthToken, PageModel pageModel) {
         if(mOrdersView!=null){
+            mOrdersView.showProgress();
             mOrdersIntractor.sendPageRequestToServer(xAuthToken,pageModel,this);
         }
     }
@@ -53,6 +54,7 @@ public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onG
     @Override
     public void onSuccess(OrderSummaryReponseModel orderSummaryReponseModel) {
         if(mOrdersView!=null){
+            mOrdersView.hideProgress();
             mOrdersView.getOrders(orderSummaryReponseModel);
             //mOrdersView.updateOrderFromAdapter(orderSummaryReponseModel.getOrderDetailPage().getContent());
             mOrdersView.showAlert("Siparişler başarıyla listelendi");
