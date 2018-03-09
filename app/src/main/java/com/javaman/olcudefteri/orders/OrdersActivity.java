@@ -41,7 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OrdersActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener{
 
     @BindView(R.id.recycle_orders)
     RecyclerView recyclerView;
@@ -61,12 +61,6 @@ public class OrdersActivity extends AppCompatActivity
     @BindView(R.id.tv_total_orders)
     TextView tvTotalOrders;
 
-    @BindView(R.id.btn_back)
-    ImageButton btnBack;
-
-    @BindView(R.id.btn_next)
-    ImageButton btnNext;
-
     @BindView(R.id.tv_current_page)
     TextView tvCurrentPage;
 
@@ -79,7 +73,6 @@ public class OrdersActivity extends AppCompatActivity
 
     private int first = 0;
     private int rows = 10;
-    private Paginator paginator = new Paginator();
 
     boolean isActionModeActive = false;
     int countSelectedOrders = 0;
@@ -92,8 +85,6 @@ public class OrdersActivity extends AppCompatActivity
         setContentView(R.layout.activity_orders);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
-
 
         initView();
         initRcyclerView();
@@ -115,10 +106,6 @@ public class OrdersActivity extends AppCompatActivity
         mOrdersPresenter = new OrdersPresenterImpl(this);
         tvOrderSelectCount.setVisibility(View.GONE);
         tvCurrentPage.setText("");
-        btnBack.setEnabled(false);
-        btnNext.setEnabled(false);
-        btnBack.setOnClickListener(this);
-        btnNext.setOnClickListener(this);
 
 
     }
@@ -131,60 +118,17 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     public void setRecyclerViewAdapter() {
-        Log.d("Total order size : ", " " + totalOrder);
-
         adapter = new OrderAdapter(this, this.orderList!=null?this.orderList:new ArrayList<OrderDetailResponseModel>());
         recyclerView.setAdapter(adapter);
 
     }
 
-    @Override
-    public void onClick(View v) {
-
-        int id = v.getId();
-        switch (id) {
-            case R.id.btn_back:
-                if(paginator.getCurrentPageNumber()>1){
-                    first -= 10;
-                    sendPageRequest(first > 10 ? first : 0, rows);
-                    break;
-                }
-
-            case R.id.btn_next:
-                if(paginator.getCurrentPageNumber()<paginator.getTotalPage()){
-                    first += 10;
-                    sendPageRequest(first, rows);
-                    break;
-                }
-
-        }
-
-    }
 
 
-    private void updatePageInfo() {
-        if (paginator.getTotalPage() > 0) {
-            tvCurrentPage.setText("" + paginator.getCurrentPageNumber());
-        } else {
-            tvCurrentPage.setText("");
-        }
-    }
 
-    private void toggleButton() {
-        if (paginator.isFirstPage() && !paginator.isLastPage()) {
-            btnBack.setEnabled(false);
-            btnNext.setEnabled(true);
-        } else if (paginator.isFirstPage() && paginator.isLastPage()) {
-            btnBack.setEnabled(false);
-            btnNext.setEnabled(false);
-        } else if(!paginator.isFirstPage() && paginator.isLastPage()) {
-            btnBack.setEnabled(true);
-            btnNext.setEnabled(false);
-        } else if(!paginator.isFirstPage() && !paginator.isLastPage()){
-            btnBack.setEnabled(true);
-            btnNext.setEnabled(true);
-        }
-    }
+
+
+
 
 
     @Override
@@ -340,20 +284,12 @@ public class OrdersActivity extends AppCompatActivity
 
         }
 
-        setPagination(orderSummaryReponseModel.getOrderDetailPage());
-        toggleButton();
-        updatePageInfo();
+
+
 
     }
 
-    private void setPagination(OrderDetailPage orderDetailPage) {
-        paginator.setFirstPage(orderDetailPage.isFirst());
-        paginator.setLastPage(orderDetailPage.isLast());
-        paginator.setCurrentPageNumber(orderDetailPage.getNumber() + 1);
-        paginator.setTotalPage(orderDetailPage.getTotalPages());
-        paginator.setItemPerPage(orderDetailPage.getNumberOfElements());
-        paginator.setTotalItem(orderDetailPage.getTotalElements());
-    }
+
 
     @Override
     public boolean onLongClick(View view) {
