@@ -37,9 +37,6 @@ public class OrderDetailFragment extends Fragment {
     @BindView(R.id.tv_order_delivery_date)
     TextView tvOrderDeliveryDate;
 
-    @BindView(R.id.tv_order_mount_date)
-    TextView tvOrderMountDate;
-
     @BindView(R.id.tv_order_username)
     TextView tvOrderUsername;
 
@@ -52,8 +49,6 @@ public class OrderDetailFragment extends Fragment {
     @BindView(R.id.measure_date_layout)
     LinearLayout linearLayoutMeasureDate;
 
-    @BindView(R.id.mount_date_layout)
-    LinearLayout linearLayoutMountDate;
 
     @BindView(R.id.order_status_layout)
     LinearLayout linearLayoutOrderStatus;
@@ -87,7 +82,6 @@ public class OrderDetailFragment extends Fragment {
 
     public void initView(){
         linearLayoutMeasureDate.setVisibility(View.GONE);
-        linearLayoutMountDate.setVisibility(View.GONE);
     }
 
     public void setView(){
@@ -153,12 +147,7 @@ public class OrderDetailFragment extends Fragment {
                 tvOrderDeliveryDate.setText(deliveryDate);
             }
 
-            if (orderDetailResponseModel.getMountDate() != null && !orderDetailResponseModel.getMountDate().equals("")) {
-                String mountDate = simpleDateFormat.format(orderDetailResponseModel.getMountDate());
-                linearLayoutMountDate.setVisibility(View.VISIBLE);
-                this.tvOrderMountDate.setText(mountDate);
 
-            }
 
             if (orderDetailResponseModel.getMeasureDate() != null && !orderDetailResponseModel.getMeasureDate().equals("")) {
                 String measureDate = simpleDateFormat.format(orderDetailResponseModel.getMeasureDate());

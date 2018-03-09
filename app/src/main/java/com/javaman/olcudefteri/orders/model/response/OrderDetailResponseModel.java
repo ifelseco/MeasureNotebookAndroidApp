@@ -20,7 +20,7 @@ public class OrderDetailResponseModel implements Parcelable {
 	private double totalAmount;
 	private double depositeAmount;
 	private Date deliveryDate;
-	private Date mountDate;
+	private boolean isMountExsist;
 	private Date measureDate;
 	private int orderStatus;
 	private CustomerDetailModel customer;
@@ -28,7 +28,8 @@ public class OrderDetailResponseModel implements Parcelable {
     public OrderDetailResponseModel() {
     }
 
-    @Override
+
+	@Override
 	public int describeContents() {
 		return 0;
 	}
@@ -42,7 +43,7 @@ public class OrderDetailResponseModel implements Parcelable {
 		dest.writeDouble(this.totalAmount);
 		dest.writeDouble(this.depositeAmount);
 		dest.writeLong(this.deliveryDate != null ? this.deliveryDate.getTime() : -1);
-		dest.writeLong(this.mountDate != null ? this.mountDate.getTime() : -1);
+		dest.writeByte(this.isMountExsist ? (byte) 1 : (byte) 0);
 		dest.writeLong(this.measureDate != null ? this.measureDate.getTime() : -1);
 		dest.writeInt(this.orderStatus);
 		dest.writeParcelable(this.customer, flags);
@@ -58,15 +59,14 @@ public class OrderDetailResponseModel implements Parcelable {
 		this.depositeAmount = in.readDouble();
 		long tmpDeliveryDate = in.readLong();
 		this.deliveryDate = tmpDeliveryDate == -1 ? null : new Date(tmpDeliveryDate);
-		long tmpMountDate = in.readLong();
-		this.mountDate = tmpMountDate == -1 ? null : new Date(tmpMountDate);
+		this.isMountExsist = in.readByte() != 0;
 		long tmpMeasureDate = in.readLong();
 		this.measureDate = tmpMeasureDate == -1 ? null : new Date(tmpMeasureDate);
 		this.orderStatus = in.readInt();
 		this.customer = in.readParcelable(CustomerDetailModel.class.getClassLoader());
 	}
 
-	public static final Parcelable.Creator<OrderDetailResponseModel> CREATOR = new Parcelable.Creator<OrderDetailResponseModel>() {
+	public static final Creator<OrderDetailResponseModel> CREATOR = new Creator<OrderDetailResponseModel>() {
 		@Override
 		public OrderDetailResponseModel createFromParcel(Parcel source) {
 			return new OrderDetailResponseModel(source);

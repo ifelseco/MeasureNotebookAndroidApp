@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.javaman.olcudefteri.R;
@@ -100,11 +101,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         @BindView(R.id.tv_order_status)
         TextView tvOrderStatus;
 
-        @BindView(R.id.tv_mount_date)
-        TextView tvMountDate;
+        @BindView(R.id.checkboxIsMount)
+        CheckBox checkBoxIsMount;
 
-        @BindView(R.id.tv_measure_date)
-        TextView tvMeasureDate;
+        @BindView(R.id.checkboxIsMeasure)
+        CheckBox checkBoxIsMeasure;
 
         @BindView(R.id.tv_order_date)
         TextView tvOrderDate;
@@ -115,11 +116,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         @BindView(R.id.checkbox_select_order)
         CheckBox checkBoxSelectOrder;
 
-        @BindView(R.id.linear_layout_measure_date)
-        LinearLayout linearLayoutMeasureDate;
-
-        @BindView(R.id.linear_layout_mount_date)
-        LinearLayout linearLayoutMountDate;
+        @BindView(R.id.image_view_order_status2)
+        ImageView imageViewOrderStatus;
 
         @BindView(R.id.card_order_item)
         CardView cardViewOrder;
@@ -136,19 +134,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             checkBoxSelectOrder.setOnClickListener(this);
             cardViewOrder.setOnLongClickListener(ordersActivity);
             cardViewOrder.setOnClickListener(this);
-            linearLayoutMeasureDate.setVisibility(View.GONE);
-            linearLayoutMountDate.setVisibility(View.GONE);
             this.ordersActivity = ordersActivity;
 
         }
 
         public void bind(OrderDetailResponseModel order, int position) {
             Log.i("track", " in bind method");
-            this.tvOrderNo.setText(String.valueOf(order.getId()));
-            this.tvNameSurname.setText(order.getCustomer().getNameSurname());
+            tvOrderNo.setText(String.valueOf(order.getId()));
+            tvNameSurname.setText(order.getCustomer().getNameSurname());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
             String orderDate = simpleDateFormat.format(order.getOrderDate());
-            this.tvOrderDate.setText(orderDate);
+            tvOrderDate.setText(orderDate);
             Log.i("Item Array :", itemStateArray.toString());
 
             if (!itemStateArray.get(position, false)) {
@@ -162,42 +158,47 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                 tvDeliveryDate.setText(deliveryDate);
             }
 
-            if (order.getMountDate() != null && !order.getMountDate().equals("")) {
-                String mountDate = simpleDateFormat.format(order.getMountDate());
-                linearLayoutMountDate.setVisibility(View.VISIBLE);
-                this.tvMountDate.setText(mountDate);
+            if (order.isMountExsist()) {
+                checkBoxIsMount.setChecked(true);
 
             }
 
             if (order.getMeasureDate() != null && !order.getMeasureDate().equals("")) {
-                String measureDate = simpleDateFormat.format(order.getMeasureDate());
-                linearLayoutMeasureDate.setVisibility(View.VISIBLE);
-                this.tvMeasureDate.setText(measureDate);
+                checkBoxIsMeasure.setChecked(true);
             }
 
 
             //renklendirme işlemleri yapılacak...
 
             if (order.getOrderStatus() == 0) {
-                this.tvOrderStatus.setText("Eksik Sipariş");
+               tvOrderStatus.setText("Eksik Sipariş");
+               tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_gray);
+               imageViewOrderStatus.setImageResource(R.drawable.ic_remove_circle_black_24dp);
+
             } else if (order.getOrderStatus() == 1) {
-                this.tvOrderStatus.setText("Ölçüye gidilecek");
-                this.tvOrderStatus.setTextColor(Color.parseColor("#FF9800"));
+                tvOrderStatus.setText("Ölçüye gidilecek");
+                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_accent);
+                imageViewOrderStatus.setImageResource(R.drawable.ic_measure);
             } else if (order.getOrderStatus() == 2) {
-                this.tvOrderStatus.setText("Sipariş kaydı alındı.");
-                this.tvOrderStatus.setTextColor(Color.parseColor("#FF9800"));
+                tvOrderStatus.setText("Sipariş kaydı alındı.");
+                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_green);
+                imageViewOrderStatus.setImageResource(R.drawable.ic_assignment_turned_in_black_24dp);
             } else if (order.getOrderStatus() == 3) {
-                this.tvOrderStatus.setText("Sipariş terzide.");
-                this.tvOrderStatus.setTextColor(Color.parseColor("#FF9800"));
+                tvOrderStatus.setText("Sipariş terzide.");
+                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_pink);
+                imageViewOrderStatus.setImageResource(R.drawable.ic_tailor);
             } else if (order.getOrderStatus() == 4) {
-                this.tvOrderStatus.setText("Terzi işlemi bitti");
-                this.tvOrderStatus.setTextColor(Color.parseColor("#FF9800"));
+                tvOrderStatus.setText("Terzi işlemi bitti");
+                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_purple);
+                imageViewOrderStatus.setImageResource(R.drawable.ic_check_circle_black_24dp);
             } else if (order.getOrderStatus() == 5) {
-                this.tvOrderStatus.setText("Sipariş teslim edildi");
-                this.tvOrderStatus.setTextColor(Color.parseColor("#FF9800"));
+                tvOrderStatus.setText("Sipariş teslim edildi");
+                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_yellow);
+                imageViewOrderStatus.setImageResource(R.drawable.ic_delivered);
             } else if (order.getOrderStatus() == 6) {
-                this.tvOrderStatus.setText("Sipariş teklifi.");
-                this.tvOrderStatus.setTextColor(Color.parseColor("#FF9800"));
+                tvOrderStatus.setText("Sipariş teklifi.");
+                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_lime);
+                imageViewOrderStatus.setImageResource(R.drawable.ic_local_offer_black_24dp);
             }
         }
 

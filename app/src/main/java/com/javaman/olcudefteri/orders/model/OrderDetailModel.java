@@ -38,9 +38,9 @@ class OrderDetailModel {
     @Expose
     private Date deliveryDate;
 
-    @SerializedName("mountDate")
+    @SerializedName("isMountExsist")
     @Expose
-    private Date mountDate;
+    private boolean isMountExsist;
 
     @SerializedName("measureDate")
     @Expose
