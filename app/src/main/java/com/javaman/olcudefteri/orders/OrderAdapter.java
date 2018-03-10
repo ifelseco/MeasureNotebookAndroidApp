@@ -19,6 +19,7 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -101,9 +102,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         @BindView(R.id.tv_order_status)
         TextView tvOrderStatus;
 
-        @BindView(R.id.checkboxIsMount)
-        CheckBox checkBoxIsMount;
-
         @BindView(R.id.checkboxIsMeasure)
         CheckBox checkBoxIsMeasure;
 
@@ -113,6 +111,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         @BindView(R.id.tv_delivery_date)
         TextView tvDeliveryDate;
 
+        @BindView(R.id.tv_order_time)
+        TextView tvOrderTime;
+
         @BindView(R.id.checkbox_select_order)
         CheckBox checkBoxSelectOrder;
 
@@ -121,6 +122,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
         @BindView(R.id.card_order_item)
         CardView cardViewOrder;
+
+        @BindView(R.id.linear_layout_order_status)
+        LinearLayout linearLayoutOrderStatus;
+
+        @BindView(R.id.linear_layout_order_mount)
+        LinearLayout linearLayoutOrderMount;
+
+        @BindView(R.id.linear_layout_measure)
+        LinearLayout linearLayoutOrderMeasure;
 
         OrdersActivity ordersActivity;
 
@@ -142,9 +152,18 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             Log.i("track", " in bind method");
             tvOrderNo.setText(String.valueOf(order.getId()));
             tvNameSurname.setText(order.getCustomer().getNameSurname());
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy");
             String orderDate = simpleDateFormat.format(order.getOrderDate());
             tvOrderDate.setText(orderDate);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(order.getOrderDate());
+            int hours = calendar.get(Calendar.HOUR_OF_DAY);
+            int minutes = calendar.get(Calendar.MINUTE);
+            int seconds = calendar.get(Calendar.SECOND);
+
+            tvOrderTime.setText(""+hours+" : "+minutes);
+
             Log.i("Item Array :", itemStateArray.toString());
 
             if (!itemStateArray.get(position, false)) {
@@ -158,46 +177,51 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                 tvDeliveryDate.setText(deliveryDate);
             }
 
-            if (order.isMountExsist()) {
-                checkBoxIsMount.setChecked(true);
-
-            }
-
             if (order.getMeasureDate() != null && !order.getMeasureDate().equals("")) {
+                linearLayoutOrderMeasure.setVisibility(View.VISIBLE);
                 checkBoxIsMeasure.setChecked(true);
             }
+
+
+
+            if (order.isMountExsist()) {
+                linearLayoutOrderMount.setVisibility(View.VISIBLE);
+
+            }
+
 
 
             //renklendirme işlemleri yapılacak...
 
             if (order.getOrderStatus() == 0) {
                tvOrderStatus.setText("Eksik Sipariş");
-               tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_gray);
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_gray);
                imageViewOrderStatus.setImageResource(R.drawable.ic_remove_circle_black_24dp);
 
             } else if (order.getOrderStatus() == 1) {
                 tvOrderStatus.setText("Ölçüye gidilecek");
-                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_accent);
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_light_green);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_measure);
+                checkBoxIsMeasure.setChecked(true);
             } else if (order.getOrderStatus() == 2) {
                 tvOrderStatus.setText("Sipariş kaydı alındı.");
-                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_green);
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_green);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_assignment_turned_in_black_24dp);
             } else if (order.getOrderStatus() == 3) {
                 tvOrderStatus.setText("Sipariş terzide.");
-                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_pink);
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_pink);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_tailor);
             } else if (order.getOrderStatus() == 4) {
                 tvOrderStatus.setText("Terzi işlemi bitti");
-                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_purple);
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_purple);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_check_circle_black_24dp);
             } else if (order.getOrderStatus() == 5) {
                 tvOrderStatus.setText("Sipariş teslim edildi");
-                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_yellow);
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_yellow);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_delivered);
             } else if (order.getOrderStatus() == 6) {
                 tvOrderStatus.setText("Sipariş teklifi.");
-                tvOrderStatus.setBackgroundResource(R.drawable.rectangle_background_lime);
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_lime);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_local_offer_black_24dp);
             }
         }

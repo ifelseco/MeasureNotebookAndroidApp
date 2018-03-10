@@ -21,17 +21,17 @@
  <color name="colorControlHighlight">#ffe54c</color>
  <color name="colorControlActivated">#ffe54c</color>
  <color name="hintColor">#424242</color>
-
+ <color name="lime">#CDDC39</color>
 
 
  <color name="lightgray">#E0E0E0</color>
-
  <color name="deeppurple">#7c4dff</color>
  <color name="yello">#ffb300</color>
  <color name="green">#00bfa5</color>
  <color name="darkblue">#23283a</color>
  <color name="testcolorblue">#152b38</color>
  <color name="pink">#fe104d</color>
+ <color name="lightgreen">#8BC34A</color>
 
  <color name="black_overlay">#66000000</color>
 

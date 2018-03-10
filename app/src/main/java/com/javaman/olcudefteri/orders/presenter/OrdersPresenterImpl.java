@@ -57,7 +57,12 @@ public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onG
             mOrdersView.hideProgress();
             mOrdersView.getOrders(orderSummaryReponseModel);
             //mOrdersView.updateOrderFromAdapter(orderSummaryReponseModel.getOrderDetailPage().getContent());
-            mOrdersView.showAlert("Siparişler başarıyla listelendi");
+            if(orderSummaryReponseModel.getOrderDetailPage().getTotalElements()>0){
+                mOrdersView.showAlert("Siparişler başarıyla listelendi");
+            }else{
+                mOrdersView.showAlert("Kayıtlı siparişiniz yok.");
+            }
+
         }
     }
 
