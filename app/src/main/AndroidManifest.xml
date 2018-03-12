@@ -68,7 +68,7 @@
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".orders.OrderDetailActivity"
-            android:label="@string/title_activity_order_detail_tabbed"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

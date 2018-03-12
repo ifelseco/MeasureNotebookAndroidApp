@@ -1,216 +1,464 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/lightgray"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="2dp"
+        android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_order_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:cardBackgroundColor="@android:color/transparent">
+        app:cardCornerRadius="3dp"
+        app:contentPadding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:id="@+id/image_view_order_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/rectangle_background_green"
-                    android:padding="10dp"
-                    app:srcCompat="@drawable/ic_remove_circle_black_24dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="3">
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="6dp">
 
                 <LinearLayout
-                    android:id="@+id/linear_layout_header"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:background="@drawable/rectangle_background_green"
-
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:textStyle="bold"
-                        android:text="Sipariş Detayı" />
-
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:text="Sipariş No: "/>
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Sipariş No:"
+                        android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/tv_order_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="Sipariş no"/>
-
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:text="Siparişi alan:"/>
-
-                    <TextView
-                        android:id="@+id/tv_order_username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="Siparişi alan"/>
-
-
+                        android:layout_weight="2"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Sipariş numarası"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightgray" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:layout_weight="3"
                     android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_date_range_black_24dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:text="Sİpariş Tarihi: "/>
+                        android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Sipariş Tarihi:"
+                        android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/tv_order_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="Sipariş Tarihi"/>
-
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:text="Teslim Tarihi: "/>
-
-                    <TextView
-                        android:id="@+id/tv_order_delivery_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="Teslim Tarihi"/>
-
+                        android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="21-12-2015"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/measure_date_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="3dp">
 
-                    <TextView
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:text="Ölçü Tarihi: "/>
+                        app:srcCompat="@drawable/ic_access_time_black_24dp" />
+
 
                     <TextView
-                        android:id="@+id/tv_order_measure_date"
+                        android:id="@+id/tv_order_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="Ölçü Tarihi"/>
-
+                        android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="15:05"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
 
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightgray" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_date_range_black_24dp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Teslim Tarihi:"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_order_delivery_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="30-12-2019"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightgray" />
+
+
+            <LinearLayout
+                android:id="@+id/measure_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_date_range_black_24dp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Ölçü Tarihi:"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_order_measure_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="30-12-2019"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightgray" />
+
+            <LinearLayout
+                android:id="@+id/linear_layout_order_mount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="2dp"
+                android:visibility="gone">
+
+                <CheckBox
+                    android:id="@+id/checkboxIsMount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="Montaja gidilecek"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightgray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="4dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_account_circle_black_24dp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Kayıt Alan Personel"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_order_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="30-12-2019"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="3dp"
+            app:contentPadding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Hesap"
+                    android:textStyle="bold"
+                    android:textSize="17sp"
+                    android:gravity="center"
+                    android:background="@color/lightgray"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:textAlignment="viewEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Toplam:"
+                        android:textStyle="bold"
+                        android:textSize="17sp"
+                        android:gravity="end" />
+
+
+                </LinearLayout>
 
 
                 <LinearLayout
-                    android:id="@+id/order_status_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:background="@drawable/rectangle_background_green"
-                    android:orientation="horizontal">
+                    android:layout_weight="1">
+
+
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_order_total_amount"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
+                        android:fontFamily="@font/roboto_regular"
                         android:textStyle="bold"
-                        android:text="Sipariş Durumu: "/>
-
-                    <TextView
-                        android:id="@+id/tv_order_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="Sipariş Durumu"/>
-
+                        android:textSize="17sp"
+                        android:gravity="right" />
 
 
                 </LinearLayout>
 
 
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:textAlignment="viewEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Depozit:"
+                        android:textStyle="bold"
+                        android:textSize="17sp"
+                        android:gravity="end" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+
+                    <TextView
+                        android:id="@+id/tv_order_deposit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textStyle="bold"
+                        android:textSize="17sp"
+                        android:gravity="right" />
+
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightgray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:textAlignment="viewEnd"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Kalan:"
+                        android:textStyle="bold"
+                        android:textSize="17sp"
+                        android:gravity="end" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+
+                    <TextView
+                        android:id="@+id/tv_order_remain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textStyle="bold"
+                        android:textSize="17sp"
+                        android:gravity="right" />
+
+
+                </LinearLayout>
 
 
 
@@ -221,17 +469,8 @@
 
 
 
-
-
-
     </android.support.v7.widget.CardView>
 
+    </LinearLayout>
 
-
-
-
-
-</LinearLayout>
-
-
-
+</ScrollView>

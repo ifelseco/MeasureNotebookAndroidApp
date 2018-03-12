@@ -1,6 +1,9 @@
 package com.javaman.olcudefteri.orders;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -19,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +30,13 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.PageModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
+import com.javaman.olcudefteri.orders.model.response.OrderLineSummaryResponseModel;
+import com.javaman.olcudefteri.orders.presenter.OrderLinePresenter;
+import com.javaman.olcudefteri.orders.presenter.OrderLinePresenterImpl;
+import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
+import com.javaman.olcudefteri.orders.view.OrderDetailVew;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +44,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderDetailActivity extends AppCompatActivity implements FloatingActionMenu.OnMenuToggleListener, View.OnClickListener {
+public class OrderDetailActivity extends AppCompatActivity implements FloatingActionMenu.OnMenuToggleListener, View.OnClickListener,OrderDetailVew {
 
     @BindView(R.id.tabs)
     TabLayout tabLayout;
@@ -57,25 +67,34 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.progress_bar_order_line)
+    ProgressBar progressBarOrderLine;
+
     private OrderDetailResponseModel orderDetailResponseModel;
     private CustomerDetailModel customerDetailModel;
+    private OrderLineSummaryResponseModel orderLineSummaryResponseModel;
+    private List<OrderLineDetailModel> orderLines=new ArrayList<>();
+    private Long orderId;
     Bundle arguments;
+    OrderLinePresenter mOrderLinePresenter;
 
     public static final String ARG_CURRENT_ORDER = "current_order";
     public static final String ARG_CURRENT_CUSTOMER = "current_customer_detail";
+    public static final String ARG_ORDER_LINES = "current_order_lines";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
-        setSupportActionBar(toolbar);
         ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
         initFabMenu();
 
-        setArgumentForFragments();
+        mOrderLinePresenter=new OrderLinePresenterImpl(this);
+        orderId=getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
 
-        setupViewPager(mViewPager);
-        tabLayout.setupWithViewPager(mViewPager);
+        sendGetOrderLineRequest(orderId);
+
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -99,6 +118,11 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     }
 
+    private void initTab() {
+        setupViewPager(mViewPager);
+        tabLayout.setupWithViewPager(mViewPager);
+    }
+
     public void initFabMenu(){
         fabMenu.setOnMenuToggleListener(this);
         fabOrderDelete.setOnClickListener(this);
@@ -108,10 +132,16 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     public void setArgumentForFragments(){
         arguments = new Bundle();
-        orderDetailResponseModel=getIntent().getExtras().getParcelable(OrderDetailActivity.ARG_CURRENT_ORDER);
-        customerDetailModel=getIntent().getExtras().getParcelable(OrderDetailActivity.ARG_CURRENT_CUSTOMER);
+
+
+
+        orderDetailResponseModel=orderLineSummaryResponseModel.getOrder();
+        customerDetailModel=orderDetailResponseModel.getCustomer();
+        orderLines=orderLineSummaryResponseModel.getOrderLineDetailList();
+
         arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_ORDER,orderDetailResponseModel);
         arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_CUSTOMER,customerDetailModel);
+        arguments.putParcelableArrayList(ARG_ORDER_LINES, (ArrayList<? extends Parcelable>) orderLines);
     }
 
     @Override
@@ -167,13 +197,16 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     @Override
     public void onMenuToggle(boolean opened) {
         if (opened) {
-            showToast("Menu is açıldı");
+
         } else {
-            showToast("Menu is kapandı");
+
         }
     }
 
     private void setupViewPager(ViewPager viewPager) {
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         OrderDetailFragment orderDetailFragment=new OrderDetailFragment();
@@ -189,6 +222,63 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         adapter.addFragment(customerDetailFragment, "Müşteri Bilgileri");
         adapter.addFragment(orderLineFragment, "Sipariş Ölçüleri");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void sendGetOrderLineRequest(Long orderId) {
+        String xAuthToken = getSessionIdFromPref();
+        mOrderLinePresenter.sendGetOrderLineRequest(xAuthToken,orderId);
+    }
+
+    @Override
+    public void showProgress() {
+        progressBarOrderLine.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBarOrderLine.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void deleteOrder(Long orderId) {
+
+    }
+
+    @Override
+    public void updateOrder(OrderDetailResponseModel orderDetailResponseModel) {
+
+    }
+
+    @Override
+    public String getSessionIdFromPref() {
+        SharedPreferences prefSession = getSharedPreferences("Session", Context.MODE_PRIVATE);
+        String xAuthToken = prefSession.getString("sessionId", null);
+        return xAuthToken;
+    }
+
+    @Override
+    public void navigateToLogin() {
+
+    }
+
+    @Override
+    public void checkSession() {
+
+    }
+
+    @Override
+    public void showAlert(String message) {
+        showToast(message);
+    }
+
+
+
+    @Override
+    public void getOrderLines(OrderLineSummaryResponseModel orderLineSummaryResponseModel) {
+        this.orderLineSummaryResponseModel=orderLineSummaryResponseModel;
+        setArgumentForFragments();
+        initTab();
     }
 
 

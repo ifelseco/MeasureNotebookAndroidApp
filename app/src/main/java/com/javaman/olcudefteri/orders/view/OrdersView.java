@@ -14,6 +14,7 @@ public interface OrdersView {
 
 
       String getSessionIdFromPref();
+      void navigateToLogin();
       void checkSession();
       void showAlert(String message);
       void getOrders(OrderSummaryReponseModel orderSummaryReponseModel);
@@ -21,7 +22,6 @@ public interface OrdersView {
       void sendPageRequest(int first,int rows);
       void deleteOrdersFromAdapter(ArrayList<OrderDetailResponseModel> orders);
       void updateOrderFromAdapter(List<OrderDetailResponseModel> orders);
-      void navigateToLogin();
       void showProgress();
       void hideProgress();
 }

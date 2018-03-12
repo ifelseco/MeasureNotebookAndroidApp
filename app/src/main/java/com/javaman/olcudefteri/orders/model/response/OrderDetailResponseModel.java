@@ -5,8 +5,11 @@ import android.os.Parcelable;
 
 import com.javaman.olcudefteri.api.model.response.BaseResponse;
 import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
+import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -25,8 +28,7 @@ public class OrderDetailResponseModel implements Parcelable {
 	private int orderStatus;
 	private CustomerDetailModel customer;
 
-    public OrderDetailResponseModel() {
-    }
+	public OrderDetailResponseModel() {}
 
 
 	@Override

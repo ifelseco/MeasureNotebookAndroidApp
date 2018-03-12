@@ -116,5 +116,6 @@
     <string name="title_order_list">Orders</string>
     <string name="title_order_detail">Order Detail</string>
     <string name="title_activity_order_detail_tabbed">OrderDetailTabbedActivity</string>
+    <string name="tl">u20ba</string>
 
 </resources>

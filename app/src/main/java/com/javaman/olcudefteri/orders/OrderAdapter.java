@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -91,6 +92,25 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         holder.bind(order, position);
     }
 
+    public void deleteSelectedItems(ArrayList<OrderDetailResponseModel> selectedOrderList) {
+        for (OrderDetailResponseModel orderDetailResponseModel : selectedOrderList){
+            mOrders.remove(orderDetailResponseModel);
+        }
+        notifyDataSetChanged();
+    }
+
+    public void updateList(List<OrderDetailResponseModel> orderList){
+        /*Log.d("BEFORE UPDATE :",""+mOrders);
+        mOrders.addAll(orderList);
+        Log.d("AFTER UPDATE :",""+mOrders);*/
+        notifyDataSetChanged();
+    }
+
+    public void clearList(){
+        mOrders.clear();
+        notifyDataSetChanged();
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.tv_order_number)
@@ -160,7 +180,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             calendar.setTime(order.getOrderDate());
             int hours = calendar.get(Calendar.HOUR_OF_DAY);
             int minutes = calendar.get(Calendar.MINUTE);
-            int seconds = calendar.get(Calendar.SECOND);
+
 
             tvOrderTime.setText(""+hours+" : "+minutes);
 
@@ -194,9 +214,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             //renklendirme işlemleri yapılacak...
 
             if (order.getOrderStatus() == 0) {
-               tvOrderStatus.setText("Eksik Sipariş");
+                tvOrderStatus.setText("Eksik Sipariş");
                 linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_gray);
-               imageViewOrderStatus.setImageResource(R.drawable.ic_remove_circle_black_24dp);
+                imageViewOrderStatus.setImageResource(R.drawable.ic_remove_circle_black_24dp);
 
             } else if (order.getOrderStatus() == 1) {
                 tvOrderStatus.setText("Ölçüye gidilecek");
@@ -243,13 +263,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                     ordersActivity.prepareSelection(view, getAdapterPosition());
                 }
             }else{
-               OrderDetailResponseModel orderDetailResponseModel= (OrderDetailResponseModel) view.getTag();
+                OrderDetailResponseModel orderDetailResponseModel= (OrderDetailResponseModel) view.getTag();
 
                 if(!ordersActivity.isActionModeActive){
                     Context context = view.getContext();
                     Intent intent = new Intent(context, OrderDetailActivity.class);
-                    intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , orderDetailResponseModel);
-                    intent.putExtra(OrderDetailActivity.ARG_CURRENT_CUSTOMER, orderDetailResponseModel.getCustomer());
+                    intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , orderDetailResponseModel.getId());
                     context.startActivity(intent);
                 }
             }
@@ -258,25 +277,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         }
 
 
-    }
-
-    public void deleteSelectedItems(ArrayList<OrderDetailResponseModel> selectedOrderList) {
-        for (OrderDetailResponseModel orderDetailResponseModel : selectedOrderList){
-            mOrders.remove(orderDetailResponseModel);
-        }
-        notifyDataSetChanged();
-    }
-
-    public void updateList(List<OrderDetailResponseModel> orderList){
-        /*Log.d("BEFORE UPDATE :",""+mOrders);
-        mOrders.addAll(orderList);
-        Log.d("AFTER UPDATE :",""+mOrders);*/
-        notifyDataSetChanged();
-    }
-
-    public void clearList(){
-        mOrders.clear();
-        notifyDataSetChanged();
     }
 
 }
