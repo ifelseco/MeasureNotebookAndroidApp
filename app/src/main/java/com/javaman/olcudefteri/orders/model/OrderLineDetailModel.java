@@ -101,7 +101,7 @@ public class OrderLineDetailModel implements Parcelable {
 
     @SerializedName("locationName")
     @Expose
-    private int locationName;
+    private String locationName;
 
     @SerializedName("mechanismStatus")
     @Expose
@@ -146,7 +146,7 @@ public class OrderLineDetailModel implements Parcelable {
         dest.writeDouble(this.usedMaterial);
         dest.writeString(this.locationType);
         dest.writeInt(this.direction);
-        dest.writeInt(this.locationName);
+        dest.writeString(this.locationName);
         dest.writeInt(this.mechanismStatus);
         dest.writeInt(this.fonType);
         dest.writeString(this.propertyModelName);
@@ -174,7 +174,7 @@ public class OrderLineDetailModel implements Parcelable {
         this.usedMaterial = in.readDouble();
         this.locationType = in.readString();
         this.direction = in.readInt();
-        this.locationName = in.readInt();
+        this.locationName = in.readString();
         this.mechanismStatus = in.readInt();
         this.fonType = in.readInt();
         this.propertyModelName = in.readString();

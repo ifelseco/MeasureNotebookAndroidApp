@@ -81,6 +81,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     public static final String ARG_CURRENT_ORDER = "current_order";
     public static final String ARG_CURRENT_CUSTOMER = "current_customer_detail";
     public static final String ARG_ORDER_LINES = "current_order_lines";
+    public static final String ARG_SAVED_ORDER = "saved_order";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,14 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         mOrderLinePresenter=new OrderLinePresenterImpl(this);
         orderId=getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
 
-        sendGetOrderLineRequest(orderId);
+        if(savedInstanceState==null){
+            sendGetOrderLineRequest(orderId);
+        }else{
+            this.orderLineSummaryResponseModel=savedInstanceState.getParcelable(ARG_SAVED_ORDER);
+            setArgumentForFragments();
+            initTab();
+        }
+
 
 
         // Show the Up button in the action bar.
@@ -101,19 +109,6 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-
-
-        /*if (savedInstanceState == null) {
-            Bundle arguments = new Bundle();
-            Long orderId=getIntent().getLongExtra(OrderDetailFragment.ARG_ITEM_ID,-1);
-            arguments.putLong(OrderDetailFragment.ARG_ITEM_ID,orderId);
-            OrderDetailFragment fragment = new OrderDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.order_detail_container, fragment)
-                    .commit();
-        }*/
 
 
     }
@@ -272,7 +267,11 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         showToast(message);
     }
 
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(ARG_SAVED_ORDER,this.orderLineSummaryResponseModel);
+    }
 
     @Override
     public void getOrderLines(OrderLineSummaryResponseModel orderLineSummaryResponseModel) {

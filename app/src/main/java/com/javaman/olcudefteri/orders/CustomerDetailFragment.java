@@ -1,12 +1,19 @@
 package com.javaman.olcudefteri.orders;
 
+import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.javaman.olcudefteri.R;
@@ -19,7 +26,7 @@ import butterknife.ButterKnife;
  * Created by javaman on 08.03.2018.
  */
 
-public class CustomerDetailFragment extends Fragment {
+public class CustomerDetailFragment extends Fragment implements View.OnClickListener {
 
     private CustomerDetailModel customerDetailModel;
 
@@ -35,8 +42,22 @@ public class CustomerDetailFragment extends Fragment {
     @BindView(R.id.tv_customer_address)
     TextView textViewCustomerAddress;
 
-    @BindView(R.id.tv_customer_newsletter)
-    TextView textViewCustomerNewsletter;
+    @BindView(R.id.checkboxNewsletter)
+    CheckBox checkBoxNewsletter;
+
+    @BindView(R.id.linear_layout_newsletter)
+    LinearLayout linearLayoutNewsLetter;
+
+    @BindView(R.id.image_button_call)
+    ImageButton imageButtonCall;
+
+    @BindView(R.id.image_button_sms)
+    ImageButton imageButtonSms;
+
+    @BindView(R.id.image_button_navigation)
+    ImageButton imageButtonNavigation;
+
+
 
 
 
@@ -69,15 +90,53 @@ public class CustomerDetailFragment extends Fragment {
 
     private void setView() {
 
+        imageButtonCall.setOnClickListener(this);
+        imageButtonSms.setOnClickListener(this);
+        imageButtonNavigation.setOnClickListener(this);
+
         textViewCustomerName.setText(customerDetailModel.getNameSurname());
         textViewCustomerFixedPhone.setText(customerDetailModel.getFixedPhone());
         textViewCustomerMobilePhone.setText(customerDetailModel.getMobilePhone());
         textViewCustomerAddress.setText(customerDetailModel.getAddress());
 
         if(customerDetailModel.isNewsletterAccepted()){
-            textViewCustomerNewsletter.setText("Bilgilendirme istiyor ");
-        }else{
-            textViewCustomerNewsletter.setText("Bilgilendirme istemiyor. ");
+            linearLayoutNewsLetter.setVisibility(View.VISIBLE);
+            checkBoxNewsletter.setChecked(true);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id=v.getId();
+
+        switch (id){
+            case R.id.image_button_call:
+                String callNumber1 = customerDetailModel.getMobilePhone();
+                String callNumber2 =customerDetailModel.getFixedPhone();;
+                Intent intentCall = new Intent(Intent.ACTION_DIAL);
+
+                if(!callNumber1.isEmpty()){
+
+                    intentCall.setData(Uri.parse("tel:" +callNumber1));
+
+                }else{
+                    intentCall.setData(Uri.parse("tel:" +callNumber2));
+                }
+                startActivity(intentCall);
+                break;
+            case R.id.image_button_sms:
+                String smsNumber = customerDetailModel.getMobilePhone();
+                Uri uri = Uri.parse("smsto:" + smsNumber);
+                Intent intentSms = new Intent(Intent.ACTION_SENDTO, uri);
+                intentSms.putExtra("sms_body", "");
+                startActivity(intentSms);
+                break;
+            case R.id.image_button_navigation:
+
+                break;
+            default:
+                break;
+
 
         }
     }

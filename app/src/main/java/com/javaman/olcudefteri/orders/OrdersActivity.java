@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.os.PersistableBundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -74,6 +76,7 @@ public class OrdersActivity extends AppCompatActivity
     OrdersPresenter mOrdersPresenter;
     List<OrderDetailResponseModel> orderList=new ArrayList<>();
     ArrayList<OrderDetailResponseModel> selectedOrderList = new ArrayList<>();
+    public static final String ARG_SAVED_ORDERS = "last-saved-orders";
 
     private int first = 0;
     private int rows = 10;
@@ -92,9 +95,19 @@ public class OrdersActivity extends AppCompatActivity
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
+        if (savedInstanceState!=null){
+            this.orderList=savedInstanceState.getParcelableArrayList(ARG_SAVED_ORDERS);
+        }
+
         initView();
         initRcyclerView();
-        sendPageRequest(first, rows);
+
+        if(savedInstanceState==null){
+            sendPageRequest(first, rows);
+        }
+
+
+
 
     }
 
@@ -402,4 +415,13 @@ public class OrdersActivity extends AppCompatActivity
         sendPageRequest(first,rows);
         swipeRefreshLayout.setRefreshing(false);
     }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(ARG_SAVED_ORDERS, (ArrayList<? extends Parcelable>) this.orderList);
+    }
+
+
 }
