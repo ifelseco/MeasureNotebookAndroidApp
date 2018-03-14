@@ -14,9 +14,12 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -126,13 +129,15 @@ public class OrderDetailFragment extends Fragment {
 
         }
 
-        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("tr","TR"));
-        tvOrderTotalAmount.setText(nf.format(orderDetailResponseModel.getTotalAmount()));
-        tvOrderDeposit.setText(nf.format(orderDetailResponseModel.getDepositeAmount()));
+        Currency currency=Currency.getInstance(new Locale("tr","TR"));
+
+
+        tvOrderTotalAmount.setText(""+currency.getSymbol()+" "+String.format("%.2f",orderDetailResponseModel.getTotalAmount()));
+        tvOrderDeposit.setText(""+currency.getSymbol()+" "+String.format("%.2f",orderDetailResponseModel.getDepositeAmount()));
 
         double remainAmount=orderDetailResponseModel.getTotalAmount()-orderDetailResponseModel.getDepositeAmount();
 
-        tvOrderRemain.setText(nf.format(remainAmount));
+        tvOrderRemain.setText(""+currency.getSymbol()+" "+String.format("%.2f",remainAmount));
 
 
 

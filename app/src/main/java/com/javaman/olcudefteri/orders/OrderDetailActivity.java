@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Parcelable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,8 +66,18 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     @BindView(R.id.fab_order_status)
     com.github.clans.fab.FloatingActionButton fabOrderStatus;
 
+    @BindView(R.id.fab_customer_edit)
+    com.github.clans.fab.FloatingActionButton fabCustomerEdit;
+
+    @BindView(R.id.fab_customer_delete)
+    com.github.clans.fab.FloatingActionButton fabCsutomerDelete;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+
+
+
 
     @BindView(R.id.progress_bar_order_line)
     ProgressBar progressBarOrderLine;
@@ -89,7 +101,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         setContentView(R.layout.activity_order_detail);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        initFabMenu();
+        initOrderFabMenu();
 
         mOrderLinePresenter=new OrderLinePresenterImpl(this);
         orderId=getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
@@ -103,6 +115,29 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         }
 
 
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position==1){
+                    initCustomerFabMenu();
+                }else if(position==2){
+                    hideFab();
+                }else{
+                    initOrderFabMenu();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -118,8 +153,17 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         tabLayout.setupWithViewPager(mViewPager);
     }
 
-    public void initFabMenu(){
+    public void initOrderFabMenu() {
+        fabMenu.setVisibility(View.VISIBLE);
+        fabMenu.close(true);
+        fabCsutomerDelete.setVisibility(View.GONE);
+        fabCustomerEdit.setVisibility(View.GONE);
+        fabOrderDelete.setVisibility(View.VISIBLE);
+        fabOrderEdit.setVisibility(View.VISIBLE);
+        fabOrderStatus.setVisibility(View.VISIBLE);
+
         fabMenu.setOnMenuToggleListener(this);
+
         fabOrderDelete.setOnClickListener(this);
         fabOrderEdit.setOnClickListener(this);
         fabOrderStatus.setOnClickListener(this);
@@ -137,6 +181,26 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_ORDER,orderDetailResponseModel);
         arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_CUSTOMER,customerDetailModel);
         arguments.putParcelableArrayList(ARG_ORDER_LINES, (ArrayList<? extends Parcelable>) orderLines);
+    }
+
+
+
+    public void initCustomerFabMenu(){
+
+        fabMenu.setVisibility(View.VISIBLE);
+        fabMenu.close(true);
+        fabOrderDelete.setVisibility(View.GONE);
+        fabOrderEdit.setVisibility(View.GONE);
+        fabOrderStatus.setVisibility(View.GONE);
+        fabCsutomerDelete.setVisibility(View.VISIBLE);
+        fabCustomerEdit.setVisibility(View.VISIBLE);
+
+        fabCustomerEdit.setOnClickListener(this);
+        fabCsutomerDelete.setOnClickListener(this);
+    }
+
+    public void hideFab(){
+        fabMenu.setVisibility(View.GONE);
     }
 
     @Override
@@ -181,12 +245,21 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     public void onClick(View v) {
         if (v.getId() == R.id.fab_order_edit) {
             showToast("Sipariş düzenle diyalogu");
+            fabMenu.close(true);
         } else if (v.getId() == R.id.fab_order_delete) {
             showToast("Sipariş silme diyalogu");
-        } else {
+            fabMenu.close(true);
+        } else if(v.getId()==R.id.fab_order_status){
             showToast("Sipariş durumu değiştir");
+            fabMenu.close(true);
+        }else if(v.getId()==R.id.fab_customer_delete){
+            showToast("Müşteri silme");
+            fabMenu.close(true);
+        }else if(v.getId()==R.id.fab_customer_edit){
+            showToast("Müşteri edit");
+            fabMenu.close(true);
         }
-        fabMenu.close(true);
+
     }
 
     @Override

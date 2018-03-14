@@ -3,6 +3,7 @@ package com.javaman.olcudefteri.orders;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,10 +34,12 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
 
     private List<OrderLineDetailModel> orderLines=new ArrayList<>();
     Context mContext;
+    OrderLineFragment orderLineFragment;
 
-    public OrderLineAdapter(List<OrderLineDetailModel> orderLines , Context context) {
+    public OrderLineAdapter(List<OrderLineDetailModel> orderLines , Context context ,OrderLineFragment orderLineFragment ) {
         this.orderLines = orderLines;
         this.mContext=context;
+        this.orderLineFragment=orderLineFragment;
     }
 
     @Override
@@ -87,13 +91,25 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
         @BindView(R.id.image_button_line_option)
         ImageButton imageButtonLineOption;
 
+        @BindView(R.id.image_button_close)
+        ImageButton imageButtonClose;
+
+        @BindView(R.id.card_order_line_item)
+        CardView cardView;
+
 
 
         public OrderLineViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            imageButtonLineOption.setVisibility(View.VISIBLE);
+            imageButtonLineDetail.setVisibility(View.VISIBLE);
+            imageButtonClose.setVisibility(View.GONE);
+
             imageButtonLineDetail.setOnClickListener(this);
             imageButtonLineOption.setOnClickListener(this);
+            cardView.setOnClickListener(this);
 
         }
 
@@ -102,16 +118,16 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
 
             tvLocationName.setText(orderLineDetailModel.getLocationName());
             tvLocationType.setText(orderLineDetailModel.getLocationType());
-            tvProductALias.setText(orderLineDetailModel.getProduct().getAliasName());
-            tvProductPattern.setText(orderLineDetailModel.getProduct().getPatternCode());
-            tvProductVariant.setText(orderLineDetailModel.getProduct().getVariantCode());
+            tvProductALias.setText("İsim :"+orderLineDetailModel.getProduct().getAliasName());
+            tvProductPattern.setText("Desen :"+orderLineDetailModel.getProduct().getPatternCode());
+            tvProductVariant.setText("Variant :"+orderLineDetailModel.getProduct().getVariantCode());
             tvProductWidth.setText("En :"+orderLineDetailModel.getPropertyWidth());
             tvProductHeight.setText("Boy :"+orderLineDetailModel.getPropertyHeight());
 
-            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("tr","TR"));
-            Locale locale=new Locale("tr","TR");
-            tvUnitPrice.setText(String.format(locale,"%.2f",orderLineDetailModel.getUnitPrice()));
-            tvLineAmount.setText(String.format(locale,"%.2f",orderLineDetailModel.getLineAmount()));
+            Currency currency=Currency.getInstance(new Locale("tr","TR"));
+            tvUnitPrice.setText(""+currency.getSymbol()+" "+String.format("%.2f",orderLineDetailModel.getUnitPrice()));
+            tvLineAmount.setText(""+currency.getSymbol()+" "+String.format("%.2f",orderLineDetailModel.getLineAmount()));
+
 
 
             String[] productArray=mContext.getResources().getStringArray(R.array.curtains);
@@ -161,10 +177,6 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
                     tvProductValue.setText(productArray[10]);
                     tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m");
                     break;
-                case 11:
-                    tvProductValue.setText(productArray[11]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m2");
-                    break;
 
             }
         }
@@ -177,8 +189,11 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
                 popupMenu.inflate(R.menu.menu_line_action);
                 popupMenu.setOnMenuItemClickListener(this);
                 popupMenu.show();
-            }else{
+            }else if(v.getId()==R.id.image_button_line_detail){
                 Toast.makeText(mContext, "Detail buton", Toast.LENGTH_SHORT).show();
+            }else{
+                OrderLineDetailModel orderLineDetailModel= (OrderLineDetailModel) v.getTag();
+                orderLineFragment.openBottomSheet(orderLineDetailModel);
             }
         }
 

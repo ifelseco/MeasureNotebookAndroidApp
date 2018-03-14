@@ -323,10 +323,6 @@
                 android:layout_margin="10dp"
                 android:orientation="vertical">
 
-                <!-- <include android:id="@+id/parcali_layout" layout="@layout/parcali_Zebra_layout"/>
- -->
-
-
 
 
             </TableLayout>

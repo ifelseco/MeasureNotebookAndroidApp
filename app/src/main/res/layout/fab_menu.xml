@@ -14,7 +14,7 @@
         android:paddingBottom="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         fab:menu_backgroundColor="#ccffffff"
-        fab:menu_fab_label="Sipariş işlemleri"
+        fab:menu_fab_label=""
         fab:fab_colorNormal="#DA4336"
         fab:fab_colorPressed="#E75043"
         fab:fab_colorRipple="#99FFFFFF"
@@ -36,6 +36,22 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_edit"
             fab:fab_label="Sipariş bilgilerini düzenle"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_customer_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_edit"
+            fab:fab_label="Müşteri bilgilerini düzenle"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_customer_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_delete"
+            fab:fab_label="Müşteri sil"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_order_item"
+    android:id="@+id/card_order_line_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/lightgray"
     android:layout_margin="10dp"
-    app:cardCornerRadius="3dp"
+    android:background="@color/lightgray"
     android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     android:paddingTop="10dp"
-    android:paddingRight="10dp">
+    app:cardCornerRadius="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,8 +35,8 @@
                     android:id="@+id/tv_location_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
                     android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Oda"
                     android:textSize="15sp" />
 
@@ -45,8 +45,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Cam"
                     android:fontFamily="@font/roboto_regular"
+                    android:text="Cam"
                     android:textSize="15sp" />
 
             </LinearLayout>
@@ -55,20 +55,30 @@
                 android:id="@+id/image_button_line_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_more_black_24dp"
-                android:tint="@color/lightgreen"
+                android:background="@null"
                 android:padding="5dp"
-                android:background="@null" />
+                android:tint="@color/lightgreen"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_more_black_24dp" />
 
             <ImageButton
                 android:id="@+id/image_button_line_option"
-                android:padding="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="5dp"
                 android:tint="@color/lightgreen"
-                app:srcCompat="@drawable/ic_more_vert_black_24dp"
-                android:background="@null" />
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
+            <ImageButton
+                android:id="@+id/image_button_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="5dp"
+                android:tint="@color/lightgreen"
+                app:srcCompat="@drawable/ic_dialog_close_dark" />
 
 
         </LinearLayout>
@@ -97,14 +107,12 @@
 
             <TextView
                 android:id="@+id/tv_product_alias"
-                android:text="Ürün İsmi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_regular"
+                android:text="Ürün İsmi"
                 android:textSize="15sp" />
-
-
 
 
         </LinearLayout>
@@ -132,14 +140,12 @@
 
             <TextView
                 android:id="@+id/tv_product_variant"
-                android:text="Varyant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_regular"
+                android:text="Varyant"
                 android:textSize="15sp" />
-
-
 
 
         </LinearLayout>
@@ -167,25 +173,71 @@
 
             <TextView
                 android:id="@+id/tv_product_height"
-                android:text="Boy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_regular"
+                android:text="Boy"
                 android:textSize="15sp" />
 
 
         </LinearLayout>
 
         <View
+            android:id="@+id/view_line_detail"
             android:layout_width="match_parent"
-            android:layout_height="5dp"
+            android:layout_height="1dp"
+            android:background="@color/lightgreen"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/linear_layout_order_line_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:visibility="gone">
+
+
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightgreen" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_dec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="6dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_line_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
+                android:inputType="textMultiLine"
+                android:text="Açıklama:"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:background="@color/lightgreen" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
 
             <LinearLayout
@@ -198,23 +250,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
+                    android:gravity="right"
                     android:text="Kullanılan Malzeme :"
                     android:textSize="17sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_used_material"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
+                    android:gravity="right"
                     android:text="Kullanılan Malzeme"
                     android:textSize="15sp" />
-
 
 
             </LinearLayout>
@@ -235,22 +286,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="right"
                     android:fontFamily="@font/roboto_regular"
+                    android:gravity="right"
                     android:text="Birim Fiyat :"
                     android:textSize="17sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_unit_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="right"
                     android:fontFamily="@font/roboto_regular"
+                    android:gravity="right"
                     android:text="Birim Fiyat"
                     android:textSize="15sp" />
-
 
 
             </LinearLayout>
@@ -272,38 +322,32 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Tutar :"
                     android:gravity="right"
+                    android:text="Tutar :"
                     android:textSize="17sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_line_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
+                    android:gravity="right"
                     android:text="Tutar"
                     android:textSize="15sp" />
-
 
 
             </LinearLayout>
 
 
-
-
         </LinearLayout>
-
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:background="@color/lightgreen" />
-
-
 
 
     </LinearLayout>

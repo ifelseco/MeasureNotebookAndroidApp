@@ -72,6 +72,7 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
         if (getArguments().containsKey(OrderDetailActivity.ARG_CURRENT_CUSTOMER)) {
             customerDetailModel = getArguments().getParcelable(OrderDetailActivity.ARG_CURRENT_CUSTOMER);
         }
+
     }
 
     @Override
