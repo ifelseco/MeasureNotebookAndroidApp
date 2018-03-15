@@ -1,5 +1,8 @@
 package com.javaman.olcudefteri.orders.model.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.javaman.olcudefteri.api.model.response.BaseResponse;
 
 import java.util.Date;
@@ -11,7 +14,7 @@ import lombok.Data;
  */
 
 @Data
-public class AddCustomerResponse{
+public class AddCustomerResponse implements Parcelable {
 
     private BaseResponse baseResponse;
 
@@ -26,5 +29,41 @@ public class AddCustomerResponse{
 
     private String customerNameSurname;
 
+    public AddCustomerResponse() {
+    }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.baseResponse, flags);
+        dest.writeValue(this.id);
+        dest.writeLong(this.orderDate != null ? this.orderDate.getTime() : -1);
+        dest.writeValue(this.customerId);
+        dest.writeString(this.customerNameSurname);
+    }
+
+    protected AddCustomerResponse(Parcel in) {
+        this.baseResponse = in.readParcelable(BaseResponse.class.getClassLoader());
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        long tmpOrderDate = in.readLong();
+        this.orderDate = tmpOrderDate == -1 ? null : new Date(tmpOrderDate);
+        this.customerId = (Long) in.readValue(Long.class.getClassLoader());
+        this.customerNameSurname = in.readString();
+    }
+
+    public static final Parcelable.Creator<AddCustomerResponse> CREATOR = new Parcelable.Creator<AddCustomerResponse>() {
+        @Override
+        public AddCustomerResponse createFromParcel(Parcel source) {
+            return new AddCustomerResponse(source);
+        }
+
+        @Override
+        public AddCustomerResponse[] newArray(int size) {
+            return new AddCustomerResponse[size];
+        }
+    };
 }

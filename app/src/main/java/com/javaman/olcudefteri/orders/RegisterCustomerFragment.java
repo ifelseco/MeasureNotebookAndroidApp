@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.orders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,11 +19,10 @@ import android.widget.Toast;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.AddCustomerModel;
 import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
+import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderPresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderPresenterImpl;
 import com.javaman.olcudefteri.orders.view.AddOrderView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +58,8 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
 
     @BindView(R.id.takeMeasureButton)
     Button regSaveBtn;
+
+
 
 
 
@@ -201,10 +203,10 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
     }
 
     @Override
-    public void navigateToOrder() {
-        CustomerOrderEvent customerOrderEvent=new CustomerOrderEvent();
-        customerOrderEvent.setOrderRegistered(true);
-        EventBus.getDefault().post(customerOrderEvent);
+    public void navigateToOrder(AddCustomerResponse addCustomerResponse) {
+        Intent intent=new Intent(getActivity(),AddOrderActivity.class);
+        intent.putExtra(AddOrderActivity.ARG_ADD_ORDER,addCustomerResponse);
+        startActivity(intent);
     }
 
     @Override

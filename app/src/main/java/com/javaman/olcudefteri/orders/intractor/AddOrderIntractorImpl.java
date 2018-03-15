@@ -47,23 +47,11 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
                     //request servera ulaştı ve herhangi bir response döndü
 
                     if (response.isSuccessful()) {
-
                         //response [200 ,300) aralığında ise
-
                         AddCustomerResponse addCustomerResponse = response.body();
-
-
-
-
-
-                        listener.onSuccess();
-
-
+                        listener.onSuccess(addCustomerResponse);
                         Log.d("Response body", response.body().toString());
                         Log.d("Auth response:", addCustomerResponse.toString());
-
-
-
                     } else {
 
                         //response [200 ,300) aralığında değil ise

@@ -10,12 +10,14 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.OrderDetailActivity;
 import com.javaman.olcudefteri.orders.OrdersActivity;
 
 /**
@@ -33,7 +35,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e(TAG, "Title: " + remoteMessage.getNotification().getTitle());
             Log.e(TAG, "Body: " + remoteMessage.getNotification().getBody());
 
-            createNotification(remoteMessage.getNotification().getBody());
+            String title=remoteMessage.getData().get("title");
+            String body=remoteMessage.getData().get("body");
+            Long orderId=Long.parseLong(remoteMessage.getData().get("orderId"));
+
+
+            createNotification(body,title,orderId);
 
         }
 
@@ -42,9 +49,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void createNotification(String messageBody){
+    private void createNotification(String messageBody,String messageTitle,Long orderId){
 
-        Intent intent = new Intent( this , OrdersActivity. class );
+        Intent intent = new Intent( this , OrderDetailActivity. class );
+        intent.putExtra(OrderDetailActivity.ARG_NOTIFICATION_ORDER,orderId);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent resultIntent = PendingIntent.getActivity( this , 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -74,7 +82,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setTicker("Hearty365")
                 //     .setPriority(Notification.PRIORITY_MAX)
-                .setContentTitle("Siparişler")
+                .setContentTitle(messageTitle)
                 .setContentText(messageBody)
                 .setAutoCancel( true )
                 .setSound(notificationSoundURI)

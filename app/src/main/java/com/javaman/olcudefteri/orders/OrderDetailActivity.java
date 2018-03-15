@@ -46,7 +46,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderDetailActivity extends AppCompatActivity implements FloatingActionMenu.OnMenuToggleListener, View.OnClickListener,OrderDetailVew {
+public class OrderDetailActivity extends AppCompatActivity implements FloatingActionMenu.OnMenuToggleListener, View.OnClickListener, OrderDetailVew {
 
     @BindView(R.id.tabs)
     TabLayout tabLayout;
@@ -76,21 +76,20 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     Toolbar toolbar;
 
 
-
-
-
     @BindView(R.id.progress_bar_order_line)
     ProgressBar progressBarOrderLine;
 
     private OrderDetailResponseModel orderDetailResponseModel;
     private CustomerDetailModel customerDetailModel;
     private OrderLineSummaryResponseModel orderLineSummaryResponseModel;
-    private List<OrderLineDetailModel> orderLines=new ArrayList<>();
+    private List<OrderLineDetailModel> orderLines = new ArrayList<>();
     private Long orderId;
+    private Long orderIdFromNotification;
     Bundle arguments;
     OrderLinePresenter mOrderLinePresenter;
 
     public static final String ARG_CURRENT_ORDER = "current_order";
+    public static final String ARG_NOTIFICATION_ORDER = "notification_order";
     public static final String ARG_CURRENT_CUSTOMER = "current_customer_detail";
     public static final String ARG_ORDER_LINES = "current_order_lines";
     public static final String ARG_SAVED_ORDER = "saved_order";
@@ -102,14 +101,22 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         initOrderFabMenu();
+        mOrderLinePresenter = new OrderLinePresenterImpl(this);
 
-        mOrderLinePresenter=new OrderLinePresenterImpl(this);
-        orderId=getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
-
-        if(savedInstanceState==null){
-            sendGetOrderLineRequest(orderId);
-        }else{
-            this.orderLineSummaryResponseModel=savedInstanceState.getParcelable(ARG_SAVED_ORDER);
+        if (savedInstanceState == null) {
+            if (getIntent().getExtras().containsKey(ARG_NOTIFICATION_ORDER)) {
+                orderIdFromNotification = getIntent().getExtras().getLong(ARG_NOTIFICATION_ORDER);
+                if (orderIdFromNotification != null && orderIdFromNotification > 0) {
+                    sendGetOrderLineRequest(orderIdFromNotification);
+                }
+            } else if (getIntent().getExtras().containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)) {
+                orderId = getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
+                if (orderId != null && orderId > 0) {
+                    sendGetOrderLineRequest(orderId);
+                }
+            }
+        } else {
+            this.orderLineSummaryResponseModel = savedInstanceState.getParcelable(ARG_SAVED_ORDER);
             setArgumentForFragments();
             initTab();
         }
@@ -124,11 +131,11 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
             @Override
             public void onPageSelected(int position) {
-                if(position==1){
+                if (position == 1) {
                     initCustomerFabMenu();
-                }else if(position==2){
+                } else if (position == 2) {
                     hideFab();
-                }else{
+                } else {
                     initOrderFabMenu();
                 }
             }
@@ -169,23 +176,21 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabOrderStatus.setOnClickListener(this);
     }
 
-    public void setArgumentForFragments(){
+    public void setArgumentForFragments() {
         arguments = new Bundle();
 
 
+        orderDetailResponseModel = orderLineSummaryResponseModel.getOrder();
+        customerDetailModel = orderDetailResponseModel.getCustomer();
+        orderLines = orderLineSummaryResponseModel.getOrderLineDetailList();
 
-        orderDetailResponseModel=orderLineSummaryResponseModel.getOrder();
-        customerDetailModel=orderDetailResponseModel.getCustomer();
-        orderLines=orderLineSummaryResponseModel.getOrderLineDetailList();
-
-        arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_ORDER,orderDetailResponseModel);
-        arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_CUSTOMER,customerDetailModel);
+        arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_ORDER, orderDetailResponseModel);
+        arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_CUSTOMER, customerDetailModel);
         arguments.putParcelableArrayList(ARG_ORDER_LINES, (ArrayList<? extends Parcelable>) orderLines);
     }
 
 
-
-    public void initCustomerFabMenu(){
+    public void initCustomerFabMenu() {
 
         fabMenu.setVisibility(View.VISIBLE);
         fabMenu.close(true);
@@ -199,7 +204,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabCsutomerDelete.setOnClickListener(this);
     }
 
-    public void hideFab(){
+    public void hideFab() {
         fabMenu.setVisibility(View.GONE);
     }
 
@@ -249,13 +254,13 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         } else if (v.getId() == R.id.fab_order_delete) {
             showToast("Sipariş silme diyalogu");
             fabMenu.close(true);
-        } else if(v.getId()==R.id.fab_order_status){
+        } else if (v.getId() == R.id.fab_order_status) {
             showToast("Sipariş durumu değiştir");
             fabMenu.close(true);
-        }else if(v.getId()==R.id.fab_customer_delete){
+        } else if (v.getId() == R.id.fab_customer_delete) {
             showToast("Müşteri silme");
             fabMenu.close(true);
-        }else if(v.getId()==R.id.fab_customer_edit){
+        } else if (v.getId() == R.id.fab_customer_edit) {
             showToast("Müşteri edit");
             fabMenu.close(true);
         }
@@ -277,13 +282,13 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        OrderDetailFragment orderDetailFragment=new OrderDetailFragment();
+        OrderDetailFragment orderDetailFragment = new OrderDetailFragment();
         orderDetailFragment.setArguments(arguments);
 
-        CustomerDetailFragment customerDetailFragment=new CustomerDetailFragment();
+        CustomerDetailFragment customerDetailFragment = new CustomerDetailFragment();
         customerDetailFragment.setArguments(arguments);
 
-        OrderLineFragment orderLineFragment=new OrderLineFragment();
+        OrderLineFragment orderLineFragment = new OrderLineFragment();
         orderLineFragment.setArguments(arguments);
 
         adapter.addFragment(orderDetailFragment, "Sipariş Bilgileri");
@@ -295,7 +300,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     @Override
     public void sendGetOrderLineRequest(Long orderId) {
         String xAuthToken = getSessionIdFromPref();
-        mOrderLinePresenter.sendGetOrderLineRequest(xAuthToken,orderId);
+        mOrderLinePresenter.sendGetOrderLineRequest(xAuthToken, orderId);
     }
 
     @Override
@@ -343,12 +348,12 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(ARG_SAVED_ORDER,this.orderLineSummaryResponseModel);
+        outState.putParcelable(ARG_SAVED_ORDER, this.orderLineSummaryResponseModel);
     }
 
     @Override
     public void getOrderLines(OrderLineSummaryResponseModel orderLineSummaryResponseModel) {
-        this.orderLineSummaryResponseModel=orderLineSummaryResponseModel;
+        this.orderLineSummaryResponseModel = orderLineSummaryResponseModel;
         setArgumentForFragments();
         initTab();
     }

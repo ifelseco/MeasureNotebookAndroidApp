@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 import com.javaman.olcudefteri.reports.ReportsActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,14 +34,16 @@ import butterknife.ButterKnife;
 public class AddOrderActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener {
 
-    private boolean isCustomerRegister = false;
+
     public static final String MyPREFERENCES = "MyPrefs";
+    public static final String ARG_ADD_ORDER = "arg_add_order";
     private Bundle customerFormData = new Bundle();
     SharedPreferences sharedPref;
+    private boolean isCustomerRegister = false;
+    private AddCustomerResponse addCustomerResponse;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ActionBarDrawerToggle toggle;
-
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -73,7 +76,14 @@ public class AddOrderActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.measure);
         navigationView.setNavigationItemSelectedListener(this);
 
-        addFragmentRegisterCustomer();
+
+        addCustomerResponse=getIntent().getParcelableExtra(ARG_ADD_ORDER);
+
+        if(addCustomerResponse!=null){
+            addAddOrderFragment(addCustomerResponse);
+        }else{
+            addFragmentRegisterCustomer();
+        }
 
     }
 
@@ -95,8 +105,11 @@ public class AddOrderActivity extends AppCompatActivity
 
     }
 
-    public void addAddOrderFragment() {
+    public void addAddOrderFragment(AddCustomerResponse addCustomerResponse) {
         AddOrderFragment addOrderFragment = new AddOrderFragment();
+        Bundle bundle=new Bundle();
+        bundle.putParcelable(ARG_ADD_ORDER,addCustomerResponse);
+        addOrderFragment.setArguments(bundle);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.register_customer_area, addOrderFragment, "add-order-fragment")
@@ -104,16 +117,7 @@ public class AddOrderActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-    @Subscribe
-    public void onDataEvent(CustomerOrderEvent customerOrderEvent) {
 
-        isCustomerRegister = customerOrderEvent.isOrderRegistered();
-
-        if (isCustomerRegister) {
-            addAddOrderFragment();
-        }
-
-    }
 
     @Override
     public void onBackPressed() {
@@ -191,19 +195,6 @@ public class AddOrderActivity extends AppCompatActivity
         editor.putString("lastActivity", getClass().getName());
         editor.commit();
 
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
 

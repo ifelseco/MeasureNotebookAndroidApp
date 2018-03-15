@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.orders.presenter;
 
 import com.javaman.olcudefteri.orders.model.AddCustomerModel;
+import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 import com.javaman.olcudefteri.orders.view.AddOrderView;
 import com.javaman.olcudefteri.orders.intractor.AddOrderIntractor;
 import com.javaman.olcudefteri.orders.intractor.AddOrderIntractorImpl;
@@ -53,10 +54,10 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccess(AddCustomerResponse addCustomerResponse) {
         if(mAddOrderView!=null){
             mAddOrderView.hideProgress();
-            mAddOrderView.navigateToOrder();
+            mAddOrderView.navigateToOrder(addCustomerResponse);
         }
     }
 
