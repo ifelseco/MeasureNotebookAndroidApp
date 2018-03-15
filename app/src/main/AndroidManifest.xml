@@ -70,6 +70,7 @@
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".orders.OrderDetailActivity"
+            android:noHistory="true"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
