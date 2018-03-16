@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +46,34 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
     private boolean spinnerTouched = false;
     private LocationProduct locationProduct=new LocationProduct();
     private String[] productNames;
+    private String locationTypeCount="";
+
+    private TextWatcher textWatcher=new TextWatcher(){
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if(s.length()>0){
+                locationTypeCount=etLocationTypeNumber.getText().toString();
+                if(checkBoxDoor.isChecked()){
+                    locationProduct.setLocationType("Kapı " + locationTypeCount);
+                    tvLocationType.setText(locationProduct.getLocationType());
+                }else if(checkBoxWindow.isChecked()){
+                    locationProduct.setLocationType("Cam " + locationTypeCount);
+                    tvLocationType.setText(locationProduct.getLocationType());
+                }
+
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     @BindView(R.id.tv_custmer_namesurname)
     TextView tvCustomerName;
@@ -117,8 +147,8 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
         View view = inflater.inflate(R.layout.add_order_layout, container, false);
         ButterKnife.bind(this, view);
         getActivity().setTitle("Sipariş Oluştur");
-        initView();
-        setView();
+            initView();
+            setView();
         return view;
     }
 
@@ -147,6 +177,7 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
         spinnerLocation.setAdapter(adapter);
 
         spinnerLocation.setOnItemSelectedListener(this);
+        etLocationTypeNumber.addTextChangedListener(textWatcher);
 
     }
 
@@ -184,9 +215,8 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
         } else if (id == R.id.cb_door) {
             if(checkBoxDoor.isChecked()){
                 checkBoxWindow.setChecked(false);
-                String number = etLocationTypeNumber.getText().toString();
-                if (!number.isEmpty()) {
-                    locationProduct.setLocationType("Kapı " + number);
+                if (!locationTypeCount.isEmpty()) {
+                    locationProduct.setLocationType("Kapı " + locationTypeCount);
                     tvLocationType.setText(locationProduct.getLocationType());
 
                 } else {
@@ -201,9 +231,9 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
         } else if (id == R.id.cb_window) {
             if(checkBoxWindow.isChecked()){
                 checkBoxDoor.setChecked(false);
-                String number = etLocationTypeNumber.getText().toString();
-                if (!number.isEmpty()) {
-                    locationProduct.setLocationType("Cam " + number);
+
+                if (!locationTypeCount.isEmpty()) {
+                    locationProduct.setLocationType("Cam " + locationTypeCount);
                     tvLocationType.setText(locationProduct.getLocationType());
 
                 } else {
@@ -310,14 +340,16 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
 
     private void updateLocationProduct(List<String> productValues) {
         linearLayoutLocation.removeAllViews();
-        int count=productValues.size();
-        if(count>0){
-            tvCount.setText("" + count);
+        int productCount=productValues.size();
+        int count=0;
+        if(productCount>0){
+            tvCount.setText("" + productCount);
         }else{
             tvCount.setText("");
         }
 
         for (String productValue:productValues) {
+            count++;
             View view = getLayoutInflater().inflate(R.layout.product_value_layout, linearLayoutLocation, false);
             ImageButton btnAdd = view.findViewById(R.id.image_button_product_add);
             ImageButton btnRemove = view.findViewById(R.id.image_button_product_remove);
