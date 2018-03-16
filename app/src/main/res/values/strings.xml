@@ -14,7 +14,7 @@
     <item name="masked" type="id" />
 
     <string-array name="rooms">
-
+        <item>Mekan Seçiniz</item>
         <item>Salon</item>
         <item>Oturma odası</item>
         <item>Yatak odası</item>
@@ -22,11 +22,8 @@
         <item>Mutfak</item>
         <item>Balkon</item>
         <item>Çatı</item>
-        <item>Boş oda 1</item>
-        <item>Boş oda 2</item>
-        <item>Boş oda 3</item>
-        <item>Boş oda 4</item>
-
+        <item>Boş Oda</item>
+        <item>Diğer</item>
     </string-array>
 
 
