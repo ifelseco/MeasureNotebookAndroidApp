@@ -10,8 +10,8 @@
     <string name="title_activity_reports">Raporlar</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
-    <item name="visible" type="id"/>
-    <item name="masked" type="id"/>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
 
     <string-array name="rooms">
         <item>Mekan Seçiniz</item>
@@ -23,19 +23,9 @@
         <item>Balkon</item>
         <item>Çatı</item>
         <item>Boş Oda</item>
-        <item>Diger</item>
+        <item>Diğer</item>
     </string-array>
 
-
-    <string-array name="windows">
-        <item>1.Pencere</item>
-        <item>2.Pencere</item>
-        <item>3.Pencere</item>
-        <item>4.Pencere</item>
-        <item>5.Pencere</item>
-        <item>1.Kapı</item>
-        <item>2.Kapı</item>
-    </string-array>
 
     <string-array name="curtains">
         <item>Tül Perde</item>
@@ -63,6 +53,7 @@
         <item>BP</item>
         <item>FARBP</item>
         <item>FP</item>
+        <item>TSP</item>
     </string-array>
 
     <string-array name="fonType">
@@ -91,9 +82,31 @@
         <item>D</item>
     </string-array>
 
+    <string name="title_activity_login">Sign in</string>
 
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
 
-    
-    
-    
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="serach">Ara</string>
+
+    <string-array name="home_titles">
+        <item>Hoşgeldin</item>
+        <item>Bugün nasılsın?</item>
+    </string-array>
+
+    <string name="title_order_list">Orders</string>
+    <string name="title_order_detail">Order Detail</string>
+    <string name="title_activity_order_detail_tabbed">OrderDetailTabbedActivity</string>
+    <string name="tl">u20ba</string>
+
 </resources>

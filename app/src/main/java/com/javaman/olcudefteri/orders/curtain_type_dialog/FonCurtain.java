@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -23,6 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by javaman on 18.12.2017.
@@ -35,28 +40,31 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
         AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
 
 
-    EditText etWidth, etHeight, etVariant, etPattern, etAlias, etOtherPile, etUnitprice, etTotalPrice, etDesc;
-    TextView tvTotalMeter;
-    Button btnSave, btnCancel, btnCalculate;
-    RadioGroup radioGroupPile;
-    RadioGroup radioGroupYonTek;
-    CheckBox checkBoxRight, checkBoxLeft, checkBoxTekKanat;
-    TableLayout tableLayoutTek;
+    @BindView(R.id.editTextWidth) EditText etWidth;
+    @BindView(R.id.editTextHeight) EditText etHeight;
+    @BindView(R.id.editTextVariant) EditText etVariant;
+    @BindView(R.id.editTextPattern) EditText etPattern;
+    @BindView(R.id.editTextAlias) EditText etAlias;
+    @BindView(R.id.editTextOtherPile) EditText etOtherPile;
+    @BindView(R.id.editTextFonUnitPrice) EditText etUnitprice;
+    @BindView(R.id.editTextFonTotalPrice) EditText etTotalPrice;
+    @BindView(R.id.editTextFonDesc) EditText etDesc;
+    @BindView(R.id.textViewFonM) TextView tvTotalMeter;
+    @BindView(R.id.btnSave) ImageButton btnSave;
+    @BindView(R.id.btnCancel) ImageButton btnCancel;
+    @BindView(R.id.btnCalculate) ImageButton btnCalculate;
+    @BindView(R.id.radiGroupPile) RadioGroup radioGroupPile;
+    @BindView(R.id.checkBoxRight) CheckBox checkBoxRight;
+    @BindView(R.id.checkBoxLeft) CheckBox checkBoxLeft;
+    @BindView(R.id.checkBoxTek) CheckBox checkBoxTekKanat;
+    @BindView(R.id.tableMeasureTek) TableLayout tableLayoutTek;
+    @BindView(R.id.spinnerFonPileType) Spinner spPileType;
+    @BindView(R.id.spinnerFonType) Spinner spFonType;
 
-    double totalPrice;
-    double unitPrice;
-    double totalM;
-    double pile;
-    String fonType;
-    int fonTypeId;
-    double netWidthTek;
-
-    String pileType;
-    int pileTypeId;
+    double totalPrice,netWidthTek,unitPrice,totalM,pile;
+    String fonType,pileType;
+    int fonTypeId,pileTypeId;
     int numberOfKanat = 0;
-
-    Spinner spPileType, spFonType;
-
     private void resetRadioButton() {
 
         radioGroupPile.clearCheck();
@@ -70,7 +78,7 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
     }
@@ -79,46 +87,20 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fon_curtain, null);
+        ButterKnife.bind(this,view);
+        initView();
 
-        etWidth = view.findViewById(R.id.editTextWidth);
-        etHeight = view.findViewById(R.id.editTextHeight);
-        etVariant = view.findViewById(R.id.editTextVariant);
-        etPattern = view.findViewById(R.id.editTextPattern);
-        etAlias = view.findViewById(R.id.editTextAlias);
-        etOtherPile = view.findViewById(R.id.editTextOtherPile);
-        etDesc = view.findViewById(R.id.editTextFonDesc);
+        return view;
+    }
 
-        etUnitprice = view.findViewById(R.id.editTextFonUnitPrice);
-        etTotalPrice = view.findViewById(R.id.editTextFonTotalPrice);
-        tvTotalMeter = view.findViewById(R.id.textViewFonM);
-        radioGroupPile = view.findViewById(R.id.radiGroupPile);
-
-        checkBoxLeft = view.findViewById(R.id.checkBoxLeft);
-        checkBoxRight = view.findViewById(R.id.checkBoxRight);
-        checkBoxTekKanat = view.findViewById(R.id.checkBoxTek);
-
-
+    private void initView() {
         checkBoxTekKanat.setOnCheckedChangeListener(this);
-
-        spFonType = view.findViewById(R.id.spinnerFonType);
-        spPileType = view.findViewById(R.id.spinnerFonPileType);
-
         fillSpinner(spFonType, R.array.fonType);
         fillSpinner(spPileType, R.array.fonPileType);
-
         spFonType.setOnItemSelectedListener(this);
         spPileType.setOnItemSelectedListener(this);
-
         radioGroupPile.setOnCheckedChangeListener(this);
         etOtherPile.setOnFocusChangeListener(this);
-
-
-        tableLayoutTek = view.findViewById(R.id.tableMeasureTek);
-
-        btnSave = view.findViewById(R.id.btnSave);
-        btnCancel = view.findViewById(R.id.btnCancel);
-        btnCalculate = view.findViewById(R.id.btnCalculate);
-
         btnSave.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
         btnCalculate.setOnClickListener(this);
@@ -128,7 +110,6 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
         }
 
         setCancelable(false);
-        return view;
     }
 
     public void fillSpinner(Spinner spinner, int arrayResource) {
@@ -180,6 +161,7 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     }
 
     @Override
+    @OnClick({R.id.btnCalculate,R.id.btnSave,R.id.btnCancel})
     public void onClick(View v) {
         if (v.getId() == R.id.btnSave) {
             dismiss();
@@ -211,6 +193,8 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
                     TableRow row = (TableRow) tableLayoutTek.getChildAt(0);
                     EditText editTextWidthTek = row.findViewById(R.id.editTextWidthTekKanat);
                     EditText editTextHeightTek = row.findViewById(R.id.editTextHeightTekKanat);
+                    RadioGroup radioGroupYonTek=row.findViewById(R.id.radioGroupYonTek);
+
                     if(!editTextWidthTek.getText().toString().equals("")){
                         netWidthTek = Double.parseDouble(editTextWidthTek.getText().toString());
                     }else{

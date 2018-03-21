@@ -11,6 +11,8 @@
         <item name="colorControlHighlight">@color/colorControlHighlight</item>
         <item name="colorControlActivated">@color/colorControlActivated</item>
         <item name="android:textColorHint">@color/hintColor</item>
+        <item name="android:editTextStyle">@style/App_EditTextStyle</item>
+
 
     </style>
 
@@ -28,10 +30,10 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
-    <style name="MyEditText" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">?android:textColorHint</item>
-        <item name="colorControlActivated">@color/colorControlActivated</item>
-        <item name="android:textColor">#ffffff</item>
+    <style name="App_EditTextStyle" parent="@android:style/Widget.EditText">
+        <!--<item name="colorControlNormal">?android:textColorHint</item>
+        <item name="colorControlActivated">@color/colorControlActivated</item>-->
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

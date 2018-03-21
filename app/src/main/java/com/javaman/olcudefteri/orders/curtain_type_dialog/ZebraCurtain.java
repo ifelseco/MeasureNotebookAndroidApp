@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
@@ -21,6 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by javaman on 18.12.2017.
@@ -34,20 +39,19 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
     double unitPrice = 0;
     double totalM2=0;
 
-    RadioGroup radioGroup;
-    RadioButton radioButtonTekKasa, radioButtonParcali, radioButtonCokluMekanizma;
-
-    TableLayout tableLayoutParcali;
-
-    EditText etParcaCount;
-    EditText etUnitPrice;
-    EditText etTotalPrice;
-    EditText etWidth, etHeight;
-
-    Button btnCancel, btnSave , btnCalculate;
-
-
-    TextView tvZebraM2;
+    @BindView(R.id.radioGroupType) RadioGroup radioGroup;
+    @BindView(R.id.radioButtonParcali) RadioButton radioButtonParcali;
+    @BindView(R.id.radioButtonCokluMekanizma) RadioButton radioButtonCokluMekanizma;
+    @BindView(R.id.tableMeasureParcali) TableLayout tableLayoutParcali;
+    @BindView(R.id.editTextParcaCount) EditText etParcaCount;
+    @BindView(R.id.editTextStorUnitPrice) EditText etUnitPrice;
+    @BindView(R.id.editTextStorTotalPrice) EditText etTotalPrice;
+    @BindView(R.id.editTextWidth) EditText etWidth;
+    @BindView(R.id.editTextHeight) EditText etHeight;
+    @BindView(R.id.btnCancel) ImageButton btnCancel;
+    @BindView(R.id.btnSave) ImageButton btnSave;
+    @BindView(R.id.btnCalculate) ImageButton btnCalculate;
+    @BindView(R.id.textViewStorM2) TextView tvZebraM2;
 
     private TextWatcher textWatcherParcaCount = new TextWatcher() {
         @Override
@@ -127,7 +131,7 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
     }
@@ -136,45 +140,22 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.zebra_curtain, null);
+        ButterKnife.bind(this,view);
+        initView();
+        return view;
+    }
 
-
-        radioGroup = view.findViewById(R.id.radioGroupType);
+    private void initView() {
         radioGroup.clearCheck();
         radioGroup.setOnCheckedChangeListener(this);
-
-
-        etParcaCount = view.findViewById(R.id.editTextParcaCount);
-        etUnitPrice = view.findViewById(R.id.editTextZebraUnitPrice);
-
-        etWidth = view.findViewById(R.id.editTextWidth);
-        etHeight = view.findViewById(R.id.editTextHeight);
-
-        etTotalPrice = view.findViewById(R.id.editTextZebraTotalPrice);
-        tvZebraM2=view.findViewById(R.id.textViewZebraM2);
-
-        tableLayoutParcali = view.findViewById(R.id.tableMeasureParcali);
-        btnSave = view.findViewById(R.id.btnSave);
-        btnCancel = view.findViewById(R.id.btnCancel);
-        btnCalculate = view.findViewById(R.id.btnCalculate);
-
-        btnSave.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
-        btnCalculate.setOnClickListener(this);
-
-
         etParcaCount.addTextChangedListener(textWatcherParcaCount);
-
-
         tableLayoutParcali.setVisibility(View.GONE);
         etParcaCount.setVisibility(View.GONE);
-
         setCancelable(false);
-
         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
 
-        return view;
     }
 
     @Override
@@ -199,6 +180,7 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
 
 
     @Override
+    @OnClick({R.id.btnCancel,R.id.btnSave,R.id.btnCalculate})
     public void onClick(View view) {
         if (view.getId() == R.id.btnSave) {
             dismiss();

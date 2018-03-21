@@ -38,7 +38,7 @@ public class VerticalCurtain extends DialogFragment implements View.OnClickListe
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
     }

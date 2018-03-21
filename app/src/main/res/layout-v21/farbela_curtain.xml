@@ -1,298 +1,362 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/measure_background"
-    android:gravity="center"
+    android:background="@color/lightgray"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView2"
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@color/colorAccent"
-        android:padding="5dp"
-        android:text="Farbela"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        app:cardCornerRadius="3dp">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/register_customer_area"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_editTextWidth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <EditText
-                        android:id="@+id/editTextWidth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:ems="10"
-                        android:hint="En"
-                        android:inputType="number" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_editTextHeight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <EditText
-                        android:id="@+id/editTextHeight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Boy"
-                        android:inputType="number" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_editTextFarbelaModel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                <EditText
-                    android:id="@+id/editTextFarbelaModel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:hint="Model adı"
-                    android:inputType="textPersonName" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:padding="5dp"
-                android:layout_marginRight="10dp"
                 android:orientation="vertical">
-
                 <TextView
-                    android:id="@+id/textViewPile"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Pile Sıklığı:" />
-            </LinearLayout>
+                    android:background="@color/lightgreen"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Farbela"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/lightgreen" />
 
-                <RadioGroup
-                    android:id="@+id/radiGroupPile"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="2"
+                    android:layout_margin="10dp"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radioButton2"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextWidth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2" />
+                        android:layout_weight="1">
 
-                    <RadioButton
-                        android:id="@+id/radioButton2_5"
+                        <EditText
+                            android:id="@+id/editTextWidth"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_border_bg"
+                            android:ems="10"
+                            android:hint="En"
+                            android:inputType="number" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextHeight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2.5" />
+                        android:layout_weight="1">
 
-                    <RadioButton
-                        android:id="@+id/radioButton3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3" />
+                        <EditText
+                            android:id="@+id/editTextHeight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:background="@drawable/edittext_border_bg"
+                            android:hint="Boy"
+                            android:inputType="number" />
 
-                </RadioGroup>
+                    </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_editTextOtherPile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1">
-
-                    <EditText
-                        android:id="@+id/editTextOtherPile"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Diğer"
-                        android:inputType="number" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_editTextPattern"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <EditText
-                        android:id="@+id/editTextPattern"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Desen"
-                        android:inputType="textPersonName" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_editTextVariant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <EditText
-                        android:id="@+id/editTextVariant"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Varyant"
-                        android:inputType="textPersonName" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_editTextAlias"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <EditText
-                        android:id="@+id/editTextAlias"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="İsim"
-                        android:inputType="textPersonName" />
-
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_editTextFarbelaDesc"
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgreen" />
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
 
-
-                    <EditText
-                        android:id="@+id/editTextFarbelaDesc"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextFarbelaModel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Açıklama"
-                        android:minLines="2"
-                        android:maxLines="5"
-                        android:scrollbars="vertical"
-                        android:inputType="textMultiLine"
-                        />
+                        android:layout_weight="1">
 
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="10dp"
-                android:padding="5dp">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_editTextFarbelaTotalPrice"
+                        <EditText
+                            android:id="@+id/editTextFarbelaModel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:background="@drawable/edittext_border_bg"
+                            android:hint="Model adı"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgreen" />
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_marginLeft="10dp"
+                    android:padding="5dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/textViewPile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_weight="1"
+                        android:text="Pile Sıklığı:" />
+                </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/editTextFarbelaTotalPrice"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioGroup
+                        android:id="@+id/radiGroupPile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:background="@drawable/edittext_border_bg"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radioButton2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton2_5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2.5" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3" />
+
+                    </RadioGroup>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextOtherPile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/editTextOtherPile"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Diğer"
+                            android:background="@drawable/edittext_border_bg"
+                            android:inputType="numberDecimal" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgreen" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextPattern"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/editTextPattern"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:background="@drawable/edittext_border_bg"
+                            android:hint="Desen"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextVariant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/editTextVariant"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:background="@drawable/edittext_border_bg"
+                            android:hint="Varyant"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextAlias"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/editTextAlias"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:background="@drawable/edittext_border_bg"
+                            android:hint="İsim"
+                            android:inputType="textPersonName" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgreen" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextFarbelaDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Toplam Fiyat"
-                        android:inputType="numberDecimal"
-                        />
+                        android:layout_weight="1">
 
-                </android.support.design.widget.TextInputLayout>
+
+                        <EditText
+                            android:id="@+id/editTextFarbelaDesc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Açıklama"
+                            android:background="@drawable/edittext_border_bg"
+                            android:minLines="2"
+                            android:maxLines="5"
+                            android:scrollbars="vertical"
+                            android:inputType="textMultiLine"
+                            />
+
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgreen" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp"
+                    android:padding="5dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextFarbelaTotalPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+
+                        <EditText
+                            android:id="@+id/editTextFarbelaTotalPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_border_bg"
+                            android:hint="Toplam Fiyat"
+                            android:inputType="numberDecimal"
+                            />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgreen" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btnCancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rectangle_background_pink"
+                        android:padding="3dp"
+                        android:src="@drawable/ic_dialog_close_dark"
+                        android:textColor="#ffffff" />
+
+                    <ImageButton
+                        android:id="@+id/btnSave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rectangle_background_light_green"
+
+                        android:padding="3dp"
+                        android:text="Kaydet"
+                        android:textColor="#ffffff"
+                        android:tint="#ffffff"
+                        app:srcCompat="@drawable/ic_check_black_24dp" />
+
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/lightgreen" />
+
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btnCancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Vazgeç"
-                    android:textColor="#ffffff" />
-
-                <Button
-                    android:id="@+id/btnSave"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Kaydet"
-                    android:textColor="#ffffff" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

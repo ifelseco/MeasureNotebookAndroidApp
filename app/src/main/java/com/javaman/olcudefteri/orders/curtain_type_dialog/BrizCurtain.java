@@ -11,11 +11,16 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by javaman on 18.12.2017.
@@ -26,17 +31,20 @@ import com.javaman.olcudefteri.R;
 public class BrizCurtain extends DialogFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, View.OnFocusChangeListener {
 
 
-    Button btnCancel,btnSave,btnCalculate;
-    EditText etOtherPile,etBrizWidth,etBrizHeight,etFarbelaWidth,etFarbelaHeight,etUnitprice,etTotalPrice;
-    RadioGroup radioGroupPile;
+    @BindView(R.id.btnCancel) ImageButton btnCancel;
+    @BindView(R.id.btnSave) ImageButton btnSave;
+    @BindView(R.id.btnCalculate) ImageButton btnCalculate;
+    @BindView(R.id.editTextOtherPile) EditText etOtherPile;
+    @BindView(R.id.editTextBrizWidth) EditText etBrizWidth;
+    @BindView(R.id.editTextBrizHeight) EditText etBrizHeight;
+    @BindView(R.id.editTextFarbelaWidth) EditText etFarbelaWidth;
+    @BindView(R.id.editTextFarbelaHeight) EditText etFarbelaHeight;
+    @BindView(R.id.editTextBrizUnitPrice) EditText etUnitprice;
+    @BindView(R.id.editTextBrizTotalPrice) EditText etTotalPrice;
+    @BindView(R.id.radiGroupPile) RadioGroup radioGroupPile;
+    @BindView(R.id.textViewBrizM) TextView tvTotalM;
 
-    TextView tvTotalM;
-
-    double totalPrice ;
-    double unitPrice ;
-    double totalM;
-    double pile;
-
+    double pile,totalM,unitPrice,totalPrice ;
 
     private void resetRadioButton() {
 
@@ -51,7 +59,7 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
     }
@@ -60,36 +68,23 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.briz_curtain_layout,null);
-        btnSave=view.findViewById(R.id.btnSave);
-        btnCancel=view.findViewById(R.id.btnCancel);
-        btnCalculate=view.findViewById(R.id.btnCalculate);
+        ButterKnife.bind(this,view);
+        initView();
+        return view;
+    }
 
-        etOtherPile=view.findViewById(R.id.editTextOtherPile);
-        etTotalPrice=view.findViewById(R.id.editTextBrizTotalPrice);
-        etBrizWidth=view.findViewById(R.id.editTextBrizWidth);
-        etBrizHeight=view.findViewById(R.id.editTextBrizHeight);
-        etUnitprice=view.findViewById(R.id.editTextBrizUnitPrice);
-
-        tvTotalM=view.findViewById(R.id.textViewBrizM);
-
-        radioGroupPile=view.findViewById(R.id.radiGroupPile);
+    private void initView() {
         radioGroupPile.setOnCheckedChangeListener(this);
-
         etOtherPile.setOnFocusChangeListener(this);
-
-        btnSave.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
-        btnCalculate.setOnClickListener(this);
         setCancelable(false);
 
         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
-
-        return view;
     }
 
     @Override
+    @OnClick({R.id.btnSave,R.id.btnCalculate,R.id.btnCancel})
     public void onClick(View view) {
         if (view.getId()==R.id.btnSave){
             dismiss();

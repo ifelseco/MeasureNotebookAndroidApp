@@ -1,8 +1,10 @@
 package com.javaman.olcudefteri.orders;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
 import android.text.Editable;
@@ -20,13 +22,29 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.BrizCurtain;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.CurtainDoubleNet;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.FarbelaCurtain;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.FonCurtain;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.JalouiseCurtain;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.NetCurtain;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.RollerCurtain;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.SunBlindCurtain;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.VerticalCurtain;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.ZebraCurtain;
 import com.javaman.olcudefteri.orders.model.LocationProduct;
 import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -46,9 +64,10 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
     private boolean spinnerTouched = false;
     private LocationProduct locationProduct=new LocationProduct();
     private String[] productNames;
+    private String[] productCodes;
     private String locationTypeCount="";
 
-    private TextWatcher textWatcher=new TextWatcher(){
+    private TextWatcher textWatcherTypeNumber=new TextWatcher(){
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -56,7 +75,7 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if(s.length()>0){
+            if(s.length()>=0){
                 locationTypeCount=etLocationTypeNumber.getText().toString();
                 if(checkBoxDoor.isChecked()){
                     locationProduct.setLocationType("Kapı " + locationTypeCount);
@@ -74,6 +93,28 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
 
         }
     };
+
+
+    private TextWatcher textWatcherOtherLocation=new TextWatcher(){
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if(s.length()>=0){
+                locationProduct.setLocationName(etLocationOther.getText().toString());
+                tvLocationName.setText(etLocationOther.getText().toString());
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
 
     @BindView(R.id.tv_custmer_namesurname)
     TextView tvCustomerName;
@@ -177,7 +218,8 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
         spinnerLocation.setAdapter(adapter);
 
         spinnerLocation.setOnItemSelectedListener(this);
-        etLocationTypeNumber.addTextChangedListener(textWatcher);
+        etLocationTypeNumber.addTextChangedListener(textWatcherTypeNumber);
+        etLocationOther.addTextChangedListener(textWatcherOtherLocation);
 
     }
 
@@ -197,13 +239,13 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
         tvOrderTime.setText("" + hours + ":" + minutes);
 
         productNames = getActivity().getResources().getStringArray(R.array.curtains);
+
+        productCodes=getActivity().getResources().getStringArray(R.array.curtainsCode);
     }
 
     @Override
     public void onClick(View view) {
-        /*AddOrderLineFragment addOrderLineFragment =new AddOrderLineFragment();
-        addOrderLineFragment.show(getFragmentManager(),"take measurement fragment");
-*/
+
         int id = view.getId();
 
         if (id == R.id.image_button_close) {
@@ -211,6 +253,7 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
             etLocationOther.setVisibility(View.GONE);
             imageButtonClose.setVisibility(View.GONE);
             spinnerLocation.setSelection(0);
+
 
         } else if (id == R.id.cb_door) {
             if(checkBoxDoor.isChecked()){
@@ -338,7 +381,7 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    private void updateLocationProduct(List<String> productValues) {
+    private void updateLocationProduct(final List<String> productValues) {
         linearLayoutLocation.removeAllViews();
         int productCount=productValues.size();
         int count=0;
@@ -348,7 +391,8 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
             tvCount.setText("");
         }
 
-        for (String productValue:productValues) {
+        for (final String productValue:productValues) {
+
             count++;
             View view = getLayoutInflater().inflate(R.layout.product_value_layout, linearLayoutLocation, false);
             ImageButton btnAdd = view.findViewById(R.id.image_button_product_add);
@@ -358,10 +402,62 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
             TextView tvProductCount = view.findViewById(R.id.tv_product_count);
             TextView tvCount2 = view.findViewById(R.id.tv_count);
             tvProductValue.setText(productValue);
+            int index= Arrays.asList(productNames).indexOf(productValue);
+            final String productCode=productCodes[index];
             tvCount2.setText("" + count);
+
+            btnEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    switch (productCode){
+                        case "TP":
+                            showCurtainDialog(new NetCurtain() , "Tül Perde");
+                            break;
+                        case "GP":
+                            Toast.makeText(getActivity(), ""+locationProduct.getLocationName()+locationProduct.getLocationType(), Toast.LENGTH_SHORT).show();
+                            showCurtainDialog(new SunBlindCurtain() , "Güneşlik Perde");
+                            break;
+                        case "SP":
+                            showCurtainDialog(new RollerCurtain() , "Stor Perde");
+                            break;
+                        case "ZP":
+                            showCurtainDialog(new ZebraCurtain() , "Zebra Perde");
+                            break;
+                        case "JP":
+                            showCurtainDialog(new JalouiseCurtain() , "Jaluzi Perde");
+                            break;
+                        case "DP":
+                            showCurtainDialog(new VerticalCurtain() , "Dikey Perde");
+                            break;
+                        case "KTP":
+                            showCurtainDialog(new CurtainDoubleNet() , "Kruvaze Tül Perde");
+                            break;
+                        case "BP":
+                            showCurtainDialog(new BrizCurtain() , "Briz Perde");
+                            break;
+                        case "FARBP":
+                            showCurtainDialog(new FarbelaCurtain() , "Farbela Perde");
+                            break;
+                        case "FP":
+                            showCurtainDialog(new FonCurtain() , "Fon Perde");
+                            break;
+                        case "TSP":
+                            //Tül Stor dialog
+                            showCurtainDialog(new FonCurtain() , "Tül Stor");
+                            break;
+                    }
+                }
+            });
+
+
             linearLayoutLocation.addView(view);
 
         }
+    }
+
+    public void showCurtainDialog(DialogFragment dialogFragment , String fragmentTag){
+        dialogFragment.show(getFragmentManager(),fragmentTag);
     }
 
 
@@ -374,7 +470,7 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
                 etLocationOther.setVisibility(View.VISIBLE);
                 imageButtonClose.setVisibility(View.VISIBLE);
                 if (!etLocationOther.getText().toString().isEmpty()) {
-                    String location = parent.getItemAtPosition(position).toString();
+                    String location = etLocationOther.getText().toString();
                     locationProduct.setLocationName(location);
                     tvLocationName.setText(location);
                 }
@@ -402,5 +498,21 @@ public class AddOrderFragment extends Fragment implements View.OnClickListener, 
         return false;
     }
 
+    @Subscribe
+    public void onOrderLineEvent(OrderLineEvent orderLineEvent){
+        Toast.makeText(getActivity(), ""+orderLineEvent.getOrderLineDetailModel().toString(), Toast.LENGTH_SHORT).show();
+    }
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
 }

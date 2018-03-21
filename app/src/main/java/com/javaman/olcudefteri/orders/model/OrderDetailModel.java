@@ -15,7 +15,7 @@ import lombok.Data;
  */
 
 @Data
-class OrderDetailModel implements Parcelable {
+public class OrderDetailModel implements Parcelable {
 
     @SerializedName("id")
     @Expose

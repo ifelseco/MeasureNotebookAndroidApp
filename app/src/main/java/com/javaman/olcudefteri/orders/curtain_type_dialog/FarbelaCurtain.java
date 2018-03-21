@@ -11,9 +11,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 
 import com.javaman.olcudefteri.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by javaman on 18.12.2017.
@@ -22,9 +27,10 @@ import com.javaman.olcudefteri.R;
 
 public class FarbelaCurtain extends DialogFragment implements View.OnClickListener, View.OnFocusChangeListener, RadioGroup.OnCheckedChangeListener {
 
-    Button btnCancel,btnSave;
-    EditText etOtherPile;
-    RadioGroup radioGroupPile;
+    @BindView(R.id.btnCancel) ImageButton btnCancel;
+    @BindView(R.id.btnSave) ImageButton btnSave;
+    @BindView(R.id.editTextOtherPile) EditText etOtherPile;
+    @BindView(R.id.radiGroupPile) RadioGroup radioGroupPile;
 
 
     private void resetRadioButton() {
@@ -40,7 +46,7 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
     }
@@ -49,27 +55,23 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.farbela_curtain,null);
-        btnSave=view.findViewById(R.id.btnSave);
-        btnCancel=view.findViewById(R.id.btnCancel);
-
-        etOtherPile=view.findViewById(R.id.editTextOtherPile);
-        radioGroupPile=view.findViewById(R.id.radiGroupPile);
-        radioGroupPile.setOnCheckedChangeListener(this);
-
-        etOtherPile.setOnFocusChangeListener(this);
-
-        btnSave.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
-        setCancelable(false);
-
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-            getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        }
+        ButterKnife.bind(this,view);
+        initView();
 
         return view;
     }
 
+    private void initView() {
+        radioGroupPile.setOnCheckedChangeListener(this);
+        etOtherPile.setOnFocusChangeListener(this);
+        setCancelable(false);
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
+    }
+
     @Override
+    @OnClick({R.id.btnSave,R.id.btnCancel})
     public void onClick(View view) {
         if (view.getId()==R.id.btnSave){
             dismiss();

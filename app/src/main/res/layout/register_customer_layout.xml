@@ -52,8 +52,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="Ad Soyad"
-                            android:inputType="textPersonName"
-                            android:theme="@style/MyEditText">
+                            android:inputType="textPersonName">
 
                             <requestFocus />
 
@@ -85,7 +84,7 @@
                             android:ems="10"
                             android:hint="Cep numarası"
                             android:inputType="phone"
-                            android:theme="@style/MyEditText" />
+                             />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -102,7 +101,7 @@
                             android:ems="10"
                             android:hint="Sabit telefon"
                             android:inputType="phone"
-                            android:theme="@style/MyEditText" />
+                             />
 
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -132,7 +131,7 @@
                             android:maxLines="5"
                             android:minLines="1"
                             android:scrollbars="vertical"
-                            android:theme="@style/MyEditText" />
+                        />
 
                     </android.support.design.widget.TextInputLayout>
 

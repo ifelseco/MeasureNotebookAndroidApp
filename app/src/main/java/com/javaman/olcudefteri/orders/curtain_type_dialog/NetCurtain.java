@@ -11,11 +11,22 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.OrderLineEvent;
+import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+
+import org.greenrobot.eventbus.EventBus;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
+import butterknife.OnFocusChange;
 
 /**
  * Created by javaman on 18.12.2017.
@@ -23,16 +34,23 @@ import com.javaman.olcudefteri.R;
  */
 public class NetCurtain extends DialogFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, View.OnFocusChangeListener {
 
-    EditText etWidth, etHeight, etVariant, etPattern, etAlias, etOtherPile, etUnitprice,etTotalPrice,etDesc;
-    TextView tvTotalMeter;
-    Button btnSave, btnCancel,btnCalculate;
-    RadioGroup radioGroupPile;
 
+    @BindView(R.id.editTextWidth) EditText etWidth;
+    @BindView(R.id.editTextHeight) EditText etHeight;
+    @BindView(R.id.editTextVariant) EditText etVariant;
+    @BindView(R.id.editTextPattern) EditText etPattern;
+    @BindView(R.id.editTextAlias) EditText etAlias;
+    @BindView(R.id.editTextOtherPile) EditText etOtherPile;
+    @BindView(R.id.editTextNetUnitPrice) EditText etUnitprice;
+    @BindView(R.id.editTextNetTotalPrice) EditText etTotalPrice;
+    @BindView(R.id.editTextNetDesc) EditText etDesc;
+    @BindView(R.id.textViewNetM) TextView tvTotalMeter;
+    @BindView(R.id.btnSave) ImageButton btnSave;
+    @BindView(R.id.btnCancel) ImageButton btnCancel;
+    @BindView(R.id.btnCalculate) ImageButton btnCalculate;
+    @BindView(R.id.radiGroupPile) RadioGroup radioGroupPile;
 
-    double totalPrice ;
-    double unitPrice ;
-    double totalM;
-    double pile;
+    double totalPrice ,unitPrice ,totalM ,pile;
 
     private void resetRadioButton() {
 
@@ -47,7 +65,7 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
     }
@@ -56,35 +74,9 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.net_curtain_layout, null);
-
-        etWidth = view.findViewById(R.id.editTextWidth);
-        etHeight = view.findViewById(R.id.editTextHeight);
-        etVariant = view.findViewById(R.id.editTextVariant);
-        etPattern = view.findViewById(R.id.editTextPattern);
-        etAlias = view.findViewById(R.id.editTextAlias);
-        etOtherPile = view.findViewById(R.id.editTextOtherPile);
-        etUnitprice = view.findViewById(R.id.editTextNetUnitPrice);
-        etTotalPrice=view.findViewById(R.id.editTextNetTotalPrice);
-        tvTotalMeter = view.findViewById(R.id.textViewNetM);
-        radioGroupPile = view.findViewById(R.id.radiGroupPile);
-
-
-
+        ButterKnife.bind(this,view);
         radioGroupPile.setOnCheckedChangeListener(this);
-        etOtherPile.setOnFocusChangeListener(this);
-
-
-        btnSave = view.findViewById(R.id.btnSave);
-        btnCancel = view.findViewById(R.id.btnCancel);
-        btnCalculate=view.findViewById(R.id.btnCalculate);
-
-        btnSave.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
-        btnCalculate.setOnClickListener(this);
-
-
         setCancelable(false);
-
         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
@@ -93,9 +85,11 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     }
 
     @Override
+    @OnClick({R.id.btnSave , R.id.btnCancel , R.id.btnCalculate})
     public void onClick(View view) {
 
         if(view.getId() == R.id.btnSave) {
+            sendOrderLine();
             dismiss();
         }else if(view.getId() == R.id.btnCancel){
             dismiss();
@@ -134,6 +128,16 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
 
     }
 
+    private void sendOrderLine() {
+        OrderLineEvent orderLineEvent=new OrderLineEvent();
+        OrderLineDetailModel orderLineDetailModel=new OrderLineDetailModel();
+        orderLineDetailModel.setId((long) 1);
+        orderLineDetailModel.setLineAmount(100);
+        orderLineEvent.setOrderLineDetailModel(orderLineDetailModel);
+
+        EventBus.getDefault().post(orderLineEvent);
+    }
+
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -156,6 +160,7 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     }
 
     @Override
+    @OnFocusChange(R.id.editTextOtherPile)
     public void onFocusChange(View v, boolean hasFocus) {
         if(v.getId()==R.id.editTextOtherPile){
             if (hasFocus) {

@@ -11,10 +11,15 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by javaman on 18.12.2017.
@@ -24,9 +29,13 @@ import com.javaman.olcudefteri.R;
 public class SunBlindCurtain extends DialogFragment implements View.OnClickListener{
 
 
-    Button btnCancel,btnSave,btnCalculate;
-    EditText etWidth,etHeight,etUnitPrice,etTotalPrice;
-    TextView tvTotalM;
+    @BindView(R.id.btnCancel) ImageButton btnCancel;
+    @BindView(R.id.btnSave) ImageButton btnSave;
+    @BindView(R.id.btnCalculate) ImageButton btnCalculate;
+    @BindView(R.id.editTextWidth) EditText etWidth;
+    @BindView(R.id.editTextHeight) EditText etHeight;
+    @BindView(R.id.editTextSunBlindUnitPrice) EditText etUnitPrice;
+    @BindView(R.id.editTextSunBlindTotalPrice) EditText etTotalPrice;
     private double unitPrice;
 
 
@@ -37,32 +46,17 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
         Dialog dialog = getDialog();
         if (dialog != null) {
             int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
     }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.sun_blid_curtain,null);
-
-        etWidth=view.findViewById(R.id.editTextWidth);
-        etHeight=view.findViewById(R.id.editTextHeight);
-        etUnitPrice=view.findViewById(R.id.editTextSunBlindUnitPrice);
-        etTotalPrice=view.findViewById(R.id.editTextSunBlindTotalPrice);
-
-        btnSave=view.findViewById(R.id.btnSave);
-        btnCancel=view.findViewById(R.id.btnCancel);
-        btnCalculate=view.findViewById(R.id.btnCalculate);
-
-        btnCalculate.setOnClickListener(this);
-        btnSave.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
-
+        ButterKnife.bind(this,view);
         setCancelable(false);
-
         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
@@ -71,6 +65,7 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
     }
 
     @Override
+    @OnClick({R.id.btnSave , R.id.btnCancel , R.id.btnCalculate})
     public void onClick(View view) {
         if (view.getId()==R.id.btnSave){
             dismiss();

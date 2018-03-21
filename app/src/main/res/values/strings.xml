@@ -27,16 +27,6 @@
     </string-array>
 
 
-    <string-array name="windows">
-        <item>1.Pencere</item>
-        <item>2.Pencere</item>
-        <item>3.Pencere</item>
-        <item>4.Pencere</item>
-        <item>5.Pencere</item>
-        <item>1.Kapı</item>
-        <item>2.Kapı</item>
-    </string-array>
-
     <string-array name="curtains">
         <item>Tül Perde</item>
         <item>Güneşlik</item>
@@ -63,6 +53,7 @@
         <item>BP</item>
         <item>FARBP</item>
         <item>FP</item>
+        <item>TSP</item>
     </string-array>
 
     <string-array name="fonType">
