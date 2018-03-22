@@ -12,6 +12,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +38,9 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
     @BindView(R.id.editTextHeight) EditText etHeight;
     @BindView(R.id.editTextSunBlindUnitPrice) EditText etUnitPrice;
     @BindView(R.id.editTextSunBlindTotalPrice) EditText etTotalPrice;
+    @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
+    @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
+    @BindView(R.id.radi_group_color) RadioGroup radioGroupColor;
     private double unitPrice;
 
 

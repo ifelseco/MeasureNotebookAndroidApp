@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,8 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     @BindView(R.id.btnCancel) ImageButton btnCancel;
     @BindView(R.id.btnCalculate) ImageButton btnCalculate;
     @BindView(R.id.radiGroupPile) RadioGroup radioGroupPile;
-
+    @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
+    @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
     double totalPrice ,unitPrice ,totalM ,pile;
 
     private void resetRadioButton() {

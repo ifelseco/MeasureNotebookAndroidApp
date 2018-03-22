@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +32,7 @@ import butterknife.OnClick;
 public class BrizCurtain extends DialogFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, View.OnFocusChangeListener {
 
 
-    @BindView(R.id.btnCancel) ImageButton btnCancel;
-    @BindView(R.id.btnSave) ImageButton btnSave;
-    @BindView(R.id.btnCalculate) ImageButton btnCalculate;
+
     @BindView(R.id.editTextOtherPile) EditText etOtherPile;
     @BindView(R.id.editTextBrizWidth) EditText etBrizWidth;
     @BindView(R.id.editTextBrizHeight) EditText etBrizHeight;
@@ -43,7 +42,15 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
     @BindView(R.id.editTextBrizTotalPrice) EditText etTotalPrice;
     @BindView(R.id.radiGroupPile) RadioGroup radioGroupPile;
     @BindView(R.id.textViewBrizM) TextView tvTotalM;
-
+    @BindView(R.id.editTextPattern) EditText etPattern;
+    @BindView(R.id.editTextVariant) EditText etVariant;
+    @BindView(R.id.editTextAlias) EditText etAlias;
+    @BindView(R.id.editTextBrizDesc) EditText etDesc;
+    @BindView(R.id.progress_bar_calc) ProgressBar progressCalc;
+    @BindView(R.id.progress_bar_save) ProgressBar progressSave;
+    @BindView(R.id.btnCancel) ImageButton btnCancel;
+    @BindView(R.id.btnSave) ImageButton btnSave;
+    @BindView(R.id.btnCalculate) ImageButton btnCalculate;
     double pile,totalM,unitPrice,totalPrice ;
 
     private void resetRadioButton() {

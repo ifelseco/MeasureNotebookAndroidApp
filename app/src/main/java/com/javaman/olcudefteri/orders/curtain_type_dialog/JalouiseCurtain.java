@@ -12,6 +12,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +37,15 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
     @BindView(R.id.editTextHeight) EditText etHeight;
     @BindView(R.id.editTextJalousieUnitPrice) EditText etUnitPrice;
     @BindView(R.id.editTextJalousieTotalPrice) EditText etTotalPrice;
+    @BindView(R.id.editTextVariant) EditText etVariant;
+    @BindView(R.id.editTextPattern) EditText etPattern;
+    @BindView(R.id.editTextAlias) EditText etAlias;
+    @BindView(R.id.editTextDesc) EditText etDesc;
     @BindView(R.id.textViewJalousieM2) TextView tvTotalM2;
+    @BindView(R.id.radio_group_direction) RadioGroup radioGroupDirection;
+    @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
+    @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
+
     double totalPrice,unitPrice,totalM2;
 
     @Override

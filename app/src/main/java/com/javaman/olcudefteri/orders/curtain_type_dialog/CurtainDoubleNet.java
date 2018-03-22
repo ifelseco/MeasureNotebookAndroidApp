@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,6 +80,16 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
 
     @BindView(R.id.radiGroupPile)
     RadioGroup radioGroupPile;
+
+    @BindView(R.id.progress_bar_calc)
+    ProgressBar progressBarCalc;
+
+    @BindView(R.id.progress_bar_save)
+    ProgressBar progressBarSave;
+
+
+
+
 
     double totalPrice, unitPrice, totalM, pile;
 

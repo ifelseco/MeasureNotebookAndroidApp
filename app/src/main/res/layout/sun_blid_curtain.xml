@@ -57,7 +57,7 @@
                             android:id="@+id/editTextWidth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@null"
+                            android:background="@drawable/edittext_border_bg"
                             android:ems="10"
                             android:hint="En"
                             android:inputType="number" />
@@ -74,7 +74,7 @@
                             android:id="@+id/editTextHeight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@null"
+                            android:background="@drawable/edittext_border_bg"
                             android:ems="10"
                             android:hint="Boy"
                             android:inputType="number" />
@@ -92,21 +92,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:padding="5dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:gravity="center"
                         android:text="Renk" />
 
                     <RadioGroup
+                        android:id="@+id/radi_group_color"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-
+                        android:background="@drawable/edittext_border_bg"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -146,7 +145,7 @@
                             android:id="@+id/editTextSunBlinfDesc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@null"
+                            android:background="@drawable/edittext_border_bg"
                             android:hint="Açıklama"
                             android:inputType="textMultiLine"
                             android:maxLines="5"
@@ -188,7 +187,7 @@
                                 android:id="@+id/editTextSunBlindUnitPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@null"
+                                android:background="@drawable/edittext_border_bg"
                                 android:ems="10"
                                 android:hint="Birim Fiyat"
                                 android:inputType="number" />
@@ -238,7 +237,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:background="@null"
+                        android:background="@drawable/edittext_border_bg"
                         android:ems="10"
                         android:hint="Toplam Fiyat"
                         android:inputType="numberDecimal" />

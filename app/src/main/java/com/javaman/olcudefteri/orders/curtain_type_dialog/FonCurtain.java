@@ -54,12 +54,9 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     @BindView(R.id.btnCancel) ImageButton btnCancel;
     @BindView(R.id.btnCalculate) ImageButton btnCalculate;
     @BindView(R.id.radiGroupPile) RadioGroup radioGroupPile;
-    @BindView(R.id.checkBoxRight) CheckBox checkBoxRight;
-    @BindView(R.id.checkBoxLeft) CheckBox checkBoxLeft;
-    @BindView(R.id.checkBoxTek) CheckBox checkBoxTekKanat;
-    @BindView(R.id.tableMeasureTek) TableLayout tableLayoutTek;
-    @BindView(R.id.spinnerFonPileType) Spinner spPileType;
-    @BindView(R.id.spinnerFonType) Spinner spFonType;
+    @BindView(R.id.radiGroupPileType) RadioGroup radioGroupPileType;
+    @BindView(R.id.radio_group_fon_direction) RadioGroup radioGroupDirection;
+    @BindView(R.id.radiGroupFonType) RadioGroup radioGroupFonType;
 
     double totalPrice,netWidthTek,unitPrice,totalM,pile;
     String fonType,pileType;
@@ -94,11 +91,7 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     }
 
     private void initView() {
-        checkBoxTekKanat.setOnCheckedChangeListener(this);
-        fillSpinner(spFonType, R.array.fonType);
-        fillSpinner(spPileType, R.array.fonPileType);
-        spFonType.setOnItemSelectedListener(this);
-        spPileType.setOnItemSelectedListener(this);
+
         radioGroupPile.setOnCheckedChangeListener(this);
         etOtherPile.setOnFocusChangeListener(this);
         btnSave.setOnClickListener(this);
@@ -169,122 +162,18 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
             dismiss();
         } else {
 
-
-            if (!etWidth.getText().toString().equals("") &&
-                    !etUnitprice.getText().toString().equals("") &&
-                    (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().equals(""))) {
-
-                unitPrice = Double.parseDouble(etUnitprice.getText().toString());
-
-                if (radioGroupPile.getCheckedRadioButtonId() != -1) {
-                    int checkedId = radioGroupPile.getCheckedRadioButtonId();
-                    if (checkedId == R.id.radioButton2) {
-                        pile = 2;
-                    } else if (checkedId == R.id.radioButton2_5) {
-                        pile = 2.5;
-                    } else {
-                        pile = 3;
-                    }
-                } else {
-                    pile = Double.parseDouble(etOtherPile.getText().toString());
-                }
-
-                if(checkBoxTekKanat.isChecked()){
-                    TableRow row = (TableRow) tableLayoutTek.getChildAt(0);
-                    EditText editTextWidthTek = row.findViewById(R.id.editTextWidthTekKanat);
-                    EditText editTextHeightTek = row.findViewById(R.id.editTextHeightTekKanat);
-                    RadioGroup radioGroupYonTek=row.findViewById(R.id.radioGroupYonTek);
-
-                    if(!editTextWidthTek.getText().toString().equals("")){
-                        netWidthTek = Double.parseDouble(editTextWidthTek.getText().toString());
-                    }else{
-                        Toast.makeText(getActivity(), "Tek kanat en giriniz", Toast.LENGTH_SHORT).show();
-                    }
-                   
-                }else{
-                    netWidthTek =0;
-                }
-
-
-
-                double netWidth = Double.parseDouble(etWidth.getText().toString());
-
-                if (fonTypeId != -1) {
-                    switch (fonTypeId) {
-                        case 0:
-
-                            if(checkBoxRight.isChecked() && checkBoxLeft.isChecked()){
-                                totalPrice = 2*calculateKruvazeFon(netWidth, pile, unitPrice) + calculateKruvazeFon(netWidthTek,pile,unitPrice);
-                                totalM = 2*(netWidth / 100) * pile + (netWidthTek/100)*pile;
-                            }else if(checkBoxRight.isChecked() && !checkBoxLeft.isChecked()){
-                                totalPrice = calculateKruvazeFon(netWidth, pile, unitPrice) + calculateKruvazeFon(netWidthTek,pile,unitPrice);
-                                totalM = (netWidth / 100) * pile + (netWidthTek/100)*pile;
-                            }else if(!checkBoxRight.isChecked() && checkBoxLeft.isChecked()){
-                                totalPrice = calculateKruvazeFon(netWidth, pile, unitPrice) + calculateKruvazeFon(netWidthTek,pile,unitPrice);
-                                totalM = (netWidth / 100) * pile + (netWidthTek/100)*pile;
-                            }else{
-                                Toast.makeText(getActivity(), "Kanat Yönü Seçiniz", Toast.LENGTH_SHORT).show();
-                            }
-                            break;
-                        case 1:
-                            if(checkBoxRight.isChecked() && checkBoxLeft.isChecked()){
-                                totalPrice = 2*calculateFonKanat(netWidth, pile, unitPrice) + calculateFonKanat(netWidthTek,pile,unitPrice);
-                                totalM = 2*(netWidth / 100) * pile+0.5 + (netWidthTek/100)*pile+0.25;
-                            }else if(checkBoxRight.isChecked() && !checkBoxLeft.isChecked()){
-                                totalPrice = calculateFonKanat(netWidth, pile, unitPrice) + calculateFonKanat(netWidthTek,pile,unitPrice);
-                                totalM = (netWidth / 100 ) * pile+0.25 + (netWidthTek/100)*pile+0.25;
-                            }else if(!checkBoxRight.isChecked() && checkBoxLeft.isChecked()){
-                                totalPrice = calculateFonKanat(netWidth, pile, unitPrice) + calculateFonKanat(netWidthTek,pile,unitPrice);
-                                totalM = (netWidth / 100) * pile+0.25 + (netWidthTek/100)*pile+0.25;
-                            }else{
-                                Toast.makeText(getActivity(), "Kanat Yönü Seçiniz", Toast.LENGTH_SHORT).show();
-                            }
-                            break;
-                        case 2:
-                            totalPrice = 2*calculateJapanPanel(netWidth, unitPrice)+calculateJapanPanel(netWidthTek,unitPrice);
-                            totalM = (netWidth / 100) * 2.5 + (netWidthTek/100)*2.5;
-                            break;
-
-                    }
-                }
-
-                tvTotalMeter.setText(String.format("%.2f", totalM));
-                etTotalPrice.setText(String.format("%.2f", totalPrice));
-
-            } else {
-                Toast.makeText(getActivity(), "Gerekli alanları doldurunuz.", Toast.LENGTH_SHORT).show();
-            }
-
         }
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()) {
-            case R.id.spinnerFonType:
-                fonType = parent.getItemAtPosition(position).toString();
-                fonTypeId = position;
-                break;
-            case R.id.spinnerFonPileType:
-                pileType = parent.getItemAtPosition(position).toString();
-                pileTypeId = position;
-                break;
-        }
+
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-        switch (parent.getId()) {
-            case R.id.spinnerFonType:
-                fonType = parent.getItemAtPosition(0).toString();
-                fonTypeId = 0;
-                break;
-            case R.id.spinnerFonPileType:
-                pileType = parent.getItemAtPosition(0).toString();
-                pileTypeId = 0;
-                break;
-        }
+
     }
 
     public double calculateKruvazeFon(double width, double pile, double unitPrice) {
@@ -306,13 +195,6 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         int id=buttonView.getId();
 
-        if(id==R.id.checkBoxTek){
-            if(isChecked){
-                View row = (TableRow) getLayoutInflater().inflate(R.layout.tek_kanat_row, null, false);
-                tableLayoutTek.addView(row);
-            }else{
-                tableLayoutTek.removeAllViews();
-            }
-        }
+
     }
 }

@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
@@ -52,6 +53,8 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
     @BindView(R.id.btnSave) ImageButton btnSave;
     @BindView(R.id.btnCalculate) ImageButton btnCalculate;
     @BindView(R.id.textViewStorM2) TextView tvZebraM2;
+    @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
+    @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
 
     private TextWatcher textWatcherParcaCount = new TextWatcher() {
         @Override

@@ -47,7 +47,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -93,109 +93,182 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="5dp"
+                    android:gravity="left"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textSize="15sp"
-                        android:text="Yön "/>
+                        android:gravity="left"
+                        android:orientation="vertical">
 
-                    <CheckBox
-                        android:id="@+id/checkBoxLeft"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Fon Türü"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textSize="15sp" />
+
+                        <RadioGroup
+                            android:id="@+id/radiGroupFonType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_border_bg"
+                            android:layout_weight="2"
+                            android:layout_margin="5dp"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/radioButtonKruvazeKanat"
+                                android:layout_width="wrap_content"
+                                android:textSize="10sp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="Kruvaze" />
+
+                            <RadioButton
+                                android:id="@+id/radioButtonFonKanat"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:text="Fon" />
+
+                            <RadioButton
+                                android:id="@+id/radioButtonJaponPanel"
+                                android:layout_width="wrap_content"
+                                android:textSize="10sp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:layout_height="wrap_content"
+                                android:text="Japon" />
+
+
+
+                        </RadioGroup>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textSize="15sp"
-                        android:hint="Sol"/>
+                        android:orientation="vertical">
 
-                    <CheckBox
-                        android:id="@+id/checkBoxRight"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textSize="15sp"
+                            android:text="Yön "/>
+
+                        <RadioGroup
+                            android:id="@+id/radio_group_fon_direction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edittext_border_bg"
+                            android:padding="5dp"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/radi_button_left"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Sol"/>
+
+                            <RadioButton
+                                android:id="@+id/radi_button_right"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Sağ"/>
+
+                            <RadioButton
+                                android:id="@+id/radi_button_left_right"
+                                android:layout_width="wrap_content"
+                                android:textSize="10sp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Sol+Sağ"/>
+
+
+
+
+                        </RadioGroup>
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textSize="15sp"
-                        android:hint="Sağ"/>
+                        android:gravity="left"
+                        android:orientation="vertical">
 
-                    <CheckBox
-                        android:id="@+id/checkBoxTek"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textSize="15sp"
-                        android:hint="Tek kanat"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Pile Türü"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textSize="15sp"
+                            android:layout_marginRight="10dp"/>
+
+                        <RadioGroup
+                            android:id="@+id/radiGroupPileType"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_border_bg"
+                            android:layout_margin="5dp"
+                            android:layout_weight="2"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/radioButtonAmerican"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textSize="10sp"
+                                android:text="Amerikan" />
+
+                            <RadioButton
+                                android:id="@+id/radioButtonKanun"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textSize="10sp"
+
+                                android:text="Kanun" />
+
+                            <RadioButton
+                                android:id="@+id/radioButtonYan"
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:text="Yan" />
+
+                            <RadioButton
+                                android:id="@+id/radioButtonOtherPile"
+                                android:layout_width="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:text="Diğer" />
+
+                        </RadioGroup>
 
 
+                    </LinearLayout>
 
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
-
-                <TableLayout
-                    android:id="@+id/tableMeasureTek"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical">
-
-                </TableLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Çeşit"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textSize="15sp"
-                        android:layout_marginRight="10dp"/>
-
-                    <Spinner
-                        android:id="@+id/spinnerFonType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
-
-                    </Spinner>
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pile Türü"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textSize="15sp"
-                        android:layout_marginRight="10dp"/>
-
-                    <Spinner
-                        android:id="@+id/spinnerFonPileType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    </Spinner>
                 </LinearLayout>
                 <View
                     android:layout_width="match_parent"
@@ -218,24 +291,20 @@
                         android:textSize="15sp"
                         android:text="Pile Sıklığı:" />
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="center_horizontal"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <RadioGroup
                         android:id="@+id/radiGroupPile"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:background="@drawable/edittext_border_bg"
                         android:layout_weight="2"
+                        android:layout_margin="5dp"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -267,7 +336,8 @@
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/input_layout_editTextOtherPile"
                         android:layout_width="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+
                         android:layout_weight="1"
                         android:layout_height="wrap_content">
 

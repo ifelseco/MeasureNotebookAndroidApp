@@ -93,10 +93,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:text="Yön"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"/>
 
 
                     <RadioGroup
+                        android:id="@+id/radio_group_direction"
+                        android:background="@drawable/edittext_border_bg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
@@ -195,7 +205,7 @@
 
 
                         <EditText
-                            android:id="@+id/editTextFarbelaDesc"
+                            android:id="@+id/editTextDesc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Açıklama"
