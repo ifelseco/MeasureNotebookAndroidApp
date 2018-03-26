@@ -5,6 +5,7 @@ import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 import com.javaman.olcudefteri.orders.view.AddOrderView;
 import com.javaman.olcudefteri.orders.intractor.AddOrderIntractor;
 import com.javaman.olcudefteri.orders.intractor.AddOrderIntractorImpl;
+import com.javaman.olcudefteri.orders.view.CalculateView;
 
 /**
  * Created by javaman on 15.02.2018.
@@ -13,6 +14,7 @@ import com.javaman.olcudefteri.orders.intractor.AddOrderIntractorImpl;
 public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntractor.onSendCustomerListener {
 
     AddOrderView mAddOrderView;
+    CalculateView mCalculateView;
     AddOrderIntractor mAddOrderIntractor;
 
     public AddOrderPresenterImpl(AddOrderView addOrderView){
@@ -20,6 +22,8 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
         mAddOrderIntractor=new AddOrderIntractorImpl();
 
     }
+
+
 
 
     @Override

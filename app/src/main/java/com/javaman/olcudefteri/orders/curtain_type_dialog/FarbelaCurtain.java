@@ -16,6 +16,12 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
+import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.orders.view.CalculateView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +32,7 @@ import butterknife.OnClick;
  * Farbela dialog
  */
 
-public class FarbelaCurtain extends DialogFragment implements View.OnClickListener, View.OnFocusChangeListener, RadioGroup.OnCheckedChangeListener {
+public class FarbelaCurtain extends DialogFragment implements View.OnClickListener, View.OnFocusChangeListener, RadioGroup.OnCheckedChangeListener ,CalculateView{
 
     @BindView(R.id.btnCancel) ImageButton btnCancel;
     @BindView(R.id.btnSave) ImageButton btnSave;
@@ -42,6 +48,7 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
     @BindView(R.id.editTextFarbelaTotalPrice) EditText editTextTotalPrice;
     @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
 
+    private AddOrderLinePresenter mAddOrderLinePresenter;
 
 
 
@@ -68,6 +75,7 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.farbela_curtain,null);
         ButterKnife.bind(this,view);
+        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         initView();
 
         return view;
@@ -123,4 +131,35 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
         }
     }
 
+
+
+    @Override
+    public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
+
+    }
+
+    @Override
+    public void showAlert(String message) {
+
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public String getSessionIdFromPref() {
+        return null;
+    }
+
+    @Override
+    public void updateAmount(CalculationResponse calculationResponse) {
+
+    }
 }

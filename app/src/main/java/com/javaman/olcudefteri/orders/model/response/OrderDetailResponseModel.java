@@ -3,20 +3,17 @@ package com.javaman.olcudefteri.orders.model.response;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.javaman.olcudefteri.api.model.response.BaseResponse;
+import com.javaman.olcudefteri.api.model.response.BaseModel;
 import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
-import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import lombok.Data;
 
 @Data
 public class OrderDetailResponseModel implements Parcelable {
 
-	private BaseResponse baseResponse;
+	private BaseModel baseModel;
 	private Long id;
 	private String userUsername;
 	private Date orderDate;
@@ -38,7 +35,7 @@ public class OrderDetailResponseModel implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeParcelable(this.baseResponse, flags);
+		dest.writeParcelable(this.baseModel, flags);
 		dest.writeValue(this.id);
 		dest.writeString(this.userUsername);
 		dest.writeLong(this.orderDate != null ? this.orderDate.getTime() : -1);
@@ -52,7 +49,7 @@ public class OrderDetailResponseModel implements Parcelable {
 	}
 
 	protected OrderDetailResponseModel(Parcel in) {
-		this.baseResponse = in.readParcelable(BaseResponse.class.getClassLoader());
+		this.baseModel = in.readParcelable(BaseModel.class.getClassLoader());
 		this.id = (Long) in.readValue(Long.class.getClassLoader());
 		this.userUsername = in.readString();
 		long tmpOrderDate = in.readLong();

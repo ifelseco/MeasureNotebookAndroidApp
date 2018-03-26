@@ -10,12 +10,12 @@ import lombok.Data;
  */
 
 @Data
-public class BaseResponse implements Parcelable {
+public class BaseModel implements Parcelable {
 
     private int responseCode;
     private String responseMessage;
 
-    public BaseResponse() {}
+    public BaseModel() {}
 
     @Override
     public int describeContents() {
@@ -28,20 +28,20 @@ public class BaseResponse implements Parcelable {
         dest.writeString(this.responseMessage);
     }
 
-    protected BaseResponse(Parcel in) {
+    protected BaseModel(Parcel in) {
         this.responseCode = in.readInt();
         this.responseMessage = in.readString();
     }
 
-    public static final Parcelable.Creator<BaseResponse> CREATOR = new Parcelable.Creator<BaseResponse>() {
+    public static final Parcelable.Creator<BaseModel> CREATOR = new Parcelable.Creator<BaseModel>() {
         @Override
-        public BaseResponse createFromParcel(Parcel source) {
-            return new BaseResponse(source);
+        public BaseModel createFromParcel(Parcel source) {
+            return new BaseModel(source);
         }
 
         @Override
-        public BaseResponse[] newArray(int size) {
-            return new BaseResponse[size];
+        public BaseModel[] newArray(int size) {
+            return new BaseModel[size];
         }
     };
 }

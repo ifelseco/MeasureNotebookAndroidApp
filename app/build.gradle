@@ -53,6 +53,8 @@ dependencies {
     compile 'com.github.clans:fab:1.6.4'
     compileOnly "org.projectlombok:lombok:1.16.18"
     annotationProcessor "org.projectlombok:lombok:1.16.16"
+    compile 'com.github.f0ris.sweetalert:library:1.5.1'
+
 
 
 }

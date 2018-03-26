@@ -8,7 +8,7 @@ import com.javaman.olcudefteri.api.ApiClient;
 import com.javaman.olcudefteri.orders.model.OrdersDeleteModel;
 import com.javaman.olcudefteri.orders.model.PageModel;
 import com.javaman.olcudefteri.api.model.response.ApiError;
-import com.javaman.olcudefteri.api.model.response.BaseResponse;
+import com.javaman.olcudefteri.api.model.response.BaseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
 import com.javaman.olcudefteri.orders.service.OrdersService;
@@ -30,7 +30,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
 
     OrdersService ordersService;
     OrderSummaryReponseModel orderSummaryReponseModel;
-    BaseResponse baseResponse;
+    BaseModel baseResponse;
     List<OrderDetailResponseModel> orderDetailResponseModels = new ArrayList<>();
     ArrayList<OrderDetailResponseModel> deleteOrders = new ArrayList<>();
 
@@ -105,7 +105,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
     @Override
     public void sendDeleteOrderListRequestToServer(String xAuthToken, final ArrayList<OrderDetailResponseModel> orders, final onDeleteOrdersFinishedListener listener) {
         ordersService = ApiClient.getClient().create(OrdersService.class);
-        baseResponse = new BaseResponse();
+        baseResponse = new BaseModel();
 
         OrdersDeleteModel ordersDeleteModel = new OrdersDeleteModel();
         ArrayList<Long> orderIds = new ArrayList<>();
@@ -113,11 +113,11 @@ public class OrdersIntractorImpl implements OrdersIntractor {
             orderIds.add(order.getId());
         }
         ordersDeleteModel.setOrderIds(orderIds);
-        Call<BaseResponse> baseResponseCall = ordersService.deleteOrders(xAuthToken, ordersDeleteModel);
+        Call<BaseModel> baseResponseCall = ordersService.deleteOrders(xAuthToken, ordersDeleteModel);
 
-        baseResponseCall.enqueue(new Callback<BaseResponse>() {
+        baseResponseCall.enqueue(new Callback<BaseModel>() {
             @Override
-            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+            public void onResponse(Call<BaseModel> call, Response<BaseModel> response) {
                 if (response.isSuccessful()) {
                     String message = response.body().getResponseMessage();
                     listener.onSuccess(message, orders);
@@ -145,7 +145,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
         }
 
         @Override
-        public void onFailure (Call < BaseResponse > call, Throwable t){
+        public void onFailure (Call <BaseModel> call, Throwable t){
             //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
 
             if (t instanceof HttpException) {

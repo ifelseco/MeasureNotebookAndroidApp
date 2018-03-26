@@ -1,6 +1,6 @@
 package com.javaman.olcudefteri.notification;
 
-import com.javaman.olcudefteri.api.model.response.BaseResponse;
+import com.javaman.olcudefteri.api.model.response.BaseModel;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,6 +19,6 @@ public interface FirebaseService {
             "Accept: application/json",
             "Content-Type: application/json"
     })
-    Call<BaseResponse> sendRegId(@Header("X-Auth-Token") String xAuthToken,
-                                 @Body FirebaseRegIdModel regIdModel);
+    Call<BaseModel> sendRegId(@Header("X-Auth-Token") String xAuthToken,
+                              @Body FirebaseRegIdModel regIdModel);
 }

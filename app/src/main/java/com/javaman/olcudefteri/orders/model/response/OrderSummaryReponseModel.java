@@ -1,6 +1,6 @@
 package com.javaman.olcudefteri.orders.model.response;
 
-import com.javaman.olcudefteri.api.model.response.BaseResponse;
+import com.javaman.olcudefteri.api.model.response.BaseModel;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class OrderSummaryReponseModel{
 
-    private BaseResponse baseResponse;
+    private BaseModel baseModel;
 
     private OrderDetailPage orderDetailPage;
 

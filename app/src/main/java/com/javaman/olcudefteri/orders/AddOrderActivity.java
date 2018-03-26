@@ -25,9 +25,6 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 import com.javaman.olcudefteri.reports.ReportsActivity;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -106,13 +103,13 @@ public class AddOrderActivity extends AppCompatActivity
     }
 
     public void addAddOrderFragment(AddCustomerResponse addCustomerResponse) {
-        AddOrderFragment addOrderFragment = new AddOrderFragment();
+        AddOrderLineFragment addOrderLineFragment = new AddOrderLineFragment();
         Bundle bundle=new Bundle();
         bundle.putParcelable(ARG_ADD_ORDER,addCustomerResponse);
-        addOrderFragment.setArguments(bundle);
+        addOrderLineFragment.setArguments(bundle);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.register_customer_area, addOrderFragment, "add-order-fragment")
+        fragmentTransaction.replace(R.id.register_customer_area, addOrderLineFragment, "add-order-fragment")
                 .addToBackStack("add-order-fragment");
         fragmentTransaction.commit();
     }

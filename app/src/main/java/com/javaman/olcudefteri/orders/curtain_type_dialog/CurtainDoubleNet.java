@@ -18,6 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
+import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.orders.view.CalculateView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +34,7 @@ import butterknife.OnClick;
  * Tül kruvaze dialog
  */
 
-public class CurtainDoubleNet extends DialogFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, View.OnFocusChangeListener {
+public class CurtainDoubleNet extends DialogFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, View.OnFocusChangeListener ,CalculateView{
 
     @BindView(R.id.editTextWidth)
     EditText etWidth;
@@ -92,6 +98,7 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
 
 
     double totalPrice, unitPrice, totalM, pile;
+    private AddOrderLinePresenter mAddOrderLinePresenter;
 
     private void resetRadioButton() {
 
@@ -116,6 +123,7 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.curtain_double_net_layout, null);
         ButterKnife.bind(this,view);
+        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         initView();
         return view;
     }
@@ -242,6 +250,38 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
             return widthLast * pile + 4;
         }
 
+
+    }
+
+
+
+    @Override
+    public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
+
+    }
+
+    @Override
+    public void showAlert(String message) {
+
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public String getSessionIdFromPref() {
+        return null;
+    }
+
+    @Override
+    public void updateAmount(CalculationResponse calculationResponse) {
 
     }
 }

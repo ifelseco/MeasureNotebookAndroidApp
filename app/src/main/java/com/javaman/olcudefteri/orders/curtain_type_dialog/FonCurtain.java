@@ -24,6 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
+import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.orders.view.CalculateView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +43,7 @@ import butterknife.OnClick;
 public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedChangeListener,
         View.OnClickListener,
         View.OnFocusChangeListener,
-        AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
+        AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener,CalculateView {
 
 
     @BindView(R.id.editTextWidth) EditText etWidth;
@@ -62,6 +68,8 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     String fonType,pileType;
     int fonTypeId,pileTypeId;
     int numberOfKanat = 0;
+    private AddOrderLinePresenter mAddOrderLinePresenter;
+
     private void resetRadioButton() {
 
         radioGroupPile.clearCheck();
@@ -84,6 +92,7 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fon_curtain, null);
+        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         ButterKnife.bind(this,view);
         initView();
 
@@ -195,6 +204,38 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         int id=buttonView.getId();
 
+
+    }
+
+
+
+    @Override
+    public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
+
+    }
+
+    @Override
+    public void showAlert(String message) {
+
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public String getSessionIdFromPref() {
+        return null;
+    }
+
+    @Override
+    public void updateAmount(CalculationResponse calculationResponse) {
 
     }
 }

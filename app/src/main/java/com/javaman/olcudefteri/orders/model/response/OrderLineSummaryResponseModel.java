@@ -3,7 +3,7 @@ package com.javaman.olcudefteri.orders.model.response;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.javaman.olcudefteri.api.model.response.BaseResponse;
+import com.javaman.olcudefteri.api.model.response.BaseModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import lombok.Data;
 @Data
 public class OrderLineSummaryResponseModel implements Parcelable {
 
-    private BaseResponse baseResponse;
+    private BaseModel baseModel;
     private OrderDetailResponseModel order;
     private List<OrderLineDetailModel> orderLineDetailList=new ArrayList<>();
 
@@ -32,13 +32,13 @@ public class OrderLineSummaryResponseModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.baseResponse, flags);
+        dest.writeParcelable(this.baseModel, flags);
         dest.writeParcelable(this.order, flags);
         dest.writeTypedList(this.orderLineDetailList);
     }
 
     protected OrderLineSummaryResponseModel(Parcel in) {
-        this.baseResponse = in.readParcelable(BaseResponse.class.getClassLoader());
+        this.baseModel = in.readParcelable(BaseModel.class.getClassLoader());
         this.order = in.readParcelable(OrderDetailResponseModel.class.getClassLoader());
         this.orderLineDetailList = in.createTypedArrayList(OrderLineDetailModel.CREATOR);
     }

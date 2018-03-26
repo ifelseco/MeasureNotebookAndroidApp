@@ -13,10 +13,7 @@ import java.util.List;
 public interface OrdersView {
 
 
-      String getSessionIdFromPref();
-      void navigateToLogin();
-      void checkSession();
-      void showAlert(String message);
+
       void getOrders(OrderSummaryReponseModel orderSummaryReponseModel);
       void sendDeleteOrderListRequest(ArrayList<OrderDetailResponseModel> orders);
       void sendPageRequest(int first,int rows);
@@ -24,4 +21,9 @@ public interface OrdersView {
       void updateOrderFromAdapter(List<OrderDetailResponseModel> orders);
       void showProgress();
       void hideProgress();
+      String getSessionIdFromPref();
+      void navigateToLogin();
+      void checkSession();
+      void showAlert(String message);
+
 }

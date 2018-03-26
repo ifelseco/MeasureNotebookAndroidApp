@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.javaman.olcudefteri.api.ApiClient;
 import com.javaman.olcudefteri.api.model.response.ApiError;
-import com.javaman.olcudefteri.api.model.response.BaseResponse;
+import com.javaman.olcudefteri.api.model.response.BaseModel;
 import com.javaman.olcudefteri.notification.FirebaseRegIdModel;
 import com.javaman.olcudefteri.notification.FirebaseService;
 
@@ -31,11 +31,11 @@ public class HomeIntractorImpl implements HomeIntractor {
 
         firebaseService= ApiClient.getClient().create(FirebaseService.class);
 
-        Call<BaseResponse> sendRegIdResponse = firebaseService.sendRegId(xAuthToken,regIdModel);
+        Call<BaseModel> sendRegIdResponse = firebaseService.sendRegId(xAuthToken,regIdModel);
 
-        sendRegIdResponse.enqueue(new Callback<BaseResponse>() {
+        sendRegIdResponse.enqueue(new Callback<BaseModel>() {
             @Override
-            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+            public void onResponse(Call<BaseModel> call, Response<BaseModel> response) {
 
                 //request servera ulaştı ve herhangi bir response döndü
 
@@ -43,7 +43,7 @@ public class HomeIntractorImpl implements HomeIntractor {
 
                     //response [200 ,300) aralığında ise
 
-                    BaseResponse baseResponse = response.body();
+                    BaseModel baseResponse = response.body();
 
                     //listener.showNotification();
 
@@ -72,7 +72,7 @@ public class HomeIntractorImpl implements HomeIntractor {
             }
 
             @Override
-            public void onFailure(Call<BaseResponse> call, Throwable t) {
+            public void onFailure(Call<BaseModel> call, Throwable t) {
 
                 //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
 

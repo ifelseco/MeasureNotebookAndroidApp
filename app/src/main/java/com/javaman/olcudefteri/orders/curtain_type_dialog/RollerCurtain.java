@@ -23,6 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
+import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.orders.view.CalculateView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +39,7 @@ import butterknife.OnClick;
  * Stor perde dialog
  */
 
-public class RollerCurtain extends DialogFragment implements RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+public class RollerCurtain extends DialogFragment implements RadioGroup.OnCheckedChangeListener, View.OnClickListener,CalculateView {
 
 
     int parcaCount;
@@ -55,7 +61,7 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
     @BindView(R.id.textViewStorM2) TextView tvStorM2;
     @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
     @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
-
+    private AddOrderLinePresenter mAddOrderLinePresenter;
     private TextWatcher textWatcherParcaCount = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -143,6 +149,7 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.roller_curtain, null);
+        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         ButterKnife.bind(this,view);
         intiView();
         return view;
@@ -251,5 +258,37 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
             }
 
         }
+    }
+
+
+
+    @Override
+    public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
+
+    }
+
+    @Override
+    public void showAlert(String message) {
+
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public String getSessionIdFromPref() {
+        return null;
+    }
+
+    @Override
+    public void updateAmount(CalculationResponse calculationResponse) {
+
     }
 }

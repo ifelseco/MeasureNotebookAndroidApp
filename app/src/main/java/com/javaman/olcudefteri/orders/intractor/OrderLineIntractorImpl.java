@@ -6,17 +6,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.javaman.olcudefteri.api.ApiClient;
 import com.javaman.olcudefteri.api.model.response.ApiError;
-import com.javaman.olcudefteri.api.model.response.BaseResponse;
-import com.javaman.olcudefteri.orders.model.PageModel;
-import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderLineSummaryResponseModel;
-import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
 import com.javaman.olcudefteri.orders.service.OrderLineService;
-import com.javaman.olcudefteri.orders.service.OrdersService;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

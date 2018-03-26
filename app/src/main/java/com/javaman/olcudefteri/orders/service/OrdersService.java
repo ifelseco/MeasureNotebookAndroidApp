@@ -2,7 +2,7 @@ package com.javaman.olcudefteri.orders.service;
 
 import com.javaman.olcudefteri.orders.model.OrdersDeleteModel;
 import com.javaman.olcudefteri.orders.model.PageModel;
-import com.javaman.olcudefteri.api.model.response.BaseResponse;
+import com.javaman.olcudefteri.api.model.response.BaseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
 
 import retrofit2.Call;
@@ -31,6 +31,6 @@ public interface OrdersService {
             "Content-Type: application/json"
     })
     @HTTP(method = "DELETE" , path = "/order/list" , hasBody = true)
-    Call<BaseResponse> deleteOrders(@Header("X-Auth-Token") String xAuthToken , @Body OrdersDeleteModel ordersDeleteModel);
+    Call<BaseModel> deleteOrders(@Header("X-Auth-Token") String xAuthToken , @Body OrdersDeleteModel ordersDeleteModel);
 
 }

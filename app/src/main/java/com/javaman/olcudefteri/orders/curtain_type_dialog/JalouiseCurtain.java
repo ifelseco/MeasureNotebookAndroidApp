@@ -18,6 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
+import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.orders.view.CalculateView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +34,7 @@ import butterknife.OnClick;
  * Jaluzi Dialog
  */
 
-public class JalouiseCurtain extends DialogFragment implements View.OnClickListener{
+public class JalouiseCurtain extends DialogFragment implements View.OnClickListener,CalculateView{
 
     @BindView(R.id.btnCancel) ImageButton btnCancel;
     @BindView(R.id.btnSave) ImageButton btnSave;
@@ -47,6 +53,8 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
     @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
 
     double totalPrice,unitPrice,totalM2;
+    private AddOrderLinePresenter mAddOrderLinePresenter;
+
 
     @Override
     public void onStart() {
@@ -64,8 +72,8 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.jalouise_curtain,null);
+        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         ButterKnife.bind(this,view);
-
         setCancelable(false);
 
         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
@@ -138,6 +146,38 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
         }
 
         return height/100;
+    }
+
+
+
+    @Override
+    public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
+
+    }
+
+    @Override
+    public void showAlert(String message) {
+
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public String getSessionIdFromPref() {
+        return null;
+    }
+
+    @Override
+    public void updateAmount(CalculationResponse calculationResponse) {
+
     }
 }
 
