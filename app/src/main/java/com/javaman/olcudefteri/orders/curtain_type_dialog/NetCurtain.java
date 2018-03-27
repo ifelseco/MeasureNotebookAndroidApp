@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,8 +76,7 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     ImageButton btnCalculate;
     @BindView(R.id.radiGroupPile)
     RadioGroup radioGroupPile;
-    @BindView(R.id.progress_bar_save)
-    ProgressBar progressBarSave;
+
     @BindView(R.id.progress_bar_calc)
     ProgressBar progressBarCalc;
     double totalPrice, unitPrice, totalM, pile;
@@ -126,6 +126,7 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
             OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
             ProductDetailModel productDetailModel=new ProductDetailModel();
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
+            orderLineDetailModel.setProduct(productDetailModel);
 
             if (!etWidth.getText().toString().isEmpty()) {
                 double width = Double.parseDouble(etWidth.getText().toString());
@@ -172,7 +173,7 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
 
             if (!etAlias.getText().toString().isEmpty()) {
                 String alias=etAlias.getText().toString();
-                productDetailModel.setVariantCode(alias);
+                productDetailModel.setAliasName(alias);
                 orderLineDetailModel.setProduct(productDetailModel);
             }
 
@@ -201,11 +202,14 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
             orderLineDetailModel.setProduct(productDetailModel);
 
-            if (!etWidth.getText().toString().equals("") &&
-                    !etUnitprice.getText().toString().equals("") &&
-                    (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().equals(""))) {
+            if(TextUtils.isEmpty(etWidth.getText().toString())){
+                etWidth.setError("Genişlik giriniz!");
+            }else if(TextUtils.isEmpty(etUnitprice.getText().toString())){
+                etUnitprice.setError("Bİrim fiyat giriniz!");
+            }else if(radioGroupPile.getCheckedRadioButtonId() == -1 && TextUtils.isEmpty(etOtherPile.getText().toString()) ){
+                Toast.makeText(getActivity(), "Pile sıklığı giriniz!", Toast.LENGTH_SHORT).show();
+            }else{
                 unitPrice = Double.parseDouble(etUnitprice.getText().toString());
-
                 if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                     int checkedId = radioGroupPile.getCheckedRadioButtonId();
                     if (checkedId == R.id.radioButton2) {
@@ -227,11 +231,8 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
                 orderLines.add(orderLineDetailModel);
                 addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
                 calculateOrderLine(addOrderLineDetailListModel);
-
-
-            } else {
-                Toast.makeText(getActivity(), "Gerekli alanları doldurunuz.", Toast.LENGTH_SHORT).show();
             }
+
         }
 
     }

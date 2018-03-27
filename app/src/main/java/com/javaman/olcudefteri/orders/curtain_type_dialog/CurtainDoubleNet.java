@@ -1,10 +1,13 @@
 package com.javaman.olcudefteri.orders.curtain_type_dialog;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +23,16 @@ import android.widget.Toast;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.ProductDetailModel;
 import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,11 +102,8 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
     @BindView(R.id.progress_bar_save)
     ProgressBar progressBarSave;
 
+    public static final int ARG_PRODUCT_VALUE = 6;
 
-
-
-
-    double totalPrice, unitPrice, totalM, pile;
     private AddOrderLinePresenter mAddOrderLinePresenter;
 
     private void resetRadioButton() {
@@ -140,18 +146,110 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
     @Override
     @OnClick({R.id.btnSave,R.id.btnCancel,R.id.btnCalculate})
     public void onClick(View view) {
+        List<OrderLineDetailModel> orderLines = new ArrayList<>();
+
         if (view.getId() == R.id.btnSave) {
+            OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
+            ProductDetailModel productDetailModel=new ProductDetailModel();
+            productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
+            orderLineDetailModel.setProduct(productDetailModel);
+
+            if (!etWidth.getText().toString().isEmpty()) {
+                double width = Double.parseDouble(etWidth.getText().toString());
+                orderLineDetailModel.setPropertyWidth(width);
+            }
+
+            if (!etHeight.getText().toString().isEmpty()) {
+                double height = Double.parseDouble(etHeight.getText().toString());
+                orderLineDetailModel.setPropertyHeight(height);
+            }
+
+            if (!etLeftWidth.getText().toString().isEmpty()) {
+                double leftWidth = Double.parseDouble(etLeftWidth.getText().toString());
+                orderLineDetailModel.setPropertyLeftWidth(leftWidth);
+            }
+
+            if (!etRigthWidth.getText().toString().isEmpty()) {
+                double rightWidth = Double.parseDouble(etRigthWidth.getText().toString());
+                orderLineDetailModel.setPropertyRightWidth(rightWidth);
+            }
+
+
+            if (!etUnitprice.getText().toString().isEmpty()) {
+                double unitPrice = Double.parseDouble(etUnitprice.getText().toString());
+                orderLineDetailModel.setUnitPrice(unitPrice);
+            }
+
+            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+                double pile;
+                if (radioGroupPile.getCheckedRadioButtonId() != -1) {
+                    int checkedId = radioGroupPile.getCheckedRadioButtonId();
+                    if (checkedId == R.id.radioButton2) {
+                        pile = 2;
+                    } else if (checkedId == R.id.radioButton2_5) {
+                        pile = 2.5;
+                    } else {
+                        pile = 3;
+                    }
+                } else {
+                    pile = Double.parseDouble(etOtherPile.getText().toString());
+                }
+
+                orderLineDetailModel.setSizeOfPile(pile);
+            }
+
+            if (!etPattern.getText().toString().isEmpty()) {
+                String pattern =etPattern.getText().toString();
+                productDetailModel.setPatternCode(pattern);
+                orderLineDetailModel.setProduct(productDetailModel);
+            }
+
+            if (!etVariant.getText().toString().isEmpty()) {
+                String variant=etVariant.getText().toString();
+                productDetailModel.setVariantCode(variant);
+                orderLineDetailModel.setProduct(productDetailModel);
+            }
+
+            if (!etAlias.getText().toString().isEmpty()) {
+                String alias=etAlias.getText().toString();
+                productDetailModel.setAliasName(alias);
+                orderLineDetailModel.setProduct(productDetailModel);
+            }
+
+            if (!etDesc.getText().toString().isEmpty()) {
+                String desc=etDesc.getText().toString();
+                orderLineDetailModel.setLineDescription(desc);
+            }
+
+            if(!etTotalPrice.getText().toString().isEmpty()){
+                double lineAmount=Double.parseDouble(etTotalPrice.getText().toString());
+                orderLineDetailModel.setLineAmount(lineAmount);
+            }
+
+            EventBus.getDefault().post(orderLineDetailModel);
+
+
+
             dismiss();
         } else if (view.getId() == R.id.btnCancel) {
             dismiss();
         } else {
 
-            if (!etWidth.getText().toString().equals("") &&
-                    !etUnitprice.getText().toString().equals("") &&
-                    (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().equals(""))) {
+            AddOrderLineDetailListModel addOrderLineDetailListModel = new AddOrderLineDetailListModel();
+            OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
+            ProductDetailModel productDetailModel = new ProductDetailModel();
+            productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
+            orderLineDetailModel.setProduct(productDetailModel);
 
+            if(TextUtils.isEmpty(etWidth.getText().toString())){
+                etWidth.setError("En giriniz!");
+            }else if(TextUtils.isEmpty(etUnitprice.getText().toString())){
+                etUnitprice.setError("Birim fiyat giriniz!");
+            }else if(radioGroupPile.getCheckedRadioButtonId() == -1 && TextUtils.isEmpty(etOtherPile.getText().toString())){
+                Toast.makeText(getActivity(), "Pile sıklığı giriniz!", Toast.LENGTH_SHORT).show();
+            }else{
+                double unitPrice, pile;
                 unitPrice = Double.parseDouble(etUnitprice.getText().toString());
-
                 if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                     int checkedId = radioGroupPile.getCheckedRadioButtonId();
                     if (checkedId == R.id.radioButton2) {
@@ -167,24 +265,17 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
 
                 double doubleNetWidth = Double.parseDouble(etWidth.getText().toString());
 
+                orderLineDetailModel.setUnitPrice(unitPrice);
+                orderLineDetailModel.setPropertyWidth(doubleNetWidth);
+                orderLineDetailModel.setSizeOfPile(pile);
+                orderLines.add(orderLineDetailModel);
+                addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
+                calculateOrderLine(addOrderLineDetailListModel);
 
-                totalPrice = calculate(doubleNetWidth, pile, unitPrice);
-                totalM = calculateTotalMeter(doubleNetWidth, pile);
-
-                tvTotalMeter.setText(String.format("%.2f", totalM));
-                etTotalPrice.setText(String.format("%.2f", totalPrice));
-
-                if (!etRigthWidth.getText().toString().equals("") && !etLeftWidth.getText().toString().equals("")) {
-
-                    double windowWidth = doubleNetWidth - (Double.parseDouble(etLeftWidth.getText().toString()) +
-                            Double.parseDouble(etRigthWidth.getText().toString()));
-
-                    tvDoubleNetWindowWidth.setText(String.format("Cam En : %.2f", windowWidth));
-                }
-
-            } else {
-                Toast.makeText(getActivity(), "Gerekli alanları doldurunuz.", Toast.LENGTH_SHORT).show();
             }
+
+
+
         }
     }
 
@@ -219,69 +310,41 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
         }
     }
 
-    public double calculate(double width, double pile, double unitPrice) {
-
-        double widthLast = width / 100;
-
-        if (widthLast > 0 && widthLast < 2.5) {
-            return (widthLast * pile + 2) * unitPrice;
-        } else if (widthLast >= 2.5 && widthLast <= 3.5) {
-            return (widthLast * pile + 2.5) * unitPrice;
-        } else if (widthLast > 3.5 && widthLast <= 5) {
-            return (widthLast * pile + 3.5) * unitPrice;
-        } else {
-            return (widthLast * pile + 4) * unitPrice;
-        }
-
-
-    }
-
-    public double calculateTotalMeter(double width, double pile) {
-
-        double widthLast = width / 100;
-
-        if (widthLast > 0 && widthLast < 2.5) {
-            return widthLast * pile + 2;
-        } else if (widthLast >= 2.5 && widthLast <= 3.5) {
-            return widthLast * pile + 2.5;
-        } else if (widthLast > 3.5 && widthLast <= 5) {
-            return widthLast * pile + 3.5;
-        } else {
-            return widthLast * pile + 4;
-        }
-
-
-    }
-
-
-
     @Override
     public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
-
+        String sessionId=getSessionIdFromPref();
+        mAddOrderLinePresenter.calculateOrderLine(orderLineDetailListModel,sessionId);
     }
 
     @Override
     public void showAlert(String message) {
-
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showProgress() {
-
+        progressBarCalc.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBarCalc.setVisibility(View.GONE);
     }
 
     @Override
     public String getSessionIdFromPref() {
-        return null;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Session", Context.MODE_PRIVATE);
+        String sessionId = sharedPreferences.getString("sessionId", null);
+        return sessionId;
     }
 
     @Override
     public void updateAmount(CalculationResponse calculationResponse) {
+       double totalM=calculationResponse.getUsedMaterial();
+       double totalPrice=calculationResponse.getTotalAmount();
+
+        tvTotalMeter.setText(String.format("%.2f", totalM));
+        etTotalPrice.setText(String.format("%.2f", totalPrice));
 
     }
 }

@@ -582,15 +582,19 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     @Override
     public void showAlert(String message,boolean isError) {
         if(isError){
-            SweetAlertDialog pDialog=new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
-            pDialog.setTitleText("HATA!");
-            pDialog.setCancelText(message);
+
+            SweetAlertDialog pDialog= new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
+            pDialog.setTitleText("Hata...");
+            pDialog.setContentText(message);
+            pDialog.setConfirmText("Kapat");
             pDialog.setCancelable(true);
             pDialog.show();
+
         }else{
             SweetAlertDialog pDialog=new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
             pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
             pDialog.setTitleText(message);
+            pDialog.setConfirmText("Kapat");
             pDialog.setCancelable(true);
             pDialog.show();
         }
@@ -599,7 +603,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     @Override
     public void showProgress() {
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Siapariş kaydediliyor...");
+        pDialog.setTitleText("Ölçü kaydediliyor...");
         pDialog.setCancelable(false);
         pDialog.show();
     }
@@ -623,52 +627,52 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
                updateLocationProduct(locationProduct.getProductValue());
                break;
            case 1:
-               checkBoxNetCurt.setChecked(false);
+               checkBoxSunBLind.setChecked(false);
                locationProduct.getProductValue().remove(productNames[1]);
                updateLocationProduct(locationProduct.getProductValue());
                break;
            case 2:
-               checkBoxNetCurt.setChecked(false);
+               checkBoxStor.setChecked(false);
                locationProduct.getProductValue().remove(productNames[2]);
                updateLocationProduct(locationProduct.getProductValue());
                break;
            case 3:
-               checkBoxNetCurt.setChecked(false);
+               checkBoxZebra.setChecked(false);
                locationProduct.getProductValue().remove(productNames[3]);
                updateLocationProduct(locationProduct.getProductValue());
                break;
            case 4:
-               checkBoxNetCurt.setChecked(false);
+               checkBoxJaluzi.setChecked(false);
                locationProduct.getProductValue().remove(productNames[4]);
                updateLocationProduct(locationProduct.getProductValue());
                break;
            case 5:
-               checkBoxNetCurt.setChecked(false);
+               checkBoxVertical.setChecked(false);
                locationProduct.getProductValue().remove(productNames[5]);
                updateLocationProduct(locationProduct.getProductValue());
                break;
            case 6:
-               checkBoxNetCurt.setChecked(false);
+               checkBoxKruvaze.setChecked(false);
                locationProduct.getProductValue().remove(productNames[6]);
                updateLocationProduct(locationProduct.getProductValue());
                break;
            case 7:
-               checkBoxNetCurt.setChecked(false);
+               checkBoxBriz.setChecked(false);
                locationProduct.getProductValue().remove(productNames[7]);
                updateLocationProduct(locationProduct.getProductValue());
                break;
            case 8:
-               checkBoxNetCurt.setChecked(false);
+               checkBoxFarb.setChecked(false);
                locationProduct.getProductValue().remove(productNames[8]);
                updateLocationProduct(locationProduct.getProductValue());
                break;
            case 9:
-               checkBoxNetCurt.setChecked(false);
+               checkBoxFon.setChecked(false);
                locationProduct.getProductValue().remove(productNames[9]);
                updateLocationProduct(locationProduct.getProductValue());
                break;
            case 10:
-               checkBoxNetCurt.setChecked(false);
+               checkBoxNetStor.setChecked(false);
                locationProduct.getProductValue().remove(productNames[10]);
                updateLocationProduct(locationProduct.getProductValue());
                break;

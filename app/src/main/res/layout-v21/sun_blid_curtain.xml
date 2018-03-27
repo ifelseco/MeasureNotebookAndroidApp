@@ -92,68 +92,60 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Renk" />
-
-                    <RadioGroup
-                        android:id="@+id/radi_group_color"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_border_bg"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/radioButtonKrem"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Krem" />
-
-                        <RadioButton
-                            android:id="@+id/radioButton5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Beyaz" />
-
-                    </RadioGroup>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_editTextSunBlinfDesc"
-                        android:layout_width="match_parent"
+                        android:id="@+id/input_layout_editTextPattern"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-
                         <EditText
-                            android:id="@+id/editTextSunBlinfDesc"
-                            android:layout_width="match_parent"
+                            android:id="@+id/editTextPattern"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/edittext_border_bg"
-                            android:hint="Açıklama"
-                            android:inputType="textMultiLine"
-                            android:maxLines="5"
-                            android:minLines="2"
-                            android:scrollbars="vertical" />
+                            android:ems="10"
+                            android:hint="Desen"
+
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextVariant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/editTextVariant"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_border_bg"
+                            android:ems="10"
+                            android:hint="Varyant"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextAlias"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/editTextAlias"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_border_bg"
+                            android:ems="10"
+                            android:hint="İsim"
+                            android:inputType="textPersonName" />
 
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
+
+
 
                 <View
                     android:layout_width="match_parent"
@@ -260,6 +252,37 @@
                     android:background="@color/lightgreen" />
 
 
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextSunBlinfDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+
+                        <EditText
+                            android:id="@+id/editTextSunBlinfDesc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_border_bg"
+                            android:hint="Açıklama"
+                            android:inputType="textMultiLine"
+                            android:maxLines="5"
+                            android:minLines="2"
+                            android:scrollbars="vertical" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgreen" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -275,8 +298,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/rectangle_background_pink"
                         android:padding="3dp"
-                        android:src="@drawable/ic_dialog_close_dark"
-                        android:textColor="#ffffff" />
+                        android:src="@drawable/ic_dialog_close_dark" />
 
                     <ImageButton
                         android:id="@+id/btnSave"
@@ -285,19 +307,11 @@
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/rectangle_background_light_green"
-
                         android:padding="3dp"
-                        android:text="Kaydet"
                         android:textColor="#ffffff"
                         android:tint="#ffffff"
                         app:srcCompat="@drawable/ic_check_black_24dp" />
                 </LinearLayout>
-
-                <ProgressBar
-                    android:id="@+id/progress_bar_save"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"/>
 
                 <View
                     android:layout_width="match_parent"

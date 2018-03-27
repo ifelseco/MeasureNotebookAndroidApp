@@ -97,7 +97,6 @@ public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
         if(mAddOrderLineView!=null){
             mAddOrderLineView.hideProgress();
             mAddOrderLineView.showAlert(message,true);
-
         }
     }
 

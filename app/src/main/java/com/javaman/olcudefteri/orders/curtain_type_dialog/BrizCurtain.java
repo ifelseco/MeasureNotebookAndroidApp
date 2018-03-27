@@ -1,10 +1,13 @@
 package com.javaman.olcudefteri.orders.curtain_type_dialog;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +22,16 @@ import android.widget.Toast;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.ProductDetailModel;
 import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,8 +65,10 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
     @BindView(R.id.btnCancel) ImageButton btnCancel;
     @BindView(R.id.btnSave) ImageButton btnSave;
     @BindView(R.id.btnCalculate) ImageButton btnCalculate;
-    double pile,totalM,unitPrice,totalPrice ;
+    double pile,unitPrice ;
     private AddOrderLinePresenter mAddOrderLinePresenter;
+    public static final int ARG_PRODUCT_VALUE = 7;
+
 
     private void resetRadioButton() {
 
@@ -100,18 +111,103 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
     @Override
     @OnClick({R.id.btnSave,R.id.btnCalculate,R.id.btnCancel})
     public void onClick(View view) {
+        List<OrderLineDetailModel> orderLines = new ArrayList<>();
+
         if (view.getId()==R.id.btnSave){
+            OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
+            ProductDetailModel productDetailModel=new ProductDetailModel();
+            productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
+            orderLineDetailModel.setProduct(productDetailModel);
+
+            if (!etBrizWidth.getText().toString().isEmpty()) {
+                double width = Double.parseDouble(etBrizWidth.getText().toString());
+                orderLineDetailModel.setPropertyWidth(width);
+            }
+
+            if (!etBrizHeight.getText().toString().isEmpty()) {
+                double height = Double.parseDouble(etBrizHeight.getText().toString());
+                orderLineDetailModel.setPropertyHeight(height);
+            }
+
+            if (!etFarbelaWidth.getText().toString().isEmpty()) {
+                double width = Double.parseDouble(etFarbelaWidth.getText().toString());
+                orderLineDetailModel.setPropertyAlternativeWidth(width);
+            }
+
+            if (!etFarbelaHeight.getText().toString().isEmpty()) {
+                double height = Double.parseDouble(etFarbelaHeight.getText().toString());
+                orderLineDetailModel.setPropertyAlternativeHeight(height);
+            }
+
+            if (!etUnitprice.getText().toString().isEmpty()) {
+                double unitPrice = Double.parseDouble(etUnitprice.getText().toString());
+                orderLineDetailModel.setUnitPrice(unitPrice);
+            }
+
+            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+                if (radioGroupPile.getCheckedRadioButtonId() != -1) {
+                    int checkedId = radioGroupPile.getCheckedRadioButtonId();
+                    if (checkedId == R.id.radioButton2) {
+                        pile = 2;
+                    } else if (checkedId == R.id.radioButton2_5) {
+                        pile = 2.5;
+                    } else {
+                        pile = 3;
+                    }
+                } else {
+                    pile = Double.parseDouble(etOtherPile.getText().toString());
+                }
+
+                orderLineDetailModel.setSizeOfPile(pile);
+            }
+
+            if (!etPattern.getText().toString().isEmpty()) {
+                String pattern =etPattern.getText().toString();
+                productDetailModel.setPatternCode(pattern);
+                orderLineDetailModel.setProduct(productDetailModel);
+            }
+
+            if (!etVariant.getText().toString().isEmpty()) {
+                String variant=etVariant.getText().toString();
+                productDetailModel.setVariantCode(variant);
+                orderLineDetailModel.setProduct(productDetailModel);
+            }
+
+            if (!etAlias.getText().toString().isEmpty()) {
+                String alias=etAlias.getText().toString();
+                productDetailModel.setAliasName(alias);
+                orderLineDetailModel.setProduct(productDetailModel);
+            }
+
+            if (!etDesc.getText().toString().isEmpty()) {
+                String desc=etDesc.getText().toString();
+                orderLineDetailModel.setLineDescription(desc);
+            }
+
+            if(!etTotalPrice.getText().toString().isEmpty()){
+                double lineAmount=Double.parseDouble(etTotalPrice.getText().toString());
+                orderLineDetailModel.setLineAmount(lineAmount);
+            }
+
+            EventBus.getDefault().post(orderLineDetailModel);
             dismiss();
         }else if(view.getId()==R.id.btnCancel){
             dismiss();
         }else{
+            AddOrderLineDetailListModel addOrderLineDetailListModel = new AddOrderLineDetailListModel();
+            OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
+            ProductDetailModel productDetailModel = new ProductDetailModel();
+            productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
+            orderLineDetailModel.setProduct(productDetailModel);
 
-            if(!etBrizWidth.getText().toString().equals("") &&
-                    !etUnitprice.getText().toString().equals("") &&
-                    (radioGroupPile.getCheckedRadioButtonId()!=-1 || !etOtherPile.getText().toString().equals(""))){
-
+            if(TextUtils.isEmpty(etBrizWidth.getText().toString())){
+                etBrizWidth.setError("En giriniz!");
+            }else if(TextUtils.isEmpty(etUnitprice.getText().toString())){
+                etUnitprice.setError("Birim fiyat giriniz!");
+            }else if(radioGroupPile.getCheckedRadioButtonId()==-1 && TextUtils.isEmpty(etOtherPile.getText().toString())){
+                Toast.makeText(getActivity(), "Pile sıklığı giriniz!", Toast.LENGTH_SHORT).show();
+            }else{
                 unitPrice=Double.parseDouble(etUnitprice.getText().toString());
-
                 if(radioGroupPile.getCheckedRadioButtonId()!=-1){
                     int checkedId=radioGroupPile.getCheckedRadioButtonId();
                     if(checkedId==R.id.radioButton2){
@@ -124,25 +220,19 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
                 }else{
                     pile=Double.parseDouble(etOtherPile.getText().toString());
                 }
-
                 double brizWidth=Double.parseDouble(etBrizWidth.getText().toString());
-
-                totalPrice=calculate(brizWidth,pile,unitPrice);
-                totalM=(brizWidth/100)*pile;
-
-                tvTotalM.setText(String.format("%.2f",totalM));
-                etTotalPrice.setText(String.format("%.2f",totalPrice));
-
-            }else{
-                Toast.makeText(getActivity(), "Gerekli alanları doldurunuz.", Toast.LENGTH_SHORT).show();
+                orderLineDetailModel.setUnitPrice(unitPrice);
+                orderLineDetailModel.setPropertyWidth(brizWidth);
+                orderLineDetailModel.setSizeOfPile(pile);
+                orderLines.add(orderLineDetailModel);
+                addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
+                calculateOrderLine(addOrderLineDetailListModel);
             }
+
+
         }
     }
 
-    public double calculate(double brizWidth , double pile , double unitPrice){
-        double widthLast=brizWidth/100;
-        return widthLast*pile*unitPrice;
-    }
 
 
     @Override
@@ -180,32 +270,38 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
 
     @Override
     public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
-
+        String sessionId = getSessionIdFromPref();
+        mAddOrderLinePresenter.calculateOrderLine(orderLineDetailListModel, sessionId);
     }
 
     @Override
     public void showAlert(String message) {
-
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showProgress() {
-
+        progressCalc.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressCalc.setVisibility(View.GONE);
     }
 
     @Override
     public String getSessionIdFromPref() {
-        return null;
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Session", Context.MODE_PRIVATE);
+        String sessionId = sharedPreferences.getString("sessionId", null);
+        return sessionId;
     }
 
     @Override
     public void updateAmount(CalculationResponse calculationResponse) {
-
+        double totalM=calculationResponse.getTotalAmount();
+        double totalPrice=calculationResponse.getUsedMaterial();
+        tvTotalM.setText(String.format("%.2f",totalM));
+        etTotalPrice.setText(String.format("%.2f",totalPrice));
     }
 }
 

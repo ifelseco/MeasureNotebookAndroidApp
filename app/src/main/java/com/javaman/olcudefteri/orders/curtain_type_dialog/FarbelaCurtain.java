@@ -18,10 +18,16 @@ import android.widget.RadioGroup;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.ProductDetailModel;
 import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +38,7 @@ import butterknife.OnClick;
  * Farbela dialog
  */
 
-public class FarbelaCurtain extends DialogFragment implements View.OnClickListener, View.OnFocusChangeListener, RadioGroup.OnCheckedChangeListener ,CalculateView{
+public class FarbelaCurtain extends DialogFragment implements View.OnClickListener, View.OnFocusChangeListener, RadioGroup.OnCheckedChangeListener {
 
     @BindView(R.id.btnCancel) ImageButton btnCancel;
     @BindView(R.id.btnSave) ImageButton btnSave;
@@ -49,6 +55,7 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
     @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
 
     private AddOrderLinePresenter mAddOrderLinePresenter;
+    public static final int ARG_PRODUCT_VALUE = 8;
 
 
 
@@ -75,7 +82,6 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.farbela_curtain,null);
         ButterKnife.bind(this,view);
-        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         initView();
 
         return view;
@@ -94,6 +100,71 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
     @OnClick({R.id.btnSave,R.id.btnCancel})
     public void onClick(View view) {
         if (view.getId()==R.id.btnSave){
+            OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
+            ProductDetailModel productDetailModel=new ProductDetailModel();
+            productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
+            orderLineDetailModel.setProduct(productDetailModel);
+
+            if (!editTextWidth.getText().toString().isEmpty()) {
+                double width = Double.parseDouble(editTextWidth.getText().toString());
+                orderLineDetailModel.setPropertyWidth(width);
+            }
+
+            if (!editTextHeight.getText().toString().isEmpty()) {
+                orderLineDetailModel.setPropertyModelName(editTextHeight.getText().toString());
+            }
+
+            if (!editTextModel.getText().toString().isEmpty()) {
+                double height = Double.parseDouble(editTextHeight.getText().toString());
+                orderLineDetailModel.setPropertyHeight(height);
+            }
+
+            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+                double pile;
+                if (radioGroupPile.getCheckedRadioButtonId() != -1) {
+                    int checkedId = radioGroupPile.getCheckedRadioButtonId();
+                    if (checkedId == R.id.radioButton2) {
+                        pile = 2;
+                    } else if (checkedId == R.id.radioButton2_5) {
+                        pile = 2.5;
+                    } else {
+                        pile = 3;
+                    }
+                } else {
+                    pile = Double.parseDouble(etOtherPile.getText().toString());
+                }
+
+                orderLineDetailModel.setSizeOfPile(pile);
+            }
+
+            if (!editTextPattern.getText().toString().isEmpty()) {
+                String pattern =editTextPattern.getText().toString();
+                productDetailModel.setPatternCode(pattern);
+                orderLineDetailModel.setProduct(productDetailModel);
+            }
+
+            if (!editTextVariant.getText().toString().isEmpty()) {
+                String variant=editTextVariant.getText().toString();
+                productDetailModel.setVariantCode(variant);
+                orderLineDetailModel.setProduct(productDetailModel);
+            }
+
+            if (!editTextAlias.getText().toString().isEmpty()) {
+                String alias=editTextAlias.getText().toString();
+                productDetailModel.setAliasName(alias);
+                orderLineDetailModel.setProduct(productDetailModel);
+            }
+
+            if (!editTextDesc.getText().toString().isEmpty()) {
+                String desc=editTextDesc.getText().toString();
+                orderLineDetailModel.setLineDescription(desc);
+            }
+
+            if(!editTextTotalPrice.getText().toString().isEmpty()){
+                double lineAmount=Double.parseDouble(editTextTotalPrice.getText().toString());
+                orderLineDetailModel.setLineAmount(lineAmount);
+            }
+            EventBus.getDefault().post(orderLineDetailModel);
             dismiss();
         }else{
             dismiss();
@@ -131,35 +202,4 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
         }
     }
 
-
-
-    @Override
-    public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
-
-    }
-
-    @Override
-    public void showAlert(String message) {
-
-    }
-
-    @Override
-    public void showProgress() {
-
-    }
-
-    @Override
-    public void hideProgress() {
-
-    }
-
-    @Override
-    public String getSessionIdFromPref() {
-        return null;
-    }
-
-    @Override
-    public void updateAmount(CalculationResponse calculationResponse) {
-
-    }
 }
