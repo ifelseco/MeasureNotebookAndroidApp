@@ -29,6 +29,7 @@ import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +63,7 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
     @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
     @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
     private AddOrderLinePresenter mAddOrderLinePresenter;
+    SharedPreferenceHelper sharedPreferenceHelper;
 
 
     private TextWatcher textWatcherParcaCount = new TextWatcher() {
@@ -152,6 +154,7 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.zebra_curtain, null);
         mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         ButterKnife.bind(this,view);
         initView();
         return view;
@@ -284,11 +287,18 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
 
     @Override
     public String getSessionIdFromPref() {
-        return null;
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        return xAuthToken;
     }
 
     @Override
     public void updateAmount(CalculationResponse calculationResponse) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAddOrderLinePresenter.onDestroyCalculate();
     }
 }

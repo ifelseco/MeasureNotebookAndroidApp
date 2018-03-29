@@ -1,9 +1,11 @@
 package com.javaman.olcudefteri.orders;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -20,10 +22,14 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
 import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
 import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
+import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.reports.ReportsActivity;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,13 +40,17 @@ public class AddOrderActivity extends AppCompatActivity
 
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String ARG_ADD_ORDER = "arg_add_order";
+    public static final String ARG_REGISTER_CUSTOMER_FRAGMENT_TAG = "register-customer-fragment";
+    public static final String ARG_ADD_ORDER_LINE_FRAGMENT_TAG = "add-order-line-fragment";
     private Bundle customerFormData = new Bundle();
     SharedPreferences sharedPref;
     private boolean isCustomerRegister = false;
     private AddCustomerResponse addCustomerResponse;
+    private OrderDetailResponseModel orderDetailResponseModel;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     ActionBarDrawerToggle toggle;
+    SharedPreferenceHelper sharedPreferenceHelper;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -57,7 +67,7 @@ public class AddOrderActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_order);
-
+        sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -73,14 +83,57 @@ public class AddOrderActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.measure);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Bundle bundle=getIntent().getExtras();
 
-        addCustomerResponse=getIntent().getParcelableExtra(ARG_ADD_ORDER);
+        if(bundle!=null){
 
-        if(addCustomerResponse!=null){
-            addAddOrderFragment(addCustomerResponse);
-        }else{
+            if(bundle.containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)){
+                orderDetailResponseModel=getIntent().getParcelableExtra(OrderDetailActivity.ARG_CURRENT_ORDER);
+                if(orderDetailResponseModel!=null){
+                    addAddOrderLineFragment(orderDetailResponseModel);
+                }else{
+                    addFragmentRegisterCustomer();
+                }
+            }else if(bundle.containsKey(ARG_ADD_ORDER)){
+                addCustomerResponse=getIntent().getParcelableExtra(ARG_ADD_ORDER);
+                orderDetailResponseModel=new OrderDetailResponseModel();
+                CustomerDetailModel customerDetailModel=new CustomerDetailModel();
+                customerDetailModel.setNameSurname(addCustomerResponse.getCustomerNameSurname());
+                customerDetailModel.setId(addCustomerResponse.getCustomerId());
+                orderDetailResponseModel.setCustomer(customerDetailModel);
+                orderDetailResponseModel.setOrderDate(addCustomerResponse.getOrderDate());
+                orderDetailResponseModel.setId(addCustomerResponse.getId());
+                if(orderDetailResponseModel!=null){
+                    addAddOrderLineFragment(orderDetailResponseModel);
+                }else{
+                    addFragmentRegisterCustomer();
+                }
+            }else if(bundle.containsKey("init-key")){
+
+                sharedPreferenceHelper.removeKey("orderDetailResponse");
+                addFragmentRegisterCustomer();
+            }
+
+
+        }else if(sharedPreferenceHelper.containKey("orderDetailResponse")){
+            String data=sharedPreferenceHelper.getStringPreference("orderDetailResponse","");
+            if(!data.equals("")){
+                Gson gson = new Gson();
+                orderDetailResponseModel= gson.fromJson(data, OrderDetailResponseModel.class);
+
+                if(orderDetailResponseModel!=null){
+                    addAddOrderLineFragment(orderDetailResponseModel);
+                }else{
+                    addFragmentRegisterCustomer();
+                }
+            }
+
+        }else {
             addFragmentRegisterCustomer();
         }
+
+
+
 
     }
 
@@ -94,7 +147,7 @@ public class AddOrderActivity extends AppCompatActivity
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
                 android.R.anim.fade_out);
-        fragmentTransaction.add(R.id.register_customer_area, registerCustomerFragment, "register-customer-fragment")
+        fragmentTransaction.add(R.id.order_fragment_container, registerCustomerFragment, ARG_REGISTER_CUSTOMER_FRAGMENT_TAG)
                 .addToBackStack("register-customer-fragment");
 
         fragmentTransaction.commit();
@@ -102,14 +155,14 @@ public class AddOrderActivity extends AppCompatActivity
 
     }
 
-    public void addAddOrderFragment(AddCustomerResponse addCustomerResponse) {
+    public void addAddOrderLineFragment(OrderDetailResponseModel orderDetailResponseModel) {
         AddOrderLineFragment addOrderLineFragment = new AddOrderLineFragment();
         Bundle bundle=new Bundle();
-        bundle.putParcelable(ARG_ADD_ORDER,addCustomerResponse);
+        bundle.putParcelable(OrderDetailActivity.ARG_CURRENT_ORDER,orderDetailResponseModel);
         addOrderLineFragment.setArguments(bundle);
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.register_customer_area, addOrderLineFragment, "add-order-fragment")
+        fragmentTransaction.replace(R.id.order_fragment_container, addOrderLineFragment, ARG_ADD_ORDER_LINE_FRAGMENT_TAG)
                 .addToBackStack("add-order-fragment");
         fragmentTransaction.commit();
     }
@@ -167,6 +220,8 @@ public class AddOrderActivity extends AppCompatActivity
                 break;
             case R.id.measure:
                 Intent measure = new Intent(AddOrderActivity.this, AddOrderActivity.class);
+                Bundle bundle=new Bundle();
+                measure.putExtra("init-key","first-init-add-order");
                 startActivity(measure);
                 break;
             case R.id.report:
@@ -185,13 +240,13 @@ public class AddOrderActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("MesajXXXXXX : ", "CustomerMeasureActivity Pause metodu çalıştı....");
-
-        SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("lastActivity", getClass().getName());
-        editor.commit();
-
+        Fragment currentFragment=getSupportFragmentManager().findFragmentById(R.id.order_fragment_container);
+        if(currentFragment.getTag().equals(ARG_ADD_ORDER_LINE_FRAGMENT_TAG)){
+            Gson gson = new Gson();
+            String jsonOrderDetailResponse=gson.toJson(orderDetailResponseModel);
+            sharedPreferenceHelper.setStringPreference("orderDetailResponse",jsonOrderDetailResponse);
+        }
+        sharedPreferenceHelper.setStringPreference("lastActivity",getClass().getName());
     }
 
 
@@ -221,7 +276,15 @@ public class AddOrderActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
 
 

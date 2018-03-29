@@ -28,6 +28,7 @@ import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -63,6 +64,7 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
 
     private AddOrderLinePresenter mAddOrderLinePresenter;
     public static final int ARG_PRODUCT_VALUE = 4;
+    SharedPreferenceHelper sharedPreferenceHelper;
 
 
     @Override
@@ -81,6 +83,7 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.jalouise_curtain,null);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         ButterKnife.bind(this,view);
         setCancelable(false);
@@ -220,9 +223,8 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
 
     @Override
     public String getSessionIdFromPref() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Session", Context.MODE_PRIVATE);
-        String sessionId = sharedPreferences.getString("sessionId", null);
-        return sessionId;
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        return xAuthToken;
     }
 
 
@@ -233,6 +235,12 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
         tvTotalM2.setText(String.format("%.2f",totalM2));
         etTotalPrice.setText(String.format("%.2f", totalPrice));
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAddOrderLinePresenter.onDestroyCalculate();
     }
 }
 

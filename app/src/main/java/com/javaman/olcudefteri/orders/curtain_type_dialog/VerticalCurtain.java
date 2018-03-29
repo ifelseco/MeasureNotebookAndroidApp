@@ -21,6 +21,7 @@ import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 /**
  * Created by javaman on 18.12.2017.
@@ -37,6 +38,7 @@ public class VerticalCurtain extends DialogFragment implements View.OnClickListe
     double unitPrice;
     double totalM2;
     private AddOrderLinePresenter mAddOrderLinePresenter;
+    SharedPreferenceHelper sharedPreferenceHelper;
 
     @Override
     public void onStart() {
@@ -55,6 +57,7 @@ public class VerticalCurtain extends DialogFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.vertical_curtain,null);
         mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         btnSave=view.findViewById(R.id.btnSave);
         btnCancel=view.findViewById(R.id.btnCancel);
         btnCalculate=view.findViewById(R.id.btnCalculate);
@@ -166,11 +169,18 @@ public class VerticalCurtain extends DialogFragment implements View.OnClickListe
 
     @Override
     public String getSessionIdFromPref() {
-        return null;
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        return xAuthToken;
     }
 
     @Override
     public void updateAmount(CalculationResponse calculationResponse) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAddOrderLinePresenter.onDestroyCalculate();
     }
 }

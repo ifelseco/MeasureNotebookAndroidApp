@@ -3,6 +3,7 @@ package com.javaman.olcudefteri.home;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -21,37 +22,51 @@ import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.base.BasePresenter;
+import com.javaman.olcudefteri.base.BasePresenterImpl;
+import com.javaman.olcudefteri.base.BaseView;
 import com.javaman.olcudefteri.home.presenter.HomePresenter;
 import com.javaman.olcudefteri.home.presenter.HomePresenterImpl;
 import com.javaman.olcudefteri.home.view.HomeView;
+import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.orders.AddOrderActivity;
 import com.javaman.olcudefteri.notification.FirebaseRegIdModel;
 import com.javaman.olcudefteri.notification.FirebaseUtil;
 import com.javaman.olcudefteri.orders.OrdersActivity;
 import com.javaman.olcudefteri.reports.ReportsActivity;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,HomeView {
+        implements NavigationView.OnNavigationItemSelectedListener ,BaseView,HomeView {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
 
     boolean doubleBackToExitPressedOnce = false;
     private HomePresenter mHomePresenter;
-
-
+    private BasePresenter mBasePresenter;
+    SharedPreferenceHelper sharedPreferenceHelper;
+    SweetAlertDialog pDialog;
     DrawerLayout drawer;
     NavigationView navigationView;
     Toolbar toolbar=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
+        sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
+        sharedPreferenceHelper.removeKey("orderDetailResponse");
         Log.d("mesaj","Home activity started");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mHomePresenter=new HomePresenterImpl(this);
+        mBasePresenter=new BasePresenterImpl(this);
 
 
         sendFirebaseRegIdToServer();
@@ -148,6 +163,9 @@ public class HomeActivity extends AppCompatActivity
                 Intent report= new Intent(HomeActivity.this,ReportsActivity.class);
                 startActivity(report);
                 break;
+            case R.id.logout:
+                logout();
+                break;
             // this is done, now let us go and intialise the home page.
             // after this lets start copying the above.
             // FOLLOW MEEEEE>>>
@@ -161,13 +179,8 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         Log.i(TAG, "onPause()");
-
         super.onPause();
-
-        SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("lastActivity", getClass().getName());
-        editor.commit();
+        sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
     }
 
     @Override
@@ -184,22 +197,70 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
+    public String getFirebaseIdFromPref() {
+        String firebaseRegId=sharedPreferenceHelper.getStringPreference("firebase_reg_id",null);
+        return firebaseRegId;
+    }
+
+    @Override
     public String getSessionIdFromPref() {
-        SharedPreferences prefSession=getSharedPreferences("Session", Context.MODE_PRIVATE);
-        String xAuthToken=prefSession.getString("sessionId",null);
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
         return xAuthToken;
     }
 
     @Override
-    public String getFirebaseIdFromPref() {
-        SharedPreferences prefFirebase=getSharedPreferences("firebase", Context.MODE_PRIVATE);
-        String firebaseRegId=prefFirebase.getString("firebase_reg_id",null);
-        return firebaseRegId;
+    public void removeKeyFromPref(String key) {
+        sharedPreferenceHelper.removeKey(key);
+
+    }
+
+    @Override
+    public void showAlert(String message) {
+        pDialog=new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE);
+        pDialog.setTitleText(message);
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+
+    @Override
+    public void showProgress(String message) {
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText(message);
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+    }
+
+
+    @Override
+    public void logout() {
+        String sessionId=getSessionIdFromPref();
+        mBasePresenter.logout(sessionId);
+    }
+
+    @Override
+    public void navigateToLogin() {
+        startActivity(new Intent(HomeActivity.this , LoginActivity.class));
+
+    }
+
+    @Override
+    public void checkSession() {
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mHomePresenter.onDestroy();
+        mBasePresenter.onDestroy();
+        hideProgress();
     }
 }

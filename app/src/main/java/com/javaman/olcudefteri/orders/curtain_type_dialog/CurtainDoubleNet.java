@@ -28,6 +28,7 @@ import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -103,6 +104,7 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
     ProgressBar progressBarSave;
 
     public static final int ARG_PRODUCT_VALUE = 6;
+    SharedPreferenceHelper sharedPreferenceHelper;
 
     private AddOrderLinePresenter mAddOrderLinePresenter;
 
@@ -128,6 +130,7 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.curtain_double_net_layout, null);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         ButterKnife.bind(this,view);
         mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         initView();
@@ -333,9 +336,8 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
 
     @Override
     public String getSessionIdFromPref() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Session", Context.MODE_PRIVATE);
-        String sessionId = sharedPreferences.getString("sessionId", null);
-        return sessionId;
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        return xAuthToken;
     }
 
     @Override
@@ -346,6 +348,12 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
         tvTotalMeter.setText(String.format("%.2f", totalM));
         etTotalPrice.setText(String.format("%.2f", totalPrice));
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAddOrderLinePresenter.onDestroyCalculate();
     }
 }
 

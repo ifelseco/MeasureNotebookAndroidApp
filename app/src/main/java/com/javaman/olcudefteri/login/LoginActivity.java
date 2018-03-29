@@ -18,6 +18,7 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.login.presenter.LoginPresenter;
 import com.javaman.olcudefteri.login.presenter.LoginPresenterImpl;
 import com.javaman.olcudefteri.login.view.LoginView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,13 +41,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     ProgressBar progressBarLogin;
 
     private LoginPresenter mLoginPresenter;
-
+    SharedPreferenceHelper sharedPreferenceHelper;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
+        sharedPreferenceHelper.removeKey("lastActivity");
 
         Log.i(TAG, "onCreate()");
 
@@ -98,10 +101,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void openSession(String sessionId) {
-        SharedPreferences prefs = getSharedPreferences("Session", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("sessionId", sessionId);
-        editor.commit();
+        sharedPreferenceHelper.setStringPreference("sessionId", sessionId);
     }
 
     @Override

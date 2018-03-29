@@ -10,4 +10,5 @@ public interface HomePresenter {
 
     void sendFirebaseRegIdToServer(String xAuthToken , FirebaseRegIdModel regIdModel);
     void onDestroy();
+
 }

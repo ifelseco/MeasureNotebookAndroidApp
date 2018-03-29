@@ -19,15 +19,19 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.AddOrderActivity;
 
 import com.javaman.olcudefteri.orders.OrdersActivity;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 public class ReportsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    SharedPreferenceHelper sharedPreferenceHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reports);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -121,11 +125,7 @@ public class ReportsActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-
-        SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("lastActivity", getClass().getName());
-        editor.commit();
+        sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
     }
 
 

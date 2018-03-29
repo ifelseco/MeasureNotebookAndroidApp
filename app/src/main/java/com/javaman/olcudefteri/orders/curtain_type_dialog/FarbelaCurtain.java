@@ -23,6 +23,7 @@ import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -201,5 +202,13 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
 
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAddOrderLinePresenter.onDestroyCalculate();
+    }
+
+
 
 }

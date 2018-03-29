@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 /**
  * Created by javaman on 19.02.2018.
@@ -14,6 +15,7 @@ import com.google.firebase.iid.FirebaseInstanceIdService;
 public class MyFirebaseIIdService extends FirebaseInstanceIdService {
 
     private static final String TAG = "MyFirebaseIIDService";
+    SharedPreferenceHelper sharedPreferenceHelper;
 
 
     @Override
@@ -29,9 +31,7 @@ public class MyFirebaseIIdService extends FirebaseInstanceIdService {
 
 
     private void sendRegistrationToPref(String token){
-        SharedPreferences sharedPreferences=getSharedPreferences("firebase",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putString("firebase_reg_id",token);
-        editor.commit();
+        sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
+        sharedPreferenceHelper.setStringPreference("firebase_reg_id",token);
     }
 }

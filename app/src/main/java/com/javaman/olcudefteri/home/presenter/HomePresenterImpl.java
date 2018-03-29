@@ -32,4 +32,6 @@ public class HomePresenterImpl implements HomePresenter {
             mHomeViev=null;
         }
     }
+
+
 }

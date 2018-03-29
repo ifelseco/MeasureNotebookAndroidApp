@@ -23,6 +23,7 @@ import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderPresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderPresenterImpl;
 import com.javaman.olcudefteri.orders.view.AddOrderView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,7 +60,7 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
     @BindView(R.id.takeMeasureButton)
     Button regSaveBtn;
 
-
+    SharedPreferenceHelper sharedPreferenceHelper;
 
 
 
@@ -74,6 +75,7 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
 
         View view = inflater.inflate(R.layout.register_customer_layout, container, false);
         ButterKnife.bind(this,view);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         mAddOrderPresenter=new AddOrderPresenterImpl(this);
         return view;
     }
@@ -84,7 +86,6 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
         getActivity().setTitle("Müşteri bilgilerini gir.");
 
 
-        regSaveBtn.setEnabled(false);
 
         if (savedInstanceState != null) {
             editTextName.setText(savedInstanceState.getString("name"));
@@ -95,19 +96,6 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
             regSaveBtn.setEnabled(savedInstanceState.getBoolean("saveButtonStatus"));
 
         }
-
-        SharedPreferences prefs=getActivity().getSharedPreferences("customerForm",Context.MODE_PRIVATE);
-
-        if(prefs!=null){
-            editTextName.setText(prefs.getString("name",""));
-            editTextMobilePhone.setText(prefs.getString("mobilePhone",""));
-            editTextFixedPhone.setText(prefs.getString("fixedPhone",""));
-            editTextAddress.setText(prefs.getString("address",""));
-            checkBoxQuestion.setChecked(prefs.getBoolean("question",false));
-            regSaveBtn.setEnabled(prefs.getBoolean("saveButtonStatus",true));
-        }
-
-
 
     }
 
@@ -133,28 +121,6 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
 
     }
 
-
-
-    @Override
-    public void onPause() {
-
-        super.onPause();
-
-        Log.d("MesajXXXXXX : ","RegisterCustomerFragment Pause metodu çalıştı....");
-
-        SharedPreferences prefCustomerForm = getActivity().getSharedPreferences("customerForm", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor2 = prefCustomerForm.edit();
-        editor2.putString("name",editTextName.getText().toString());
-        editor2.putString("mobilePhone",editTextMobilePhone.getText().toString());
-        editor2.putString("fixedPhone",editTextFixedPhone.getText().toString());
-        editor2.putString("address",editTextAddress.getText().toString());
-        editor2.putBoolean("question",checkBoxQuestion.isChecked());
-        editor2.putBoolean("saveButtonStatus",regSaveBtn.isEnabled());
-        editor2.commit();
-
-
-    }
-
     @OnClick(R.id.takeMeasureButton)
     public void onClick(View view){
         int id=view.getId();
@@ -177,7 +143,6 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
 
         }
     }
-
 
 
     @Override
@@ -228,9 +193,8 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
 
     @Override
     public String getSessionIdFromPref() {
-        SharedPreferences sharedPreferences=getActivity().getSharedPreferences("Session",Context.MODE_PRIVATE);
-        String sessionId=sharedPreferences.getString("sessionId",null);
-        return sessionId;
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        return xAuthToken;
     }
 
     @Override
@@ -238,4 +202,6 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
         super.onDestroy();
         mAddOrderPresenter.onDestroy();
     }
+
+
 }

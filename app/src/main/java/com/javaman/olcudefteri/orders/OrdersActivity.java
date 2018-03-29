@@ -39,6 +39,7 @@ import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenterImpl;
 import com.javaman.olcudefteri.orders.view.OrdersView;
 import com.javaman.olcudefteri.reports.ReportsActivity;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,7 @@ public class OrdersActivity extends AppCompatActivity
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    SharedPreferenceHelper sharedPreferenceHelper;
     ActionBarDrawerToggle toggle;
     RecyclerView.Adapter adapter;
     LinearLayoutManager linearLayoutManager;
@@ -92,6 +94,8 @@ public class OrdersActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
+        sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
@@ -248,11 +252,7 @@ public class OrdersActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-
-        SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("lastActivity", getClass().getName());
-        editor.commit();
+        sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
     }
 
     @Override
@@ -302,8 +302,7 @@ public class OrdersActivity extends AppCompatActivity
 
     @Override
     public String getSessionIdFromPref() {
-        SharedPreferences prefSession = getSharedPreferences("Session", Context.MODE_PRIVATE);
-        String xAuthToken = prefSession.getString("sessionId", null);
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
         return xAuthToken;
     }
 
@@ -423,5 +422,9 @@ public class OrdersActivity extends AppCompatActivity
         outState.putParcelableArrayList(ARG_SAVED_ORDERS, (ArrayList<? extends Parcelable>) this.orderList);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mOrdersPresenter.onDestroy();
+    }
 }

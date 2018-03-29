@@ -44,9 +44,11 @@ import com.javaman.olcudefteri.orders.model.OrderDetailModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 import com.javaman.olcudefteri.orders.model.response.AddOrderLineResponse;
+import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.AddOrderLineView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -66,8 +68,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddOrderLineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, View.OnTouchListener ,AddOrderLineView{
 
-    public static final String MyPREFERENCES = "MyPrefs";
+    SharedPreferenceHelper sharedPreferenceHelper;
     private AddCustomerResponse addCustomerResponse;
+    private OrderDetailResponseModel orderDetailResponseModel;
     private BottomSheetBehavior bottomSheetBehavior;
     private int productCount;
     private boolean spinnerTouched = false;
@@ -193,9 +196,11 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
 
-        if (getArguments().containsKey(AddOrderActivity.ARG_ADD_ORDER)) {
-            addCustomerResponse = getArguments().getParcelable(AddOrderActivity.ARG_ADD_ORDER);
+
+        if(getArguments().containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)){
+            orderDetailResponseModel=getArguments().getParcelable(OrderDetailActivity.ARG_CURRENT_ORDER);
         }
 
     }
@@ -246,16 +251,19 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     private void setView() {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy");
-        String orderDate = simpleDateFormat.format(addCustomerResponse.getOrderDate());
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(addCustomerResponse.getOrderDate());
-        int hours = calendar.get(Calendar.HOUR_OF_DAY);
-        int minutes = calendar.get(Calendar.MINUTE);
 
-        tvCustomerName.setText(addCustomerResponse.getCustomerNameSurname());
-        tvOrderDate.setText(orderDate);
-        tvOrderNumber.setText("" + addCustomerResponse.getId());
-        tvOrderTime.setText("" + hours + ":" + minutes);
+        if(orderDetailResponseModel!=null){
+            String orderDate = simpleDateFormat.format(orderDetailResponseModel.getOrderDate());
+            calendar.setTime(orderDetailResponseModel.getOrderDate());
+            int hours = calendar.get(Calendar.HOUR_OF_DAY);
+            int minutes = calendar.get(Calendar.MINUTE);
+            tvCustomerName.setText(orderDetailResponseModel.getCustomer().getNameSurname());
+            tvOrderDate.setText(orderDate);
+            tvOrderNumber.setText("" + orderDetailResponseModel.getId());
+            tvOrderTime.setText("" + hours + ":" + minutes);
+            orderTotalAmount=orderDetailResponseModel.getTotalAmount();
+            tvOrderTotalAmount.setText(String.format("%.2f",orderTotalAmount));        }
 
         productNames = getActivity().getResources().getStringArray(R.array.curtains);
 
@@ -535,22 +543,37 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
         orderLineDetailModel.setLocationName(locationProduct.getLocationName());
         orderLineDetailModel.setLocationType(locationProduct.getLocationType());
         OrderDetailModel orderDetailModel=new OrderDetailModel();
-        orderDetailModel.setId(addCustomerResponse.getId());
+        orderDetailModel.setId(orderDetailResponseModel.getId());
         orderLineDetailModel.setOrder(orderDetailModel);
         mAddOrderLinePresenter.addOrderLine(orderLineDetailModel,sessionId);
         currentProductValue=orderLineDetailModel.getProduct().getProductValue();
 
     }
 
+
+    @Override
+    @Subscribe
+    public void addOrderLineList(AddOrderLineDetailListModel orderLineDetailListModel) {
+        String sessionId=getSessionIdFromPref();
+
+        for (OrderLineDetailModel orderLineDetailModel:orderLineDetailListModel.getOrderLineDetailModelList()) {
+            orderLineDetailModel.setLocationName(locationProduct.getLocationName());
+            orderLineDetailModel.setLocationType(locationProduct.getLocationType());
+            OrderDetailModel orderDetailModel=new OrderDetailModel();
+            orderDetailModel.setId(orderDetailResponseModel.getId());
+            orderLineDetailModel.setOrder(orderDetailModel);
+            currentProductValue=orderLineDetailModel.getProduct().getProductValue();
+        }
+
+        mAddOrderLinePresenter.addOrderLineList(orderLineDetailListModel,sessionId);
+    }
+
+
     @Override
     public void updateOrder(OrderDetailModel orderDetailModel) {
 
     }
 
-    @Override
-    public void addOrderLineList(AddOrderLineDetailListModel orderLineDetailListModel) {
-
-    }
 
     @Override
     public void deleteOrderLine(long id) {
@@ -564,9 +587,8 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
     @Override
     public String getSessionIdFromPref() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Session", Context.MODE_PRIVATE);
-        String sessionId = sharedPreferences.getString("sessionId", null);
-        return sessionId;
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        return xAuthToken;
     }
 
     @Override
@@ -614,9 +636,15 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void updateCart(AddOrderLineResponse addOrderLineResponse) {
+    public void onDestroy() {
+        super.onDestroy();
+        mAddOrderLinePresenter.onDestroyAddOrderLine();
+    }
 
-        orderTotalAmount=addOrderLineResponse.getOrderTotalAmount();
+    @Override
+    public void updateCart(double orderTotalAmount) {
+
+        this.orderTotalAmount=orderTotalAmount;
         tvOrderTotalAmount.setText(String.format("%.2f",orderTotalAmount));
 
 
@@ -679,4 +707,6 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
        }
     }
+
+
 }

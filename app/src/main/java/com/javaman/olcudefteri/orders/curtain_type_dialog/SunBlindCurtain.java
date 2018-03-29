@@ -28,6 +28,7 @@ import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -60,6 +61,7 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
     @BindView(R.id.editTextAlias) EditText etAlias;
     private AddOrderLinePresenter mAddOrderLinePresenter;
     public static final int ARG_PRODUCT_VALUE = 1;
+    SharedPreferenceHelper sharedPreferenceHelper;
 
 
 
@@ -80,6 +82,7 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.sun_blid_curtain,null);
         mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         ButterKnife.bind(this,view);
         setCancelable(false);
         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
@@ -197,15 +200,20 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
 
     @Override
     public String getSessionIdFromPref() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Session", Context.MODE_PRIVATE);
-        String sessionId = sharedPreferences.getString("sessionId", null);
-        return sessionId;
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        return xAuthToken;
     }
 
     @Override
     public void updateAmount(CalculationResponse calculationResponse) {
         double totalPrice = calculationResponse.getTotalAmount();
         etTotalPrice.setText(""+totalPrice);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAddOrderLinePresenter.onDestroyCalculate();
     }
 }
 

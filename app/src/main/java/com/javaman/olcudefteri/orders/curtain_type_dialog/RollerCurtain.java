@@ -29,6 +29,7 @@ import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -99,6 +100,7 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
 
         }
     };
+    SharedPreferenceHelper sharedPreferenceHelper;
 
 
 
@@ -149,6 +151,7 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.roller_curtain, null);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         ButterKnife.bind(this,view);
         intiView();
@@ -284,11 +287,19 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
 
     @Override
     public String getSessionIdFromPref() {
-        return null;
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        return xAuthToken;
     }
 
     @Override
     public void updateAmount(CalculationResponse calculationResponse) {
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAddOrderLinePresenter.onDestroyCalculate();
+    }
+
 }

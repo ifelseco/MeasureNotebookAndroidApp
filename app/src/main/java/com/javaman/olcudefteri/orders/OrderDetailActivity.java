@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,16 +30,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.gson.Gson;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.orders.model.PageModel;
+import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderLineSummaryResponseModel;
 import com.javaman.olcudefteri.orders.presenter.OrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.OrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
 import com.javaman.olcudefteri.orders.view.OrderDetailVew;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +66,10 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     @BindView(R.id.fab_order_delete)
     com.github.clans.fab.FloatingActionButton fabOrderDelete;
+
+    @BindView(R.id.fab_order_line_add)
+    com.github.clans.fab.FloatingActionButton fabOrderLineAdd;
+
 
     @BindView(R.id.fab_order_status)
     com.github.clans.fab.FloatingActionButton fabOrderStatus;
@@ -87,7 +95,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     private Long orderIdFromNotification;
     Bundle arguments;
     OrderLinePresenter mOrderLinePresenter;
-
+    SharedPreferenceHelper sharedPreferenceHelper;
     public static final String ARG_CURRENT_ORDER = "current_order";
     public static final String ARG_NOTIFICATION_ORDER = "notification_order";
     public static final String ARG_CURRENT_CUSTOMER = "current_customer_detail";
@@ -99,27 +107,42 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
         ButterKnife.bind(this);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         setSupportActionBar(toolbar);
         initOrderFabMenu();
         mOrderLinePresenter = new OrderLinePresenterImpl(this);
 
-        if (savedInstanceState == null) {
-            if (getIntent().getExtras().containsKey(ARG_NOTIFICATION_ORDER)) {
-                orderIdFromNotification = getIntent().getExtras().getLong(ARG_NOTIFICATION_ORDER);
-                if (orderIdFromNotification != null && orderIdFromNotification > 0) {
-                    sendGetOrderLineRequest(orderIdFromNotification);
-                }
-            } else if (getIntent().getExtras().containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)) {
-                orderId = getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
-                if (orderId != null && orderId > 0) {
-                    sendGetOrderLineRequest(orderId);
-                }
+        if (sharedPreferenceHelper.containKey("orderLineSummaryResponse")) {
+            String data = sharedPreferenceHelper.getStringPreference("orderLineSummaryResponse", "");
+            if (!data.equals("")) {
+                Gson gson = new Gson();
+                OrderLineSummaryResponseModel orderLineSummaryResponseModel = gson.fromJson(data, OrderLineSummaryResponseModel.class);
+                this.orderLineSummaryResponseModel = orderLineSummaryResponseModel;
+                setArgumentForFragments();
+                initTab();
             }
+
         } else {
-            this.orderLineSummaryResponseModel = savedInstanceState.getParcelable(ARG_SAVED_ORDER);
-            setArgumentForFragments();
-            initTab();
+            if (savedInstanceState == null) {
+                if (getIntent().getExtras().containsKey(ARG_NOTIFICATION_ORDER)) {
+                    orderIdFromNotification = getIntent().getExtras().getLong(ARG_NOTIFICATION_ORDER);
+                    if (orderIdFromNotification != null && orderIdFromNotification > 0) {
+                        sendGetOrderLineRequest(orderIdFromNotification);
+                    }
+                } else if (getIntent().getExtras().containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)) {
+                    orderId = getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
+                    if (orderId != null && orderId > 0) {
+                        sendGetOrderLineRequest(orderId);
+                    }
+                }
+            } else {
+                this.orderLineSummaryResponseModel = savedInstanceState.getParcelable(ARG_SAVED_ORDER);
+                setArgumentForFragments();
+                initTab();
+            }
         }
+
+
 
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -134,7 +157,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
                 if (position == 1) {
                     initCustomerFabMenu();
                 } else if (position == 2) {
-                    hideFab();
+                    showOrderLineFabMenu();
                 } else {
                     initOrderFabMenu();
                 }
@@ -155,26 +178,12 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     }
 
+
     private void initTab() {
         setupViewPager(mViewPager);
         tabLayout.setupWithViewPager(mViewPager);
     }
 
-    public void initOrderFabMenu() {
-        fabMenu.setVisibility(View.VISIBLE);
-        fabMenu.close(true);
-        fabCsutomerDelete.setVisibility(View.GONE);
-        fabCustomerEdit.setVisibility(View.GONE);
-        fabOrderDelete.setVisibility(View.VISIBLE);
-        fabOrderEdit.setVisibility(View.VISIBLE);
-        fabOrderStatus.setVisibility(View.VISIBLE);
-
-        fabMenu.setOnMenuToggleListener(this);
-
-        fabOrderDelete.setOnClickListener(this);
-        fabOrderEdit.setOnClickListener(this);
-        fabOrderStatus.setOnClickListener(this);
-    }
 
     public void setArgumentForFragments() {
         arguments = new Bundle();
@@ -189,6 +198,35 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         arguments.putParcelableArrayList(ARG_ORDER_LINES, (ArrayList<? extends Parcelable>) orderLines);
     }
 
+    private void showOrderLineFabMenu() {
+        fabMenu.setVisibility(View.VISIBLE);
+        fabMenu.close(true);
+        fabOrderDelete.setVisibility(View.GONE);
+        fabOrderEdit.setVisibility(View.GONE);
+        fabOrderStatus.setVisibility(View.GONE);
+        fabCsutomerDelete.setVisibility(View.GONE);
+        fabCustomerEdit.setVisibility(View.GONE);
+        fabOrderLineAdd.setVisibility(View.VISIBLE);
+
+        fabOrderLineAdd.setOnClickListener(this);
+    }
+
+    public void initOrderFabMenu() {
+        fabMenu.setVisibility(View.VISIBLE);
+        fabMenu.close(true);
+        fabCsutomerDelete.setVisibility(View.GONE);
+        fabCustomerEdit.setVisibility(View.GONE);
+        fabOrderLineAdd.setVisibility(View.GONE);
+        fabOrderDelete.setVisibility(View.VISIBLE);
+        fabOrderEdit.setVisibility(View.VISIBLE);
+        fabOrderStatus.setVisibility(View.VISIBLE);
+
+        fabMenu.setOnMenuToggleListener(this);
+
+        fabOrderDelete.setOnClickListener(this);
+        fabOrderEdit.setOnClickListener(this);
+        fabOrderStatus.setOnClickListener(this);
+    }
 
     public void initCustomerFabMenu() {
 
@@ -196,6 +234,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabMenu.close(true);
         fabOrderDelete.setVisibility(View.GONE);
         fabOrderEdit.setVisibility(View.GONE);
+        fabOrderLineAdd.setVisibility(View.GONE);
         fabOrderStatus.setVisibility(View.GONE);
         fabCsutomerDelete.setVisibility(View.VISIBLE);
         fabCustomerEdit.setVisibility(View.VISIBLE);
@@ -263,6 +302,13 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         } else if (v.getId() == R.id.fab_customer_edit) {
             showToast("Müşteri edit");
             fabMenu.close(true);
+        }else if(v.getId()==R.id.fab_order_line_add){
+            //Go to AddOrderActivity -> AddOrderLineFragment
+            //Send orderDetailModel
+            Intent intent = new Intent(this, AddOrderActivity.class);
+            intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , orderDetailResponseModel);
+            startActivity(intent);
+            fabMenu.close(true);
         }
 
     }
@@ -325,11 +371,9 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     @Override
     public String getSessionIdFromPref() {
-        SharedPreferences prefSession = getSharedPreferences("Session", Context.MODE_PRIVATE);
-        String xAuthToken = prefSession.getString("sessionId", null);
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
         return xAuthToken;
     }
-
     @Override
     public void navigateToLogin() {
 
@@ -358,6 +402,20 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         initTab();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Gson gson = new Gson();
+        String json = gson.toJson(orderLineSummaryResponseModel);
+        sharedPreferenceHelper.setStringPreference("orderLineSummaryResponse", json);
+        sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mOrderLinePresenter.onDestroy();
+    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

@@ -5,6 +5,7 @@ import com.javaman.olcudefteri.orders.intractor.AddOrderLineIntractorImpl;
 import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.orders.model.DeleteOrderLinesModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.response.AddOrderLineListResponse;
 import com.javaman.olcudefteri.orders.model.response.AddOrderLineResponse;
 import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.view.AddOrderLineView;
@@ -55,7 +56,10 @@ public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
 
     @Override
     public void addOrderLineList(AddOrderLineDetailListModel orderLineDetailListModel, String headerData) {
-
+        if(mAddOrderLineView!=null){
+            mAddOrderLineView.showProgress();
+            mAddOrderLineIntractor.addOrderLines(orderLineDetailListModel,headerData,this);
+        }
     }
 
     @Override
@@ -88,7 +92,7 @@ public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
         if(mAddOrderLineView!=null){
             mAddOrderLineView.hideProgress();
             mAddOrderLineView.showAlert("Ölçü başarıyla kaydedildi.",false);
-            mAddOrderLineView.updateCart(addOrderLineResponse);
+            mAddOrderLineView.updateCart(addOrderLineResponse.getOrderTotalAmount());
         }
     }
 
@@ -101,13 +105,20 @@ public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
     }
 
     @Override
-    public void onSuccessAddOrderLines() {
-
+    public void onSuccessAddOrderLines(AddOrderLineListResponse addOrderLineListResponse) {
+        if(mAddOrderLineView!=null){
+            mAddOrderLineView.hideProgress();
+            mAddOrderLineView.showAlert("Ölçü başarıyla kaydedildi.",false);
+            mAddOrderLineView.updateCart(addOrderLineListResponse.getOrderTotalAmount());
+        }
     }
 
     @Override
     public void onFailureAddOrderLines(String message) {
-
+        if(mAddOrderLineView!=null){
+            mAddOrderLineView.hideProgress();
+            mAddOrderLineView.showAlert(message,true);
+        }
     }
 
     @Override

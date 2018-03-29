@@ -12,6 +12,7 @@ import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.orders.model.DeleteOrderLinesModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
+import com.javaman.olcudefteri.orders.model.response.AddOrderLineListResponse;
 import com.javaman.olcudefteri.orders.model.response.AddOrderLineResponse;
 import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.service.CustomerService;
@@ -106,8 +107,75 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
     }
 
     @Override
-    public void addOrderLines(AddOrderLineDetailListModel orderLineDetailListModel, String headerData, onAddOrderLinesListener listener) {
+    public void addOrderLines(AddOrderLineDetailListModel orderLineDetailListModel, String headerData, final onAddOrderLinesListener listener) {
+        orderLineService = ApiClient.getClient().create(OrderLineService.class);
+        String xAuthToken=headerData;
+        Call<AddOrderLineListResponse> addOrderLineListResponse = orderLineService.addOrderLines(xAuthToken,orderLineDetailListModel);
+        addOrderLineListResponse.enqueue(new Callback<AddOrderLineListResponse>() {
+            @Override
+            public void onResponse(Call<AddOrderLineListResponse> call, Response<AddOrderLineListResponse> response) {
 
+                //request servera ulaştı ve herhangi bir response döndü
+
+                if (response.isSuccessful()) {
+                    //response [200 ,300) aralığında ise
+                    AddOrderLineListResponse addOrderLineListResponse = response.body();
+                    listener.onSuccessAddOrderLines(addOrderLineListResponse);
+                    Log.d("Response body", response.body().toString());
+                    Log.d("Auth response:", addOrderLineListResponse.toString());
+                } else {
+
+                    //response [200 ,300) aralığında değil ise
+
+                    Gson gson = new GsonBuilder().create();
+
+                    try {
+
+                        String errorBody = response.errorBody().string();
+
+                        AddOrderLineListResponse apiError = gson.fromJson(errorBody, AddOrderLineListResponse.class);
+
+                        Log.d("Hata Mesaj:", response.code() +" "+ apiError.getBaseModel().getResponseMessage());
+                        listener.onFailureAddOrderLines("Server hatası :"+response.code() +"\n"+ apiError.getBaseModel().getResponseMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailureAddOrderLines("Beklenmedik hata..." + e.getMessage());
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<AddOrderLineListResponse> call, Throwable t) {
+
+                //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
+
+                if (t instanceof HttpException) {
+
+                    Gson gson = new GsonBuilder().create();
+
+                    try {
+
+                        String errorBody = ((HttpException) t).response().errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+
+                        Log.d("Request Error :", apiError.getStatus() +" "+ apiError.getMessage());
+                        listener.onFailureAddOrderLines(apiError.getStatus() +" "+ apiError.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailureAddOrderLines("Beklenmedik hata..." + e.getMessage());
+                    }
+                } else {
+
+                    listener.onFailureAddOrderLines("Ağ hatası : " + t.getMessage());
+                }
+
+
+            }
+        });
     }
 
     @Override

@@ -8,6 +8,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+
 /**
  * Created by javaman on 15.12.2017.
  */
@@ -15,7 +17,7 @@ import android.util.Log;
 public class MyService extends Service {
 
     private static final String TAG = MyService.class.getSimpleName();
-
+    SharedPreferenceHelper sharedPreferenceHelper;
 
     @Nullable
     @Override
@@ -27,6 +29,7 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         Log.i(TAG, "onCreate()");
     }
 
@@ -40,15 +43,7 @@ public class MyService extends Service {
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
         Log.i(TAG, "onTaskRemoved()");
-
-        SharedPreferences prefs = getSharedPreferences("X", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.remove("lastActivity");
-        editor.commit();
-
-        SharedPreferences prefCustomerForm = getSharedPreferences("customerForm", Context.MODE_PRIVATE);
-        prefCustomerForm.edit().clear().commit();
-
+        sharedPreferenceHelper.removeKey("lastActivity");
     }
 
     @Override

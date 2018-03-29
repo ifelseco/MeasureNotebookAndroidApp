@@ -24,5 +24,5 @@ public interface AddOrderLineView {
     void showProgress();
     void hideProgress();
 
-    void updateCart(AddOrderLineResponse addOrderLineResponse);
+    void updateCart(double orderTotalAmount);
 }

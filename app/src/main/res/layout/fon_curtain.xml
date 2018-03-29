@@ -532,28 +532,11 @@
                         android:layout_weight="1"
                         android:layout_gravity="center"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="m"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:layout_gravity="center"/>
 
-                    <EditText
-                        android:id="@+id/editTextFonTotalPrice"
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Fiyat"
-                        android:background="@drawable/edittext_border_bg"
-                        android:layout_weight="1"
-                        android:inputType="numberDecimal"/>
+
 
                     <TextView
+                        android:id="@+id/tvFonTotalPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -561,7 +544,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:layout_weight="1"
                         android:textStyle="bold"
-                        android:text="TL" />
+                        android:text="" />
 
 
 

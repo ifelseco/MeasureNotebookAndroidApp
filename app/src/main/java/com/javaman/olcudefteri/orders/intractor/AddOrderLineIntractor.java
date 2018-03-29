@@ -3,6 +3,7 @@ package com.javaman.olcudefteri.orders.intractor;
 import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.orders.model.DeleteOrderLinesModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.response.AddOrderLineListResponse;
 import com.javaman.olcudefteri.orders.model.response.AddOrderLineResponse;
 import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 
@@ -18,7 +19,7 @@ public interface AddOrderLineIntractor {
     }
 
     interface onAddOrderLinesListener{
-        void onSuccessAddOrderLines();
+        void onSuccessAddOrderLines(AddOrderLineListResponse addOrderLineListResponse);
         void onFailureAddOrderLines(String message);
     }
 
