@@ -49,6 +49,95 @@
                     android:layout_margin="10dp"
                     android:orientation="horizontal">
 
+                    <RadioGroup
+                        android:id="@+id/radioGroupType"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/edittext_border_bg"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radioButtonTekKasa"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tek Kasa"
+                            android:fontFamily="@font/roboto_regular"
+                            android:textSize="10sp" />
+
+                        <RadioButton
+                            android:id="@+id/radioButtonParcali"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Parçalı"
+                            android:textSize="10sp" />
+
+                        <RadioButton
+                            android:id="@+id/radioButtonCokluMekanizma"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="Çoklu Mekanizma"
+                            android:textSize="10sp" />
+
+                    </RadioGroup>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgreen" />
+                <LinearLayout
+                    android:id="@+id/linear_layout_pices_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/input_layout_editTextParcaCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/editTextParcaCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:background="@drawable/edittext_border_bg"
+                            android:hint="Parça Sayısı"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgreen" />
+                <TableLayout
+                    android:id="@+id/tableMeasureParcali"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                </TableLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/lightgreen" />
+
+
+                <LinearLayout
+                    android:id="@+id/linear_layout_normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/input_layout_editTextWidth"
                         android:layout_width="wrap_content"
@@ -89,6 +178,7 @@
                     android:layout_height="1dp"
                     android:background="@color/lightgreen" />
                 <LinearLayout
+                    android:id="@+id/linear_layout_normal_direction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -273,97 +363,6 @@
                     android:layout_height="1dp"
                     android:background="@color/lightgreen" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
-
-                    <RadioGroup
-                        android:id="@+id/radioGroupType"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/edittext_border_bg"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/radioButtonTekKasa"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tek Kasa"
-                            android:fontFamily="@font/roboto_regular"
-                            android:textSize="10sp" />
-
-                        <RadioButton
-                            android:id="@+id/radioButtonParcali"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Parçalı"
-                            android:textSize="10sp" />
-
-                        <RadioButton
-                            android:id="@+id/radioButtonCokluMekanizma"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Çoklu Mekanizma"
-                            android:textSize="10sp" />
-
-                    </RadioGroup>
-
-
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_editTextParcaCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <EditText
-                            android:id="@+id/editTextParcaCount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
-                            android:hint="Parça Sayısı"
-                            android:inputType="textPersonName" />
-                    </android.support.design.widget.TextInputLayout>
-
-
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
-                <TableLayout
-                    android:id="@+id/tableMeasureParcali"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical">
-
-                    <!-- <include android:id="@+id/parcali_layout" layout="@layout/parcali_stor_layout"/>
-     -->
-
-
-
-
-                </TableLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
 
 
 
@@ -448,28 +447,9 @@
                         android:layout_weight="1"
                         android:layout_gravity="center"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="m2"
-                        android:layout_weight="1"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textSize="15sp"
-                        android:layout_gravity="center"/>
-
-                    <EditText
-                        android:id="@+id/editTextStorTotalPrice"
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Fiyat"
-                        android:background="@drawable/edittext_border_bg"
-                        android:layout_weight="1"
-                        android:inputType="numberDecimal"/>
 
                     <TextView
+                        android:id="@+id/textViewStorTotalPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -477,7 +457,7 @@
                         android:textStyle="bold"
                         android:fontFamily="@font/roboto_regular"
                         android:textSize="15sp"
-                        android:text="TL" />
+                        android:text="" />
 
 
 
