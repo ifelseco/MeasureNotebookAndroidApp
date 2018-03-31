@@ -127,55 +127,57 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
             Currency currency=Currency.getInstance(new Locale("tr","TR"));
             tvUnitPrice.setText(""+currency.getSymbol()+" "+String.format("%.2f",orderLineDetailModel.getUnitPrice()));
             tvLineAmount.setText(""+currency.getSymbol()+" "+String.format("%.2f",orderLineDetailModel.getLineAmount()));
+            int productValue=orderLineDetailModel.getProduct().getProductValue();
+            String meterUnit;
+            if(
+                    productValue==2 ||
+                    productValue==3||
+                    productValue==4||
+                    productValue==5||
+                    productValue==10){
+                meterUnit="m2";
+            }else{
+                meterUnit="m";
+            }
 
+            tvUsedMaterial.setText(String.format("%.2f",orderLineDetailModel.getUsedMaterial())+" "+meterUnit);
 
 
             String[] productArray=mContext.getResources().getStringArray(R.array.curtains);
             switch(orderLineDetailModel.getProduct().getProductValue()){
                 case 0:
                     tvProductValue.setText(productArray[0]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m");
                     break;
                 case 1:
                     tvProductValue.setText(productArray[1]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m");
                     break;
                 case 2:
                     tvProductValue.setText(productArray[2]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m2");
                     break;
 
                 case 3:
                     tvProductValue.setText(productArray[3]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m2");
                     break;
                 case 4:
                     tvProductValue.setText(productArray[4]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m2");
                     break;
                 case 5:
                     tvProductValue.setText(productArray[5]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m2");
                     break;
                 case 6:
                     tvProductValue.setText(productArray[6]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m");
                     break;
                 case 7:
                     tvProductValue.setText(productArray[7]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m");
                     break;
                 case 8:
                     tvProductValue.setText(productArray[8]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m");
                     break;
                 case 9:
                     tvProductValue.setText(productArray[9]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m");
                     break;
                 case 10:
                     tvProductValue.setText(productArray[10]);
-                    tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial()+" m");
                     break;
 
             }

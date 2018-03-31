@@ -33,6 +33,7 @@ import com.javaman.olcudefteri.orders.curtain_type_dialog.FarbelaCurtain;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.FonCurtain;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.JalouiseCurtain;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.NetCurtain;
+import com.javaman.olcudefteri.orders.curtain_type_dialog.NetStorCurtain;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.RollerCurtain;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.SunBlindCurtain;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.VerticalCurtain;
@@ -471,7 +472,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
                             break;
                         case "TSP":
                             //Tül Stor dialog
-                            showCurtainDialog(new FonCurtain() , "Tül Stor");
+                            showCurtainDialog(new NetStorCurtain() , "Tül Stor");
                             break;
                     }
                 }

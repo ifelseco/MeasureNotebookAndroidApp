@@ -66,6 +66,7 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
     @BindView(R.id.btnCalculate) ImageButton btnCalculate;
     @BindView(R.id.textViewStorM2) TextView tvStorM2;
     @BindView(R.id.textViewStorTotalPrice) TextView tvTotalPrice;
+    @BindView(R.id.textViewProductValue) TextView tvProductValue;
     @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
     @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
     @BindView(R.id.linear_layout_normal) LinearLayout linearLayoutNormalWidthHeight;
@@ -144,6 +145,7 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
     }
 
     private void intiView() {
+        tvProductValue.setText("Stor");
         radioGroupType.clearCheck();
         radioGroupType.setOnCheckedChangeListener(this);
         etParcaCount.addTextChangedListener(textWatcherParcaCount);
