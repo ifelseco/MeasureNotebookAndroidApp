@@ -77,7 +77,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.i("track", " in onBindViewHoılder");
+        Log.i("track", " in onBindViewHolder");
         OrderDetailResponseModel order = mOrders.get(position);
         holder.itemView.setTag(order);
 
@@ -169,8 +169,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         }
 
         public void bind(OrderDetailResponseModel order, int position) {
-            Log.i("track", " in bind method");
             tvOrderNo.setText(String.valueOf(order.getId()));
+            Log.i("cust-track",""+order.getCustomer().getId());
             tvNameSurname.setText(order.getCustomer().getNameSurname());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy");
             String orderDate = simpleDateFormat.format(order.getOrderDate());

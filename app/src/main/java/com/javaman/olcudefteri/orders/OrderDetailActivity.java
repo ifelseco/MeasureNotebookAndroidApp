@@ -134,6 +134,11 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
                     if (orderId != null && orderId > 0) {
                         sendGetOrderLineRequest(orderId);
                     }
+                }else if(getIntent().getExtras().containsKey(AddOrderLineFragment.ARG_GOTO_ORDERLINE)){
+                    orderId = getIntent().getExtras().getLong(AddOrderLineFragment.ARG_GOTO_ORDERLINE);
+                    if (orderId != null && orderId > 0) {
+                        sendGetOrderLineRequest(orderId);
+                    }
                 }
             } else {
                 this.orderLineSummaryResponseModel = savedInstanceState.getParcelable(ARG_SAVED_ORDER);
@@ -400,6 +405,9 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         this.orderLineSummaryResponseModel = orderLineSummaryResponseModel;
         setArgumentForFragments();
         initTab();
+        if(getIntent().getExtras().containsKey(AddOrderLineFragment.ARG_GOTO_ORDERLINE)){
+            mViewPager.setCurrentItem(3,true);
+        }
     }
 
     @Override

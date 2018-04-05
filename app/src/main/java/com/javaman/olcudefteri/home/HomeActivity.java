@@ -157,6 +157,8 @@ public class HomeActivity extends AppCompatActivity
                 break;
             case R.id.measure:
                 Intent measure= new Intent(HomeActivity.this,AddOrderActivity.class);
+                Bundle bundle=new Bundle();
+                measure.putExtra("init-key","first-init-add-order");
                 startActivity(measure);
                 break;
             case R.id.report:

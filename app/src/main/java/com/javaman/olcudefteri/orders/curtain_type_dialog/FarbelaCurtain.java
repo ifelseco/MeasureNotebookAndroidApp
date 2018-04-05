@@ -55,7 +55,6 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
     @BindView(R.id.editTextFarbelaTotalPrice) EditText editTextTotalPrice;
     @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
 
-    private AddOrderLinePresenter mAddOrderLinePresenter;
     public static final int ARG_PRODUCT_VALUE = 8;
 
 
@@ -206,7 +205,6 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mAddOrderLinePresenter.onDestroyCalculate();
     }
 
 

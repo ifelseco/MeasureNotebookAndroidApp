@@ -39,6 +39,8 @@ public class ReportsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent measure= new Intent(ReportsActivity.this,AddOrderActivity.class);
+                Bundle bundle=new Bundle();
+                measure.putExtra("init-key","first-init-add-order");
                 startActivity(measure);
             }
         });
@@ -106,6 +108,8 @@ public class ReportsActivity extends AppCompatActivity
                 break;
             case R.id.measure:
                 Intent measure= new Intent(ReportsActivity.this,AddOrderActivity.class);
+                Bundle bundle=new Bundle();
+                measure.putExtra("init-key","first-init-add-order");
                 startActivity(measure);
                 break;
             case R.id.report:

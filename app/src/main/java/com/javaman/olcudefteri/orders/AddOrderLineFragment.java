@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.orders;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,9 +10,15 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
+import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 
 import com.javaman.olcudefteri.R;
@@ -49,6 +57,7 @@ import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.AddOrderLineView;
+import com.javaman.olcudefteri.utill.MyUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -70,7 +79,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class AddOrderLineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, View.OnTouchListener ,AddOrderLineView{
 
     SharedPreferenceHelper sharedPreferenceHelper;
-    private AddCustomerResponse addCustomerResponse;
+    public static final String ARG_GOTO_ORDERLINE = "arg_goto_order_line";
     private OrderDetailResponseModel orderDetailResponseModel;
     private BottomSheetBehavior bottomSheetBehavior;
     private int productCount;
@@ -193,18 +202,18 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     private AddOrderLinePresenter mAddOrderLinePresenter;
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
-
-
         if(getArguments().containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)){
             orderDetailResponseModel=getArguments().getParcelable(OrderDetailActivity.ARG_CURRENT_ORDER);
         }
 
     }
+
+
 
     @Nullable
     @Override
@@ -213,8 +222,9 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
         mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         ButterKnife.bind(this, view);
         getActivity().setTitle("Sipariş Oluştur");
-            initView();
-            setView();
+        initView();
+        setView();
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -270,6 +280,42 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
         productCodes=getActivity().getResources().getStringArray(R.array.curtainsCode);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.menu_add_order, menu);
+
+        MenuItem menuItemLineList = menu.findItem(R.id.item_line_list);
+        MenuItem menuItemUpdate = menu.findItem(R.id.item_update);
+
+        if (menuItemLineList != null) {
+            MyUtil.tintMenuIcon(getActivity().getApplicationContext(), menuItemLineList, android.R.color.white);
+        }
+
+        if (menuItemUpdate != null) {
+            MyUtil.tintMenuIcon(getActivity().getApplicationContext(), menuItemUpdate, android.R.color.white);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.item_line_list:
+                Intent orderDetail = new Intent(getActivity(), OrderDetailActivity.class);
+                orderDetail.putExtra(ARG_GOTO_ORDERLINE,orderDetailResponseModel.getId());
+                startActivity(orderDetail);
+                return true;
+            case R.id.item_update:
+                Toast.makeText(getActivity(), "Update", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -615,7 +661,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
         }else{
             SweetAlertDialog pDialog=new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            //pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
             pDialog.setTitleText(message);
             pDialog.setConfirmText("Kapat");
             pDialog.setCancelable(true);

@@ -20,6 +20,12 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.OrderDetailActivity;
 import com.javaman.olcudefteri.orders.OrdersActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by javaman on 19.02.2018.
  */
@@ -32,15 +38,40 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         if (remoteMessage.getNotification() != null) {
-            Log.e(TAG, "Title: " + remoteMessage.getNotification().getTitle());
-            Log.e(TAG, "Body: " + remoteMessage.getNotification().getBody());
+            Log.i(TAG, "Coming Not sound  " + remoteMessage.getNotification().getSound());
+            Log.i(TAG, "Coming Not title : " + remoteMessage.getNotification().getTitle());
+            Log.i(TAG, "Coming Data : " + remoteMessage.getData().toString());
 
-            String title=remoteMessage.getData().get("title");
-            String body=remoteMessage.getData().get("body");
-            Long orderId=Long.parseLong(remoteMessage.getData().get("orderId"));
+            //remoteMessage.getData().getData()-->orderId
+
+           String title=remoteMessage.getNotification().getTitle();
+           String message=remoteMessage.getData().get("message");
+           Long orderId=Long.parseLong(remoteMessage.getData().get("data"));
+           String time=remoteMessage.getData().get("time");
+
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",new Locale("TURKISH", "tr"));
+            Date date = null;
+            try{
+
+                date=sdf.parse(time);
 
 
-            createNotification(body,title,orderId);
+            }catch(ParseException e){
+                e.printStackTrace();
+            }
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            int hours = calendar.get(Calendar.HOUR_OF_DAY);
+            int minutes = calendar.get(Calendar.MINUTE);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int month = calendar.get(Calendar.MONTH)+1;
+            int year = calendar.get(Calendar.YEAR);
+
+            String createdDate=day+"/"+month+"/"+year+"-"+hours+":"+minutes;
+
+
+            createNotification(message,title,orderId,createdDate);
 
         }
 
@@ -49,7 +80,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void createNotification(String messageBody,String messageTitle,Long orderId){
+    private void createNotification(String messageBody,String messageTitle,Long orderId,String time){
 
         Intent intent = new Intent( this , OrderDetailActivity. class );
         intent.putExtra(OrderDetailActivity.ARG_NOTIFICATION_ORDER,orderId);
@@ -80,10 +111,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setTicker("Hearty365")
+                .setTicker("Sipariş")
                 //     .setPriority(Notification.PRIORITY_MAX)
                 .setContentTitle(messageTitle)
                 .setContentText(messageBody)
+                .setSubText(time)
                 .setAutoCancel( true )
                 .setSound(notificationSoundURI)
                 .setContentIntent(resultIntent);

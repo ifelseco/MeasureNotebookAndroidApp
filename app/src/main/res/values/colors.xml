@@ -17,6 +17,7 @@
  <color name="colorAccentDark">#006db3</color>
  <color name="colorPrimaryText">#0091ea</color>
  <color name="colorAccentText">#ffffff</color>
+ <color name="colorMenuIcon">#ffffff</color>
  <color name="colorButtonNormal">#039be5</color>
  <color name="colorControlHighlight">#ffe54c</color>
  <color name="colorControlActivated">#ffe54c</color>

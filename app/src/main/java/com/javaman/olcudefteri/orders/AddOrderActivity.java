@@ -68,6 +68,7 @@ public class AddOrderActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_order);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
+        sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -165,6 +166,8 @@ public class AddOrderActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.order_fragment_container, addOrderLineFragment, ARG_ADD_ORDER_LINE_FRAGMENT_TAG)
                 .addToBackStack("add-order-fragment");
         fragmentTransaction.commit();
+
+
     }
 
 
@@ -199,7 +202,7 @@ public class AddOrderActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Settings", Toast.LENGTH_SHORT).show();
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -285,6 +288,8 @@ public class AddOrderActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
 }
 
 
