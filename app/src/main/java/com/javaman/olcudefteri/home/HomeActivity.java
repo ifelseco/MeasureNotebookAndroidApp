@@ -1,8 +1,6 @@
 package com.javaman.olcudefteri.home;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,7 +48,6 @@ public class HomeActivity extends AppCompatActivity
     SweetAlertDialog pDialog;
     DrawerLayout drawer;
     NavigationView navigationView;
-    Toolbar toolbar=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,6 @@
 package com.javaman.olcudefteri.login;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.javaman.olcudefteri.tailor.TailorHomeActivity;
 import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.login.presenter.LoginPresenter;
@@ -88,8 +88,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void navigatetoHome() {
-        startActivity(new Intent(LoginActivity.this , HomeActivity.class));
+    public void navigatetoHome(boolean isTailor) {
+
+        if(isTailor){
+            startActivity(new Intent(LoginActivity.this , TailorHomeActivity.class));
+        }else{
+            startActivity(new Intent(LoginActivity.this , HomeActivity.class));
+        }
 
     }
 

@@ -1,5 +1,8 @@
 package com.javaman.olcudefteri.login.presenter;
 
+import android.text.TextUtils;
+
+import com.javaman.olcudefteri.login.model.response.AuthResponse;
 import com.javaman.olcudefteri.login.view.LoginView;
 import com.javaman.olcudefteri.login.intractor.LoginIntractor;
 import com.javaman.olcudefteri.login.intractor.LoginIntractorImpl;
@@ -55,10 +58,15 @@ public class LoginPresenterImpl implements LoginPresenter,LoginIntractor.onLogin
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccess(AuthResponse authResponse) {
+
         if(mLoginView!=null){
+            boolean isTailor = false;
+            if(TextUtils.equals(authResponse.getRole(),"r3")){
+                isTailor=true;
+            }
             mLoginView.hideProgress();
-            mLoginView.navigatetoHome();
+            mLoginView.navigatetoHome(isTailor);
         }
     }
 

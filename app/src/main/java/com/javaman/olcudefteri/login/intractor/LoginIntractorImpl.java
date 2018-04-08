@@ -28,6 +28,7 @@ public class LoginIntractorImpl implements LoginIntractor {
 
     LoginService loginService;
 
+/*
 
     @Override
     public void dummyLogin(String username, String password, final onLoginFinishedListener listener) {
@@ -54,6 +55,7 @@ public class LoginIntractorImpl implements LoginIntractor {
 
 
     }
+*/
 
     public void login(String username, String password, final onLoginFinishedListener listener) {
 
@@ -90,7 +92,7 @@ public class LoginIntractorImpl implements LoginIntractor {
 
 
                         listener.openSession(sessionId);
-                        listener.onSuccess();
+                        listener.onSuccess(authResponse);
 
 
                     }else if(response.code()==401){

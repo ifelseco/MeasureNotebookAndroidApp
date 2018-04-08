@@ -106,5 +106,12 @@
     <string name="title_order_detail">Order Detail</string>
     <string name="title_activity_order_detail_tabbed">OrderDetailTabbedActivity</string>
     <string name="tl">u20ba</string>
+    <string name="title_activity_tailor_home">Terzi Paneli</string>
+    <string name="title_orders">Siparişler</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Bildirimler</string>
+    <string name="title_processing">Devam eden işler</string>
+    <string name="title_processed">Hazır</string>
+
 
 </resources>
