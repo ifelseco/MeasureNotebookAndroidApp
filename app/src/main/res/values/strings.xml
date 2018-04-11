@@ -102,6 +102,7 @@
         <item>Hoşgeldin</item>
         <item>Bugün nasılsın?</item>
     </string-array>
+
     <string name="title_order_list">Orders</string>
     <string name="title_order_detail">Order Detail</string>
     <string name="title_activity_order_detail_tabbed">OrderDetailTabbedActivity</string>
@@ -112,6 +113,17 @@
     <string name="title_notifications">Bildirimler</string>
     <string name="title_processing">Devam eden işler</string>
     <string name="title_processed">Hazır</string>
+
+    <string-array name="order_status">
+        <item>Eksik</item>
+        <item>Ölçüye Gidilecek</item>
+        <item>Kayıt Alındı</item>
+        <item>Terzide</item>
+        <item>Hazır</item>
+        <item>Teslim Edildi</item>
+        <item>Teklif</item>
+    </string-array>
+
 
 
 </resources>

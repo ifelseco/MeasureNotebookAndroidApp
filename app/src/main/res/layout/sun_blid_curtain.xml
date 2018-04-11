@@ -57,7 +57,7 @@
                             android:id="@+id/editTextWidth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="En"
                             android:inputType="number" />
@@ -74,7 +74,7 @@
                             android:id="@+id/editTextHeight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="Boy"
                             android:inputType="number" />
@@ -104,7 +104,7 @@
                             android:id="@+id/editTextPattern"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="Desen"
 
@@ -121,7 +121,7 @@
                             android:id="@+id/editTextVariant"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="Varyant"
                             android:inputType="textPersonName" />
@@ -137,7 +137,7 @@
                             android:id="@+id/editTextAlias"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="İsim"
                             android:inputType="textPersonName" />
@@ -179,7 +179,7 @@
                                 android:id="@+id/editTextSunBlindUnitPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/edittext_border_bg"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
                                 android:ems="10"
                                 android:hint="Birim Fiyat"
                                 android:inputType="number" />
@@ -229,7 +229,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:background="@drawable/edittext_border_bg"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:ems="10"
                         android:hint="Toplam Fiyat"
                         android:inputType="numberDecimal" />
@@ -270,7 +270,7 @@
                             android:id="@+id/editTextSunBlinfDesc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Açıklama"
                             android:inputType="textMultiLine"
                             android:maxLines="5"

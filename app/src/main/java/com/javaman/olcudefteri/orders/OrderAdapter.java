@@ -204,7 +204,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
 
 
-            if (order.isMountExsist()) {
+            if (order.isMountExist()) {
                 linearLayoutOrderMount.setVisibility(View.VISIBLE);
 
             }

@@ -123,7 +123,7 @@ public class OrderDetailFragment extends Fragment {
             tvMeasureDate.setText(measureDate);
         }
 
-        if(orderDetailResponseModel.isMountExsist()){
+        if(orderDetailResponseModel.isMountExist()){
             linearLayoutMountDate.setVisibility(View.VISIBLE);
             checkBoxIsMount.setChecked(true);
 

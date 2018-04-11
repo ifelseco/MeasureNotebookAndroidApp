@@ -60,7 +60,7 @@
                             android:id="@+id/editTextBrizWidth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="Briz En"
                             android:inputType="number" />
@@ -78,7 +78,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Briz Boy"
                             android:inputType="number" />
 
@@ -105,7 +105,7 @@
                             android:id="@+id/editTextFarbelaWidth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="Farbela En"
                             android:inputType="number" />
@@ -123,7 +123,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Farbela Boy"
                             android:inputType="number" />
 
@@ -163,7 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:background="@drawable/edittext_border_bg"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -199,7 +199,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="Diğer"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:inputType="numberDecimal" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -226,7 +226,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Desen"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
@@ -242,7 +242,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Varyant"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
@@ -259,7 +259,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="İsim"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:inputType="textPersonName" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -286,7 +286,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Açıklama"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:inputType="textMultiLine"
                             android:maxLines="5"
                             android:minLines="2"
@@ -318,7 +318,7 @@
                             android:id="@+id/editTextBrizUnitPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="Birim Fiyat"
                             android:inputType="number" />
@@ -377,7 +377,7 @@
                         android:layout_width="match_parent"
                         android:layout_gravity="center"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_border_bg"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:ems="10"
                         android:hint="Fiyat"
                         android:layout_weight="1"

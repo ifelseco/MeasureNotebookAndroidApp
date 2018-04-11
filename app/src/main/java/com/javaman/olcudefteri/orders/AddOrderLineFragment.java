@@ -2,7 +2,6 @@ package com.javaman.olcudefteri.orders;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,11 +9,8 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
-import android.support.v7.app.AppCompatActivity;
-import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 
 import com.javaman.olcudefteri.R;
@@ -51,8 +46,6 @@ import com.javaman.olcudefteri.orders.model.DeleteOrderLinesModel;
 import com.javaman.olcudefteri.orders.model.LocationProduct;
 import com.javaman.olcudefteri.orders.model.OrderDetailModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
-import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
-import com.javaman.olcudefteri.orders.model.response.AddOrderLineResponse;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
@@ -80,6 +73,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
     SharedPreferenceHelper sharedPreferenceHelper;
     public static final String ARG_GOTO_ORDERLINE = "arg_goto_order_line";
+    public static final String ARG_GOTO_ORDER_UPDATE = "current-order-goto-update";
     private OrderDetailResponseModel orderDetailResponseModel;
     private BottomSheetBehavior bottomSheetBehavior;
     private int productCount;
@@ -310,6 +304,12 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
                 return true;
             case R.id.item_update:
                 Toast.makeText(getActivity(), "Update", Toast.LENGTH_SHORT).show();
+                //show order update dilog
+                OrderUpdateDialog orderUpdateDialog=new OrderUpdateDialog();
+                Bundle bundle=new Bundle();
+                bundle.putParcelable(ARG_GOTO_ORDER_UPDATE,orderDetailResponseModel);
+                orderUpdateDialog.setArguments(bundle);
+                showDialog(orderUpdateDialog,"order-update-dialog");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -486,39 +486,39 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
                     switch (productCode){
                         case "TP":
-                            showCurtainDialog(new NetCurtain() , "Tül Perde");
+                            showDialog(new NetCurtain() , "Tül Perde");
                             break;
                         case "GP":
                             Toast.makeText(getActivity(), ""+locationProduct.getLocationName()+locationProduct.getLocationType(), Toast.LENGTH_SHORT).show();
-                            showCurtainDialog(new SunBlindCurtain() , "Güneşlik Perde");
+                            showDialog(new SunBlindCurtain() , "Güneşlik Perde");
                             break;
                         case "SP":
-                            showCurtainDialog(new RollerCurtain() , "Stor Perde");
+                            showDialog(new RollerCurtain() , "Stor Perde");
                             break;
                         case "ZP":
-                            showCurtainDialog(new ZebraCurtain() , "Zebra Perde");
+                            showDialog(new ZebraCurtain() , "Zebra Perde");
                             break;
                         case "JP":
-                            showCurtainDialog(new JalouiseCurtain() , "Jaluzi Perde");
+                            showDialog(new JalouiseCurtain() , "Jaluzi Perde");
                             break;
                         case "DP":
-                            showCurtainDialog(new VerticalCurtain() , "Dikey Perde");
+                            showDialog(new VerticalCurtain() , "Dikey Perde");
                             break;
                         case "KTP":
-                            showCurtainDialog(new CurtainDoubleNet() , "Kruvaze Tül Perde");
+                            showDialog(new CurtainDoubleNet() , "Kruvaze Tül Perde");
                             break;
                         case "BP":
-                            showCurtainDialog(new BrizCurtain() , "Briz Perde");
+                            showDialog(new BrizCurtain() , "Briz Perde");
                             break;
                         case "FARBP":
-                            showCurtainDialog(new FarbelaCurtain() , "Farbela Perde");
+                            showDialog(new FarbelaCurtain() , "Farbela Perde");
                             break;
                         case "FP":
-                            showCurtainDialog(new FonCurtain() , "Fon Perde");
+                            showDialog(new FonCurtain() , "Fon Perde");
                             break;
                         case "TSP":
                             //Tül Stor dialog
-                            showCurtainDialog(new NetStorCurtain() , "Tül Stor");
+                            showDialog(new NetStorCurtain() , "Tül Stor");
                             break;
                     }
                 }
@@ -530,7 +530,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    public void showCurtainDialog(DialogFragment dialogFragment , String fragmentTag){
+    public void showDialog(DialogFragment dialogFragment , String fragmentTag){
         dialogFragment.show(getFragmentManager(),fragmentTag);
     }
 
@@ -617,6 +617,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
 
     @Override
+    @Subscribe
     public void updateOrder(OrderDetailModel orderDetailModel) {
 
     }

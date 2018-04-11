@@ -52,7 +52,7 @@
                         android:id="@+id/radioGroupType"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/edittext_border_bg"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -105,7 +105,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Parça Sayısı"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
@@ -147,7 +147,7 @@
                             android:id="@+id/editTextWidth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="En"
                             android:inputType="number" />
@@ -165,7 +165,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Boy"
                             android:inputType="number" />
 
@@ -194,7 +194,7 @@
                         android:id="@+id/radioGroupZincir"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/edittext_border_bg"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -234,7 +234,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Etek no"
                             android:inputType="number" />
 
@@ -253,7 +253,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Boncuk no"
                             android:inputType="number" />
 
@@ -288,7 +288,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Desen"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
@@ -304,7 +304,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Varyant"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
@@ -320,7 +320,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="İsim"
                             android:inputType="textPersonName" />
 
@@ -348,7 +348,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Stor açıklama"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:inputType="textMultiLine"
                             android:maxLines="5"
                             android:minLines="2"
@@ -393,7 +393,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:hint="Birim Fiyat"
-                                android:background="@drawable/edittext_border_bg"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
                                 android:ems="10"
                                 android:inputType="number"
                                 />

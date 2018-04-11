@@ -60,7 +60,7 @@
                             android:id="@+id/editTextWidth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="En"
                             android:inputType="number" />
@@ -78,7 +78,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Boy"
                             android:inputType="number" />
 
@@ -106,7 +106,7 @@
 
                     <RadioGroup
                         android:id="@+id/radio_group_direction"
-                        android:background="@drawable/edittext_border_bg"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
@@ -149,7 +149,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Desen"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
@@ -165,7 +165,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Varyant"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
@@ -181,7 +181,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="İsim"
                             android:inputType="textPersonName" />
 
@@ -211,7 +211,7 @@
                             android:hint="Açıklama"
                             android:minLines="2"
                             android:maxLines="5"
-                            android:background="@drawable/edittext_border_bg"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:scrollbars="vertical"
                             android:inputType="textMultiLine"
                             />
@@ -248,7 +248,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:hint="Birim Fiyat"
-                                android:background="@drawable/edittext_border_bg"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
                                 android:ems="10"
                                 android:inputType="number" />
 
@@ -316,7 +316,7 @@
                         android:layout_gravity="center"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:background="@drawable/edittext_border_bg"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:hint="Fiyat"
                         android:layout_weight="1"
                         android:inputType="numberDecimal"/>

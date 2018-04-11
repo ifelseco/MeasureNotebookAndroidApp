@@ -8,6 +8,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -290,10 +291,18 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
+    public void showDialog(DialogFragment dialogFragment , String fragmentTag){
+        dialogFragment.show(getSupportFragmentManager(),fragmentTag);
+    }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fab_order_edit) {
-            showToast("Sipariş düzenle diyalogu");
+            OrderUpdateDialog orderUpdateDialog=new OrderUpdateDialog();
+            Bundle bundle=new Bundle();
+            bundle.putParcelable(AddOrderLineFragment.ARG_GOTO_ORDER_UPDATE,orderDetailResponseModel);
+            orderUpdateDialog.setArguments(bundle);
+            showDialog(orderUpdateDialog,"order-update-dialog");
             fabMenu.close(true);
         } else if (v.getId() == R.id.fab_order_delete) {
             showToast("Sipariş silme diyalogu");
