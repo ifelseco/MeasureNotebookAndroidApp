@@ -1,15 +1,11 @@
 package com.javaman.olcudefteri.orders;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -22,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,10 +26,8 @@ import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.orders.model.PageModel;
-import com.javaman.olcudefteri.orders.model.response.OrderDetailPage;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
-import com.javaman.olcudefteri.orders.model.Paginator;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenterImpl;
 import com.javaman.olcudefteri.orders.view.OrdersView;
@@ -46,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class OrdersActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -191,8 +185,8 @@ public class OrdersActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.item_delete) {
             if (this.selectedOrderList.size() > 0) {
-                sendDeleteOrderListRequest(this.selectedOrderList);
-                clearActionMode();
+                showConfirmDialog(this.selectedOrderList);
+
             } else {
                 Toast.makeText(this, "Sipariş seçmediniz.", Toast.LENGTH_SHORT).show();
                 clearActionMode();
@@ -204,7 +198,31 @@ public class OrdersActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void showConfirmDialog(final ArrayList<OrderDetailResponseModel> selectedOrderList) {
+        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Onaylıyor musunuz?")
+                .setContentText("Siparişler silinecek.")
+                .setConfirmText("Evet")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sendDeleteOrderListRequest(selectedOrderList);
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .showCancelButton(true)
+                .setCancelText("Vazgeç!")
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+    }
+
     public void clearActionMode() {
+        this.selectedOrderList.clear();
         isActionModeActive = false;
         adapter.notifyDataSetChanged();
         toolbar.getMenu().clear();
@@ -246,7 +264,7 @@ public class OrdersActivity extends AppCompatActivity
             // FOLLOW MEEEEE>>>
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -278,6 +296,7 @@ public class OrdersActivity extends AppCompatActivity
     public void deleteOrdersFromAdapter(ArrayList<OrderDetailResponseModel> orders) {
         OrderAdapter orderAdapter = (OrderAdapter) adapter;
         orderAdapter.deleteSelectedItems(orders);
+        clearActionMode();
     }
 
     @Override
@@ -314,8 +333,31 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
-    public void showAlert(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    public void showAlert(String message,boolean isError,boolean isOnlyToast) {
+        if(isError){
+
+            if(isOnlyToast){
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }else{
+                SweetAlertDialog pDialog= new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+                pDialog.setTitleText("Hata...");
+                pDialog.setContentText(message);
+                pDialog.setConfirmText("Kapat");
+                pDialog.setCancelable(true);
+                pDialog.show();
+            }
+
+        }else{
+            if(isOnlyToast){
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            }else{
+                SweetAlertDialog pDialog=new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
+                pDialog.setTitleText(message);
+                pDialog.setConfirmText("Kapat");
+                pDialog.setCancelable(true);
+                pDialog.show();
+            }
+        }
     }
 
     @Override
@@ -369,6 +411,7 @@ public class OrdersActivity extends AppCompatActivity
         Log.d("Selecetde order :",""+selectedOrderList.size());
         if (((CheckBox) view).isChecked()) {
             selectedOrderList.add(this.orderList.get(position));
+            Log.d("SelectedOrder", " " + selectedOrderList.size());
             countSelectedOrders++;
             updateCounter(countSelectedOrders);
         } else {
@@ -391,7 +434,7 @@ public class OrdersActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (isActionModeActive) {

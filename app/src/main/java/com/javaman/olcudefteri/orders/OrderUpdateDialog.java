@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,13 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.model.OrderUpdateModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,12 +37,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by javaman on 18.12.2017.
  * Güneşlik dialog
  */
-public class OrderUpdateDialog extends DialogFragment implements View.OnClickListener,AdapterView.OnItemSelectedListener{
+public class OrderUpdateDialog extends DialogFragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
 
     SharedPreferenceHelper sharedPreferenceHelper;
@@ -45,7 +51,7 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
     Date deliveryDate;
     Date measureDate;
 
-    OrderDetailResponseModel orderDetailResponseModel=new OrderDetailResponseModel();
+    OrderDetailResponseModel orderDetailResponseModel = new OrderDetailResponseModel();
 
 
     @BindView(R.id.spinner_order_status)
@@ -86,10 +92,21 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments().containsKey(AddOrderLineFragment.ARG_GOTO_ORDER_UPDATE)){
-            orderDetailResponseModel=getArguments().getParcelable(AddOrderLineFragment.ARG_GOTO_ORDER_UPDATE);
-            Toast.makeText(getActivity(), ""+orderDetailResponseModel.isMountExist(), Toast.LENGTH_SHORT).show();
+        Bundle arguments = getArguments();
+
+        if (arguments != null) {
+            if (arguments.containsKey(AddOrderLineFragment.ARG_GOTO_ORDER_UPDATE_FROM_ADD_ORDERLINE)) {
+                orderDetailResponseModel = arguments.getParcelable(AddOrderLineFragment.ARG_GOTO_ORDER_UPDATE_FROM_ADD_ORDERLINE);
+                Toast.makeText(getActivity(), "" + orderDetailResponseModel.isMountExist(), Toast.LENGTH_SHORT).show();
+            } else if (arguments.containsKey(OrderDetailActivity.ARG_GOTO_UPDATE_ORDER_FROM_ORDER_DETAIL)) {
+                orderDetailResponseModel = arguments.getParcelable(OrderDetailActivity.ARG_GOTO_UPDATE_ORDER_FROM_ORDER_DETAIL);
+                Toast.makeText(getActivity(), "" + orderDetailResponseModel.isMountExist(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            dismiss();
         }
+
+
     }
 
     @Override
@@ -107,11 +124,11 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.order_update_dialog,null);
-        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.order_update_dialog, null);
+        sharedPreferenceHelper = new SharedPreferenceHelper(getActivity().getApplicationContext());
+        ButterKnife.bind(this, view);
         setCancelable(false);
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
 
@@ -121,49 +138,49 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
     }
 
     private void initView() {
-        setDateEdittext(editTextSelectDeliveryDate);
         disableEdittext(editTextDepositAmount);
         disableEdittext(editTextTotalAmount);
         editTextSelectDeliveryDate.setOnClickListener(this);
+        editTextSelectMeasureDate.setOnClickListener(this);
         initSpinner();
 
         String myFormat = "dd/MM/yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
 
-        if(orderDetailResponseModel.getDepositeAmount()==0){
+        if (orderDetailResponseModel.getDepositeAmount() == 0) {
             editTextDepositAmount.setText("0");
 
-        }else{
-            editTextDepositAmount.setText(""+orderDetailResponseModel.getDepositeAmount());
+        } else {
+            editTextDepositAmount.setText("" + orderDetailResponseModel.getDepositeAmount());
         }
 
 
-        if(orderDetailResponseModel.getTotalAmount()==0){
+        if (orderDetailResponseModel.getTotalAmount() == 0) {
             editTextTotalAmount.setText("0");
 
-        }else{
-            editTextTotalAmount.setText(""+orderDetailResponseModel.getTotalAmount());
+        } else {
+            editTextTotalAmount.setText("" + orderDetailResponseModel.getTotalAmount());
         }
 
-        if(orderDetailResponseModel.getDeliveryDate()==null){
+        if (orderDetailResponseModel.getDeliveryDate() == null) {
             editTextSelectDeliveryDate.setText("Tarih Seç");
 
-        }else{
-            String deliveryDate=sdf.format(orderDetailResponseModel.getDeliveryDate());
+        } else {
+            String deliveryDate = sdf.format(orderDetailResponseModel.getDeliveryDate());
             editTextSelectDeliveryDate.setText(deliveryDate);
         }
 
 
-        if(orderDetailResponseModel.getMeasureDate()==null){
+        if (orderDetailResponseModel.getMeasureDate() == null) {
             linearLayoutMeasureDate.setVisibility(View.GONE);
-        }else{
-            String measureDate=sdf.format(orderDetailResponseModel.getMeasureDate());
+        } else {
+            String measureDate = sdf.format(orderDetailResponseModel.getMeasureDate());
             editTextSelectMeasureDate.setText(measureDate);
         }
 
-        if(orderDetailResponseModel.isMountExist()){
+        if (orderDetailResponseModel.isMountExist()) {
             switchMout.setChecked(true);
-        }else{
+        } else {
             switchMout.setChecked(false);
         }
 
@@ -171,19 +188,13 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
 
     }
 
-    private void setDateEdittext(EditText editText) {
-        Calendar mcurrentDate=Calendar.getInstance();
-        int mYear=mcurrentDate.get(Calendar.YEAR);
-        int mMonth=mcurrentDate.get(Calendar.MONTH);
-        int mDay=mcurrentDate.get(Calendar.DAY_OF_MONTH);
-        editText.setText(""+mDay+"/"+mMonth+"/"+mYear);
-    }
+
 
     private void disableEdittext(EditText editText) {
         editText.setEnabled(false);
     }
 
-    private void enableEdittext(EditText editText){
+    private void enableEdittext(EditText editText) {
         editText.setEnabled(true);
         editText.setBackgroundResource(R.drawable.edittext_border_bg_yellow);
     }
@@ -198,61 +209,165 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
     }
 
     @Override
-    @OnClick({R.id.btn_edit_total, R.id.btn_cancel, R.id.btn_edit_deposit,R.id.btn_save})
+    @OnClick({R.id.btn_edit_total, R.id.btn_cancel, R.id.btn_edit_deposit, R.id.btn_save})
     public void onClick(View view) {
-        int id=view.getId();
+        int id = view.getId();
 
-        if(id==R.id.btn_edit_total){
+        if (id == R.id.btn_edit_total) {
             enableEdittext(editTextTotalAmount);
-            Toast.makeText(getActivity(), ""+spinnerOrderStatus.getSelectedItemPosition(), Toast.LENGTH_SHORT).show();
-        }else if(id==R.id.btn_edit_deposit){
+            Toast.makeText(getActivity(), "" + spinnerOrderStatus.getSelectedItemPosition(), Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.btn_edit_deposit) {
             enableEdittext(editTextDepositAmount);
-        }else if(id==R.id.btn_save){
-            /*orderDetailModel.setDeliveryDate();
-            EventBus.getDefault().post();*/
+        } else if (id == R.id.btn_save) {
+            OrderUpdateModel orderUpdateModel = null;
+            try {
+                orderUpdateModel = initOrderUpdateModel();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            showConfirmDialog(orderUpdateModel);
+        } else if (id == R.id.btn_cancel) {
             dismiss();
-        }else if(id==R.id.btn_cancel){
-            dismiss();
-        }else if(id==R.id.et_select_delivery_date){
-            Calendar mcurrentDate=Calendar.getInstance();
-            int mYear=mcurrentDate.get(Calendar.YEAR);
-            int mMonth=mcurrentDate.get(Calendar.MONTH);
-            int mDay=mcurrentDate.get(Calendar.DAY_OF_MONTH);
+        } else if (id == R.id.et_select_delivery_date) {
+            Calendar mcurrentDate = Calendar.getInstance();
+            int mYear = mcurrentDate.get(Calendar.YEAR);
+            int mMonth = mcurrentDate.get(Calendar.MONTH);
+            int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog mDatePicker=new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            DatePickerDialog mDatePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                 public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                    Calendar calendar=Calendar.getInstance();
-                    calendar.set(selectedyear,selectedmonth,selectedday);
-                    deliveryDate=calendar.getTime();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(selectedyear, selectedmonth, selectedday);
+                    deliveryDate = calendar.getTime();
                     String myFormat = "dd/MM/yyyy";
                     SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
                     editTextSelectDeliveryDate.setText(sdf.format(calendar.getTime()));
                 }
-            },mYear, mMonth, mDay);
+            }, mYear, mMonth, mDay);
             mDatePicker.setTitle("Tarih seç");
             mDatePicker.show();
-        }else if(id==R.id.et_select_measure_date){
-            Calendar mcurrentDate=Calendar.getInstance();
-            int mYear=mcurrentDate.get(Calendar.YEAR);
-            int mMonth=mcurrentDate.get(Calendar.MONTH);
-            int mDay=mcurrentDate.get(Calendar.DAY_OF_MONTH);
+        } else if (id == R.id.et_select_measure_date) {
+            Calendar mcurrentDate = Calendar.getInstance();
+            int mYear = mcurrentDate.get(Calendar.YEAR);
+            int mMonth = mcurrentDate.get(Calendar.MONTH);
+            int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog mDatePicker=new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            DatePickerDialog mDatePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                 public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                    Calendar calendar=Calendar.getInstance();
-                    calendar.set(selectedyear,selectedmonth,selectedday);
-                    measureDate=calendar.getTime();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(selectedyear, selectedmonth, selectedday);
+                    measureDate = calendar.getTime();
                     String myFormat = "dd/MM/yyyy";
                     SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
                     editTextSelectMeasureDate.setText(sdf.format(calendar.getTime()));
                 }
-            },mYear, mMonth, mDay);
+            }, mYear, mMonth, mDay);
             mDatePicker.setTitle("Tarih seç");
             mDatePicker.show();
         }
     }
 
+    private void showConfirmDialog(final OrderUpdateModel orderUpdateModel) {
+        String myFormat = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+        String mDeliveryDate, mMeasureDate;
 
+        if (orderUpdateModel.getDeliveryDate() != null) {
+            mDeliveryDate = sdf.format(orderUpdateModel.getDeliveryDate());
+
+        } else {
+            mDeliveryDate = "Seçilmedi.";
+        }
+
+        if (orderUpdateModel.getMeasureDate() != null) {
+            mMeasureDate = sdf.format(orderUpdateModel.getMeasureDate());
+        } else {
+            mMeasureDate = "Seçilmedi";
+        }
+
+        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Onaylıyor musunuz?")
+                .setContentText(
+                                "Toplam fiyat :" + orderUpdateModel.getTotalAmount()+" TL \n" +
+                                "Kapora :" + orderUpdateModel.getDepositeAmount()+" TL \n" +
+                                "Teslim tarihi :" + mDeliveryDate + "\n" +
+                                "Ölçü tarihi :" + mMeasureDate+"\n"+
+                                "Montaj :" + (orderUpdateModel.isMountExist() == true ? "Var" : "Yok"))
+                .setConfirmText("Evet")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        EventBus.getDefault().post(orderUpdateModel);
+                        dismiss();
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .showCancelButton(true)
+                .setCancelText("Vazgeç!")
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+    private OrderUpdateModel initOrderUpdateModel() throws ParseException {
+        OrderUpdateModel orderUpdateModel = new OrderUpdateModel();
+        String myFormat = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+
+        if (!TextUtils.isEmpty(editTextTotalAmount.getText().toString())) {
+            Double totalAmount = Double.parseDouble(editTextTotalAmount.getText().toString());
+            orderUpdateModel.setTotalAmount(totalAmount);
+        }
+
+        if (!TextUtils.isEmpty(editTextDepositAmount.getText().toString())) {
+            Double depositAmount = Double.parseDouble(editTextDepositAmount.getText().toString());
+            orderUpdateModel.setDepositeAmount(depositAmount);
+        }
+
+        if (switchMout.isChecked()) {
+            orderUpdateModel.setMountExist(true);
+        } else {
+            orderUpdateModel.setMountExist(false);
+        }
+
+        orderUpdateModel.setOrderStatus(spinnerOrderStatus.getSelectedItemPosition());
+
+        if (!TextUtils.isEmpty(editTextSelectDeliveryDate.getText().toString())) {
+
+            if(deliveryDate!=null){
+                orderUpdateModel.setDeliveryDate(deliveryDate);
+            }else{
+                Date date =sdf.parse(editTextSelectDeliveryDate.getText().toString());
+                orderUpdateModel.setDeliveryDate(date);
+            }
+
+
+        }
+
+        if (!TextUtils.isEmpty(editTextSelectMeasureDate.getText().toString())) {
+
+            if(measureDate!=null){
+                orderUpdateModel.setMeasureDate(measureDate);
+            }else{
+                Date date =sdf.parse(editTextSelectMeasureDate.getText().toString());
+                orderUpdateModel.setMeasureDate(date);
+            }
+
+
+        }
+
+        if (orderDetailResponseModel.getOrderDate() != null) {
+            orderUpdateModel.setOrderDate(orderDetailResponseModel.getOrderDate());
+        }
+
+
+
+        return orderUpdateModel;
+    }
 
 
     @Override
@@ -263,10 +378,13 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
     @Override
     @OnItemSelected(R.id.spinner_order_status)
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position==1){
+        if (position == 1) {
             linearLayoutMeasureDate.setVisibility(View.VISIBLE);
             editTextSelectMeasureDate.setBackgroundResource(R.drawable.edittext_border_bg_yellow);
-            setDateEdittext(editTextSelectMeasureDate);
+
+            editTextSelectMeasureDate.setText("Tarih seç");
+
+
 
         }
     }

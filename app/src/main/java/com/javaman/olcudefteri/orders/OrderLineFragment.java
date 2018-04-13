@@ -7,6 +7,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.utill.MyUtil;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -70,7 +74,6 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         if (getArguments().containsKey(OrderDetailActivity.ARG_ORDER_LINES)) {
             orderLines = getArguments().getParcelableArrayList(OrderDetailActivity.ARG_ORDER_LINES);
             adapter = new OrderLineAdapter(orderLines, getActivity(), OrderLineFragment.this);
@@ -98,8 +101,8 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
         View modalbottomsheet = getLayoutInflater().inflate(R.layout.modal_bottom_sheet, null);
         dialog = new BottomSheetDialog(getActivity());
         dialog.setContentView(modalbottomsheet);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
         linearLayoutDesc = modalbottomsheet.findViewById(R.id.linear_layout_dec);
         tvOrderLineDesc = modalbottomsheet.findViewById(R.id.tv_line_description);
         initDialogView(modalbottomsheet);
@@ -392,7 +395,6 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
 
         }
     }
-
 
     @Override
     public void onClick(View v) {

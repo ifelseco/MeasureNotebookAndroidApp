@@ -38,11 +38,7 @@ public class SharedPreferenceHelper {
 
         sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
         if (sharedPreferences != null) {
-            if(sharedPreferences.contains(key)){
-                return true;
-            }else{
-                return false;
-            }
+            return sharedPreferences.contains(key);
         }
         return false;
     }

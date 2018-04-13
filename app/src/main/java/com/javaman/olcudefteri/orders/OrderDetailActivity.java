@@ -1,49 +1,40 @@
 package com.javaman.olcudefteri.orders;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.event.OrderDeleteEvent;
+import com.javaman.olcudefteri.orders.event.OrderUpdateEvent;
 import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
-import com.javaman.olcudefteri.orders.model.PageModel;
-import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderLineSummaryResponseModel;
 import com.javaman.olcudefteri.orders.presenter.OrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.OrderLinePresenterImpl;
-import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
 import com.javaman.olcudefteri.orders.view.OrderDetailVew;
+import com.javaman.olcudefteri.utill.MyUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +58,6 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     @BindView(R.id.fab_order_delete)
     com.github.clans.fab.FloatingActionButton fabOrderDelete;
-
-    @BindView(R.id.fab_order_line_add)
-    com.github.clans.fab.FloatingActionButton fabOrderLineAdd;
 
 
     @BindView(R.id.fab_order_status)
@@ -102,6 +90,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     public static final String ARG_CURRENT_CUSTOMER = "current_customer_detail";
     public static final String ARG_ORDER_LINES = "current_order_lines";
     public static final String ARG_SAVED_ORDER = "saved_order";
+    public static final String ARG_GOTO_UPDATE_ORDER_FROM_ORDER_DETAIL = "update_order";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,22 +114,32 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
         } else {
             if (savedInstanceState == null) {
-                if (getIntent().getExtras().containsKey(ARG_NOTIFICATION_ORDER)) {
-                    orderIdFromNotification = getIntent().getExtras().getLong(ARG_NOTIFICATION_ORDER);
-                    if (orderIdFromNotification != null && orderIdFromNotification > 0) {
-                        sendGetOrderLineRequest(orderIdFromNotification);
+
+                Bundle bundle= getIntent().getExtras();
+
+                if(bundle!=null){
+                    if (bundle.containsKey(ARG_NOTIFICATION_ORDER)) {
+                        orderIdFromNotification = getIntent().getExtras().getLong(ARG_NOTIFICATION_ORDER);
+                        if (orderIdFromNotification != null && orderIdFromNotification > 0) {
+                            sendGetOrderLineRequest(orderIdFromNotification);
+                        }
+                    } else if (bundle.containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)) {
+                        orderId = getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
+                        if (orderId != null && orderId > 0) {
+                            sendGetOrderLineRequest(orderId);
+                        }
+                    }else if(bundle.containsKey(AddOrderLineFragment.ARG_GOTO_ORDERLINE)){
+                        orderId = getIntent().getExtras().getLong(AddOrderLineFragment.ARG_GOTO_ORDERLINE);
+                        if (orderId != null && orderId > 0) {
+                            sendGetOrderLineRequest(orderId);
+                        }
                     }
-                } else if (getIntent().getExtras().containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)) {
-                    orderId = getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
-                    if (orderId != null && orderId > 0) {
-                        sendGetOrderLineRequest(orderId);
-                    }
-                }else if(getIntent().getExtras().containsKey(AddOrderLineFragment.ARG_GOTO_ORDERLINE)){
-                    orderId = getIntent().getExtras().getLong(AddOrderLineFragment.ARG_GOTO_ORDERLINE);
-                    if (orderId != null && orderId > 0) {
-                        sendGetOrderLineRequest(orderId);
-                    }
+                }else{
+                    Intent intent = new Intent(this, OrdersActivity.class);
+                    startActivity(intent);
                 }
+
+
             } else {
                 this.orderLineSummaryResponseModel = savedInstanceState.getParcelable(ARG_SAVED_ORDER);
                 setArgumentForFragments();
@@ -161,11 +160,15 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
             @Override
             public void onPageSelected(int position) {
                 if (position == 1) {
+                    clearMenu();
                     initCustomerFabMenu();
                 } else if (position == 2) {
-                    showOrderLineFabMenu();
+                    //showOrderLineFabMenu();
+                    hideFab();
+                    getAddLineMenu();
                 } else {
                     initOrderFabMenu();
+                    clearMenu();
                 }
             }
 
@@ -184,11 +187,29 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     }
 
+    private void clearMenu() {
+        toolbar.getMenu().clear();
+    }
+
+    private void getAddLineMenu() {
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.menu_add_order_line);
+        MenuItem menuItemAddLine = toolbar.getMenu().findItem(R.id.item_add);
+
+        if (menuItemAddLine != null) {
+            MyUtil.tintMenuIcon(this, menuItemAddLine, android.R.color.white);
+        }
+    }
+
+
+
 
     private void initTab() {
         setupViewPager(mViewPager);
         tabLayout.setupWithViewPager(mViewPager);
     }
+
+
 
 
     public void setArgumentForFragments() {
@@ -212,9 +233,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabOrderStatus.setVisibility(View.GONE);
         fabCsutomerDelete.setVisibility(View.GONE);
         fabCustomerEdit.setVisibility(View.GONE);
-        fabOrderLineAdd.setVisibility(View.VISIBLE);
 
-        fabOrderLineAdd.setOnClickListener(this);
     }
 
     public void initOrderFabMenu() {
@@ -222,7 +241,6 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabMenu.close(true);
         fabCsutomerDelete.setVisibility(View.GONE);
         fabCustomerEdit.setVisibility(View.GONE);
-        fabOrderLineAdd.setVisibility(View.GONE);
         fabOrderDelete.setVisibility(View.VISIBLE);
         fabOrderEdit.setVisibility(View.VISIBLE);
         fabOrderStatus.setVisibility(View.VISIBLE);
@@ -240,7 +258,6 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabMenu.close(true);
         fabOrderDelete.setVisibility(View.GONE);
         fabOrderEdit.setVisibility(View.GONE);
-        fabOrderLineAdd.setVisibility(View.GONE);
         fabOrderStatus.setVisibility(View.GONE);
         fabCsutomerDelete.setVisibility(View.VISIBLE);
         fabCustomerEdit.setVisibility(View.VISIBLE);
@@ -256,7 +273,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu_order_detail_tabbed, menu);
+        //getMenuInflater().inflate(R.menu.menu_order_detail_tabbed, menu);
         return true;
     }
 
@@ -264,17 +281,11 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            //NavUtils.navigateUpTo(this, new Intent(this, OrdersActivity.class));
             Intent intent = new Intent(getApplicationContext(), OrdersActivity.class);
             startActivity(intent);
             return true;
+        }else if(id==R.id.item_add){
+            gotoAddOrderLine();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -298,33 +309,37 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fab_order_edit) {
-            OrderUpdateDialog orderUpdateDialog=new OrderUpdateDialog();
-            Bundle bundle=new Bundle();
-            bundle.putParcelable(AddOrderLineFragment.ARG_GOTO_ORDER_UPDATE,orderDetailResponseModel);
-            orderUpdateDialog.setArguments(bundle);
-            showDialog(orderUpdateDialog,"order-update-dialog");
+            openOrderUpdate();
             fabMenu.close(true);
         } else if (v.getId() == R.id.fab_order_delete) {
-            showToast("Sipariş silme diyalogu");
+            OrderDeleteEvent orderDeleteEvent=new OrderDeleteEvent();
+            orderDeleteEvent.setOrderId(orderDetailResponseModel.getId());
+            EventBus.getDefault().post(orderDeleteEvent);
             fabMenu.close(true);
         } else if (v.getId() == R.id.fab_order_status) {
-            showToast("Sipariş durumu değiştir");
             fabMenu.close(true);
         } else if (v.getId() == R.id.fab_customer_delete) {
-            showToast("Müşteri silme");
             fabMenu.close(true);
         } else if (v.getId() == R.id.fab_customer_edit) {
-            showToast("Müşteri edit");
-            fabMenu.close(true);
-        }else if(v.getId()==R.id.fab_order_line_add){
-            //Go to AddOrderActivity -> AddOrderLineFragment
-            //Send orderDetailModel
-            Intent intent = new Intent(this, AddOrderActivity.class);
-            intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , orderDetailResponseModel);
-            startActivity(intent);
             fabMenu.close(true);
         }
 
+    }
+
+    private void gotoAddOrderLine() {
+        //Go to AddOrderActivity -> AddOrderLineFragment
+        //Send orderDetailModel
+        Intent intent = new Intent(this, AddOrderActivity.class);
+        intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , orderDetailResponseModel);
+        startActivity(intent);
+    }
+
+    private void openOrderUpdate() {
+        OrderUpdateDialog orderUpdateDialog=new OrderUpdateDialog();
+        Bundle bundle=new Bundle();
+        bundle.putParcelable(ARG_GOTO_UPDATE_ORDER_FROM_ORDER_DETAIL,orderDetailResponseModel);
+        orderUpdateDialog.setArguments(bundle);
+        showDialog(orderUpdateDialog,"order-update-dialog");
     }
 
     @Override
@@ -373,15 +388,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         progressBarOrderLine.setVisibility(View.GONE);
     }
 
-    @Override
-    public void deleteOrder(Long orderId) {
 
-    }
-
-    @Override
-    public void updateOrder(OrderDetailResponseModel orderDetailResponseModel) {
-
-    }
 
     @Override
     public String getSessionIdFromPref() {
@@ -423,9 +430,15 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     protected void onPause() {
         super.onPause();
         Gson gson = new Gson();
-        String json = gson.toJson(orderLineSummaryResponseModel);
-        sharedPreferenceHelper.setStringPreference("orderLineSummaryResponse", json);
-        sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
+        if(orderLineSummaryResponseModel!=null){
+            String json = gson.toJson(orderLineSummaryResponseModel);
+            sharedPreferenceHelper.setStringPreference("orderLineSummaryResponse", json);
+            sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
+        }else{
+            sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
+        }
+
+
     }
 
     @Override
@@ -461,5 +474,28 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void updatedOrder(OrderUpdateEvent event){
+        orderDetailResponseModel.setTotalAmount(event.getOrderUpdateModel().getTotalAmount());
+        orderDetailResponseModel.setDepositeAmount(event.getOrderUpdateModel().getDepositeAmount());
+        orderDetailResponseModel.setDeliveryDate(event.getOrderUpdateModel().getDeliveryDate());
+        orderDetailResponseModel.setMeasureDate(event.getOrderUpdateModel().getMeasureDate());
+        orderDetailResponseModel.setMountExist(event.getOrderUpdateModel().isMountExist());
+        orderDetailResponseModel.setOrderStatus(event.getOrderUpdateModel().getOrderStatus());
     }
 }

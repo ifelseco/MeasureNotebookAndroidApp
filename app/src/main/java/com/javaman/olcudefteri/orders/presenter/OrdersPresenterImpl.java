@@ -58,9 +58,9 @@ public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onG
             mOrdersView.getOrders(orderSummaryReponseModel);
             //mOrdersView.updateOrderFromAdapter(orderSummaryReponseModel.getOrderDetailPage().getContent());
             if(orderSummaryReponseModel.getOrderDetailPage().getTotalElements()>0){
-                mOrdersView.showAlert("Siparişler başarıyla listelendi");
+                mOrdersView.showAlert("Siparişler başarıyla listelendi",false,true);
             }else{
-                mOrdersView.showAlert("Kayıtlı siparişiniz yok.");
+                mOrdersView.showAlert("Kayıtlı siparişiniz yok.",false,false);
             }
 
         }
@@ -69,16 +69,15 @@ public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onG
     @Override
     public void onSuccess(String message,ArrayList<OrderDetailResponseModel> orders) {
         if(mOrdersView!=null){
-            mOrdersView.showAlert(message);
+            mOrdersView.showAlert(message,false,false);
             mOrdersView.deleteOrdersFromAdapter(orders);
-
         }
     }
 
     @Override
     public void onFailure(String message) {
         if(mOrdersView!=null){
-            mOrdersView.showAlert(message);
+            mOrdersView.showAlert(message,true,false);
         }
     }
 

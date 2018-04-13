@@ -192,9 +192,7 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
                 popupMenu.setOnMenuItemClickListener(this);
                 popupMenu.show();
             }else if(v.getId()==R.id.image_button_line_detail){
-                Toast.makeText(mContext, "Detail buton", Toast.LENGTH_SHORT).show();
-            }else{
-                OrderLineDetailModel orderLineDetailModel= (OrderLineDetailModel) v.getTag();
+                OrderLineDetailModel orderLineDetailModel= (OrderLineDetailModel) itemView.getTag();
                 orderLineFragment.openBottomSheet(orderLineDetailModel);
             }
         }

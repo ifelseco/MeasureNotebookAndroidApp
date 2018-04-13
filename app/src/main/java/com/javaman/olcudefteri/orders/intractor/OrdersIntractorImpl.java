@@ -92,7 +92,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     }
                 } else {
 
-                    listener.onFailure("Ağ hatası : " + t.getMessage());
+                    listener.onFailure("Ağ hatası : " + t.getMessage()+t.getClass());
                 }
 
 

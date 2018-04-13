@@ -70,13 +70,6 @@
             fab:fab_label="Siparişi sil"
             fab:fab_size="mini" />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_order_line_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_add"
-            fab:fab_label="Ölçü Ekle"
-            fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
 

@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.BrizCurtain;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.CurtainDoubleNet;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.FarbelaCurtain;
@@ -46,9 +47,12 @@ import com.javaman.olcudefteri.orders.model.DeleteOrderLinesModel;
 import com.javaman.olcudefteri.orders.model.LocationProduct;
 import com.javaman.olcudefteri.orders.model.OrderDetailModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.OrderUpdateModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.orders.presenter.OrderPresenter;
+import com.javaman.olcudefteri.orders.presenter.OrderPresenterImpl;
 import com.javaman.olcudefteri.orders.view.AddOrderLineView;
 import com.javaman.olcudefteri.utill.MyUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
@@ -73,7 +77,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
     SharedPreferenceHelper sharedPreferenceHelper;
     public static final String ARG_GOTO_ORDERLINE = "arg_goto_order_line";
-    public static final String ARG_GOTO_ORDER_UPDATE = "current-order-goto-update";
+    public static final String ARG_GOTO_ORDER_UPDATE_FROM_ADD_ORDERLINE = "current-order-goto-update";
     private OrderDetailResponseModel orderDetailResponseModel;
     private BottomSheetBehavior bottomSheetBehavior;
     private int productCount;
@@ -154,6 +158,10 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     TextView tvLocationType;
     @BindView(R.id.tv_count)
     TextView tvCount;
+
+    @BindView(R.id.tv_order_status)
+    TextView tvOrderStatus;
+
     @BindView(R.id.linear_layout_location)
     LinearLayout linearLayoutLocation;
 
@@ -193,13 +201,18 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     ImageButton imageButtonClose;
 
     SweetAlertDialog pDialog;
+    String[] orderStatus;
+
     private AddOrderLinePresenter mAddOrderLinePresenter;
+    private OrderPresenter mOrderPresenter;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        orderStatus=getActivity().getResources().getStringArray(R.array.order_status);
+        productNames = getActivity().getResources().getStringArray(R.array.curtains);
+        productCodes=getActivity().getResources().getStringArray(R.array.curtainsCode);
         sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         if(getArguments().containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)){
             orderDetailResponseModel=getArguments().getParcelable(OrderDetailActivity.ARG_CURRENT_ORDER);
@@ -214,10 +227,11 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_order_layout, container, false);
         mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
+        mOrderPresenter=new OrderPresenterImpl(this);
         ButterKnife.bind(this, view);
         getActivity().setTitle("Sipariş Oluştur");
         initView();
-        setView();
+        setView(orderDetailResponseModel);
         setHasOptionsMenu(true);
         return view;
     }
@@ -253,12 +267,17 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     }
 
 
-    private void setView() {
+    private void setView(OrderDetailResponseModel orderDetailResponseModel) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy");
         Calendar calendar = Calendar.getInstance();
 
+
+
         if(orderDetailResponseModel!=null){
+
+            tvOrderStatus.setText(orderStatus[orderDetailResponseModel.getOrderStatus()]);
+
             String orderDate = simpleDateFormat.format(orderDetailResponseModel.getOrderDate());
             calendar.setTime(orderDetailResponseModel.getOrderDate());
             int hours = calendar.get(Calendar.HOUR_OF_DAY);
@@ -270,9 +289,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
             orderTotalAmount=orderDetailResponseModel.getTotalAmount();
             tvOrderTotalAmount.setText(String.format("%.2f",orderTotalAmount));        }
 
-        productNames = getActivity().getResources().getStringArray(R.array.curtains);
 
-        productCodes=getActivity().getResources().getStringArray(R.array.curtainsCode);
     }
 
     @Override
@@ -307,7 +324,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
                 //show order update dilog
                 OrderUpdateDialog orderUpdateDialog=new OrderUpdateDialog();
                 Bundle bundle=new Bundle();
-                bundle.putParcelable(ARG_GOTO_ORDER_UPDATE,orderDetailResponseModel);
+                bundle.putParcelable(ARG_GOTO_ORDER_UPDATE_FROM_ADD_ORDERLINE,orderDetailResponseModel);
                 orderUpdateDialog.setArguments(bundle);
                 showDialog(orderUpdateDialog,"order-update-dialog");
                 return true;
@@ -618,20 +635,14 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
     @Override
     @Subscribe
-    public void updateOrder(OrderDetailModel orderDetailModel) {
+    public void updateOrder(OrderUpdateModel orderUpdateModel) {
+        //set order id
+        orderUpdateModel.setId(orderDetailResponseModel.getId());
+        String headerData=getSessionIdFromPref();
+        mOrderPresenter.orderUpdate(orderUpdateModel,headerData);
 
     }
 
-
-    @Override
-    public void deleteOrderLine(long id) {
-
-    }
-
-    @Override
-    public void deleteOrderLines(DeleteOrderLinesModel deleteOrderLinesModel) {
-
-    }
 
     @Override
     public String getSessionIdFromPref() {
@@ -641,7 +652,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void navigateToLogin() {
-
+        startActivity(new Intent(getActivity() , LoginActivity.class));
     }
 
     @Override
@@ -687,6 +698,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     public void onDestroy() {
         super.onDestroy();
         mAddOrderLinePresenter.onDestroyAddOrderLine();
+        mOrderPresenter.onDestroy();
     }
 
     @Override
@@ -694,7 +706,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
         this.orderTotalAmount=orderTotalAmount;
         tvOrderTotalAmount.setText(String.format("%.2f",orderTotalAmount));
-
+        orderDetailResponseModel.setTotalAmount(orderTotalAmount);
 
        switch (currentProductValue){
            case 0:
@@ -755,6 +767,20 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
        }
     }
+
+    @Override
+    public void updateView(OrderUpdateModel orderUpdateModel) {
+
+        orderDetailResponseModel.setTotalAmount(orderUpdateModel.getTotalAmount());
+        orderDetailResponseModel.setDepositeAmount(orderUpdateModel.getDepositeAmount());
+        orderDetailResponseModel.setDeliveryDate(orderUpdateModel.getDeliveryDate());
+        orderDetailResponseModel.setMeasureDate(orderUpdateModel.getMeasureDate());
+        orderDetailResponseModel.setMountExist(orderUpdateModel.isMountExist());
+        orderDetailResponseModel.setOrderStatus(orderUpdateModel.getOrderStatus());
+        setView(orderDetailResponseModel);
+    }
+
+
 
 
 }

@@ -122,8 +122,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         @BindView(R.id.tv_order_status)
         TextView tvOrderStatus;
 
-        @BindView(R.id.checkboxIsMeasure)
-        CheckBox checkBoxIsMeasure;
 
         @BindView(R.id.tv_order_date)
         TextView tvOrderDate;
@@ -149,8 +147,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         @BindView(R.id.linear_layout_order_mount)
         LinearLayout linearLayoutOrderMount;
 
-        @BindView(R.id.linear_layout_measure)
-        LinearLayout linearLayoutOrderMeasure;
 
         OrdersActivity ordersActivity;
 
@@ -197,10 +193,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                 tvDeliveryDate.setText(deliveryDate);
             }
 
-            if (order.getMeasureDate() != null && !order.getMeasureDate().equals("")) {
-                linearLayoutOrderMeasure.setVisibility(View.VISIBLE);
-                checkBoxIsMeasure.setChecked(true);
-            }
+
 
 
 
@@ -222,7 +215,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                 tvOrderStatus.setText("Ölçüye gidilecek");
                 linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_light_green);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_measure);
-                checkBoxIsMeasure.setChecked(true);
             } else if (order.getOrderStatus() == 2) {
                 tvOrderStatus.setText("Sipariş kaydı alındı.");
                 linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_green);

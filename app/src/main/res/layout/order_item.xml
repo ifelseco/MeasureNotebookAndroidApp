@@ -219,35 +219,6 @@
             android:background="@color/lightgreen" />
 
 
-        <LinearLayout
-            android:id="@+id/linear_layout_measure"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:padding="2dp">
-
-            <CheckBox
-                android:id="@+id/checkboxIsMeasure"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:clickable="false"
-                android:enabled="false"
-                android:focusable="false"
-                android:fontFamily="@font/roboto_regular"
-                android:textSize="15sp"
-                android:hint="Ölçüye gidilecek" />
-
-
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/lightgreen" />
 
 
         <LinearLayout

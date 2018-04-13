@@ -114,7 +114,6 @@
                     android:id="@+id/et_select_measure_date"
                     android:layout_width="match_parent"
                     android:background="@drawable/edittext_border_bg_lightgreen"
-                    android:focusable="false"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>

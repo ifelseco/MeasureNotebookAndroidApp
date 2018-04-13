@@ -96,7 +96,7 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
 
                 if (parcaCount <= 10) {
                     for (int j = 0; j < parcaCount; j++) {
-                        View row = (TableRow) getLayoutInflater().inflate(R.layout.parcali_stor_row, null, false);
+                        View row = getLayoutInflater().inflate(R.layout.parcali_stor_row, null, false);
                         TextView textView = row.findViewById(R.id.labelParca);
                         textView.setText("Parça " + (j + 1));
 

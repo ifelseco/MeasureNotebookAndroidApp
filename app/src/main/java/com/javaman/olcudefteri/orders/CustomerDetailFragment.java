@@ -15,12 +15,15 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by javaman on 08.03.2018.
@@ -113,7 +116,7 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
         switch (id){
             case R.id.image_button_call:
                 String callNumber1 = customerDetailModel.getMobilePhone();
-                String callNumber2 =customerDetailModel.getFixedPhone();;
+                String callNumber2 =customerDetailModel.getFixedPhone();
                 Intent intentCall = new Intent(Intent.ACTION_DIAL);
 
                 if(!callNumber1.isEmpty()){
@@ -141,4 +144,6 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
 
         }
     }
+
+
 }

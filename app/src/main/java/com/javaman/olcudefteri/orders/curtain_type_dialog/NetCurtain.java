@@ -1,8 +1,6 @@
 package com.javaman.olcudefteri.orders.curtain_type_dialog;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -21,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.orders.OrderLineEvent;
 import com.javaman.olcudefteri.orders.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.orders.model.ProductDetailModel;
@@ -38,7 +34,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
 
