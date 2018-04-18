@@ -7,7 +7,7 @@ public interface BaseView {
     void navigateToLogin();
     String getSessionIdFromPref();
     void removeKeyFromPref(String key);
-    void showAlert(String message);
+    void showAlert(String message,boolean isToast);
     void showProgress(String message);
     void hideProgress();
 }

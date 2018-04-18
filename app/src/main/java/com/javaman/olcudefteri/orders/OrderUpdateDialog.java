@@ -163,7 +163,7 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
         }
 
         if (orderDetailResponseModel.getDeliveryDate() == null) {
-            editTextSelectDeliveryDate.setText("Tarih Seç");
+            editTextSelectDeliveryDate.setText("");
 
         } else {
             String deliveryDate = sdf.format(orderDetailResponseModel.getDeliveryDate());
@@ -382,7 +382,7 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
             linearLayoutMeasureDate.setVisibility(View.VISIBLE);
             editTextSelectMeasureDate.setBackgroundResource(R.drawable.edittext_border_bg_yellow);
 
-            editTextSelectMeasureDate.setText("Tarih seç");
+            editTextSelectMeasureDate.setText("");
 
 
 

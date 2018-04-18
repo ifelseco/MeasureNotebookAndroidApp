@@ -69,6 +69,11 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
 
     }
 
+    public void removeItemFromList(OrderLineDetailModel orderLineDetailModel){
+        orderLines.remove(orderLineDetailModel);
+        notifyDataSetChanged();
+
+    }
 
 
     public class OrderLineViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
@@ -202,7 +207,8 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
 
             switch(item.getItemId()){
                 case R.id.menu_item_delete_line:
-                    Toast.makeText(mContext, "Delete line", Toast.LENGTH_SHORT).show();
+                    OrderLineDetailModel orderLineDetailModel= (OrderLineDetailModel) itemView.getTag();
+                    orderLineFragment.deleteOrderLne(orderLineDetailModel);
                     break;
                 case R.id.menu_item_update_line:
                     Toast.makeText(mContext, "Update line", Toast.LENGTH_SHORT).show();

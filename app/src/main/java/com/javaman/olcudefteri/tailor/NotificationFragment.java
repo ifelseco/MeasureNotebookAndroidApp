@@ -1,4 +1,4 @@
-package com.javaman.olcudefteri.notification;
+package com.javaman.olcudefteri.tailor;
 
 
 import android.os.Bundle;

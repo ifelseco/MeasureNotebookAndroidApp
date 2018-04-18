@@ -1,19 +1,16 @@
 package com.javaman.olcudefteri.tailor;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.notification.NotificationFragment;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import butterknife.BindView;

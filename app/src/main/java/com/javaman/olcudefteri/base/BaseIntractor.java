@@ -1,10 +1,14 @@
 package com.javaman.olcudefteri.base;
 
+import com.javaman.olcudefteri.login.model.response.LoginUserModel;
+
 public interface BaseIntractor {
 
     interface onBaseProcessListener{
-        void onSuccess(String message);
-        void onFailure(String message);
+        void onSuccessLogout(String message);
+        void onFailureLogout(String message);
+        void onSuccessCheckSession(LoginUserModel loginUserModel);
+        void onFailureCheckSession(String message);
     }
 
     void logout(String sessionId , onBaseProcessListener listener);

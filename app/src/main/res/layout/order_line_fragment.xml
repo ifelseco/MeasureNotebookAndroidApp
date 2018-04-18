@@ -7,21 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refres_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycle_order_line"
             android:name="com.javaman.olcudefteri.orders.OrderListFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            app:layoutManager="LinearLayoutManager"
             tools:listitem="@layout/order_line_item" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

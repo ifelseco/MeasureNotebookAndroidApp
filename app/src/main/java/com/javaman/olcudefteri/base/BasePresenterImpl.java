@@ -3,6 +3,8 @@ package com.javaman.olcudefteri.base;
 
 import android.os.Handler;
 
+import com.javaman.olcudefteri.login.model.response.LoginUserModel;
+
 public class BasePresenterImpl implements BasePresenter ,BaseIntractor.onBaseProcessListener{
 
     BaseView mBaseViev;
@@ -37,11 +39,12 @@ public class BasePresenterImpl implements BasePresenter ,BaseIntractor.onBasePro
     }
 
     @Override
-    public void onSuccess(final String message) {
+    public void onSuccessLogout(final String message) {
         if(mBaseViev!=null){
             mBaseViev.hideProgress();
             mBaseViev.removeKeyFromPref("sessionId");
-            mBaseViev.showAlert(message);
+            mBaseViev.removeKeyFromPref("lastActivity");
+            mBaseViev.showAlert(message,true);
 
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -55,9 +58,27 @@ public class BasePresenterImpl implements BasePresenter ,BaseIntractor.onBasePro
     }
 
     @Override
-    public void onFailure(String message) {
+    public void onFailureLogout(String message) {
         if(mBaseViev!=null){
-            mBaseViev.showAlert(message);
+            mBaseViev.showAlert(message,true);
+        }
+    }
+
+
+
+
+
+    @Override
+    public void onSuccessCheckSession(LoginUserModel loginUserModel) {
+        if(mBaseViev!=null){
+        }
+    }
+
+    @Override
+    public void onFailureCheckSession(String message) {
+        if(mBaseViev!=null){
+            mBaseViev.showAlert(message,true);
+            mBaseViev.logout();
         }
     }
 }

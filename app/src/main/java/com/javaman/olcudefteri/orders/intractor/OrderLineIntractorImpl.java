@@ -6,8 +6,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.javaman.olcudefteri.api.ApiClient;
 import com.javaman.olcudefteri.api.model.response.ApiError;
+import com.javaman.olcudefteri.api.model.response.BaseModel;
+import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.orders.model.response.OrderLineSummaryResponseModel;
+import com.javaman.olcudefteri.orders.presenter.OrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.service.OrderLineService;
+import com.javaman.olcudefteri.orders.service.OrdersService;
 
 import java.io.IOException;
 
@@ -26,7 +30,7 @@ public class OrderLineIntractorImpl implements OrderLineIntractor{
     OrderLineSummaryResponseModel orderLineSummaryResponseModel;
 
     @Override
-    public void sendGetOrderLineRequest(String xAuthToken, Long orderId, final onGetOrderLineFinishedListener listener) {
+    public void sendGetOrderLineRequest(String xAuthToken, Long orderId, final onOrderLineProcessListener listener) {
 
         orderLineService = ApiClient.getClient().create(OrderLineService.class);
         orderLineSummaryResponseModel = new OrderLineSummaryResponseModel();
@@ -39,10 +43,10 @@ public class OrderLineIntractorImpl implements OrderLineIntractor{
                     //response [200 ,300) aralığında ise
                     orderLineSummaryResponseModel = response.body();
                     //orderSummaryReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
-                    listener.onSuccess(orderLineSummaryResponseModel);
+                    listener.onSuccessGetOrderLines(orderLineSummaryResponseModel);
                 } else if(response.code() == 401){
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
-                    listener.onFailure(message);
+                    listener.onFailureGetOrderLines(message);
                     listener.navigateToLogin();
                 } else {
                     //response [200 ,300) aralığında değil ise
@@ -51,10 +55,10 @@ public class OrderLineIntractorImpl implements OrderLineIntractor{
                         String errorBody = response.errorBody().string();
                         ApiError apiError = gson.fromJson(errorBody, ApiError.class);
                         Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureGetOrderLines(apiError.getStatus() + " " + apiError.getMessage());
                     } catch (IOException e) {
                         e.printStackTrace();
-                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                        listener.onFailureGetOrderLines("Beklenmedik hata..." + e.getMessage());
                     }
                 }
             }
@@ -74,16 +78,16 @@ public class OrderLineIntractorImpl implements OrderLineIntractor{
                         ApiError apiError = gson.fromJson(errorBody, ApiError.class);
 
                         Log.d("Request Error :", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureGetOrderLines(apiError.getStatus() + " " + apiError.getMessage());
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                        listener.onFailureGetOrderLines("Beklenmedik hata..." + e.getMessage());
 
                     }
                 } else {
 
-                    listener.onFailure("Ağ hatası : " + t.getMessage());
+                    listener.onFailureGetOrderLines("Ağ hatası : " + t.getMessage());
                 }
 
 
@@ -91,5 +95,67 @@ public class OrderLineIntractorImpl implements OrderLineIntractor{
         });
 
 
+    }
+
+    @Override
+    public void deleteOrderLine(String xAuthToken, final OrderLineDetailModel orderLineDetailModel, final onOrderLineProcessListener listener) {
+        orderLineService = ApiClient.getClient().create(OrderLineService.class);
+        long id=orderLineDetailModel.getId();
+        Call<BaseModel> baseResponseCall = orderLineService.deleteOrderLine(xAuthToken, id);
+        baseResponseCall.enqueue(new Callback<BaseModel>() {
+            @Override
+            public void onResponse(Call<BaseModel> call, Response<BaseModel> response) {
+
+                if (response.isSuccessful()) {
+                    String message = response.body().getResponseMessage();
+                    listener.onSuccessDeleteOrderLine(orderLineDetailModel,message);
+                } else if (response.code() == 403) {
+                    String message = "Sadece yönetici izni olanlar\nsilme işlemi yapabilir.";
+                    listener.onFailureDeleteOrderLine(message);
+                }else if(response.code() == 401){
+                    String message = "Oturum zaman aşımına uğradı\ntekrar giriş yapınız!";
+                    listener.onFailureDeleteOrderLine(message);
+                    listener.navigateToLogin();
+                }
+                else{
+                    Gson gson = new GsonBuilder().create();
+                    try {
+                        String errorBody = response.errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureDeleteOrderLine(apiError.getStatus() + " " + apiError.getMessage());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailureDeleteOrderLine("Beklenmedik hata..." + e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseModel> call, Throwable t) {
+                if (t instanceof HttpException) {
+
+                    Gson gson = new GsonBuilder().create();
+
+                    try {
+
+                        String errorBody = ((HttpException) t).response().errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+
+                        Log.d("Request Error :", apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureDeleteOrderLine(apiError.getStatus() + " " + apiError.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailureDeleteOrderLine("Beklenmedik hata..." + e.getMessage());
+
+                    }
+                } else {
+
+                    listener.onFailureDeleteOrderLine("Ağ hatası : " + t.getMessage());
+                }
+
+            }
+        });
     }
 }

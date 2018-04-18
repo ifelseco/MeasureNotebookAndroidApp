@@ -48,30 +48,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
            String message=remoteMessage.getData().get("message");
            Long orderId=Long.parseLong(remoteMessage.getData().get("data"));
            String time=remoteMessage.getData().get("time");
-
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",new Locale("TURKISH", "tr"));
-            Date date = null;
-            try{
-
-                date=sdf.parse(time);
-
-
-            }catch(ParseException e){
-                e.printStackTrace();
-            }
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            int hours = calendar.get(Calendar.HOUR_OF_DAY);
-            int minutes = calendar.get(Calendar.MINUTE);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            int month = calendar.get(Calendar.MONTH)+1;
-            int year = calendar.get(Calendar.YEAR);
-
-            String createdDate=day+"/"+month+"/"+year+"-"+hours+":"+minutes;
-
-
-            createNotification(message,title,orderId,createdDate);
+           createNotification(message,title,orderId,time);
 
         }
 

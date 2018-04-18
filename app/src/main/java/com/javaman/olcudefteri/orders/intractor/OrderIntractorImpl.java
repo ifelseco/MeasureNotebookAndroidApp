@@ -51,10 +51,10 @@ public class OrderIntractorImpl implements OrderIntractor {
 
                         String errorBody = response.errorBody().string();
 
-                        AddOrderLineResponse apiError = gson.fromJson(errorBody, AddOrderLineResponse.class);
+                        BaseModel apiError = gson.fromJson(errorBody, BaseModel.class);
 
-                        Log.d("Hata Mesaj:", response.code() +" "+ apiError.getBaseModel().getResponseMessage());
-                        listener.onFailureUpdateOrder("Server hatası :"+response.code() +"\n"+ apiError.getBaseModel().getResponseMessage());
+                        Log.d("Hata Mesaj:", response.code() +" "+ apiError.getResponseMessage());
+                        listener.onFailureUpdateOrder("Server hatası :"+response.code() +"\n"+ apiError.getResponseMessage());
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -116,9 +116,9 @@ public class OrderIntractorImpl implements OrderIntractor {
                     Gson gson = new GsonBuilder().create();
                     try {
                         String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailureDeleteOrder(apiError.getStatus() + " " + apiError.getMessage());
+                        BaseModel apiError = gson.fromJson(errorBody, BaseModel.class);
+                        Log.d("Hata Mesaj:", apiError.getResponseCode() + " " + apiError.getResponseMessage());
+                        listener.onFailureDeleteOrder(apiError.getResponseCode() + " " + apiError.getResponseMessage());
                     } catch (IOException e) {
                         e.printStackTrace();
                         listener.onFailureDeleteOrder("Beklenmedik hata..." + e.getMessage());

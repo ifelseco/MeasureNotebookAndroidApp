@@ -41,16 +41,16 @@ public class LoginIntractorImpl implements LoginIntractor {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    listener.onSuccess();
+                    listener.onSuccessGetOrderLines();
                 }
             },3000);
 
-            listener.onSuccess();
+            listener.onSuccessGetOrderLines();
 
 
             //or postToServer(username,password);
         } else {
-            listener.onFailure("Kullanıcı adı yada parola hatalı");
+            listener.onFailureGetOrderLines("Kullanıcı adı yada parola hatalı");
         }
 
 

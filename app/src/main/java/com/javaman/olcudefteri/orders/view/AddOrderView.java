@@ -14,6 +14,5 @@ public interface AddOrderView {
     void setPhoneEmptyError();
     void navigateToOrder(AddCustomerResponse addCustomerResponse);
     void showAlert(String message);
-    void checkSession();
     String getSessionIdFromPref();
 }

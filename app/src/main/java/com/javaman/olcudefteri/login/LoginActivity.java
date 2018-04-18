@@ -49,7 +49,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
-        sharedPreferenceHelper.removeKey("lastActivity");
+        if(sharedPreferenceHelper.containKey("lastActivity")){
+            sharedPreferenceHelper.removeKey("lastActivity");
+        }
+
 
         Log.i(TAG, "onCreate()");
 

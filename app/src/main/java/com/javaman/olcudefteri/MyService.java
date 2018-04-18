@@ -39,6 +39,9 @@ public class MyService extends Service {
         return START_NOT_STICKY;
     }
 
+
+
+
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
@@ -57,5 +60,6 @@ public class MyService extends Service {
         super.onLowMemory();
         Log.i(TAG, "onLowMemory()");
     }
+
 
 }

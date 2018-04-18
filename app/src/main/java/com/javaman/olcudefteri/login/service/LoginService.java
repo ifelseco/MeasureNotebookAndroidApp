@@ -2,6 +2,7 @@ package com.javaman.olcudefteri.login.service;
 
 import com.javaman.olcudefteri.api.model.response.BaseModel;
 import com.javaman.olcudefteri.login.model.response.AuthResponse;
+import com.javaman.olcudefteri.login.model.response.LoginUserModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -18,7 +19,12 @@ public interface LoginService {
     Call<AuthResponse> sendCredential(@Header("Authorization") String authorization , @Header("Content-Type") String contentType);
 
     @POST("/user/logout")
-    Call<BaseModel> logout(@Header("Authorization") String authorization);
+    Call<BaseModel> logout(@Header("X-Auth-Token") String xAuthToken);
+
+    @GET("/checkSession")
+    Call<LoginUserModel> checkSession(@Header("X-Auth-Token") String xAuthToken);
+
+
 
 
 

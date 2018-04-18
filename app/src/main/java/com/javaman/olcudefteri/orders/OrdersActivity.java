@@ -375,7 +375,7 @@ public class OrdersActivity extends AppCompatActivity
     public boolean onLongClick(View view) {
         Log.d("Selecetde order :",""+selectedOrderList.size());
         toolbar.getMenu().clear();
-        toolbar.inflateMenu(R.menu.menu_action);
+        toolbar.inflateMenu(R.menu.menu_action_delete);
         tvOrderSelectCount.setVisibility(View.VISIBLE);
         isActionModeActive = true;
         adapter.notifyDataSetChanged();

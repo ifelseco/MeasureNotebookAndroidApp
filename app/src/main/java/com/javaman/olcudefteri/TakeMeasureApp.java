@@ -34,4 +34,5 @@ public class TakeMeasureApp extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
+
 }

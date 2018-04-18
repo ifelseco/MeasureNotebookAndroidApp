@@ -1,5 +1,7 @@
 package com.javaman.olcudefteri.orders;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
@@ -7,24 +9,21 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
-import com.javaman.olcudefteri.utill.MyUtil;
+import com.javaman.olcudefteri.orders.presenter.OrderLinePresenter;
+import com.javaman.olcudefteri.orders.presenter.OrderLinePresenterImpl;
+import com.javaman.olcudefteri.orders.view.OrderLineView;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -32,12 +31,13 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by javaman on 08.03.2018.
  */
 
-public class OrderLineFragment extends Fragment implements View.OnClickListener {
+public class OrderLineFragment extends Fragment implements View.OnClickListener ,OrderLineView{
 
     public OrderLineFragment() {
     }
@@ -45,8 +45,6 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
     @BindView(R.id.recycle_order_line)
     RecyclerView recyclerViewOrderLine;
 
-    @BindView(R.id.swipe_refres_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
 
     TextView tvLocationName, tvLocationType, tvProductValue,
             tvProductALias, tvProductPattern, tvProductVariant,
@@ -62,17 +60,20 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
     LinearLayout linearLayoutDetail, linearLayoutDesc;
     ImageButton imageButtonClose;
     View detailView;
+    private OrderLinePresenter mOrderLinePresenter;
 
     private List<OrderLineDetailModel> orderLines = new ArrayList<>();
 
     RecyclerView.Adapter adapter;
-
     BottomSheetDialog dialog;
-
+    SweetAlertDialog pDialog;
+    SharedPreferenceHelper sharedPreferenceHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
+        mOrderLinePresenter=new OrderLinePresenterImpl(this);
 
         if (getArguments().containsKey(OrderDetailActivity.ARG_ORDER_LINES)) {
             orderLines = getArguments().getParcelableArrayList(OrderDetailActivity.ARG_ORDER_LINES);
@@ -332,9 +333,9 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
                     tvFonPile.setText("" + orderLineDetailModel.getSizeOfPile());
 
                     if (orderLineDetailModel.getDirection() == 1) {
-                        tvVerticalDirection.setText("Yön : Sol");
+                        tvFonDirection.setText("Sol");
                     } else if (orderLineDetailModel.getDirection() == 2) {
-                        tvVerticalDirection.setText("Yön : Sağ");
+                        tvFonDirection.setText("Sağ");
                     }
 
 
@@ -344,9 +345,9 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
                     tvFonPile.setText("" + orderLineDetailModel.getSizeOfPile());
 
                     if (orderLineDetailModel.getDirection() == 1) {
-                        tvVerticalDirection.setText("Yön : Sol");
+                        tvFonDirection.setText("Sol");
                     } else if (orderLineDetailModel.getDirection() == 2) {
-                        tvVerticalDirection.setText("Yön : Sağ");
+                        tvFonDirection.setText("Sağ");
                     }
                 } else if (orderLineDetailModel.getFonType() == 2) {
                     tvFonType.setText("Jaapon Panel");
@@ -401,5 +402,92 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
         if (v.getId() == R.id.image_button_close) {
             dialog.hide();
         }
+    }
+
+    @Override
+    public void showProgress(String message) {
+        pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText(message);
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void deleteOrderLne(OrderLineDetailModel orderLineDetailModel) {
+        showDeleteConfirmDialog(orderLineDetailModel);
+
+    }
+
+    private void showDeleteConfirmDialog(final OrderLineDetailModel orderLineDetailModel) {
+        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Onaylıyor musunuz?")
+                .setContentText("Ölçü silinecek.")
+                .setConfirmText("Evet")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        String sessionId=getSessionIdFromPref();
+                        mOrderLinePresenter.deleteOrderLine(sessionId,orderLineDetailModel);
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .showCancelButton(true)
+                .setCancelText("Vazgeç!")
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+    }
+
+
+
+    @Override
+    public void updateOrderLine() {
+
+    }
+
+    @Override
+    public String getSessionIdFromPref() {
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        return xAuthToken;
+    }
+
+    @Override
+    public void navigateToLogin() {
+        startActivity(new Intent(getActivity(), LoginActivity.class));
+    }
+
+    @Override
+    public void checkSession() {
+
+    }
+
+    @Override
+    public void showAlert(String message, boolean isError,boolean isToast) {
+        if(isToast){
+            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        }else{
+            pDialog=new SweetAlertDialog(getActivity(),SweetAlertDialog.NORMAL_TYPE);
+            pDialog.setTitleText(message);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+    }
+
+    @Override
+    public void updateView(OrderLineDetailModel orderLineDetailModel) {
+        OrderLineAdapter orderLineAdapter= (OrderLineAdapter) adapter;
+        orderLineAdapter.removeItemFromList(orderLineDetailModel);
     }
 }

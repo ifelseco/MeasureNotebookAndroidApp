@@ -3,6 +3,7 @@ package com.javaman.olcudefteri.orders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -23,8 +24,12 @@ import android.widget.Toast;
 
 
 import com.google.gson.Gson;
+import com.javaman.olcudefteri.base.BasePresenter;
+import com.javaman.olcudefteri.base.BasePresenterImpl;
+import com.javaman.olcudefteri.base.BaseView;
 import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
 import com.javaman.olcudefteri.orders.model.response.AddCustomerResponse;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
@@ -33,9 +38,10 @@ import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddOrderActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener,BaseView {
 
 
     public static final String MyPREFERENCES = "MyPrefs";
@@ -61,7 +67,8 @@ public class AddOrderActivity extends AppCompatActivity
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
-
+    private BasePresenter mBasePresenter;
+    SweetAlertDialog pDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -69,6 +76,7 @@ public class AddOrderActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_order);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
+        mBasePresenter=new BasePresenterImpl(this);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
@@ -139,8 +147,7 @@ public class AddOrderActivity extends AppCompatActivity
     }
 
     public void addFragmentRegisterCustomer() {
-
-
+        checkSession();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -157,6 +164,7 @@ public class AddOrderActivity extends AppCompatActivity
     }
 
     public void addAddOrderLineFragment(OrderDetailResponseModel orderDetailResponseModel) {
+        checkSession();
         AddOrderLineFragment addOrderLineFragment = new AddOrderLineFragment();
         Bundle bundle=new Bundle();
         bundle.putParcelable(OrderDetailActivity.ARG_CURRENT_ORDER,orderDetailResponseModel);
@@ -290,6 +298,69 @@ public class AddOrderActivity extends AppCompatActivity
     }
 
 
+
+    @Override
+    public void checkSession() {
+        String sessionId=getSessionIdFromPref();
+        mBasePresenter.checkSession(sessionId);
+    }
+
+
+
+    @Override
+    public String getSessionIdFromPref() {
+        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        return xAuthToken;
+    }
+
+    @Override
+    public void removeKeyFromPref(String key) {
+        sharedPreferenceHelper.removeKey(key);
+
+    }
+
+
+
+    @Override
+    public void showAlert(String message,boolean isToast) {
+        if(isToast){
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        }else{
+            pDialog=new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE);
+            pDialog.setTitleText(message);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+    }
+
+    @Override
+    public void showProgress(String message) {
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText(message);
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+
+    @Override
+    public void hideProgress() {
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+    }
+
+
+    @Override
+    public void logout() {
+        String sessionId=getSessionIdFromPref();
+        mBasePresenter.logout(sessionId);
+    }
+
+    @Override
+    public void navigateToLogin() {
+        startActivity(new Intent(AddOrderActivity.this , LoginActivity.class));
+
+    }
 }
 
 

@@ -68,8 +68,10 @@ public class OrderPresenterImpl implements OrderPresenter ,OrderIntractor.onOrde
     @Override
     public void onFailureUpdateOrder(String message) {
         if(mAddOrderLineView!=null){
+            mAddOrderLineView.hideProgress();
             mAddOrderLineView.showAlert(message,true);
         }else if(mOrderVew !=null){
+            mOrderVew.hideProgress();
             mOrderVew.showAlert(message,true);
         }
     }
@@ -87,6 +89,7 @@ public class OrderPresenterImpl implements OrderPresenter ,OrderIntractor.onOrde
     @Override
     public void onFailureDeleteOrder(String message) {
         if(mOrderVew !=null){
+            mOrderVew.hideProgress();
             mOrderVew.showAlert(message,true);
         }
     }

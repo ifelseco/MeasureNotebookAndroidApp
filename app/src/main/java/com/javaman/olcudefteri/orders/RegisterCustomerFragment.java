@@ -180,18 +180,6 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
     }
 
     @Override
-    public void checkSession() {
-
-        /*SharedPreferences sharedPreferences=getActivity().getSharedPreferences("Session",Context.MODE_PRIVATE);
-        String sessionId=sharedPreferences.getString("sessionId",null);
-
-        if(!(sessionId!=null && sessionId.equals(""))){
-            startActivity(new Intent(getActivity() , LoginActivity.class));
-        }*/
-
-    }
-
-    @Override
     public String getSessionIdFromPref() {
         String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
         return xAuthToken;

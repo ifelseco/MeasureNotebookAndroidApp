@@ -12,7 +12,6 @@ public class MyUtil {
         Drawable normalDrawable = item.getIcon();
         Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
         DrawableCompat.setTint(wrapDrawable, context.getResources().getColor(color));
-
         item.setIcon(wrapDrawable);
     }
 }
