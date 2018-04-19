@@ -21,6 +21,7 @@ import com.javaman.olcudefteri.home.model.NotificationDetailModel;
 import com.javaman.olcudefteri.home.model.NotificationSummaryModel;
 import com.javaman.olcudefteri.orders.OrderDetailActivity;
 import com.javaman.olcudefteri.orders.OrderUpdateDialog;
+import com.javaman.olcudefteri.tailor.TailorHomeActivity;
 import com.javaman.olcudefteri.utill.MyUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,9 +40,10 @@ public class HomeNotificationFragment extends Fragment implements RecyclerItemTo
 
     RecyclerView.Adapter adapter;
 
-    String text;
+    boolean isTailor=false;
     int notificationCount = 0;
     NotificationSummaryModel notificationSummaryModel;
+
 
     public HomeNotificationFragment() {
         // Required empty public constructor
@@ -54,6 +56,13 @@ public class HomeNotificationFragment extends Fragment implements RecyclerItemTo
         if (bundle != null) {
             if (bundle.containsKey(HomeActivity.ARG_NOTIFICATIONS)) {
                 notificationSummaryModel = bundle.getParcelable(HomeActivity.ARG_NOTIFICATIONS);
+                if(notificationSummaryModel!=null){
+                    notificationCount=notificationSummaryModel.getNotificationDetailModelList().size();
+                    adapter=new NotificationAdapter(notificationSummaryModel.getNotificationDetailModelList(),getActivity(),HomeNotificationFragment.this);
+                }
+            }else if(bundle.containsKey(TailorHomeActivity.ARG_NOTIFICATIONS)){
+                isTailor=true;
+                notificationSummaryModel = bundle.getParcelable(TailorHomeActivity.ARG_NOTIFICATIONS);
                 if(notificationSummaryModel!=null){
                     notificationCount=notificationSummaryModel.getNotificationDetailModelList().size();
                     adapter=new NotificationAdapter(notificationSummaryModel.getNotificationDetailModelList(),getActivity(),HomeNotificationFragment.this);
@@ -120,7 +129,12 @@ public class HomeNotificationFragment extends Fragment implements RecyclerItemTo
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
-                        ((HomeActivity)getActivity()).deleteAllNotification();
+                        if(isTailor){
+                            ((TailorHomeActivity)getActivity()).deleteAllNotification();
+                        }else{
+                            ((HomeActivity)getActivity()).deleteAllNotification();
+                        }
+
                         sDialog.dismissWithAnimation();
                     }
                 })
