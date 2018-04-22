@@ -12,8 +12,6 @@ import java.util.List;
 
 public interface OrdersView {
 
-
-
       void getOrders(OrderSummaryReponseModel orderSummaryReponseModel);
       void sendDeleteOrderListRequest(ArrayList<OrderDetailResponseModel> orders);
       void sendPageRequest(int first,int rows);

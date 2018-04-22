@@ -13,17 +13,25 @@ import java.util.ArrayList;
 public interface OrdersIntractor {
 
     interface onGetOrdersFinishedListener{
-        void onSuccess(OrderSummaryReponseModel orderSummaryReponseModel);
-        void onFailure(String message);
+        void onSuccessGetOrders(OrderSummaryReponseModel orderSummaryReponseModel);
+        void onFailureGetOrders(String message);
+        void navigateToLogin();
+    }
+
+    interface onGetFilterOrdersFinishedListener{
+        void onSuccessGetFilterOrders(OrderSummaryReponseModel orderSummaryReponseModel, int orderStatus);
+        void onFailureGetFilterOrders(String message, int orderStatus);
         void navigateToLogin();
     }
 
     interface onDeleteOrdersFinishedListener{
-        void onSuccess(String message, ArrayList<OrderDetailResponseModel> orders);
-        void onFailure(String message);
+        void onSuccessDeleteOrders(String message, ArrayList<OrderDetailResponseModel> orders);
+        void onFailureDeleteOrders(String message);
         void navigateToLogin();
     }
 
     void sendPageRequestToServer(String xAuthToken, PageModel pageModel, onGetOrdersFinishedListener listener);
     void sendDeleteOrderListRequestToServer(String xAuthToken , ArrayList<OrderDetailResponseModel> orders, onDeleteOrdersFinishedListener listener);
+    void sendPageRequestWithFilter(String xAuthToken, int orderStatus,PageModel pageModel, onGetFilterOrdersFinishedListener listener);
+
 }

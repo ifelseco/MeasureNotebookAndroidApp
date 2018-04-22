@@ -39,6 +39,7 @@ import com.javaman.olcudefteri.orders.AddOrderActivity;
 import com.javaman.olcudefteri.notification.FirebaseRegIdModel;
 import com.javaman.olcudefteri.notification.FirebaseUtil;
 import com.javaman.olcudefteri.orders.OrdersActivity;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
 import com.javaman.olcudefteri.reports.ReportsActivity;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
@@ -293,6 +294,7 @@ public class HomeActivity extends AppCompatActivity
         updateNotificationCount(mNotificationSummaryModel);
 
     }
+
 
     @Override
     public String getFirebaseIdFromPref() {

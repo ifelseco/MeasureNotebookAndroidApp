@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fab_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -15,13 +16,13 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         fab:menu_backgroundColor="#ccffffff"
         fab:menu_fab_label=""
-        fab:fab_colorNormal="#DA4336"
-        fab:fab_colorPressed="#E75043"
-        fab:fab_colorRipple="#99FFFFFF"
         fab:fab_showShadow="true"
         fab:menu_labels_colorNormal="#333333"
         fab:menu_labels_colorPressed="#444444"
         fab:menu_labels_colorRipple="#66FFFFFF"
+        fab:menu_colorNormal="#8BC34A"
+        fab:menu_colorPressed="#a1c183"
+        fab:menu_colorRipple="#99FFFFFF"
         fab:menu_labels_showShadow="true"
         fab:menu_labels_maxLines="-1"
         fab:menu_labels_position="left"
@@ -34,6 +35,9 @@
             android:id="@+id/fab_order_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            fab:fab_colorNormal="#8BC34A"
+            fab:fab_colorPressed="#a1c183"
+            fab:fab_colorRipple="#99FFFFFF"
             android:src="@android:drawable/ic_menu_edit"
             fab:fab_label="Sipariş bilgilerini düzenle"
             fab:fab_size="mini" />
@@ -44,6 +48,9 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_edit"
             fab:fab_label="Müşteri bilgilerini düzenle"
+            fab:fab_colorNormal="#8BC34A"
+            fab:fab_colorPressed="#a1c183"
+            fab:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -52,6 +59,9 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_delete"
             fab:fab_label="Müşteri sil"
+            fab:fab_colorNormal="#8BC34A"
+            fab:fab_colorPressed="#a1c183"
+            fab:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -60,6 +70,9 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_add"
             fab:fab_label="Sipariş durumunu değiştir"
+            fab:fab_colorNormal="#8BC34A"
+            fab:fab_colorPressed="#a1c183"
+            fab:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
@@ -68,6 +81,9 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_delete"
             fab:fab_label="Siparişi sil"
+            fab:fab_colorNormal="#8BC34A"
+            fab:fab_colorPressed="#a1c183"
+            fab:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini" />
 
 

@@ -13,15 +13,7 @@ public class AuthResponse {
 
     private BaseModel baseModel;
     private String token;
-    private String userName;
-    private String role;
-    private String name;
-    private String surname;
-    private String phone;
-    private String email;
-    private String companyName;
-    private String companyPhone;
-    private String imageUrl;
+    private UserDetailModel userDetailModel;
 
 
 }

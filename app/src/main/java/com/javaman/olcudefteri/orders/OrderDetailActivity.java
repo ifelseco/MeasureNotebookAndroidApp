@@ -14,8 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -41,8 +43,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnTouch;
 
-public class OrderDetailActivity extends AppCompatActivity implements FloatingActionMenu.OnMenuToggleListener, View.OnClickListener, OrderDetailVew {
+public class OrderDetailActivity extends AppCompatActivity implements FloatingActionMenu.OnMenuToggleListener, View.OnClickListener, OrderDetailVew, View.OnTouchListener {
 
     @BindView(R.id.tabs)
     TabLayout tabLayout;
@@ -71,6 +74,10 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.fab_container)
+    RelativeLayout relativeLayoutFabContainer;
+
 
 
     @BindView(R.id.progress_bar_order_line)
@@ -159,17 +166,21 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 1) {
-                    clearMenu();
-                    initCustomerFabMenu();
-                } else if (position == 2) {
-                    //showOrderLineFabMenu();
-                    hideFab();
-                    getAddLineMenu();
-                } else {
-                    initOrderFabMenu();
-                    clearMenu();
-                }
+
+
+                    if (position == 1) {
+                        clearMenu();
+                        initCustomerFabMenu();
+                    } else if (position == 2) {
+
+                        hideFab();
+                        getAddLineMenu();
+                    } else {
+                        initOrderFabMenu();
+                        clearMenu();
+                    }
+
+
             }
 
             @Override
@@ -225,20 +236,11 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         arguments.putParcelableArrayList(ARG_ORDER_LINES, (ArrayList<? extends Parcelable>) orderLines);
     }
 
-    private void showOrderLineFabMenu() {
-        fabMenu.setVisibility(View.VISIBLE);
-        fabMenu.close(true);
-        fabOrderDelete.setVisibility(View.GONE);
-        fabOrderEdit.setVisibility(View.GONE);
-        fabOrderStatus.setVisibility(View.GONE);
-        fabCsutomerDelete.setVisibility(View.GONE);
-        fabCustomerEdit.setVisibility(View.GONE);
 
-    }
 
     public void initOrderFabMenu() {
         fabMenu.setVisibility(View.VISIBLE);
-        fabMenu.close(true);
+
         fabCsutomerDelete.setVisibility(View.GONE);
         fabCustomerEdit.setVisibility(View.GONE);
         fabOrderDelete.setVisibility(View.VISIBLE);
@@ -250,12 +252,13 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabOrderDelete.setOnClickListener(this);
         fabOrderEdit.setOnClickListener(this);
         fabOrderStatus.setOnClickListener(this);
+        fabMenu.close(true);
     }
 
     public void initCustomerFabMenu() {
 
         fabMenu.setVisibility(View.VISIBLE);
-        fabMenu.close(true);
+
         fabOrderDelete.setVisibility(View.GONE);
         fabOrderEdit.setVisibility(View.GONE);
         fabOrderStatus.setVisibility(View.GONE);
@@ -264,6 +267,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
         fabCustomerEdit.setOnClickListener(this);
         fabCsutomerDelete.setOnClickListener(this);
+        fabMenu.close(true);
     }
 
     public void hideFab() {
@@ -445,6 +449,18 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     protected void onDestroy() {
         super.onDestroy();
         mOrderLinePresenter.onDestroy();
+    }
+
+    @Override
+    @OnTouch(R.id.fab_container)
+    public boolean onTouch(View v, MotionEvent event) {
+        if(v.getId()==R.id.fab_container){
+            if(fabMenu.isOpened()){
+                fabMenu.close(true);
+                return true;
+            }
+        }
+       return false;
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

@@ -62,7 +62,7 @@ public class LoginPresenterImpl implements LoginPresenter,LoginIntractor.onLogin
 
         if(mLoginView!=null){
             boolean isTailor = false;
-            if(TextUtils.equals(authResponse.getRole(),"r3")){
+            if(TextUtils.equals(authResponse.getUserDetailModel().getRole(),"r3")){
                 isTailor=true;
             }
             mLoginView.hideProgress();

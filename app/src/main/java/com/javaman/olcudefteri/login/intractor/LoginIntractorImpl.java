@@ -28,34 +28,7 @@ public class LoginIntractorImpl implements LoginIntractor {
 
     LoginService loginService;
 
-/*
 
-    @Override
-    public void dummyLogin(String username, String password, final onLoginFinishedListener listener) {
-
-        if (TextUtils.isEmpty(username)) {
-            listener.onUserNameEmptyError();
-        } else if (TextUtils.isEmpty(password)) {
-            listener.onPasswordEmptyError();
-        } else if (username.equals("admin") && password.equals("12345")) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    listener.onSuccessGetOrderLines();
-                }
-            },3000);
-
-            listener.onSuccessGetOrderLines();
-
-
-            //or postToServer(username,password);
-        } else {
-            listener.onFailureGetOrderLines("Kullanıcı adı yada parola hatalı");
-        }
-
-
-    }
-*/
 
     public void login(String username, String password, final onLoginFinishedListener listener) {
 

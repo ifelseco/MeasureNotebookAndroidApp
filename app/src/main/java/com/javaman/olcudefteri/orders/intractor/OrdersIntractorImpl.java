@@ -48,10 +48,10 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     //response [200 ,300) aralığında ise
                     orderSummaryReponseModel = response.body();
                     //orderSummaryReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
-                    listener.onSuccess(orderSummaryReponseModel);
+                    listener.onSuccessGetOrders(orderSummaryReponseModel);
                 } else if(response.code() == 401){
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
-                    listener.onFailure(message);
+                    listener.onFailureGetOrders(message);
                     listener.navigateToLogin();
                 } else {
                     //response [200 ,300) aralığında değil ise
@@ -60,10 +60,10 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                         String errorBody = response.errorBody().string();
                         ApiError apiError = gson.fromJson(errorBody, ApiError.class);
                         Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureGetOrders(apiError.getStatus() + " " + apiError.getMessage());
                     } catch (IOException e) {
                         e.printStackTrace();
-                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                        listener.onFailureGetOrders("Beklenmedik hata..." + e.getMessage());
                     }
                 }
             }
@@ -83,16 +83,16 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                         ApiError apiError = gson.fromJson(errorBody, ApiError.class);
 
                         Log.d("Request Error :", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureGetOrders(apiError.getStatus() + " " + apiError.getMessage());
 
                     } catch (IOException e) {
                         e.printStackTrace();
-                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                        listener.onFailureGetOrders("Beklenmedik hata..." + e.getMessage());
 
                     }
                 } else {
 
-                    listener.onFailure("Ağ hatası : " + t.getMessage()+t.getClass());
+                    listener.onFailureGetOrders("Ağ hatası : " + t.getMessage()+t.getClass());
                 }
 
 
@@ -120,13 +120,13 @@ public class OrdersIntractorImpl implements OrdersIntractor {
             public void onResponse(Call<BaseModel> call, Response<BaseModel> response) {
                 if (response.isSuccessful()) {
                     String message = response.body().getResponseMessage();
-                    listener.onSuccess(message, orders);
+                    listener.onSuccessDeleteOrders(message, orders);
                 } else if (response.code() == 403) {
                     String message = "Sadece yönetici izni olanlar silme işlemi yapabilir.";
-                    listener.onFailure(message);
+                    listener.onFailureDeleteOrders(message);
                 }else if(response.code() == 401){
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
-                    listener.onFailure(message);
+                    listener.onFailureDeleteOrders(message);
                     listener.navigateToLogin();
                 }
                 else{
@@ -135,10 +135,10 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                         String errorBody = response.errorBody().string();
                         ApiError apiError = gson.fromJson(errorBody, ApiError.class);
                         Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureDeleteOrders(apiError.getStatus() + " " + apiError.getMessage());
                     } catch (IOException e) {
                         e.printStackTrace();
-                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                        listener.onFailureDeleteOrders("Beklenmedik hata..." + e.getMessage());
                     }
                 }
 
@@ -158,21 +158,87 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     ApiError apiError = gson.fromJson(errorBody, ApiError.class);
 
                     Log.d("Request Error :", apiError.getStatus() + " " + apiError.getMessage());
-                    listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
+                    listener.onFailureDeleteOrders(apiError.getStatus() + " " + apiError.getMessage());
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                    listener.onFailureDeleteOrders("Beklenmedik hata..." + e.getMessage());
 
                 }
             } else {
 
-                listener.onFailure("Ağ hatası : " + t.getMessage());
+                listener.onFailureDeleteOrders("Ağ hatası : " + t.getMessage());
             }
 
 
         }
     });
 }
+
+    @Override
+    public void sendPageRequestWithFilter(String xAuthToken, final int orderStatus, PageModel pageModel, final onGetFilterOrdersFinishedListener listener) {
+        ordersService = ApiClient.getClient().create(OrdersService.class);
+        orderSummaryReponseModel = new OrderSummaryReponseModel();
+        Call<OrderSummaryReponseModel> orderSummaryReponseModelCall = ordersService.getOrdersWithFilter(xAuthToken, orderStatus,pageModel);
+        orderSummaryReponseModelCall.enqueue(new Callback<OrderSummaryReponseModel>() {
+            @Override
+            public void onResponse(Call<OrderSummaryReponseModel> call, Response<OrderSummaryReponseModel> response) {
+                //request servera ulaştı ve herhangi bir response döndü
+                if (response.isSuccessful()) {
+                    //response [200 ,300) aralığında ise
+                    orderSummaryReponseModel = response.body();
+                    //orderSummaryReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
+                    listener.onSuccessGetFilterOrders(orderSummaryReponseModel,orderStatus);
+                } else if(response.code() == 401){
+                    String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
+                    listener.onFailureGetFilterOrders(message,orderStatus);
+                    listener.navigateToLogin();
+                } else {
+                    //response [200 ,300) aralığında değil ise
+                    Gson gson = new GsonBuilder().create();
+                    try {
+                        String errorBody = response.errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureGetFilterOrders(apiError.getStatus() + " " + apiError.getMessage(),orderStatus);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailureGetFilterOrders("Beklenmedik hata..." + e.getMessage(),orderStatus);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderSummaryReponseModel> call, Throwable t) {
+
+                //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
+
+                if (t instanceof HttpException) {
+
+                    Gson gson = new GsonBuilder().create();
+
+                    try {
+
+                        String errorBody = ((HttpException) t).response().errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+
+                        Log.d("Request Error :", apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureGetFilterOrders(apiError.getStatus() + " " + apiError.getMessage(),orderStatus);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailureGetFilterOrders("Beklenmedik hata..." + e.getMessage(),orderStatus);
+
+                    }
+                } else {
+
+                    listener.onFailureGetFilterOrders("Ağ hatası : " + t.getMessage()+t.getClass(),orderStatus);
+                }
+
+
+            }
+        });
+
+    }
 }
 

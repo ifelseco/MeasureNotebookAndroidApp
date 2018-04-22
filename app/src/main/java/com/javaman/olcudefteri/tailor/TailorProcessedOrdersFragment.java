@@ -1,7 +1,5 @@
 package com.javaman.olcudefteri.tailor;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -16,13 +14,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class TailorOrderFragment extends Fragment {
+public class TailorProcessedOrdersFragment extends Fragment {
 
     @BindView(R.id.fragment_text)
     TextView textViewFrag;
     String text;
 
-    public TailorOrderFragment() {
+    public TailorProcessedOrdersFragment() {
         // Required empty public constructor
     }
 

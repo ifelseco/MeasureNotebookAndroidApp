@@ -11,6 +11,7 @@ import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by javaman on 26.02.2018.
@@ -25,6 +26,13 @@ public interface OrdersService {
     })
     Call<OrderSummaryReponseModel> getOrders(@Header("X-Auth-Token") String xAuthToken , @Body PageModel pageModel);
 
+
+    @POST("/order/list/{orderStatus}")
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    Call<OrderSummaryReponseModel> getOrdersWithFilter(@Header("X-Auth-Token") String xAuthToken , @Path("orderStatus") int orderStatus, @Body PageModel pageModel);
 
     @Headers({
             "Accept: application/json",
