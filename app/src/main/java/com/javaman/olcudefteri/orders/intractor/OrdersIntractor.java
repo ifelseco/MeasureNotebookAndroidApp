@@ -2,7 +2,8 @@ package com.javaman.olcudefteri.orders.intractor;
 
 import com.javaman.olcudefteri.orders.model.PageModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
-import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryPageReponseModel;
 
 import java.util.ArrayList;
 
@@ -13,14 +14,20 @@ import java.util.ArrayList;
 public interface OrdersIntractor {
 
     interface onGetOrdersFinishedListener{
-        void onSuccessGetOrders(OrderSummaryReponseModel orderSummaryReponseModel);
+        void onSuccessGetOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel);
         void onFailureGetOrders(String message);
         void navigateToLogin();
     }
 
     interface onGetFilterOrdersFinishedListener{
-        void onSuccessGetFilterOrders(OrderSummaryReponseModel orderSummaryReponseModel, int orderStatus);
+        void onSuccessGetFilterOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel, int orderStatus);
         void onFailureGetFilterOrders(String message, int orderStatus);
+        void navigateToLogin();
+    }
+
+    interface onGetTailorFilterOrdersFinishedListener{
+        void onSuccessGetTailorFilterOrders(OrderSummaryModel orderSummaryModel, int orderStatus);
+        void onFailureGetTailorFilterOrders(String message);
         void navigateToLogin();
     }
 
@@ -33,5 +40,5 @@ public interface OrdersIntractor {
     void sendPageRequestToServer(String xAuthToken, PageModel pageModel, onGetOrdersFinishedListener listener);
     void sendDeleteOrderListRequestToServer(String xAuthToken , ArrayList<OrderDetailResponseModel> orders, onDeleteOrdersFinishedListener listener);
     void sendPageRequestWithFilter(String xAuthToken, int orderStatus,PageModel pageModel, onGetFilterOrdersFinishedListener listener);
-
+    void getTailorOrdersWithFilter(String xAuthToken, int orderStatus, onGetTailorFilterOrdersFinishedListener listener);
 }

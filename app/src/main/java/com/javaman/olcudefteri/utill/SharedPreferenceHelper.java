@@ -34,6 +34,27 @@ public class SharedPreferenceHelper {
         return value;
     }
 
+
+    public void setIntegerPreference(String key, int value) {
+
+        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
+        if (sharedPreferences != null && !TextUtils.isEmpty(key)) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt(key, value);
+            editor.commit();
+        }
+
+    }
+
+    public int getIntegerPreference(String key,int defaultValue) {
+        int value = -1;
+        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
+        if (sharedPreferences != null) {
+            value = sharedPreferences.getInt(key, defaultValue);
+        }
+        return value;
+    }
+
     public boolean containKey(String key) {
 
         sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
@@ -54,4 +75,5 @@ public class SharedPreferenceHelper {
         }
 
     }
+
 }

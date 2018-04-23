@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".tailor.TailorProcessingOrdersFragment">
 
-
-    <TextView
-        android:gravity="center"
-        android:id="@+id/fragment_text"
+    <LinearLayout
+        android:id="@+id/linear_layout_zero_orders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center">
 
-</FrameLayout>
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:padding="10dp"
+            android:background="@drawable/cerclebackgroundgray"
+            app:srcCompat="@drawable/ic_assignment_black_24dp"
+            android:tint="@color/colorAccentText"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Yeni sipariş yok"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="15sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tailor_content"
+        layout="@layout/content_tailor_order"
+        android:visibility="gone"/>
+
+</LinearLayout>

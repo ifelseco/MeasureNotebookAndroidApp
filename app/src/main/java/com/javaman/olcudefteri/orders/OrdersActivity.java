@@ -27,7 +27,7 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.orders.model.PageModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
-import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryPageReponseModel;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenterImpl;
 import com.javaman.olcudefteri.orders.view.OrdersView;
@@ -361,10 +361,10 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
-    public void getOrders(OrderSummaryReponseModel orderSummaryReponseModel) {
+    public void getOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel) {
 
-        this.orderList.addAll(orderSummaryReponseModel.getOrderDetailPage().getContent());
-        this.totalOrder = orderSummaryReponseModel.getOrderDetailPage().getTotalElements();
+        this.orderList.addAll(orderSummaryPageReponseModel.getOrderDetailPage().getContent());
+        this.totalOrder = orderSummaryPageReponseModel.getOrderDetailPage().getTotalElements();
         updateOrderFromAdapter(this.orderList);
 
 

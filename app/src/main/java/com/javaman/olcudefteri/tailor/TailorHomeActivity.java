@@ -30,8 +30,7 @@ import com.javaman.olcudefteri.home.presenter.HomePresenterImpl;
 import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.notification.FirebaseRegIdModel;
 import com.javaman.olcudefteri.notification.FirebaseUtil;
-import com.javaman.olcudefteri.orders.model.PageModel;
-import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryModel;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenterImpl;
 import com.javaman.olcudefteri.tailor.view.TailorView;
@@ -58,9 +57,9 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     private OrdersPresenter mOrdersPresenter;
     private NotificationSummaryModel mNotificationSummaryModel;
     SweetAlertDialog pDialog;
-    public static final String ARG_NOTIFICATIONS = "notifications";
-    public static final String ARG_TAILOR_PROCESSING_ORDERS = "processing_order";
-    public static final String ARG_TAILOR_PROCESSED_ORDERS = "processed_order";
+    public static final String ARG_NOTIFICATIONS = "tailor-home-notifications";
+    public static final String ARG_TAILOR_ORDERS = "processing_order";
+    //public static final String ARG_TAILOR_PROCESSED_ORDERS = "processed_order";
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation ahBottomNavigation;
 
@@ -70,17 +69,14 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    OrderSummaryReponseModel processingOrder;
-    OrderSummaryReponseModel processedOrder;
-
-
+    OrderSummaryModel processingOrder;
+    OrderSummaryModel processedOrder;
+    int notfCount=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         initview();
-
     }
 
     private void initview() {
@@ -89,6 +85,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         setSupportActionBar(toolbar);
         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
+        notfCount=getNotificationCountFromPref();
         mHomePresenter=new HomePresenterImpl(this);
         mOrdersPresenter=new OrdersPresenterImpl(this);
         mBasePresenter=new BasePresenterImpl(this);
@@ -128,36 +125,49 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     @Override
     public void getProcessedOrderFromServer() {
         String xAuthToken=getSessionIdFromPref();
-        PageModel pageModel = new PageModel();
-        pageModel.setFirst(first);
-        pageModel.setRows(rows);
-        mOrdersPresenter.sendPageRequestWithFilter(xAuthToken,4,pageModel);
+        mOrdersPresenter.getTailorOrderWithFilter(xAuthToken,4);
 
     }
 
     @Override
     public void getProcessingOrderFromServer() {
         String xAuthToken=getSessionIdFromPref();
-        PageModel pageModel = new PageModel();
-        pageModel.setFirst(first);
-        pageModel.setRows(rows);
-        mOrdersPresenter.sendPageRequestWithFilter(xAuthToken,3,pageModel);
+        mOrdersPresenter.getTailorOrderWithFilter(xAuthToken,3);
     }
 
     @Override
-    public void getOrdersProcessing(OrderSummaryReponseModel orderSummaryReponseModel) {
-        processingOrder=orderSummaryReponseModel;
-        initFragment(fragmentManager,fragmentTransaction,new TailorProcessingOrdersFragment(),processingOrder,ARG_TAILOR_PROCESSING_ORDERS,ARG_TAILOR_PROCESSING_ORDERS);
+    public void getOrdersProcessing(OrderSummaryModel orderSummaryModel) {
+        processingOrder= orderSummaryModel;
+        updateOrderBadge(processingOrder.getOrders().size(),0);
+        initFragment(fragmentManager,fragmentTransaction,new TailorOrderFragment(),processingOrder,ARG_TAILOR_ORDERS,ARG_TAILOR_ORDERS);
 
+    }
+
+
+
+    @Override
+    public void getOrdersProcessed(OrderSummaryModel orderSummaryModel) {
+        processedOrder= orderSummaryModel;
+        updateOrderBadge(processedOrder.getOrders().size(),1);
+        initFragment(fragmentManager,fragmentTransaction,new TailorOrderFragment(), processedOrder,ARG_TAILOR_ORDERS, ARG_TAILOR_ORDERS);
+
+    }
+
+    private void updateOrderBadge(int size, int index) {
+        if(size>0){
+            ahBottomNavigation.setNotification(""+size,index);
+        }
     }
 
     @Override
-    public void getOrdersProcessed(OrderSummaryReponseModel orderSummaryReponseModel) {
-        processedOrder=orderSummaryReponseModel;
-        initFragment(fragmentManager,fragmentTransaction,new TailorProcessedOrdersFragment(), processedOrder,ARG_TAILOR_PROCESSED_ORDERS, ARG_TAILOR_PROCESSED_ORDERS);
+    public int getNotificationCountFromPref() {
+        if(sharedPreferenceHelper.containKey("notf-count")){
+            return sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+        }else{
+            return -1;
+        }
 
     }
-
 
 
 
@@ -173,6 +183,9 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         ahBottomNavigation.setInactiveColor(fetchColor(R.color.hintColor));
         ahBottomNavigation.setCurrentItem(0);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        if(notfCount>0){
+            ahBottomNavigation.setNotification(""+notfCount,2);
+        }
         ahBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
@@ -201,7 +214,6 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     protected void onPause() {
         super.onPause();
         sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
-
     }
 
     @Override
@@ -367,8 +379,9 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
 
     @Override
     public void navigateToLogin() {
-        startActivity(new Intent(TailorHomeActivity.this , LoginActivity.class));
-
+        if(!isFinishing()){
+            startActivity(new Intent(TailorHomeActivity.this,LoginActivity.class));
+        }
     }
 
     @Override
@@ -401,4 +414,6 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
+
 }

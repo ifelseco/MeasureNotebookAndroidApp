@@ -12,13 +12,13 @@ import lombok.Data;
  */
 
 @Data
-public class OrderSummaryReponseModel implements Parcelable {
+public class OrderSummaryPageReponseModel implements Parcelable {
 
     private BaseModel baseModel;
 
     private OrderDetailPage orderDetailPage;
 
-    public OrderSummaryReponseModel() {
+    public OrderSummaryPageReponseModel() {
     }
 
 
@@ -33,20 +33,20 @@ public class OrderSummaryReponseModel implements Parcelable {
         dest.writeParcelable(this.orderDetailPage, flags);
     }
 
-    protected OrderSummaryReponseModel(Parcel in) {
+    protected OrderSummaryPageReponseModel(Parcel in) {
         this.baseModel = in.readParcelable(BaseModel.class.getClassLoader());
         this.orderDetailPage = in.readParcelable(OrderDetailPage.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<OrderSummaryReponseModel> CREATOR = new Parcelable.Creator<OrderSummaryReponseModel>() {
+    public static final Parcelable.Creator<OrderSummaryPageReponseModel> CREATOR = new Parcelable.Creator<OrderSummaryPageReponseModel>() {
         @Override
-        public OrderSummaryReponseModel createFromParcel(Parcel source) {
-            return new OrderSummaryReponseModel(source);
+        public OrderSummaryPageReponseModel createFromParcel(Parcel source) {
+            return new OrderSummaryPageReponseModel(source);
         }
 
         @Override
-        public OrderSummaryReponseModel[] newArray(int size) {
-            return new OrderSummaryReponseModel[size];
+        public OrderSummaryPageReponseModel[] newArray(int size) {
+            return new OrderSummaryPageReponseModel[size];
         }
     };
 }

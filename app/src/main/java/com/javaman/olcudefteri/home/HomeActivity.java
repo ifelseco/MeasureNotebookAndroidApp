@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.ColorRes;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -39,7 +41,6 @@ import com.javaman.olcudefteri.orders.AddOrderActivity;
 import com.javaman.olcudefteri.notification.FirebaseRegIdModel;
 import com.javaman.olcudefteri.notification.FirebaseUtil;
 import com.javaman.olcudefteri.orders.OrdersActivity;
-import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
 import com.javaman.olcudefteri.reports.ReportsActivity;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
@@ -62,8 +63,8 @@ public class HomeActivity extends AppCompatActivity
     SweetAlertDialog pDialog;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    public static final String ARG_NOTIFICATIONS = "notifications";
-    public static final String ARG_NOTIFICATION_FRAGMENT = "notification_fragment";
+    public static final String ARG_NOTIFICATIONS = "home-notifications";
+
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation ahBottomNavigation;
 
@@ -78,7 +79,7 @@ public class HomeActivity extends AppCompatActivity
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-
+    int notfCount=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +89,7 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
+        notfCount=getNotificationCountFromPref();
         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
@@ -97,9 +98,6 @@ public class HomeActivity extends AppCompatActivity
         mBasePresenter=new BasePresenterImpl(this);
         initBottomNav();
         sendFirebaseRegIdToServer();
-        getNotificationsFromServer();
-
-
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -125,6 +123,10 @@ public class HomeActivity extends AppCompatActivity
         ahBottomNavigation.setInactiveColor(fetchColor(R.color.hintColor));
         ahBottomNavigation.setCurrentItem(0);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        if(notfCount!=0 && notfCount!=-1){
+            ahBottomNavigation.setNotification(""+notfCount,2);
+        }
         ahBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
@@ -150,16 +152,18 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void getNotificationFragment() {
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        HomeNotificationFragment homeNotificationFragment= new HomeNotificationFragment();
-        Bundle bundle=new Bundle();
-        bundle.putParcelable(ARG_NOTIFICATIONS,mNotificationSummaryModel);
-        homeNotificationFragment.setArguments(bundle);
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.home_container, homeNotificationFragment, ARG_NOTIFICATION_FRAGMENT);
-        fragmentTransaction.commit();
+        getNotificationsFromServer();
+    }
 
+    private void initFragment(FragmentManager mFragmentManager, FragmentTransaction mFragmentTransaction, Fragment fragment, Parcelable parcelable, String key, String tag) {
+        mFragmentManager = getSupportFragmentManager();
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        Bundle bundle=new Bundle();
+        bundle.putParcelable(key, parcelable);
+        fragment.setArguments(bundle);
+        mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.home_container, fragment, tag);
+        mFragmentTransaction.commit();
     }
 
     private int fetchColor(@ColorRes int color) {
@@ -276,6 +280,16 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
+    public int getNotificationCountFromPref() {
+        if(sharedPreferenceHelper.containKey("notf-count")){
+            return sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+        }else{
+            return -1;
+        }
+
+    }
+
+    @Override
     @Subscribe
     public void deleteNotification(NotificationDetailModel notificationDetailModel) {
         String sessionId=getSessionIdFromPref();
@@ -291,8 +305,8 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void getNotifications(NotificationSummaryModel notificationSummaryModel) {
         mNotificationSummaryModel=notificationSummaryModel;
+        initFragment(fragmentManager,fragmentTransaction,new HomeNotificationFragment(),mNotificationSummaryModel,ARG_NOTIFICATIONS,ARG_NOTIFICATIONS);
         updateNotificationCount(mNotificationSummaryModel);
-
     }
 
 
@@ -367,7 +381,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void updateNotifications(NotificationDetailModel notificationDetailModel,boolean isDeleteAll) {
-        HomeNotificationFragment homeNotificationFragment= (HomeNotificationFragment) getSupportFragmentManager().findFragmentByTag(ARG_NOTIFICATION_FRAGMENT);
+        HomeNotificationFragment homeNotificationFragment= (HomeNotificationFragment) getSupportFragmentManager().findFragmentByTag(ARG_NOTIFICATIONS);
         if(homeNotificationFragment!=null){
             if(isDeleteAll){
                 homeNotificationFragment.removeAllItemFromAdapter();
@@ -383,7 +397,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void updateNotificationCount(NotificationSummaryModel notificationSummaryModel) {
         int count=notificationSummaryModel.getNotificationDetailModelList().size();
-        HomeNotificationFragment homeNotificationFragment= (HomeNotificationFragment) getSupportFragmentManager().findFragmentByTag(ARG_NOTIFICATION_FRAGMENT);
+        HomeNotificationFragment homeNotificationFragment= (HomeNotificationFragment) getSupportFragmentManager().findFragmentByTag(ARG_NOTIFICATIONS);
         if(count>0){
             String notificationCount=String.valueOf(count);
             ahBottomNavigation.setNotification(notificationCount,3);

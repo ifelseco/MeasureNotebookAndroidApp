@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public interface OrdersPresenter {
     void sendPageRequest(String xAuthToken , PageModel pageModel);
     void sendPageRequestWithFilter(String xAuthToken , int orderStatus , PageModel pageModel);
+    void getTailorOrderWithFilter(String xAuthToken , int orderStatus );
     void sendDeleteOrderListRequest(String xAuthToken , ArrayList<OrderDetailResponseModel> orders);
     void onDestroy();
 }

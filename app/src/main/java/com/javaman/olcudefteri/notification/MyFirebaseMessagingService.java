@@ -19,6 +19,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.OrderDetailActivity;
 import com.javaman.olcudefteri.orders.OrdersActivity;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,10 +34,12 @@ import java.util.Locale;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+    SharedPreferenceHelper sharedPreferenceHelper;
+
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
+        sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
         if (remoteMessage.getNotification() != null) {
             Log.i(TAG, "Coming Not sound  " + remoteMessage.getNotification().getSound());
             Log.i(TAG, "Coming Not title : " + remoteMessage.getNotification().getTitle());
@@ -44,11 +47,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             //remoteMessage.getData().getData()-->orderId
 
-           String title=remoteMessage.getNotification().getTitle();
-           String message=remoteMessage.getData().get("message");
-           Long orderId=Long.parseLong(remoteMessage.getData().get("data"));
-           String time=remoteMessage.getData().get("time");
-           createNotification(message,title,orderId,time);
+
+
+            String title = remoteMessage.getNotification().getTitle();
+            String message = remoteMessage.getData().get("message");
+            Long orderId = Long.parseLong(remoteMessage.getData().get("data"));
+            String time = remoteMessage.getData().get("time");
+            createNotification(message, title, orderId, time);
 
         }
 
@@ -57,12 +62,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void createNotification(String messageBody,String messageTitle,Long orderId,String time){
+    private void createNotification(String messageBody, String messageTitle, Long orderId, String time) {
 
-        Intent intent = new Intent( this , OrderDetailActivity. class );
-        intent.putExtra(OrderDetailActivity.ARG_NOTIFICATION_ORDER,orderId);
+        Intent intent = new Intent(this, OrderDetailActivity.class);
+        intent.putExtra(OrderDetailActivity.ARG_NOTIFICATION_ORDER, orderId);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent resultIntent = PendingIntent.getActivity( this , 0, intent,
+        PendingIntent resultIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -93,7 +98,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(messageTitle)
                 .setContentText(messageBody)
                 .setSubText(time)
-                .setAutoCancel( true )
+                .setAutoCancel(true)
                 .setSound(notificationSoundURI)
                 .setContentIntent(resultIntent);
 

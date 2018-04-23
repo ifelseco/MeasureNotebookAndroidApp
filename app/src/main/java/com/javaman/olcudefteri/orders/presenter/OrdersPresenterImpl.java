@@ -2,17 +2,13 @@ package com.javaman.olcudefteri.orders.presenter;
 
 
 
-import android.support.v7.widget.RecyclerView;
-
-import com.javaman.olcudefteri.base.BaseView;
-import com.javaman.olcudefteri.home.view.HomeView;
 import com.javaman.olcudefteri.orders.model.PageModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
-import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryPageReponseModel;
 import com.javaman.olcudefteri.orders.intractor.OrdersIntractor;
 import com.javaman.olcudefteri.orders.intractor.OrdersIntractorImpl;
 import com.javaman.olcudefteri.orders.view.OrdersView;
-import com.javaman.olcudefteri.tailor.TailorHomeActivity;
 import com.javaman.olcudefteri.tailor.view.TailorView;
 
 import java.util.ArrayList;
@@ -21,7 +17,11 @@ import java.util.ArrayList;
  * Created by javaman on 26.02.2018.
  */
 
-public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onGetOrdersFinishedListener,OrdersIntractor.onDeleteOrdersFinishedListener,OrdersIntractor.onGetFilterOrdersFinishedListener{
+public class OrdersPresenterImpl implements OrdersPresenter ,
+        OrdersIntractor.onGetOrdersFinishedListener,
+        OrdersIntractor.onDeleteOrdersFinishedListener,
+        OrdersIntractor.onGetFilterOrdersFinishedListener,
+        OrdersIntractor.onGetTailorFilterOrdersFinishedListener{
 
     OrdersView mOrdersView;
     TailorView mTailorView;
@@ -58,6 +58,14 @@ public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onG
     }
 
     @Override
+    public void getTailorOrderWithFilter(String xAuthToken, int orderStatus) {
+        if(mTailorView!=null){
+            mTailorView.showProgress(true);
+            mOrdersIntractor.getTailorOrdersWithFilter(xAuthToken,orderStatus,this);
+        }
+    }
+
+    @Override
     public void sendDeleteOrderListRequest(String xAuthToken, ArrayList<OrderDetailResponseModel> orders) {
         if(mOrdersView!=null){
             mOrdersIntractor.sendDeleteOrderListRequestToServer(xAuthToken,orders,this);
@@ -72,12 +80,12 @@ public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onG
     }
 
     @Override
-    public void onSuccessGetOrders(OrderSummaryReponseModel orderSummaryReponseModel) {
+    public void onSuccessGetOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel) {
         if(mOrdersView!=null){
             mOrdersView.hideProgress();
-            mOrdersView.getOrders(orderSummaryReponseModel);
-            //mOrdersView.updateOrderFromAdapter(orderSummaryReponseModel.getOrderDetailPage().getContent());
-            if(orderSummaryReponseModel.getOrderDetailPage().getTotalElements()>0){
+            mOrdersView.getOrders(orderSummaryPageReponseModel);
+            //mOrdersView.updateOrderFromAdapter(orderSummaryPageReponseModel.getOrderDetailPage().getContent());
+            if(orderSummaryPageReponseModel.getOrderDetailPage().getTotalElements()>0){
                 mOrdersView.showAlert("Siparişler başarıyla listelendi",false,true);
             }else{
                 mOrdersView.showAlert("Kayıtlı siparişiniz yok.",false,false);
@@ -110,20 +118,34 @@ public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onG
     }
 
     @Override
-    public void onSuccessGetFilterOrders(OrderSummaryReponseModel orderSummaryReponseModel, int orderStatus) {
+    public void onSuccessGetFilterOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel, int orderStatus) {
         if(mOrdersView!=null){
             mOrdersView.hideProgress();
             mOrdersView.showAlert("Siparişler listlendi",false,true);
-            mOrdersView.getOrders(orderSummaryReponseModel);
-        }else if(mTailorView!=null){
+            mOrdersView.getOrders(orderSummaryPageReponseModel);
+        }
+    }
+
+    @Override
+    public void onFailureGetFilterOrders(String message, int orderStatus) {
+        if(mOrdersView!=null){
+            mOrdersView.hideProgress();
+            mOrdersView.showAlert(message,true,true);
+
+        }
+    }
+
+    @Override
+    public void onSuccessGetTailorFilterOrders(OrderSummaryModel orderSummaryModel, int orderStatus) {
+        if(mTailorView!=null){
             mTailorView.hideProgress(true);
 
             if(orderStatus==3){
 
-                mTailorView.getOrdersProcessing(orderSummaryReponseModel);
+                mTailorView.getOrdersProcessing(orderSummaryModel);
 
             }else if(orderStatus==4){
-                mTailorView.getOrdersProcessed(orderSummaryReponseModel);
+                mTailorView.getOrdersProcessed(orderSummaryModel);
             }
 
             mTailorView.showAlert("Siparişler listelendi");
@@ -133,14 +155,10 @@ public class OrdersPresenterImpl implements OrdersPresenter ,OrdersIntractor.onG
     }
 
     @Override
-    public void onFailureGetFilterOrders(String message, int orderStatus) {
-        if(mOrdersView!=null){
-            mOrdersView.hideProgress();
-            mOrdersView.showAlert("Siparişler listelenirken hata oluştu",true,true);
-
-        }else if(mTailorView!=null){
+    public void onFailureGetTailorFilterOrders(String message) {
+        if(mTailorView!=null){
             mTailorView.hideProgress(true);
-            mTailorView.showAlert("Siparişler listelenirken hata oluştu");
+            mTailorView.showAlert(message);
 
         }
     }

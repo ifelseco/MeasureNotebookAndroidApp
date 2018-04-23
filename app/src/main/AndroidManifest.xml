@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <service android:name=".MyService" />
+        <service android:name=".dispatcher.MyService" />
         <service android:name=".notification.MyFirebaseIIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -38,8 +38,9 @@
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".DispatcherActivity"
+            android:name=".dispatcher.DispatcherActivity"
             android:label="@string/app_name"
+            android:theme="@style/SplashTheme"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

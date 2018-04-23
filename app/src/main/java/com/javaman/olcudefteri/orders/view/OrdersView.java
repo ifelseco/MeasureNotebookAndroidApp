@@ -1,7 +1,7 @@
 package com.javaman.olcudefteri.orders.view;
 
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
-import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryPageReponseModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface OrdersView {
 
-      void getOrders(OrderSummaryReponseModel orderSummaryReponseModel);
+      void getOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel);
       void sendDeleteOrderListRequest(ArrayList<OrderDetailResponseModel> orders);
       void sendPageRequest(int first,int rows);
       void deleteOrdersFromAdapter(ArrayList<OrderDetailResponseModel> orders);

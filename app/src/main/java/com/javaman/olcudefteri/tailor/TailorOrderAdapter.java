@@ -1,0 +1,127 @@
+package com.javaman.olcudefteri.tailor;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.OrderLineAdapter;
+import com.javaman.olcudefteri.orders.model.OrderDetailModel;
+import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class TailorOrderAdapter extends RecyclerView.Adapter<TailorOrderAdapter.TailorOrderViewHolder> {
+
+    private List<OrderDetailModel> mOrders;
+    Context mContext;
+    TailorOrderFragment mTailorOrderFragment;
+
+    public TailorOrderAdapter(List<OrderDetailModel> orders, Context context, TailorOrderFragment tailorOrderFragment) {
+        this.mContext=context;
+        this.mOrders=orders;
+        this.mTailorOrderFragment=tailorOrderFragment;
+
+    }
+
+    @NonNull
+    @Override
+    public TailorOrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.tailor_order_item, parent, false);
+        return new TailorOrderViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull TailorOrderViewHolder holder, int position) {
+        OrderDetailModel orderDetailModel=mOrders.get(position);
+        holder.itemView.setTag(orderDetailModel);
+        holder.bind(orderDetailModel,position);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mOrders != null) {
+            return mOrders.size();
+        } else {
+            return 0;
+        }
+    }
+
+    public void removeItemFromList(OrderDetailModel orderDetailModel){
+        mOrders.remove(orderDetailModel);
+        notifyDataSetChanged();
+
+    }
+
+
+
+    public class TailorOrderViewHolder extends RecyclerView.ViewHolder{
+
+        @BindView(R.id.tv_order_number)
+        TextView tvOrderNo;
+
+        @BindView(R.id.tv_custmer_namesurname)
+        TextView tvNameSurname;
+
+
+        @BindView(R.id.tv_delivery_date)
+        TextView tvDeliveryDate;
+
+
+        @BindView(R.id.btn_tailor_order_finish)
+        ImageButton imageButtonFinish;
+
+        @BindView(R.id.btn_tailor_order_detail)
+        ImageButton imageButtonDetail;
+
+
+
+
+        public TailorOrderViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        public void bind(OrderDetailModel orderDetailModel, int position) {
+            tvOrderNo.setText(String.valueOf(orderDetailModel.getId()));
+
+            tvNameSurname.setText(orderDetailModel.getCustomer().getNameSurname());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy");
+
+            if (orderDetailModel.getDeliveryDate() != null && !orderDetailModel.getDeliveryDate().equals("")) {
+                String deliveryDate = simpleDateFormat.format(orderDetailModel.getDeliveryDate());
+                tvDeliveryDate.setText(deliveryDate);
+            }
+        }
+
+        @OnClick({R.id.btn_tailor_order_detail,R.id.btn_tailor_order_finish})
+        public void onClick(View view){
+            int id=view.getId();
+            OrderDetailModel orderDetailModel= (OrderDetailModel) itemView.getTag();
+            if(id==R.id.btn_tailor_order_detail){
+                Toast.makeText(mContext, "Detail : "+orderDetailModel.getId(), Toast.LENGTH_SHORT).show();
+            }else if(id==R.id.btn_tailor_order_finish){
+                Toast.makeText(mContext, "Finish : "+orderDetailModel.getId(), Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
+}

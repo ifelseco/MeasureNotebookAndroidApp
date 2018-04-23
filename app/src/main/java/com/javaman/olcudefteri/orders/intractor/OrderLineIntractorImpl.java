@@ -42,7 +42,7 @@ public class OrderLineIntractorImpl implements OrderLineIntractor{
                 if (response.isSuccessful()) {
                     //response [200 ,300) aralığında ise
                     orderLineSummaryResponseModel = response.body();
-                    //orderSummaryReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
+                    //orderSummaryPageReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
                     listener.onSuccessGetOrderLines(orderLineSummaryResponseModel);
                 } else if(response.code() == 401){
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";

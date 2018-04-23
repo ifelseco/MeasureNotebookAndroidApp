@@ -10,7 +10,8 @@ import com.javaman.olcudefteri.orders.model.PageModel;
 import com.javaman.olcudefteri.api.model.response.ApiError;
 import com.javaman.olcudefteri.api.model.response.BaseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
-import com.javaman.olcudefteri.orders.model.response.OrderSummaryReponseModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryPageReponseModel;
 import com.javaman.olcudefteri.orders.service.OrdersService;
 
 import java.io.IOException;
@@ -29,7 +30,8 @@ import retrofit2.Response;
 public class OrdersIntractorImpl implements OrdersIntractor {
 
     OrdersService ordersService;
-    OrderSummaryReponseModel orderSummaryReponseModel;
+    OrderSummaryPageReponseModel orderSummaryPageReponseModel;
+    OrderSummaryModel orderSummaryModel;
     BaseModel baseResponse;
     List<OrderDetailResponseModel> orderDetailResponseModels = new ArrayList<>();
     ArrayList<OrderDetailResponseModel> deleteOrders = new ArrayList<>();
@@ -38,17 +40,17 @@ public class OrdersIntractorImpl implements OrdersIntractor {
     public void sendPageRequestToServer(String xAuthToken, PageModel pageModel, final onGetOrdersFinishedListener listener) {
 
         ordersService = ApiClient.getClient().create(OrdersService.class);
-        orderSummaryReponseModel = new OrderSummaryReponseModel();
-        Call<OrderSummaryReponseModel> orderSummaryReponseModelCall = ordersService.getOrders(xAuthToken, pageModel);
-        orderSummaryReponseModelCall.enqueue(new Callback<OrderSummaryReponseModel>() {
+        orderSummaryPageReponseModel = new OrderSummaryPageReponseModel();
+        Call<OrderSummaryPageReponseModel> orderSummaryReponseModelCall = ordersService.getOrders(xAuthToken, pageModel);
+        orderSummaryReponseModelCall.enqueue(new Callback<OrderSummaryPageReponseModel>() {
             @Override
-            public void onResponse(Call<OrderSummaryReponseModel> call, Response<OrderSummaryReponseModel> response) {
+            public void onResponse(Call<OrderSummaryPageReponseModel> call, Response<OrderSummaryPageReponseModel> response) {
                 //request servera ulaştı ve herhangi bir response döndü
                 if (response.isSuccessful()) {
                     //response [200 ,300) aralığında ise
-                    orderSummaryReponseModel = response.body();
-                    //orderSummaryReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
-                    listener.onSuccessGetOrders(orderSummaryReponseModel);
+                    orderSummaryPageReponseModel = response.body();
+                    //orderSummaryPageReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
+                    listener.onSuccessGetOrders(orderSummaryPageReponseModel);
                 } else if(response.code() == 401){
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
                     listener.onFailureGetOrders(message);
@@ -69,7 +71,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
             }
 
             @Override
-            public void onFailure(Call<OrderSummaryReponseModel> call, Throwable t) {
+            public void onFailure(Call<OrderSummaryPageReponseModel> call, Throwable t) {
 
                 //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
 
@@ -178,17 +180,17 @@ public class OrdersIntractorImpl implements OrdersIntractor {
     @Override
     public void sendPageRequestWithFilter(String xAuthToken, final int orderStatus, PageModel pageModel, final onGetFilterOrdersFinishedListener listener) {
         ordersService = ApiClient.getClient().create(OrdersService.class);
-        orderSummaryReponseModel = new OrderSummaryReponseModel();
-        Call<OrderSummaryReponseModel> orderSummaryReponseModelCall = ordersService.getOrdersWithFilter(xAuthToken, orderStatus,pageModel);
-        orderSummaryReponseModelCall.enqueue(new Callback<OrderSummaryReponseModel>() {
+        orderSummaryPageReponseModel = new OrderSummaryPageReponseModel();
+        Call<OrderSummaryPageReponseModel> orderSummaryReponseModelCall = ordersService.getOrdersWithFilter(xAuthToken, orderStatus,pageModel);
+        orderSummaryReponseModelCall.enqueue(new Callback<OrderSummaryPageReponseModel>() {
             @Override
-            public void onResponse(Call<OrderSummaryReponseModel> call, Response<OrderSummaryReponseModel> response) {
+            public void onResponse(Call<OrderSummaryPageReponseModel> call, Response<OrderSummaryPageReponseModel> response) {
                 //request servera ulaştı ve herhangi bir response döndü
                 if (response.isSuccessful()) {
                     //response [200 ,300) aralığında ise
-                    orderSummaryReponseModel = response.body();
-                    //orderSummaryReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
-                    listener.onSuccessGetFilterOrders(orderSummaryReponseModel,orderStatus);
+                    orderSummaryPageReponseModel = response.body();
+                    //orderSummaryPageReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
+                    listener.onSuccessGetFilterOrders(orderSummaryPageReponseModel,orderStatus);
                 } else if(response.code() == 401){
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
                     listener.onFailureGetFilterOrders(message,orderStatus);
@@ -209,7 +211,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
             }
 
             @Override
-            public void onFailure(Call<OrderSummaryReponseModel> call, Throwable t) {
+            public void onFailure(Call<OrderSummaryPageReponseModel> call, Throwable t) {
 
                 //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
 
@@ -240,5 +242,72 @@ public class OrdersIntractorImpl implements OrdersIntractor {
         });
 
     }
+
+    @Override
+    public void getTailorOrdersWithFilter(String xAuthToken, final int orderStatus, final onGetTailorFilterOrdersFinishedListener listener) {
+        ordersService = ApiClient.getClient().create(OrdersService.class);
+        orderSummaryModel = new OrderSummaryModel();
+        Call<OrderSummaryModel> orderSummaryModelCall = ordersService.getTailorOrderWithFilter(xAuthToken, orderStatus);
+        orderSummaryModelCall.enqueue(new Callback<OrderSummaryModel>() {
+            @Override
+            public void onResponse(Call<OrderSummaryModel> call, Response<OrderSummaryModel> response) {
+                //request servera ulaştı ve herhangi bir response döndü
+                if (response.isSuccessful()) {
+                    //response [200 ,300) aralığında ise
+                    orderSummaryModel = response.body();
+                    //orderSummaryPageReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
+                    listener.onSuccessGetTailorFilterOrders(orderSummaryModel,orderStatus);
+                } else if(response.code() == 401){
+                    String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
+                    listener.onFailureGetTailorFilterOrders(message);
+                    listener.navigateToLogin();
+                } else {
+                    //response [200 ,300) aralığında değil ise
+                    Gson gson = new GsonBuilder().create();
+                    try {
+                        String errorBody = response.errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureGetTailorFilterOrders(apiError.getStatus() + " " + apiError.getMessage());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailureGetTailorFilterOrders("Beklenmedik hata..." + e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderSummaryModel> call, Throwable t) {
+
+                //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
+
+                if (t instanceof HttpException) {
+
+                    Gson gson = new GsonBuilder().create();
+
+                    try {
+
+                        String errorBody = ((HttpException) t).response().errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+
+                        Log.d("Request Error :", apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureGetTailorFilterOrders(apiError.getStatus() + " " + apiError.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailureGetTailorFilterOrders("Beklenmedik hata..." + e.getMessage());
+
+                    }
+                } else {
+
+                    listener.onFailureGetTailorFilterOrders("Ağ hatası : " + t.getMessage()+t.getClass());
+                }
+
+
+            }
+        });
+    }
+
+
 }
 

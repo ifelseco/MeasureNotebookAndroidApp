@@ -103,9 +103,9 @@ public class HomeNotificationFragment extends Fragment implements RecyclerItemTo
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
         inflater.inflate(R.menu.menu_action_delete, menu);
-        MenuItem iteDelete = menu.findItem(R.id.item_delete);
-        if (iteDelete != null) {
-            MyUtil.tintMenuIcon(getActivity().getApplicationContext(), iteDelete, android.R.color.white);
+        MenuItem itemDelete = menu.findItem(R.id.item_delete);
+        if (itemDelete != null) {
+            MyUtil.tintMenuIcon(getActivity().getApplicationContext(), itemDelete, android.R.color.white);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
