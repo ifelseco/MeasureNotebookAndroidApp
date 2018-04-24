@@ -29,7 +29,7 @@
         android:layout_gravity="center"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <include layout="@layout/content_home"
         android:layout_width="match_parent"

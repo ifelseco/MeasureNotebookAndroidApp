@@ -63,12 +63,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void createNotification(String messageBody, String messageTitle, Long orderId, String time) {
-
         Intent intent = new Intent(this, OrderDetailActivity.class);
         intent.putExtra(OrderDetailActivity.ARG_NOTIFICATION_ORDER, orderId);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent resultIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
+
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL_ID = "firebase_not_channel";
@@ -99,10 +99,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(messageBody)
                 .setSubText(time)
                 .setAutoCancel(true)
-                .setSound(notificationSoundURI)
-                .setContentIntent(resultIntent);
+                .setSound(notificationSoundURI);
 
         notificationManager.notify(/*notification id*/0, notificationBuilder.build());
+
     }
 
 }

@@ -31,7 +31,12 @@ public class DispatcherActivity extends AppCompatActivity implements DispatcherV
         Log.i(TAG, "onCreate()");
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         mDispatcherPresenter=new DispatcherPresenterImpl(this);
-        getNotificationCountFromServer();
+        if(sharedPreferenceHelper.containKey("lastActivity")){
+            getNotificationCountFromServer();
+        }else{
+            redirectActivity();
+        }
+
 
     }
 

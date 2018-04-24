@@ -86,14 +86,18 @@ public class HomeActivity extends AppCompatActivity
 
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        notfCount=getNotificationCountFromPref();
-        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
+
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
         sharedPreferenceHelper.removeKey("orderDetailResponse");
+
+        notfCount=getNotificationCountFromPref();
+        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
+
         mHomePresenter=new HomePresenterImpl(this);
         mBasePresenter=new BasePresenterImpl(this);
         initBottomNav();
@@ -124,8 +128,8 @@ public class HomeActivity extends AppCompatActivity
         ahBottomNavigation.setCurrentItem(0);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-        if(notfCount!=0 && notfCount!=-1){
-            ahBottomNavigation.setNotification(""+notfCount,2);
+        if(notfCount>0){
+            ahBottomNavigation.setNotification(""+notfCount,3);
         }
         ahBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
@@ -151,7 +155,7 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    private void getNotificationFragment() {
+    public void getNotificationFragment() {
         getNotificationsFromServer();
     }
 

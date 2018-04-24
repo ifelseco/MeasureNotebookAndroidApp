@@ -58,8 +58,8 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     private NotificationSummaryModel mNotificationSummaryModel;
     SweetAlertDialog pDialog;
     public static final String ARG_NOTIFICATIONS = "tailor-home-notifications";
-    public static final String ARG_TAILOR_ORDERS = "processing_order";
-    //public static final String ARG_TAILOR_PROCESSED_ORDERS = "processed_order";
+    public static final String ARG_TAILOR_ORDERS_PROCESSING = "processing_order";
+    public static final String ARG_TAILOR_ORDERS_PROCESSED = "processed_order";
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation ahBottomNavigation;
 
@@ -72,6 +72,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     OrderSummaryModel processingOrder;
     OrderSummaryModel processedOrder;
     int notfCount=0;
+    private boolean clickForProcessesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         setContentView(R.layout.activity_tailor_home);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        setTitle("Terzi : Muharrem Usta");
         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         notfCount=getNotificationCountFromPref();
@@ -92,6 +94,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         initBottomNav();
         sendFirebaseRegIdToServer();
         getProcessingOrderFragment();
+        getProcessedOrderFromServer();
 
     }
 
@@ -113,12 +116,12 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         fragment.setArguments(bundle);
         mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.home_container, fragment, tag);
-        mFragmentTransaction.commit();
+        mFragmentTransaction.commitAllowingStateLoss();
     }
 
     public void getProcessedOrderFragment() {
+        clickForProcessesFragment=true;
         getProcessedOrderFromServer();
-
     }
 
 
@@ -139,7 +142,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     public void getOrdersProcessing(OrderSummaryModel orderSummaryModel) {
         processingOrder= orderSummaryModel;
         updateOrderBadge(processingOrder.getOrders().size(),0);
-        initFragment(fragmentManager,fragmentTransaction,new TailorOrderFragment(),processingOrder,ARG_TAILOR_ORDERS,ARG_TAILOR_ORDERS);
+        initFragment(fragmentManager,fragmentTransaction,new TailorOrderFragment(),processingOrder,ARG_TAILOR_ORDERS_PROCESSING,ARG_TAILOR_ORDERS_PROCESSING);
 
     }
 
@@ -149,13 +152,18 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     public void getOrdersProcessed(OrderSummaryModel orderSummaryModel) {
         processedOrder= orderSummaryModel;
         updateOrderBadge(processedOrder.getOrders().size(),1);
-        initFragment(fragmentManager,fragmentTransaction,new TailorOrderFragment(), processedOrder,ARG_TAILOR_ORDERS, ARG_TAILOR_ORDERS);
+        if(clickForProcessesFragment){
+            initFragment(fragmentManager,fragmentTransaction,new TailorOrderFragment(), processedOrder, ARG_TAILOR_ORDERS_PROCESSED, ARG_TAILOR_ORDERS_PROCESSED);
+            clickForProcessesFragment =false;
+        }
 
     }
 
     private void updateOrderBadge(int size, int index) {
         if(size>0){
             ahBottomNavigation.setNotification(""+size,index);
+        }else{
+            ahBottomNavigation.setNotification("",index);
         }
     }
 

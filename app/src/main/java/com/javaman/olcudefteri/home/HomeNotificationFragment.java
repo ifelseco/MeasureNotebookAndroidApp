@@ -3,6 +3,7 @@ package com.javaman.olcudefteri.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,13 +31,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class HomeNotificationFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class HomeNotificationFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.linear_layout_zero_not)
     LinearLayout linearLayoutZeroNot;
 
     @BindView(R.id.recycler_notification)
     RecyclerView recyclerView;
+
+    @BindView(R.id.swipe_notification)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     RecyclerView.Adapter adapter;
 
@@ -84,6 +88,7 @@ public class HomeNotificationFragment extends Fragment implements RecyclerItemTo
     }
 
     private void initView() {
+        swipeRefreshLayout.setOnRefreshListener(this);
         if(notificationCount>0){
             linearLayoutZeroNot.setVisibility(View.GONE);
             recyclerView.setAdapter(adapter);
@@ -95,6 +100,9 @@ public class HomeNotificationFragment extends Fragment implements RecyclerItemTo
             new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
 
+        }else{
+            recyclerView.setVisibility(View.GONE);
+            linearLayoutZeroNot.setVisibility(View.VISIBLE);
         }
 
     }
@@ -174,6 +182,16 @@ public class HomeNotificationFragment extends Fragment implements RecyclerItemTo
     }
 
     public void setEmptyBackground(){
+        recyclerView.setVisibility(View.GONE);
         linearLayoutZeroNot.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onRefresh() {
+        if(isTailor){
+            ((TailorHomeActivity)getActivity()).getNotificationFragment();
+        }else{
+            ((HomeActivity)getActivity()).getNotificationFragment();
+        }
     }
 }
