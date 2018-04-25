@@ -19,6 +19,7 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.OrderLineAdapter;
 import com.javaman.olcudefteri.orders.model.OrderDetailModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.model.OrderUpdateModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 
 import java.text.SimpleDateFormat;
@@ -65,9 +66,24 @@ public class TailorOrderAdapter extends RecyclerView.Adapter<TailorOrderAdapter.
         }
     }
 
-    public void removeItemFromList(OrderDetailModel orderDetailModel){
-        mOrders.remove(orderDetailModel);
+    public void removeItemFromList(OrderUpdateModel orderUpdateModel){
+
+        for (OrderDetailModel orderDetailModel:mOrders) {
+            if(orderDetailModel.getId()==orderUpdateModel.getId()){
+                mOrders.remove(orderDetailModel);
+                break;
+            }
+        }
+
+
         notifyDataSetChanged();
+        if(mOrders.size()==0){
+            mTailorOrderFragment.setEmptyBackground();
+        }
+
+    }
+
+    public void updateList(List<OrderDetailModel> mOrders){
 
     }
 
@@ -92,15 +108,28 @@ public class TailorOrderAdapter extends RecyclerView.Adapter<TailorOrderAdapter.
         @BindView(R.id.btn_tailor_order_detail)
         ImageButton imageButtonDetail;
 
+        @BindView(R.id.btn_tailor_order_back)
+        ImageButton imageButtonBack;
+
 
 
 
         public TailorOrderViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            imageButtonBack.setVisibility(View.GONE);
         }
 
         public void bind(OrderDetailModel orderDetailModel, int position) {
+
+            if(orderDetailModel.getOrderStatus()==4){
+                imageButtonBack.setVisibility(View.VISIBLE);
+                imageButtonFinish.setVisibility(View.GONE);
+            }else if(orderDetailModel.getOrderStatus()==3){
+                imageButtonBack.setVisibility(View.GONE);
+                imageButtonFinish.setVisibility(View.VISIBLE);
+            }
+
             tvOrderNo.setText(String.valueOf(orderDetailModel.getId()));
 
             tvNameSurname.setText(orderDetailModel.getCustomer().getNameSurname());
@@ -112,15 +141,16 @@ public class TailorOrderAdapter extends RecyclerView.Adapter<TailorOrderAdapter.
             }
         }
 
-        @OnClick({R.id.btn_tailor_order_detail,R.id.btn_tailor_order_finish})
+        @OnClick({R.id.btn_tailor_order_detail,R.id.btn_tailor_order_finish,R.id.btn_tailor_order_back})
         public void onClick(View view){
             int id=view.getId();
             OrderDetailModel orderDetailModel= (OrderDetailModel) itemView.getTag();
             if(id==R.id.btn_tailor_order_detail){
                 Toast.makeText(mContext, "Detail : "+orderDetailModel.getId(), Toast.LENGTH_SHORT).show();
             }else if(id==R.id.btn_tailor_order_finish){
-                Toast.makeText(mContext, "Finish : "+orderDetailModel.getId(), Toast.LENGTH_SHORT).show();
-
+                mTailorOrderFragment.updateOrder(orderDetailModel);
+            }else if(id==R.id.btn_tailor_order_back){
+                mTailorOrderFragment.updateOrder(orderDetailModel);
             }
         }
     }

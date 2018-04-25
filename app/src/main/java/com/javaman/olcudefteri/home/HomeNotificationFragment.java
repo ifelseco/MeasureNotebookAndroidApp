@@ -123,7 +123,11 @@ public class HomeNotificationFragment extends Fragment implements RecyclerItemTo
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.item_delete:
-                showConfirmDialog();
+                if(notificationSummaryModel.getNotificationDetailModelList().size()>0){
+                    showConfirmDialog();
+                }else{
+                    Toast.makeText(getActivity(), "Hiç bildirim yok", Toast.LENGTH_SHORT).show();
+                }
             default:
                 return super.onOptionsItemSelected(item);
         }

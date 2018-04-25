@@ -2,6 +2,8 @@ package com.javaman.olcudefteri.orders.presenter;
 
 
 
+import com.javaman.olcudefteri.api.model.response.BaseModel;
+import com.javaman.olcudefteri.orders.model.OrderUpdateModel;
 import com.javaman.olcudefteri.orders.model.PageModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderSummaryModel;
@@ -21,7 +23,8 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
         OrdersIntractor.onGetOrdersFinishedListener,
         OrdersIntractor.onDeleteOrdersFinishedListener,
         OrdersIntractor.onGetFilterOrdersFinishedListener,
-        OrdersIntractor.onGetTailorFilterOrdersFinishedListener{
+        OrdersIntractor.onGetTailorFilterOrdersFinishedListener,
+        OrdersIntractor.onOrderProcessListener{
 
     OrdersView mOrdersView;
     TailorView mTailorView;
@@ -76,6 +79,14 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
     public void onDestroy() {
         if(mOrdersView!=null){
             mOrdersView=null;
+        }
+    }
+
+    @Override
+    public void orderUpdate(OrderUpdateModel orderUpdateModel, String headerData) {
+        if (mTailorView!=null){
+            mTailorView.showProgress(true);
+            mOrdersIntractor.orderUpdate(headerData,orderUpdateModel,this);
         }
     }
 
@@ -169,6 +180,22 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
             mOrdersView.navigateToLogin();
         }else if(mTailorView!=null){
             mTailorView.navigateLogin();
+        }
+    }
+
+    @Override
+    public void onSuccessUpdateOrder(BaseModel baseModel,OrderUpdateModel orderUpdateModel) {
+        if(mTailorView!=null){
+            mTailorView.hideProgress(true);
+            mTailorView.updateList(orderUpdateModel);
+        }
+    }
+
+    @Override
+    public void onFailureUpdateOrder(String message) {
+        if(mTailorView!=null){
+            mTailorView.hideProgress(true);
+            mTailorView.showAlert(message);
         }
     }
 }

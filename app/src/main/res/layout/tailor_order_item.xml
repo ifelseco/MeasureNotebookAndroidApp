@@ -147,8 +147,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:padding="5dp"
-            >
+            android:padding="5dp">
+            <ImageButton
+                android:id="@+id/btn_tailor_order_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:background="@color/pink"
+                android:tint="#ffffff"
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
             <ImageButton
                 android:id="@+id/btn_tailor_order_detail"
@@ -158,7 +166,9 @@
                 android:layout_margin="5dp"
                 android:background="@color/colorAccent"
                 android:tint="#ffffff"
-                app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
+                app:srcCompat="@drawable/ic_format_list_bulleted_black_24dp" />
+
+
 
             <ImageButton
                 android:id="@+id/btn_tailor_order_finish"

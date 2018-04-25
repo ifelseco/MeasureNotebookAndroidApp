@@ -1,5 +1,6 @@
 package com.javaman.olcudefteri.orders.presenter;
 
+import com.javaman.olcudefteri.orders.model.OrderUpdateModel;
 import com.javaman.olcudefteri.orders.model.PageModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 
@@ -15,4 +16,5 @@ public interface OrdersPresenter {
     void getTailorOrderWithFilter(String xAuthToken , int orderStatus );
     void sendDeleteOrderListRequest(String xAuthToken , ArrayList<OrderDetailResponseModel> orders);
     void onDestroy();
+    void orderUpdate(OrderUpdateModel orderUpdateModel, String headerData);
 }

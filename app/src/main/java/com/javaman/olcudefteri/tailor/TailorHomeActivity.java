@@ -30,6 +30,8 @@ import com.javaman.olcudefteri.home.presenter.HomePresenterImpl;
 import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.notification.FirebaseRegIdModel;
 import com.javaman.olcudefteri.notification.FirebaseUtil;
+import com.javaman.olcudefteri.orders.model.OrderDetailModel;
+import com.javaman.olcudefteri.orders.model.OrderUpdateModel;
 import com.javaman.olcudefteri.orders.model.response.OrderSummaryModel;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenterImpl;
@@ -72,6 +74,8 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     OrderSummaryModel processingOrder;
     OrderSummaryModel processedOrder;
     int notfCount=0;
+    int processingSize=0;
+    int processedSize=0;
     private boolean clickForProcessesFragment;
 
     @Override
@@ -141,6 +145,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     @Override
     public void getOrdersProcessing(OrderSummaryModel orderSummaryModel) {
         processingOrder= orderSummaryModel;
+        processingSize=processingOrder.getOrders().size();
         updateOrderBadge(processingOrder.getOrders().size(),0);
         initFragment(fragmentManager,fragmentTransaction,new TailorOrderFragment(),processingOrder,ARG_TAILOR_ORDERS_PROCESSING,ARG_TAILOR_ORDERS_PROCESSING);
 
@@ -151,6 +156,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     @Override
     public void getOrdersProcessed(OrderSummaryModel orderSummaryModel) {
         processedOrder= orderSummaryModel;
+        processedSize=processedOrder.getOrders().size();
         updateOrderBadge(processedOrder.getOrders().size(),1);
         if(clickForProcessesFragment){
             initFragment(fragmentManager,fragmentTransaction,new TailorOrderFragment(), processedOrder, ARG_TAILOR_ORDERS_PROCESSED, ARG_TAILOR_ORDERS_PROCESSED);
@@ -158,6 +164,45 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         }
 
     }
+
+    @Override
+    @Subscribe
+    public void sendOrderUpdateRequest(OrderDetailModel orderDetailModel) {
+
+        if(orderDetailModel.getId()!=null){
+
+            OrderUpdateModel orderUpdateModel=new OrderUpdateModel();
+            orderUpdateModel.setId(orderDetailModel.getId());
+            orderUpdateModel.setOrderStatus(orderDetailModel.getOrderStatus());
+            String headerData=getSessionIdFromPref();
+            mOrdersPresenter.orderUpdate(orderUpdateModel,headerData);
+        }
+
+    }
+
+    @Override
+    public void updateList(final OrderUpdateModel orderUpdateModel) {
+
+
+
+        if(orderUpdateModel.getOrderStatus()==4){
+            processingSize--;
+            processedSize++;
+            updateOrderBadge(processingSize,0);
+            updateOrderBadge(processedSize,1);
+        }else if(orderUpdateModel.getOrderStatus()==3){
+            processingSize++;
+            processedSize--;
+            updateOrderBadge(processingSize,0);
+            updateOrderBadge(processedSize,1);
+        }
+
+
+
+        EventBus.getDefault().post(orderUpdateModel);
+
+    }
+
 
     private void updateOrderBadge(int size, int index) {
         if(size>0){
