@@ -4,6 +4,7 @@ package com.javaman.olcudefteri.login.intractor;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,6 +13,8 @@ import com.javaman.olcudefteri.login.service.LoginService;
 import com.javaman.olcudefteri.api.model.response.ApiError;
 import com.javaman.olcudefteri.api.ApiUtils;
 import com.javaman.olcudefteri.login.model.response.AuthResponse;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -63,7 +66,6 @@ public class LoginIntractorImpl implements LoginIntractor {
                         Log.d("Session Id:", ""+response.headers().get("X-Auth-Token"));
                         String sessionId=response.headers().get("X-Auth-Token");
 
-
                         listener.openSession(sessionId);
                         listener.onSuccess(authResponse);
 
@@ -71,26 +73,23 @@ public class LoginIntractorImpl implements LoginIntractor {
                     }else if(response.code()==401){
                         String message = "Kullanıcı adı yada parola hatalı.";
                         listener.onFailure(message);
-                    }
-                    else {
+                    }else if(response.code()==503){
+                        String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                        listener.onFailure(message);
+                    }else{
 
                         //response [200 ,300) aralığında değil ise
-
-                        Gson gson = new GsonBuilder().create();
-
                         try {
-
-                            String errorBody = response.errorBody().string();
-
-                            ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-
-                            Log.d("Hata Mesaj:", apiError.getStatus() +" "+ apiError.getMessage());
-                            listener.onFailure(apiError.getStatus() +" "+ apiError.getMessage());
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                            JSONObject jObjError = new JSONObject(response.errorBody().string());
+                            listener.onFailure("Bir hata oluştu : "+jObjError.getString("message"));
+                        } catch (Exception e) {
+                            listener.onFailure("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                         }
+
+
+
+
+
 
                     }
 

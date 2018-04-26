@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.tailor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.orders.OrderDetailActivity;
 import com.javaman.olcudefteri.orders.OrderLineAdapter;
 import com.javaman.olcudefteri.orders.model.OrderDetailModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
@@ -146,7 +148,10 @@ public class TailorOrderAdapter extends RecyclerView.Adapter<TailorOrderAdapter.
             int id=view.getId();
             OrderDetailModel orderDetailModel= (OrderDetailModel) itemView.getTag();
             if(id==R.id.btn_tailor_order_detail){
-                Toast.makeText(mContext, "Detail : "+orderDetailModel.getId(), Toast.LENGTH_SHORT).show();
+                Context context = view.getContext();
+                Intent intent = new Intent(context, OrderDetailActivity.class);
+                intent.putExtra(TailorOrderDetailActivity.ARG_CURRENT_ORDER , orderDetailModel.getId());
+                context.startActivity(intent);
             }else if(id==R.id.btn_tailor_order_finish){
                 mTailorOrderFragment.updateOrder(orderDetailModel);
             }else if(id==R.id.btn_tailor_order_back){

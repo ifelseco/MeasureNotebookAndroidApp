@@ -125,12 +125,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
                 Bundle bundle= getIntent().getExtras();
 
                 if(bundle!=null){
-                    if (bundle.containsKey(ARG_NOTIFICATION_ORDER)) {
-                        orderIdFromNotification = getIntent().getExtras().getLong(ARG_NOTIFICATION_ORDER);
-                        if (orderIdFromNotification != null && orderIdFromNotification > 0) {
-                            sendGetOrderLineRequest(orderIdFromNotification);
-                        }
-                    } else if (bundle.containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)) {
+                    if (bundle.containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)) {
                         orderId = getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
                         if (orderId != null && orderId > 0) {
                             sendGetOrderLineRequest(orderId);
