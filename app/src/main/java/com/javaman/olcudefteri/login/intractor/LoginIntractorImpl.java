@@ -46,7 +46,6 @@ public class LoginIntractorImpl implements LoginIntractor {
             final String auth = ApiUtils.getAuthToken(username, password);
             String contentType = "application/x-www-form-urlencoded";
 
-
             Call<AuthResponse> token = loginService.sendCredential(auth, contentType);
 
             token.enqueue(new Callback<AuthResponse>() {
@@ -69,7 +68,6 @@ public class LoginIntractorImpl implements LoginIntractor {
                         listener.openSession(sessionId);
                         listener.onSuccess(authResponse);
 
-
                     }else if(response.code()==401){
                         String message = "Kullanıcı adı yada parola hatalı.";
                         listener.onFailure(message);
@@ -85,11 +83,6 @@ public class LoginIntractorImpl implements LoginIntractor {
                         } catch (Exception e) {
                             listener.onFailure("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                         }
-
-
-
-
-
 
                     }
 

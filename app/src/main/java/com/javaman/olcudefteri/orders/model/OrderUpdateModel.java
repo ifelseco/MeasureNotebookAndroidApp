@@ -10,7 +10,7 @@ import lombok.Data;
 public class OrderUpdateModel implements Parcelable {
 
 	private Long id;
-	private String userUsername;
+	private String userNameSurname;
 	private Date orderDate;
 	private double totalAmount;
 	private double depositeAmount;
@@ -31,7 +31,7 @@ public class OrderUpdateModel implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeValue(this.id);
-		dest.writeString(this.userUsername);
+		dest.writeString(this.userNameSurname);
 		dest.writeLong(this.orderDate != null ? this.orderDate.getTime() : -1);
 		dest.writeDouble(this.totalAmount);
 		dest.writeDouble(this.depositeAmount);
@@ -44,7 +44,7 @@ public class OrderUpdateModel implements Parcelable {
 
 	protected OrderUpdateModel(Parcel in) {
 		this.id = (Long) in.readValue(Long.class.getClassLoader());
-		this.userUsername = in.readString();
+		this.userNameSurname = in.readString();
 		long tmpOrderDate = in.readLong();
 		this.orderDate = tmpOrderDate == -1 ? null : new Date(tmpOrderDate);
 		this.totalAmount = in.readDouble();

@@ -58,7 +58,12 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
                     listener.onFailureGetOrders(message);
                     listener.navigateToLogin();
-                } else {
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureGetOrders(message);
+                }
+
+                else {
                     //response [200 ,300) aralığında değil ise
                     Gson gson = new GsonBuilder().create();
                     try {
@@ -133,6 +138,9 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
                     listener.onFailureDeleteOrders(message);
                     listener.navigateToLogin();
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureDeleteOrders(message);
                 }
                 else{
                     Gson gson = new GsonBuilder().create();
@@ -198,7 +206,11 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
                     listener.onFailureGetFilterOrders(message,orderStatus);
                     listener.navigateToLogin();
-                } else {
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureGetFilterOrders(message,orderStatus);
+                }
+                else {
                     //response [200 ,300) aralığında değil ise
                     Gson gson = new GsonBuilder().create();
                     try {
@@ -264,7 +276,11 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
                     listener.onFailureGetTailorFilterOrders(message);
                     listener.navigateToLogin();
-                } else {
+                } else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureGetTailorFilterOrders(message);
+                }
+                else {
                     //response [200 ,300) aralığında değil ise
                     Gson gson = new GsonBuilder().create();
                     try {
@@ -325,7 +341,15 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     //response [200 ,300) aralığında ise
                     BaseModel baseModel = response.body();
                     listener.onSuccessUpdateOrder(baseModel,orderUpdateModel);
-                } else {
+                } else if(response.code() == 401){
+                    String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
+                    listener.onFailureUpdateOrder(message);
+                    listener.navigateToLogin();
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureUpdateOrder(message);
+                }
+                else {
 
                     //response [200 ,300) aralığında değil ise
 

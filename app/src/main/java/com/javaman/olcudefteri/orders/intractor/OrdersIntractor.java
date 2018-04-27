@@ -42,6 +42,7 @@ public interface OrdersIntractor {
     interface onOrderProcessListener {
         void onSuccessUpdateOrder(BaseModel baseModel, OrderUpdateModel orderUpdateModel);
         void onFailureUpdateOrder(String message);
+        void navigateToLogin();
     }
 
     void sendPageRequestToServer(String xAuthToken, PageModel pageModel, onGetOrdersFinishedListener listener);

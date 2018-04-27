@@ -15,7 +15,7 @@ public class OrderDetailResponseModel implements Parcelable {
 
 	private BaseModel baseModel;
 	private Long id;
-	private String userUsername;
+	private String userNameSurname;
 	private Date orderDate;
 	private double totalAmount;
 	private double depositeAmount;
@@ -37,7 +37,7 @@ public class OrderDetailResponseModel implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeParcelable(this.baseModel, flags);
 		dest.writeValue(this.id);
-		dest.writeString(this.userUsername);
+		dest.writeString(this.userNameSurname);
 		dest.writeLong(this.orderDate != null ? this.orderDate.getTime() : -1);
 		dest.writeDouble(this.totalAmount);
 		dest.writeDouble(this.depositeAmount);
@@ -51,7 +51,7 @@ public class OrderDetailResponseModel implements Parcelable {
 	protected OrderDetailResponseModel(Parcel in) {
 		this.baseModel = in.readParcelable(BaseModel.class.getClassLoader());
 		this.id = (Long) in.readValue(Long.class.getClassLoader());
-		this.userUsername = in.readString();
+		this.userNameSurname = in.readString();
 		long tmpOrderDate = in.readLong();
 		this.orderDate = tmpOrderDate == -1 ? null : new Date(tmpOrderDate);
 		this.totalAmount = in.readDouble();

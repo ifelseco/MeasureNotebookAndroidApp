@@ -5,18 +5,14 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.orders.event.OrderDeleteEvent;
 import com.javaman.olcudefteri.orders.event.OrderUpdateEvent;
@@ -24,16 +20,12 @@ import com.javaman.olcudefteri.orders.model.OrderUpdateModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.presenter.OrderPresenter;
 import com.javaman.olcudefteri.orders.presenter.OrderPresenterImpl;
-import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
 import com.javaman.olcudefteri.orders.view.OrderView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Currency;
@@ -157,7 +149,7 @@ public class OrderDetailFragment extends Fragment implements OrderView{
         String fullTime=hoursString+":"+minutesString;
 
         tvOrderTime.setText(fullTime);
-        tvOrderUsername.setText(orderDetailResponseModel.getUserUsername());
+        tvOrderUsername.setText(orderDetailResponseModel.getUserNameSurname());
         tvOrderStatus.setText(orderStatus[orderDetailResponseModel.getOrderStatus()]);
         if (orderDetailResponseModel.getMeasureDate() != null && !orderDetailResponseModel.getMeasureDate().equals("")) {
             linearLayoutMeasureDate.setVisibility(View.VISIBLE);

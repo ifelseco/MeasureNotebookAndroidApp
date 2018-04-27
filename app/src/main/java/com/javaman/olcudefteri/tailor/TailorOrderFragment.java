@@ -146,13 +146,7 @@ public class TailorOrderFragment extends Fragment {
                     return true;
                 }
             case R.id.item_logout:
-                if (status == 3) {
-                    ((TailorHomeActivity) getActivity()).logout();
-                    return true;
-                } else if (status == 4) {
-                    ((TailorHomeActivity) getActivity()).logout();
-                    return true;
-                }
+                showConfirmDialog(null,true);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -160,42 +154,67 @@ public class TailorOrderFragment extends Fragment {
 
 
     public void updateOrder(OrderDetailModel orderDetailModel) {
-            showConfirmDialog(orderDetailModel);
+            showConfirmDialog(orderDetailModel,false);
     }
 
-    private void showConfirmDialog(final OrderDetailModel orderDetailModel) {
-        String message = "";
-        if(orderDetailModel.getOrderStatus()==3){
-            message="Terzi işlemi bittimi?";
-        }else if(orderDetailModel.getOrderStatus()==4){
-            message="Siparişi devam eden \nişlemlere eklemek üzeresiniz.";
-        }
-        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Onaylıyor musunuz?")
-                .setContentText(message)
-                .setConfirmText("Evet")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        if(orderDetailModel.getOrderStatus()==4){
-                            orderDetailModel.setOrderStatus(3);
-                        }else if(orderDetailModel.getOrderStatus()==3){
-                            orderDetailModel.setOrderStatus(4);
-                        }
+    private void showConfirmDialog(final OrderDetailModel orderDetailModel,boolean isLogOutConfirm) {
+        if(isLogOutConfirm){
 
-                        EventBus.getDefault().post(orderDetailModel);
-                        sDialog.dismissWithAnimation();
-                    }
-                })
-                .showCancelButton(true)
-                .setCancelText("Vazgeç!")
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.cancel();
-                    }
-                })
-                .show();
+
+            new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Onaylıyor musunuz?")
+                    .setContentText("Çıkış yapmak üzeresiniz")
+                    .setConfirmText("Evet")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            ((TailorHomeActivity)getActivity()).logout();
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .showCancelButton(true)
+                    .setCancelText("Vazgeç!")
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.cancel();
+                        }
+                    })
+                    .show();
+        }else{
+            String message = "";
+            if(orderDetailModel.getOrderStatus()==3){
+                message="Terzi işlemi bittimi?";
+            }else if(orderDetailModel.getOrderStatus()==4){
+                message="Siparişi devam eden \nişlemlere eklemek üzeresiniz.";
+            }
+            new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Onaylıyor musunuz?")
+                    .setContentText(message)
+                    .setConfirmText("Evet")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            if(orderDetailModel.getOrderStatus()==4){
+                                orderDetailModel.setOrderStatus(3);
+                            }else if(orderDetailModel.getOrderStatus()==3){
+                                orderDetailModel.setOrderStatus(4);
+                            }
+
+                            EventBus.getDefault().post(orderDetailModel);
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .showCancelButton(true)
+                    .setCancelText("Vazgeç!")
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.cancel();
+                        }
+                    })
+                    .show();
+        }
     }
 
     @Subscribe

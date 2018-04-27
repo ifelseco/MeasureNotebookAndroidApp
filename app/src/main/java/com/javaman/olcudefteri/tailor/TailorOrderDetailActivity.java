@@ -4,23 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.vision.text.Text;
 import com.google.gson.Gson;
 import com.javaman.olcudefteri.R;
-
-import com.javaman.olcudefteri.orders.OrderLineAdapter;
-import com.javaman.olcudefteri.orders.OrderLineFragment;
-import com.javaman.olcudefteri.orders.OrdersActivity;
-
-
 
 import com.javaman.olcudefteri.orders.model.response.OrderLineSummaryResponseModel;
 import com.javaman.olcudefteri.orders.presenter.OrderLinePresenter;
@@ -29,12 +27,8 @@ import com.javaman.olcudefteri.orders.view.OrderDetailVew;
 
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
-import org.greenrobot.eventbus.EventBus;
-
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 
 public class TailorOrderDetailActivity extends AppCompatActivity implements OrderDetailVew{
 
@@ -71,37 +65,19 @@ public class TailorOrderDetailActivity extends AppCompatActivity implements Orde
 
         mOrderLinePresenter = new OrderLinePresenterImpl(this);
 
-        if (sharedPreferenceHelper.containKey("orderLineSummaryResponse")) {
-            String data = sharedPreferenceHelper.getStringPreference("orderLineSummaryResponse", "");
-            if (!data.equals("")) {
-                Gson gson = new Gson();
-                OrderLineSummaryResponseModel orderLineSummaryResponseModel = gson.fromJson(data, OrderLineSummaryResponseModel.class);
-                this.orderLineSummaryResponseModel = orderLineSummaryResponseModel;
-                setRecyclerView();
-            }
 
-        } else {
-            if (savedInstanceState == null) {
+        Bundle bundle= getIntent().getExtras();
 
-                Bundle bundle= getIntent().getExtras();
-
-                if(bundle!=null){
-                    if (bundle.containsKey(TailorOrderDetailActivity.ARG_CURRENT_ORDER)) {
-                        orderId = getIntent().getExtras().getLong(TailorOrderDetailActivity.ARG_CURRENT_ORDER);
-                        if (orderId != null && orderId > 0) {
-                            sendGetOrderLineRequest(orderId);
-                        }
-                    }
-                }else{
-                    Intent intent = new Intent(this, TailorHomeActivity.class);
-                    startActivity(intent);
+        if(bundle!=null){
+            if (bundle.containsKey(TailorOrderDetailActivity.ARG_CURRENT_ORDER)) {
+                orderId = getIntent().getExtras().getLong(TailorOrderDetailActivity.ARG_CURRENT_ORDER);
+                if (orderId != null && orderId > 0) {
+                    sendGetOrderLineRequest(orderId);
                 }
-
-
-            } else {
-                this.orderLineSummaryResponseModel = savedInstanceState.getParcelable(ARG_SAVED_ORDER);
-                setRecyclerView();
             }
+        }else{
+            Intent intent = new Intent(this, TailorHomeActivity.class);
+            startActivity(intent);
         }
 
         // Show the Up button in the action bar.
@@ -125,7 +101,7 @@ public class TailorOrderDetailActivity extends AppCompatActivity implements Orde
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            Intent intent = new Intent(getApplicationContext(), OrdersActivity.class);
+            Intent intent = new Intent(getApplicationContext(), TailorHomeActivity.class);
             startActivity(intent);
             return true;
         }
@@ -135,8 +111,8 @@ public class TailorOrderDetailActivity extends AppCompatActivity implements Orde
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        //NavUtils.navigateUpTo(this, new Intent(this, OrdersActivity.class));
-        Intent intent = new Intent(getApplicationContext(), OrdersActivity.class);
+
+        Intent intent = new Intent(getApplicationContext(), TailorHomeActivity.class);
         startActivity(intent);
     }
 
@@ -182,33 +158,25 @@ public class TailorOrderDetailActivity extends AppCompatActivity implements Orde
         showToast(message);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(ARG_SAVED_ORDER, this.orderLineSummaryResponseModel);
-    }
 
     @Override
     public void getOrderLines(OrderLineSummaryResponseModel orderLineSummaryResponseModel) {
         this.orderLineSummaryResponseModel = orderLineSummaryResponseModel;
         setRecyclerView();
+
     }
 
     private void setRecyclerView() {
         adapter = new TailorOrderLineAdapter(this,this.orderLineSummaryResponseModel.getOrderLineDetailList());
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Gson gson = new Gson();
-        if(orderLineSummaryResponseModel!=null){
-            String json = gson.toJson(orderLineSummaryResponseModel);
-            sharedPreferenceHelper.setStringPreference("orderLineSummaryResponse", json);
-            sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
-        }else{
-            sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
-        }
+        sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
 
 
     }
@@ -220,16 +188,5 @@ public class TailorOrderDetailActivity extends AppCompatActivity implements Orde
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
-    }
 
 }

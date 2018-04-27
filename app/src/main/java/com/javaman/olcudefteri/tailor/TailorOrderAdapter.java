@@ -149,7 +149,7 @@ public class TailorOrderAdapter extends RecyclerView.Adapter<TailorOrderAdapter.
             OrderDetailModel orderDetailModel= (OrderDetailModel) itemView.getTag();
             if(id==R.id.btn_tailor_order_detail){
                 Context context = view.getContext();
-                Intent intent = new Intent(context, OrderDetailActivity.class);
+                Intent intent = new Intent(context, TailorOrderDetailActivity.class);
                 intent.putExtra(TailorOrderDetailActivity.ARG_CURRENT_ORDER , orderDetailModel.getId());
                 context.startActivity(intent);
             }else if(id==R.id.btn_tailor_order_finish){
