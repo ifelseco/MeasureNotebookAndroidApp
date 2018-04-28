@@ -1,8 +1,6 @@
 package com.javaman.olcudefteri.orders;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -204,14 +200,16 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
 
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-
+            OrderLineDetailModel orderLineDetailModel= (OrderLineDetailModel) itemView.getTag();
             switch(item.getItemId()){
+
                 case R.id.menu_item_delete_line:
-                    OrderLineDetailModel orderLineDetailModel= (OrderLineDetailModel) itemView.getTag();
+
                     orderLineFragment.deleteOrderLne(orderLineDetailModel);
                     break;
                 case R.id.menu_item_update_line:
-                    Toast.makeText(mContext, "Update line", Toast.LENGTH_SHORT).show();
+
+                    orderLineFragment.updateOrderLine(orderLineDetailModel);
                     break;
             }
             return false;

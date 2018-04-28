@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenter;
+import com.javaman.olcudefteri.orders.presenter.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.presenter.OrderLinePresenter;
 import com.javaman.olcudefteri.orders.presenter.OrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.OrderLineView;
@@ -61,6 +63,8 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
     ImageButton imageButtonClose;
     View detailView;
     private OrderLinePresenter mOrderLinePresenter;
+    private AddOrderLinePresenter mAddOrderLinePresenter;
+    public static final String ARG_UPDATE_ORDERLINE="update-orderline";
 
     private List<OrderLineDetailModel> orderLines = new ArrayList<>();
 
@@ -453,9 +457,19 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
 
 
     @Override
-    public void updateOrderLine() {
-
+    public void updateOrderLine(OrderLineDetailModel orderLineDetailModel) {
+        showUpdateDilog(orderLineDetailModel);
     }
+
+    private void showUpdateDilog(OrderLineDetailModel orderLineDetailModel) {
+        OrderLineUpdateDialog orderLineUpdateDialog=new OrderLineUpdateDialog();
+        Bundle bundle=new Bundle();
+        bundle.putParcelable(ARG_UPDATE_ORDERLINE,orderLineDetailModel);
+        orderLineUpdateDialog.setArguments(bundle);
+        orderLineUpdateDialog.show(getFragmentManager(),ARG_UPDATE_ORDERLINE);
+    }
+
+
 
     @Override
     public String getSessionIdFromPref() {

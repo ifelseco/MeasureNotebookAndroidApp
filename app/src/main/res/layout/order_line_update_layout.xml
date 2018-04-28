@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        app:cardCornerRadius="3dp">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textViewProductValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/lightgreen"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="#ffffff"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <!--LİNEAR LAYOUT PRODUCT -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <EditText
+                                android:id="@+id/et_product_alias"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Ürün İsmi"
+                                android:textSize="15sp" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/et_product_pattern"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:ems="10"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Desen"
+                                android:padding="5dp"
+                                android:textSize="15sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/et_product_variant"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:ems="10"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Varyant"
+                                android:padding="5dp"
+                                android:textSize="15sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--LİNEAR LAYOUT PRODUCT -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/et_width"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:ems="10"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="En (cm)"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:textSize="15sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/et_height"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:ems="10"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Boy (cm)"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:textSize="15sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--LİNEAR LAYOUT PILE,NET CURT -->
+                <LinearLayout
+                    android:id="@+id/linear_layout_pile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:padding="5dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/et_pile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
+                            android:ems="10"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Pile Sıklığı"
+                            android:textSize="15sp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <!--LİNEAR LAYOUT Direction.. -->
+                <LinearLayout
+                    android:id="@+id/linear_layout_direction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:padding="5dp">
+
+
+
+                    <RadioGroup
+                        android:id="@+id/radio_group_direction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/rb_left"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Zincir Solda"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_right"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Zincir Sağda"
+                            />
+                    </RadioGroup>
+
+
+                </LinearLayout>
+
+                <!--LİNEAR LAYOUT Mechanism.. -->
+                <LinearLayout
+                    android:id="@+id/linear_layout_mechanism"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:padding="5dp">
+
+                    <RadioGroup
+                        android:id="@+id/radio_group_mechanism"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/rb_one_piece"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tek Kas."/>
+
+                        <RadioButton
+                            android:id="@+id/rb_pieces"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Parçalı" />
+
+                        <RadioButton
+                            android:id="@+id/rb_multi_mech"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Çok. Mek." />
+                    </RadioGroup>
+
+
+
+                </LinearLayout>
+
+                <!--LİNEAR LAYOUT Briz.. -->
+                <LinearLayout
+                    android:id="@+id/linear_layout_briz"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/et_alt_width"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:ems="10"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Farbela En (cm)"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:textSize="15sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/et_alt_height"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:ems="10"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Farbela Boy (cm)"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:textSize="15sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--LİNEAR LAYOUT Kruvaze.. -->
+                <LinearLayout
+                    android:id="@+id/linear_layout_kruvaze"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/et_left_width"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:ems="10"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Sol En (cm)"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:textSize="15sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <EditText
+                                android:id="@+id/et_right_width"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:ems="10"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Sağ En (cm)"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:textSize="15sp" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--LİNEAR LAYOUT Farbela.. -->
+                <LinearLayout
+                    android:id="@+id/linear_layout_farbela"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:padding="5dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/et_model_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Ürün İsmi"
+                            android:textSize="15sp" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <!--LİNEAR LAYOUT Fon.. -->
+                <LinearLayout
+                    android:id="@+id/linear_layout_fon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:padding="5dp">
+
+                    <RadioGroup
+                        android:id="@+id/radio_group_fon_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:layout_weight="1"
+                        android:layout_margin="3dp"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/rb_kruvaze"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kruvaze Kanat"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_japon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Japon Panel" />
+
+                        <RadioButton
+                            android:id="@+id/rb_fon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fon Kanat" />
+                    </RadioGroup>
+
+
+                    <RadioGroup
+                        android:id="@+id/radio_group_pile_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:layout_weight="1"
+                        android:layout_margin="3dp"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/rb_american"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Amerikan"/>
+
+                        <RadioButton
+                            android:id="@+id/rb_kanun"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kanun" />
+
+                        <RadioButton
+                            android:id="@+id/rb_yan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Yan" />
+
+                        <RadioButton
+                            android:id="@+id/rb_other"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Diğer" />
+                    </RadioGroup>
+
+
+
+
+
+                </LinearLayout>
+
+                <!--LİNEAR LAYOUT Unit price.. -->
+                <LinearLayout
+                    android:id="@+id/linear_layout_unit_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:padding="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+
+                            <EditText
+                                android:id="@+id/et_unit_rice"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Birim Fiyat (TL)"
+                                android:ems="10"
+                                android:inputType="numberDecimal"
+                                android:textSize="15sp" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageButton
+                            android:id="@+id/btn_calculate"
+                            android:layout_width="wrap_content"
+                            android:padding="5dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rectangle_background_light_green"
+                            app:srcCompat="@drawable/ic_calc"
+                            android:layout_gravity="center_vertical"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_line_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginTop="10dp"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Tutar: "
+                        android:background="@drawable/edittext_border_bg_lightgreen"/>
+
+                </LinearLayout>
+
+                <!-- Linear layout descriptiom -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/et_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
+                            android:fontFamily="@font/roboto_regular"
+                            android:inputType="textMultiLine"
+                            android:hint="Açıklama"
+                            android:textSize="15sp" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rectangle_background_pink"
+                        android:padding="3dp"
+                        android:src="@drawable/ic_dialog_close_dark"
+                        android:textColor="#ffffff" />
+
+                    <ImageButton
+                        android:id="@+id/btn_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rectangle_background_light_green"
+
+                        android:padding="3dp"
+                        android:text="Kaydet"
+                        android:textColor="#ffffff"
+                        android:tint="#ffffff"
+                        app:srcCompat="@drawable/ic_check_black_24dp" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

@@ -8,7 +8,7 @@ public interface OrderLineView{
     void showProgress(String message);
     void hideProgress();
     void deleteOrderLne(OrderLineDetailModel orderLineDetailModel);
-    void updateOrderLine();
+    void updateOrderLine(OrderLineDetailModel orderLineDetailModel);
     String getSessionIdFromPref();
     void navigateToLogin();
     void checkSession();
