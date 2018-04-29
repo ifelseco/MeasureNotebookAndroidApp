@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -150,6 +151,12 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
     @BindView(R.id.et_desc)
     EditText etDesc;
 
+    @BindView(R.id.et_bead)
+    EditText etBead;
+
+    @BindView(R.id.et_skirt)
+    EditText etSkirt;
+
     @BindView(R.id.btn_cancel)
     ImageButton btnCancel;
 
@@ -240,41 +247,160 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
 
     }
 
-    private void setFonLayout(OrderLineDetailModel orderLineDetailModel) {
-        linearLayoutFon.setVisibility(View.VISIBLE);
-        if(orderLineDetailModel.getFonType()!=3){
-            linearLayoutPile.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void setFarbelaLayout(OrderLineDetailModel orderLineDetailModel) {
-        linearLayoutFarbela.setVisibility(View.VISIBLE);
-    }
-
-    private void setBrizLayout(OrderLineDetailModel orderLineDetailModel) {
-        linearLayoutPile.setVisibility(View.VISIBLE);
-        linearLayoutBriz.setVisibility(View.VISIBLE);
-    }
 
     private void setSunBlindLayout(OrderLineDetailModel orderLineDetailModel) {
-    }
-
-    private void setJaluziLayout(OrderLineDetailModel orderLineDetailModel) {
-        linearLayoutDirection.setVisibility(View.VISIBLE);
+        setProductProperties(orderLineDetailModel);
     }
 
     private void setNetCurtainLayout(OrderLineDetailModel orderLineDetailModel) {
         linearLayoutPile.setVisibility(View.VISIBLE);
+        setProductProperties(orderLineDetailModel);
+        etPile.setText(String.valueOf(orderLineDetailModel.getSizeOfPile()));
     }
+
+    private void setFarbelaLayout(OrderLineDetailModel orderLineDetailModel) {
+        linearLayoutFarbela.setVisibility(View.VISIBLE);
+        setProductProperties(orderLineDetailModel);
+        if(!TextUtils.isEmpty(orderLineDetailModel.getPropertyModelName())){
+            etModelName.setText(orderLineDetailModel.getPropertyModelName());
+        }else{
+            etModelName.setText("");
+        }
+    }
+
+    private void setJaluziLayout(OrderLineDetailModel orderLineDetailModel) {
+        linearLayoutDirection.setVisibility(View.VISIBLE);
+        setProductProperties(orderLineDetailModel);
+        if(orderLineDetailModel.getDirection()==1){
+            radioGroupDirection.check(R.id.rb_left);
+        }else if(orderLineDetailModel.getDirection()==2){
+            radioGroupDirection.check(R.id.rb_right);
+        }
+    }
+
+
+
+    private void setFonLayout(OrderLineDetailModel orderLineDetailModel) {
+        linearLayoutFon.setVisibility(View.VISIBLE);
+        setProductProperties(orderLineDetailModel);
+        if(orderLineDetailModel.getFonType()!=3){
+            linearLayoutPile.setVisibility(View.VISIBLE);
+            etPile.setText(String.valueOf(orderLineDetailModel.getSizeOfPile()));
+            if(orderLineDetailModel.getDirection()==1){
+                radioGroupDirection.check(R.id.rb_left);
+            }else if(orderLineDetailModel.getDirection()==2){
+                radioGroupDirection.check(R.id.rb_right);
+            }
+
+            if(TextUtils.equals(orderLineDetailModel.getPileName(),"AP")){
+                radioGroupPileName.check(R.id.rb_american);
+            }else if(TextUtils.equals(orderLineDetailModel.getPileName(),"KP")){
+                radioGroupPileName.check(R.id.rb_kanun);
+            }else if(TextUtils.equals(orderLineDetailModel.getPileName(),"YP")){
+                radioGroupPileName.check(R.id.rb_yan);
+            }else{
+                radioGroupPileName.check(R.id.rb_other);
+            }
+
+
+        }
+
+        if(orderLineDetailModel.getFonType()==1){
+            radioGroupFonType.check(R.id.rb_kruvaze);
+        } else if (orderLineDetailModel.getFonType() == 2) {
+            radioGroupFonType.check(R.id.rb_fon);
+        }else if(orderLineDetailModel.getFonType()==3){
+            radioGroupFonType.check(R.id.rb_japon);
+        }
+
+
+    }
+
+
+
+    private void setBrizLayout(OrderLineDetailModel orderLineDetailModel) {
+        linearLayoutPile.setVisibility(View.VISIBLE);
+        linearLayoutBriz.setVisibility(View.VISIBLE);
+        setProductProperties(orderLineDetailModel);
+        etAltWidth.setText(String.valueOf(orderLineDetailModel.getPropertyAlternativeWidth()));
+        etAltHeight.setText(String.valueOf(orderLineDetailModel.getPropertyAlternativeHeight()));
+        etPile.setText(String.valueOf(orderLineDetailModel.getSizeOfPile()));
+
+    }
+
+
+
 
     private void setKruvazeCurtainLayout(OrderLineDetailModel orderLineDetailModel) {
         linearLayoutPile.setVisibility(View.VISIBLE);
         linearLayoutKruvaze.setVisibility(View.VISIBLE);
+        setProductProperties(orderLineDetailModel);
+        etLeftWidth.setText(String.valueOf(orderLineDetailModel.getPropertyLeftWidth()));
+        etRightWidth.setText(String.valueOf(orderLineDetailModel.getPropertyRightWidth()));
+        etPile.setText(String.valueOf(orderLineDetailModel.getSizeOfPile()));
     }
 
     private void setMechanismCurtainLayout(OrderLineDetailModel orderLineDetailModel) {
         linearLayoutDirection.setVisibility(View.VISIBLE);
         linearLayoutMechanism.setVisibility(View.VISIBLE);
+        setProductProperties(orderLineDetailModel);
+        if(orderLineDetailModel.getDirection()==1){
+            radioGroupDirection.check(R.id.rb_left);
+        }else if(orderLineDetailModel.getDirection()==2){
+            radioGroupDirection.check(R.id.rb_right);
+        }
+
+
+        if(orderLineDetailModel.getMechanismStatus()==1){
+            radioGroupMechanism.check(R.id.rb_one_piece);
+        }else if(orderLineDetailModel.getMechanismStatus()==2){
+            radioGroupMechanism.check(R.id.rb_pieces);
+        }else if(orderLineDetailModel.getMechanismStatus()==3){
+            radioGroupMechanism.check(R.id.rb_multi_mech);
+        }
+
+
+        if(!TextUtils.isEmpty(orderLineDetailModel.getSkirtNo())){
+            etSkirt.setText(orderLineDetailModel.getSkirtNo());
+        }else{
+            etSkirt.setText("");
+        }
+
+
+        if(!TextUtils.isEmpty(orderLineDetailModel.getBeadNo())){
+            etBead.setText(orderLineDetailModel.getBeadNo());
+        }else{
+            etBead.setText("");
+        }
+
+    }
+    private void setProductProperties(OrderLineDetailModel orderLineDetailModel) {
+        if(!TextUtils.isEmpty(orderLineDetailModel.getProduct().getVariantCode())){
+            etVariant.setText(orderLineDetailModel.getProduct().getVariantCode());
+        }else{
+            etVariant.setText("");
+        }
+
+        if(!TextUtils.isEmpty(orderLineDetailModel.getProduct().getAliasName())){
+            etAlias.setText(orderLineDetailModel.getProduct().getAliasName());
+        }else{
+            etAlias.setText("");
+        }
+
+        if(!TextUtils.isEmpty(orderLineDetailModel.getProduct().getPatternCode())){
+            etPattern.setText(orderLineDetailModel.getProduct().getPatternCode());
+        }else{
+            etPattern.setText("");
+        }
+
+        if(!TextUtils.isEmpty(orderLineDetailModel.getLineDescription())){
+            etDesc.setText(orderLineDetailModel.getLineDescription());
+        }else{
+            etDesc.setText("");
+        }
+
+        etUnitPrice.setText(String.valueOf(orderLineDetailModel.getUnitPrice()));
+        tvLineAmount.setText(String.valueOf(orderLineDetailModel.getLineAmount()));
     }
 
 

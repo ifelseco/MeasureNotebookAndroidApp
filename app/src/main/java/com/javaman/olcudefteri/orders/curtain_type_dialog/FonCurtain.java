@@ -235,13 +235,13 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
             }
         } else {
             if (i == R.id.radioButtonAmerican) {
-                pileName = "American Pile";
+                pileName = "AP";
             } else if (i == R.id.radioButtonKanun) {
-                pileName = "Kanun Pile";
+                pileName = "KP";
             } else if (i == R.id.radioButtonYan) {
-                pileName = "Yan Pile";
+                pileName = "YP";
             } else {
-                pileName = "Diğer";
+                pileName = "O";
             }
         }
 

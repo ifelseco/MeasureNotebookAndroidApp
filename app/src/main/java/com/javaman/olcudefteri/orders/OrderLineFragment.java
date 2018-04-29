@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -333,7 +334,9 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
 
                 if (orderLineDetailModel.getFonType() == 1) {
                     tvFonType.setText("Kruvaze Kanat");
-                    tvFonPileName.setText(orderLineDetailModel.getPileName());
+
+                    setPileName(orderLineDetailModel);
+
                     tvFonPile.setText("" + orderLineDetailModel.getSizeOfPile());
 
                     if (orderLineDetailModel.getDirection() == 1) {
@@ -345,7 +348,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
 
                 } else if (orderLineDetailModel.getFonType() == 2) {
                     tvFonType.setText("Fon Kanat");
-                    tvFonPileName.setText(orderLineDetailModel.getPileName());
+                    setPileName(orderLineDetailModel);
                     tvFonPile.setText("" + orderLineDetailModel.getSizeOfPile());
 
                     if (orderLineDetailModel.getDirection() == 1) {
@@ -398,6 +401,19 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
                 linearLayoutDetail.addView(detailView);
                 break;
 
+        }
+    }
+
+    private void setPileName(OrderLineDetailModel orderLineDetailModel) {
+
+        if(TextUtils.equals(orderLineDetailModel.getPileName(),"AP")){
+            tvFonPileName.setText("Amerikan Pile");
+        }else if(TextUtils.equals(orderLineDetailModel.getPileName(),"KP")){
+            tvFonPileName.setText("Kanun Pile");
+        }else if(TextUtils.equals(orderLineDetailModel.getPileName(),"YP")){
+            tvFonPileName.setText("Yan Pile");
+        }else {
+            tvFonPileName.setText("Diğer");
         }
     }
 
