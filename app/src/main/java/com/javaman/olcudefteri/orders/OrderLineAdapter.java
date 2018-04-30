@@ -71,6 +71,24 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
 
     }
 
+    public void updateAdapter(OrderLineDetailModel orderLineDetailModel) {
+
+        int index = -1;
+        for(OrderLineDetailModel orderLine:orderLines){
+            if(orderLine.getId()==orderLineDetailModel.getId()){
+                index=orderLines.indexOf(orderLine);
+                break;
+            }
+        }
+        if(index>=0){
+            orderLines.set(index,orderLineDetailModel);
+            notifyItemChanged(index);
+        }
+
+
+
+    }
+
 
     public class OrderLineViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
@@ -205,11 +223,11 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
 
                 case R.id.menu_item_delete_line:
 
-                    orderLineFragment.deleteOrderLne(orderLineDetailModel);
+                    orderLineFragment.showDeleteConfirmDialog(orderLineDetailModel);
                     break;
                 case R.id.menu_item_update_line:
 
-                    orderLineFragment.updateOrderLine(orderLineDetailModel);
+                    orderLineFragment.showUpdateDilog(orderLineDetailModel);
                     break;
             }
             return false;

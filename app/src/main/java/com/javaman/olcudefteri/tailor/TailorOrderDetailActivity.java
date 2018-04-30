@@ -72,7 +72,7 @@ public class TailorOrderDetailActivity extends AppCompatActivity implements Orde
             if (bundle.containsKey(TailorOrderDetailActivity.ARG_CURRENT_ORDER)) {
                 orderId = getIntent().getExtras().getLong(TailorOrderDetailActivity.ARG_CURRENT_ORDER);
                 if (orderId != null && orderId > 0) {
-                    sendGetOrderLineRequest(orderId);
+                    sendGetOrderLineRequest(orderId,false);
                 }
             }
         }else{
@@ -121,7 +121,7 @@ public class TailorOrderDetailActivity extends AppCompatActivity implements Orde
     }
 
     @Override
-    public void sendGetOrderLineRequest(Long orderId) {
+    public void sendGetOrderLineRequest(Long orderId,boolean isUpdate) {
         String xAuthToken = getSessionIdFromPref();
         mOrderLinePresenter.sendGetOrderLineRequest(xAuthToken, orderId);
     }

@@ -14,7 +14,7 @@ import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 public interface AddOrderLineIntractor {
 
     interface onAddOrderLineListener{
-        void onSuccessAddOrderLine(AddOrderLineResponse addOrderLineResponse);
+        void onSuccessAddOrderLine(AddOrderLineResponse addOrderLineResponse,OrderLineDetailModel orderLineDetailModel);
         void onFailureAddOrderLine(String message);
     }
 

@@ -8,7 +8,7 @@ import com.javaman.olcudefteri.orders.model.response.OrderLineSummaryResponseMod
 
 public interface OrderDetailVew {
 
-    void sendGetOrderLineRequest(Long orderId);
+    void sendGetOrderLineRequest(Long orderId,boolean isUpdate);
     void showProgress();
     void hideProgress();
     String getSessionIdFromPref();

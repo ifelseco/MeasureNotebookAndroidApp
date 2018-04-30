@@ -10,6 +10,7 @@ import com.javaman.olcudefteri.orders.model.response.AddOrderLineResponse;
 import com.javaman.olcudefteri.orders.model.response.CalculationResponse;
 import com.javaman.olcudefteri.orders.view.AddOrderLineView;
 import com.javaman.olcudefteri.orders.view.CalculateView;
+import com.javaman.olcudefteri.orders.view.OrderLineView;
 
 /**
  * Created by javaman on 15.02.2018.
@@ -23,6 +24,7 @@ public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
         AddOrderLineIntractor.onCalculateOrderLineListener{
 
     AddOrderLineView mAddOrderLineView;
+    OrderLineView mOrderLineView;
     CalculateView mCalculateView;
     AddOrderLineIntractor mAddOrderLineIntractor;
 
@@ -37,10 +39,20 @@ public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
 
     }
 
+    public AddOrderLinePresenterImpl(OrderLineView mOrderLineView) {
+        this.mOrderLineView = mOrderLineView;
+        mAddOrderLineIntractor=new AddOrderLineIntractorImpl();
+    }
+
     @Override
     public void addOrderLine(OrderLineDetailModel orderLineDetailModel, String headerData) {
         if(mAddOrderLineView!=null){
+            //add
             mAddOrderLineView.showProgress();
+            mAddOrderLineIntractor.addOrderLine(orderLineDetailModel,headerData,this);
+        }else if(mOrderLineView!=null){
+            //update
+            mOrderLineView.showProgress("Ölçü güncelleniyor");
             mAddOrderLineIntractor.addOrderLine(orderLineDetailModel,headerData,this);
         }
     }
@@ -88,11 +100,17 @@ public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
 
 
     @Override
-    public void onSuccessAddOrderLine(AddOrderLineResponse addOrderLineResponse) {
+    public void onSuccessAddOrderLine(AddOrderLineResponse addOrderLineResponse,OrderLineDetailModel orderLineDetailModel) {
         if(mAddOrderLineView!=null){
+            //add
             mAddOrderLineView.hideProgress();
             mAddOrderLineView.showAlert("Ölçü başarıyla kaydedildi.",false);
             mAddOrderLineView.updateCart(addOrderLineResponse.getOrderTotalAmount());
+        }else if(mOrderLineView!=null){
+            //update
+            mOrderLineView.hideProgress();
+            mOrderLineView.showAlert("Ölçü güncellendi",false,false);
+            mOrderLineView.updateAdapter(orderLineDetailModel);
         }
     }
 
@@ -101,6 +119,10 @@ public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
         if(mAddOrderLineView!=null){
             mAddOrderLineView.hideProgress();
             mAddOrderLineView.showAlert(message,true);
+        }else if(mOrderLineView!=null){
+            mOrderLineView.hideProgress();
+            mOrderLineView.showAlert(message,true,false);
+
         }
     }
 

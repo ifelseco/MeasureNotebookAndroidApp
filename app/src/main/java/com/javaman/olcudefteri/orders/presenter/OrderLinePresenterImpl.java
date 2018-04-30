@@ -70,7 +70,7 @@ public class OrderLinePresenterImpl implements OrderLinePresenter,OrderLineIntra
     public void onSuccessDeleteOrderLine(OrderLineDetailModel orderLineDetailModel, String message) {
         if(mOrderLineView!=null){
             mOrderLineView.hideProgress();
-            mOrderLineView.updateView(orderLineDetailModel);
+            mOrderLineView.deleteItemFromAdapter(orderLineDetailModel);
             mOrderLineView.showAlert(message,false,true);
         }
     }

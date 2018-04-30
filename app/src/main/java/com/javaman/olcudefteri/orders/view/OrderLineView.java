@@ -13,5 +13,9 @@ public interface OrderLineView{
     void navigateToLogin();
     void checkSession();
     void showAlert(String message,boolean isError,boolean isToast);
-    void updateView(OrderLineDetailModel orderLineDetailModel);
+    void deleteItemFromAdapter(OrderLineDetailModel orderLineDetailModel);
+    void updateAdapter(OrderLineDetailModel orderLineDetailModel);
+
+
+
 }

@@ -24,6 +24,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -182,8 +184,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:padding="5dp">
+                    android:padding="5dp"
+                    android:visibility="gone">
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -208,30 +210,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:padding="5dp">
-
+                    android:padding="5dp"
+                    android:visibility="gone">
 
 
                     <RadioGroup
                         android:id="@+id/radio_group_direction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:layout_weight="1"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:orientation="horizontal">
+
                         <RadioButton
                             android:id="@+id/rb_left"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Zincir Solda"/>
+                            android:text="Zincir Solda" />
 
                         <RadioButton
                             android:id="@+id/rb_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Zincir Sağda"
-                            />
+                            android:text="Zincir Sağda" />
                     </RadioGroup>
 
 
@@ -243,8 +244,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone"
-                    android:padding="5dp">
+                    android:padding="5dp"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -293,15 +294,16 @@
                         android:id="@+id/radio_group_mechanism"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
-                        android:layout_weight="1"
                         android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:orientation="horizontal">
+
                         <RadioButton
                             android:id="@+id/rb_one_piece"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tek Kas."/>
+                            android:text="Tek Kas." />
 
                         <RadioButton
                             android:id="@+id/rb_pieces"
@@ -317,8 +319,6 @@
                     </RadioGroup>
 
 
-
-
                 </LinearLayout>
 
                 <!--LİNEAR LAYOUT Briz.. -->
@@ -326,8 +326,8 @@
                     android:id="@+id/linear_layout_briz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -382,8 +382,8 @@
                     android:id="@+id/linear_layout_kruvaze"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -439,8 +439,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:padding="5dp">
+                    android:padding="5dp"
+                    android:visibility="gone">
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -466,22 +466,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:visibility="gone"
-                    android:padding="5dp">
+                    android:padding="5dp"
+                    android:visibility="gone">
 
                     <RadioGroup
                         android:id="@+id/radio_group_fon_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
-                        android:layout_weight="1"
                         android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:orientation="vertical">
+
                         <RadioButton
                             android:id="@+id/rb_kruvaze"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kruvaze Kanat"/>
+                            android:text="Kruvaze Kanat" />
 
                         <RadioButton
                             android:id="@+id/rb_japon"
@@ -501,15 +502,16 @@
                         android:id="@+id/radio_group_pile_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
-                        android:layout_weight="1"
                         android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:orientation="vertical">
+
                         <RadioButton
                             android:id="@+id/rb_american"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Amerikan"/>
+                            android:text="Amerikan" />
 
                         <RadioButton
                             android:id="@+id/rb_kanun"
@@ -531,9 +533,6 @@
                     </RadioGroup>
 
 
-
-
-
                 </LinearLayout>
 
                 <!--LİNEAR LAYOUT Unit price.. -->
@@ -541,8 +540,8 @@
                     android:id="@+id/linear_layout_unit_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
                     android:padding="5dp">
 
                     <LinearLayout
@@ -561,38 +560,67 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/edittext_border_bg_lightgreen"
+                                android:ems="10"
                                 android:fontFamily="@font/roboto_regular"
                                 android:hint="Birim Fiyat (TL)"
-                                android:ems="10"
                                 android:inputType="numberDecimal"
                                 android:textSize="15sp" />
 
                         </android.support.design.widget.TextInputLayout>
 
+                        <ProgressBar
+                            android:id="@+id/progress_bar_calc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" />
+
                         <ImageButton
                             android:id="@+id/btn_calculate"
                             android:layout_width="wrap_content"
-                            android:padding="5dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
                             android:background="@drawable/rectangle_background_light_green"
-                            app:srcCompat="@drawable/ic_calc"
-                            android:layout_gravity="center_vertical"/>
+                            android:padding="5dp"
+                            app:srcCompat="@drawable/ic_calc" />
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/tv_line_amount"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Tutar: "
-                        android:background="@drawable/edittext_border_bg_lightgreen"/>
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:id="@+id/tv_line_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
+                            android:fontFamily="@font/roboto_regular"
+                            android:padding="5dp"
+                            android:text="Tutar: "
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_used_material"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edittext_border_bg_lightgreen"
+                            android:fontFamily="@font/roboto_regular"
+                            android:padding="5dp"
+                            android:text="Malzeme: "
+                            android:textSize="15sp" />
+
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- Linear layout descriptiom -->
@@ -614,8 +642,8 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/edittext_border_bg_lightgreen"
                             android:fontFamily="@font/roboto_regular"
-                            android:inputType="textMultiLine"
                             android:hint="Açıklama"
+                            android:inputType="textMultiLine"
                             android:textSize="15sp" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -625,8 +653,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="5dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:padding="5dp">
 
                     <ImageButton
                         android:id="@+id/btn_cancel"

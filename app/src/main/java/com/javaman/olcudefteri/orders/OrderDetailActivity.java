@@ -26,6 +26,7 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.event.OrderDeleteEvent;
 import com.javaman.olcudefteri.orders.event.OrderUpdateEvent;
 import com.javaman.olcudefteri.orders.model.CustomerDetailModel;
+import com.javaman.olcudefteri.orders.model.OrderDetailModel;
 import com.javaman.olcudefteri.orders.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderLineSummaryResponseModel;
@@ -98,6 +99,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     public static final String ARG_ORDER_LINES = "current_order_lines";
     public static final String ARG_SAVED_ORDER = "saved_order";
     public static final String ARG_GOTO_UPDATE_ORDER_FROM_ORDER_DETAIL = "update_order";
+    private boolean isUpdateOrderLine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,12 +130,17 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
                     if (bundle.containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)) {
                         orderId = getIntent().getExtras().getLong(OrderDetailActivity.ARG_CURRENT_ORDER);
                         if (orderId != null && orderId > 0) {
-                            sendGetOrderLineRequest(orderId);
+                            sendGetOrderLineRequest(orderId,false);
                         }
                     }else if(bundle.containsKey(AddOrderLineFragment.ARG_GOTO_ORDERLINE)){
                         orderId = getIntent().getExtras().getLong(AddOrderLineFragment.ARG_GOTO_ORDERLINE);
                         if (orderId != null && orderId > 0) {
-                            sendGetOrderLineRequest(orderId);
+                            sendGetOrderLineRequest(orderId,false);
+                        }
+                    }else if(bundle.containsKey(OrderLineFragment.ARG_UPDATE_ORDERLINE)){
+                        orderId = getIntent().getExtras().getLong(OrderLineFragment.ARG_UPDATE_ORDERLINE);
+                        if (orderId != null && orderId > 0) {
+                            sendGetOrderLineRequest(orderId,false);
                         }
                     }
                 }else{
@@ -220,11 +227,15 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     public void setArgumentForFragments() {
         arguments = new Bundle();
-
+        orderLines.clear();
 
         orderDetailResponseModel = orderLineSummaryResponseModel.getOrder();
         customerDetailModel = orderDetailResponseModel.getCustomer();
-        orderLines = orderLineSummaryResponseModel.getOrderLineDetailList();
+        for(OrderLineDetailModel orderLineDetailModel:orderLineSummaryResponseModel.getOrderLineDetailList()){
+            orderLineDetailModel.setOrder(new OrderDetailModel());
+            orderLineDetailModel.getOrder().setId(orderDetailResponseModel.getId());
+            orderLines.add(orderLineDetailModel);
+        }
 
         arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_ORDER, orderDetailResponseModel);
         arguments.putParcelable(OrderDetailActivity.ARG_CURRENT_CUSTOMER, customerDetailModel);
@@ -372,7 +383,8 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     }
 
     @Override
-    public void sendGetOrderLineRequest(Long orderId) {
+    public void sendGetOrderLineRequest(Long orderId,boolean isUpdate) {
+        isUpdateOrderLine=isUpdate;
         String xAuthToken = getSessionIdFromPref();
         mOrderLinePresenter.sendGetOrderLineRequest(xAuthToken, orderId);
     }
@@ -420,9 +432,17 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         this.orderLineSummaryResponseModel = orderLineSummaryResponseModel;
         setArgumentForFragments();
         initTab();
-        if(getIntent().getExtras().containsKey(AddOrderLineFragment.ARG_GOTO_ORDERLINE)){
+        Bundle bundle=getIntent().getExtras();
+        if(bundle!=null){
+            if(bundle.containsKey(AddOrderLineFragment.ARG_GOTO_ORDERLINE)){
+                mViewPager.setCurrentItem(3,true);
+            }
+        }
+
+        if(isUpdateOrderLine){
             mViewPager.setCurrentItem(3,true);
         }
+
     }
 
     @Override

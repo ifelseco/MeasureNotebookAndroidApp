@@ -48,7 +48,7 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
                 if (response.isSuccessful()) {
                     //response [200 ,300) aralığında ise
                     AddOrderLineResponse addOrderLineResponse = response.body();
-                    listener.onSuccessAddOrderLine(addOrderLineResponse);
+                    listener.onSuccessAddOrderLine(addOrderLineResponse,orderLineDetailModel);
                     Log.d("Response body", response.body().toString());
                     Log.d("Auth response:", addOrderLineResponse.toString());
                 } else {

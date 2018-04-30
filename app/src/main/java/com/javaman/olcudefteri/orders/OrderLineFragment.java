@@ -27,6 +27,9 @@ import com.javaman.olcudefteri.orders.presenter.OrderLinePresenterImpl;
 import com.javaman.olcudefteri.orders.view.OrderLineView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -79,6 +82,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         mOrderLinePresenter=new OrderLinePresenterImpl(this);
+        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
 
         if (getArguments().containsKey(OrderDetailActivity.ARG_ORDER_LINES)) {
             orderLines = getArguments().getParcelableArrayList(OrderDetailActivity.ARG_ORDER_LINES);
@@ -442,11 +446,11 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void deleteOrderLne(OrderLineDetailModel orderLineDetailModel) {
-        showDeleteConfirmDialog(orderLineDetailModel);
-
+        String sessionId=getSessionIdFromPref();
+        mOrderLinePresenter.deleteOrderLine(sessionId,orderLineDetailModel);
     }
 
-    private void showDeleteConfirmDialog(final OrderLineDetailModel orderLineDetailModel) {
+    public void showDeleteConfirmDialog(final OrderLineDetailModel orderLineDetailModel) {
         new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Onaylıyor musunuz?")
                 .setContentText("Ölçü silinecek.")
@@ -454,8 +458,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
-                        String sessionId=getSessionIdFromPref();
-                        mOrderLinePresenter.deleteOrderLine(sessionId,orderLineDetailModel);
+                        deleteOrderLne(orderLineDetailModel);
                         sDialog.dismissWithAnimation();
                     }
                 })
@@ -473,11 +476,13 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
 
 
     @Override
+    @Subscribe
     public void updateOrderLine(OrderLineDetailModel orderLineDetailModel) {
-        showUpdateDilog(orderLineDetailModel);
+        String headerData=getSessionIdFromPref();
+        mAddOrderLinePresenter.addOrderLine(orderLineDetailModel,headerData);
     }
 
-    private void showUpdateDilog(OrderLineDetailModel orderLineDetailModel) {
+    public void showUpdateDilog(OrderLineDetailModel orderLineDetailModel) {
         OrderLineUpdateDialog orderLineUpdateDialog=new OrderLineUpdateDialog();
         Bundle bundle=new Bundle();
         bundle.putParcelable(ARG_UPDATE_ORDERLINE,orderLineDetailModel);
@@ -516,8 +521,26 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
     }
 
     @Override
-    public void updateView(OrderLineDetailModel orderLineDetailModel) {
+    public void updateAdapter(OrderLineDetailModel orderLineDetailModel) {
+        ((OrderDetailActivity)getActivity()).sendGetOrderLineRequest(orderLineDetailModel.getOrder().getId(),true);
+
+    }
+
+    @Override
+    public void deleteItemFromAdapter(OrderLineDetailModel orderLineDetailModel) {
         OrderLineAdapter orderLineAdapter= (OrderLineAdapter) adapter;
         orderLineAdapter.removeItemFromList(orderLineDetailModel);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 }
