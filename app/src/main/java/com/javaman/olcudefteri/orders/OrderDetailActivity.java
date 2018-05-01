@@ -3,19 +3,23 @@ package com.javaman.olcudefteri.orders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -45,6 +49,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnTouch;
+import butterknife.internal.Utils;
 
 public class OrderDetailActivity extends AppCompatActivity implements FloatingActionMenu.OnMenuToggleListener, View.OnClickListener, OrderDetailVew, View.OnTouchListener {
 
@@ -111,7 +116,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         initOrderFabMenu();
         mOrderLinePresenter = new OrderLinePresenterImpl(this);
 
-        if (sharedPreferenceHelper.containKey("orderLineSummaryResponse")) {
+       if (sharedPreferenceHelper.containKey("orderLineSummaryResponse")) {
             String data = sharedPreferenceHelper.getStringPreference("orderLineSummaryResponse", "");
             if (!data.equals("")) {
                 Gson gson = new Gson();
@@ -435,24 +440,28 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         Bundle bundle=getIntent().getExtras();
         if(bundle!=null){
             if(bundle.containsKey(AddOrderLineFragment.ARG_GOTO_ORDERLINE)){
-                mViewPager.setCurrentItem(3,true);
+                mViewPager.setCurrentItem(2,true);
             }
         }
 
         if(isUpdateOrderLine){
-            mViewPager.setCurrentItem(3,true);
+            mViewPager.setCurrentItem(2,true);
         }
 
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
-        Gson gson = new Gson();
-        if(orderLineSummaryResponseModel!=null){
-            String json = gson.toJson(orderLineSummaryResponseModel);
-            sharedPreferenceHelper.setStringPreference("orderLineSummaryResponse", json);
-            sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
+       super.onPause();
+        if(!isUpdateOrderLine){
+            Gson gson = new Gson();
+            if(orderLineSummaryResponseModel!=null){
+                String json = gson.toJson(orderLineSummaryResponseModel);
+                sharedPreferenceHelper.setStringPreference("orderLineSummaryResponse", json);
+                sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
+            }else{
+                sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
+            }
         }else{
             sharedPreferenceHelper.setStringPreference("lastActivity", getClass().getName());
         }
@@ -478,7 +487,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
        return false;
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -499,6 +508,11 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            return POSITION_NONE;
         }
 
         @Override

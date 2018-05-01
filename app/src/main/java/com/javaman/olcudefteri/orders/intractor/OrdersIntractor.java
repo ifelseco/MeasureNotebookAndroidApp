@@ -39,6 +39,12 @@ public interface OrdersIntractor {
         void navigateToLogin();
     }
 
+    interface onSearchOrderFinishedListener{
+        void onSuccessSearchOder(OrderSummaryModel orderSummaryModel);
+        void onFailureSearchOder(String message);
+        void navigateToLogin();
+    }
+
     interface onOrderProcessListener {
         void onSuccessUpdateOrder(BaseModel baseModel, OrderUpdateModel orderUpdateModel);
         void onFailureUpdateOrder(String message);
@@ -50,5 +56,5 @@ public interface OrdersIntractor {
     void sendPageRequestWithFilter(String xAuthToken, int orderStatus,PageModel pageModel, onGetFilterOrdersFinishedListener listener);
     void getTailorOrdersWithFilter(String xAuthToken, int orderStatus, onGetTailorFilterOrdersFinishedListener listener);
     void orderUpdate(String xAuthToken, OrderUpdateModel orderUpdateModel , onOrderProcessListener listener);
-
+    void orderSearch(String xAuthToken,String orderNumber,onSearchOrderFinishedListener listener);
 }

@@ -6,6 +6,9 @@ import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
+import android.widget.SearchView;
+
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -32,6 +35,7 @@ import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenterImpl;
 import com.javaman.olcudefteri.orders.view.OrdersView;
 import com.javaman.olcudefteri.reports.ReportsActivity;
+import com.javaman.olcudefteri.utill.MyUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import java.util.ArrayList;
@@ -42,7 +46,7 @@ import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class OrdersActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
 
     @BindView(R.id.recycle_orders)
     RecyclerView recyclerView;
@@ -64,6 +68,8 @@ public class OrdersActivity extends AppCompatActivity
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+
+    SearchView searchView;
 
     SharedPreferenceHelper sharedPreferenceHelper;
     ActionBarDrawerToggle toggle;
@@ -123,7 +129,14 @@ public class OrdersActivity extends AppCompatActivity
         mOrdersPresenter = new OrdersPresenterImpl(this);
         tvOrderSelectCount.setVisibility(View.GONE);
         swipeRefreshLayout.setOnRefreshListener(this);
-
+        searchView=findViewById(R.id.searchView);
+        searchView.setQueryHint("Sip. no giriniz...");
+        searchView.setOnQueryTextListener(this);
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnCloseListener(() -> {
+            refreshOrder();
+            return false;
+        });
 
     }
 
@@ -170,6 +183,11 @@ public class OrdersActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_orders, menu);
+        MenuItem menuItemFilter = menu.findItem(R.id.item_filter);
+
+        if (menuItemFilter != null) {
+            MyUtil.tintMenuIcon(this, menuItemFilter, android.R.color.white);
+        }
         return true;
     }
 
@@ -181,9 +199,7 @@ public class OrdersActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.item_delete) {
+        if (id == R.id.item_delete) {
             if (this.selectedOrderList.size() > 0) {
                 showConfirmDialog(this.selectedOrderList);
 
@@ -192,6 +208,8 @@ public class OrdersActivity extends AppCompatActivity
                 clearActionMode();
             }
 
+
+        }else if(id==R.id.item_filter){
 
         }
 
@@ -226,9 +244,10 @@ public class OrdersActivity extends AppCompatActivity
         isActionModeActive = false;
         adapter.notifyDataSetChanged();
         toolbar.getMenu().clear();
-        toolbar.inflateMenu(R.menu.home);
+        toolbar.inflateMenu(R.menu.menu_orders);
         showHamburgerButton();
         tvOrderSelectCount.setVisibility(View.GONE);
+        searchView.setVisibility(View.VISIBLE);
         tvOrderSelectCount.setText("0 sipariş seçildi");
         countSelectedOrders = 0;
     }
@@ -300,9 +319,20 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
-    public void updateOrderFromAdapter(List<OrderDetailResponseModel> orders) {
-        OrderAdapter orderAdapter = (OrderAdapter) adapter;
-        orderAdapter.updateList(orders);
+    public void updateOrderFromAdapter(List<OrderDetailResponseModel> orders,boolean isSearch) {
+       if(!isSearch){
+           OrderAdapter orderAdapter = (OrderAdapter) adapter;
+           orderAdapter.updateList(orders);
+       }else{
+           OrderAdapter orderAdapter = (OrderAdapter) adapter;
+           orderAdapter.updateListForSearch(orders);
+        }
+    }
+
+    @Override
+    public void orderSearch(String query) {
+        String headerData=getSessionIdFromPref();
+        mOrdersPresenter.orderSearch(headerData,query);
     }
 
     @Override
@@ -365,7 +395,7 @@ public class OrdersActivity extends AppCompatActivity
 
         this.orderList.addAll(orderSummaryPageReponseModel.getOrderDetailPage().getContent());
         this.totalOrder = orderSummaryPageReponseModel.getOrderDetailPage().getTotalElements();
-        updateOrderFromAdapter(this.orderList);
+        updateOrderFromAdapter(this.orderList,false);
 
 
     }
@@ -376,6 +406,7 @@ public class OrdersActivity extends AppCompatActivity
         Log.d("Selecetde order :",""+selectedOrderList.size());
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.menu_action_delete);
+        searchView.setVisibility(View.GONE);
         tvOrderSelectCount.setVisibility(View.VISIBLE);
         isActionModeActive = true;
         adapter.notifyDataSetChanged();
@@ -471,5 +502,18 @@ public class OrdersActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         mOrdersPresenter.onDestroy();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if(query.length()>0){
+            orderSearch(query);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }

@@ -402,6 +402,75 @@ public class OrdersIntractorImpl implements OrdersIntractor {
         });
     }
 
+    @Override
+    public void orderSearch(String xAuthToken, String orderNumber, onSearchOrderFinishedListener listener) {
+        ordersService = ApiClient.getClient().create(OrdersService.class);
+        orderSummaryModel = new OrderSummaryModel();
+        Call<OrderSummaryModel> orderSummaryModelCall = ordersService.orderSearch(xAuthToken, orderNumber);
+        orderSummaryModelCall.enqueue(new Callback<OrderSummaryModel>() {
+            @Override
+            public void onResponse(Call<OrderSummaryModel> call, Response<OrderSummaryModel> response) {
+                //request servera ulaştı ve herhangi bir response döndü
+                if (response.isSuccessful()) {
+                    //response [200 ,300) aralığında ise
+                    orderSummaryModel = response.body();
+                    //orderSummaryPageReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
+                    listener.onSuccessSearchOder(orderSummaryModel);
+                } else if(response.code() == 401){
+                    String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
+                    listener.onFailureSearchOder(message);
+                    listener.navigateToLogin();
+                } else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureSearchOder(message);
+                }
+                else {
+                    //response [200 ,300) aralığında değil ise
+                    Gson gson = new GsonBuilder().create();
+                    try {
+                        String errorBody = response.errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureSearchOder(apiError.getStatus() + " " + apiError.getMessage());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailureSearchOder("Beklenmedik hata..." + e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderSummaryModel> call, Throwable t) {
+
+                //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
+
+                if (t instanceof HttpException) {
+
+                    Gson gson = new GsonBuilder().create();
+
+                    try {
+
+                        String errorBody = ((HttpException) t).response().errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+
+                        Log.d("Request Error :", apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailureSearchOder(apiError.getStatus() + " " + apiError.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailureSearchOder("Beklenmedik hata..." + e.getMessage());
+
+                    }
+                } else {
+
+                    listener.onFailureSearchOder("Ağ hatası : " + t.getMessage()+t.getClass());
+                }
+
+
+            }
+        });
+    }
+
 
 }
 

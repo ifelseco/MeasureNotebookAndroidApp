@@ -523,7 +523,6 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
     @Override
     public void updateAdapter(OrderLineDetailModel orderLineDetailModel) {
         ((OrderDetailActivity)getActivity()).sendGetOrderLineRequest(orderLineDetailModel.getOrder().getId(),true);
-
     }
 
     @Override

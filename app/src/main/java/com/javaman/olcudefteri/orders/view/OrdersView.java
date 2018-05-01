@@ -16,7 +16,8 @@ public interface OrdersView {
       void sendDeleteOrderListRequest(ArrayList<OrderDetailResponseModel> orders);
       void sendPageRequest(int first,int rows);
       void deleteOrdersFromAdapter(ArrayList<OrderDetailResponseModel> orders);
-      void updateOrderFromAdapter(List<OrderDetailResponseModel> orders);
+      void updateOrderFromAdapter(List<OrderDetailResponseModel> orders,boolean isSearch);
+      void orderSearch(String query);
       void showProgress();
       void hideProgress();
       String getSessionIdFromPref();

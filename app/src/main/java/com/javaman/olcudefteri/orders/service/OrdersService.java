@@ -46,6 +46,14 @@ public interface OrdersService {
     Call<OrderSummaryModel> getTailorOrderWithFilter(@Header("X-Auth-Token") String xAuthToken , @Query("status") int orderStatus);
 
 
+    @GET("/order/search")
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    Call<OrderSummaryModel> orderSearch(@Header("X-Auth-Token") String xAuthToken , @Query("orderNumber") String orderNumber);
+
+
 
 
     @Headers({

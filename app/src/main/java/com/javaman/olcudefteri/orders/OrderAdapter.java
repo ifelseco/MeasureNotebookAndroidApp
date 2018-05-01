@@ -100,10 +100,17 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     }
 
     public void updateList(List<OrderDetailResponseModel> orderList){
-        /*Log.d("BEFORE UPDATE :",""+mOrders);
-        mOrders.addAll(orderList);
-        Log.d("AFTER UPDATE :",""+mOrders);*/
         notifyDataSetChanged();
+
+    }
+
+    public void updateListForSearch(List<OrderDetailResponseModel> orderList){
+        if(orderList.size()>0){
+            mOrders.clear();
+            mOrders.addAll(orderList);
+            notifyDataSetChanged();
+        }
+
     }
 
     public void clearList(){
@@ -262,6 +269,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                     Intent intent = new Intent(context, OrderDetailActivity.class);
                     intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , orderDetailResponseModel.getId());
                     context.startActivity(intent);
+
                 }
             }
 

@@ -3,6 +3,7 @@ package com.javaman.olcudefteri.orders.presenter;
 
 
 import com.javaman.olcudefteri.api.model.response.BaseModel;
+import com.javaman.olcudefteri.orders.model.OrderDetailModel;
 import com.javaman.olcudefteri.orders.model.OrderUpdateModel;
 import com.javaman.olcudefteri.orders.model.PageModel;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
@@ -14,6 +15,7 @@ import com.javaman.olcudefteri.orders.view.OrdersView;
 import com.javaman.olcudefteri.tailor.view.TailorView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by javaman on 26.02.2018.
@@ -24,7 +26,8 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
         OrdersIntractor.onDeleteOrdersFinishedListener,
         OrdersIntractor.onGetFilterOrdersFinishedListener,
         OrdersIntractor.onGetTailorFilterOrdersFinishedListener,
-        OrdersIntractor.onOrderProcessListener{
+        OrdersIntractor.onOrderProcessListener,
+        OrdersIntractor.onSearchOrderFinishedListener{
 
     OrdersView mOrdersView;
     TailorView mTailorView;
@@ -87,6 +90,14 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
         if (mTailorView!=null){
             mTailorView.showProgress(true);
             mOrdersIntractor.orderUpdate(headerData,orderUpdateModel,this);
+        }
+    }
+
+    @Override
+    public void orderSearch(String headerData, String orderNumber) {
+        if(mOrdersView!=null){
+            mOrdersView.showProgress();
+            mOrdersIntractor.orderSearch(headerData,orderNumber,this);
         }
     }
 
@@ -171,6 +182,40 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
             mTailorView.hideProgress(true);
             mTailorView.showAlert(message);
 
+        }
+    }
+
+    @Override
+    public void onSuccessSearchOder(OrderSummaryModel orderSummaryModel) {
+        if(mOrdersView!=null){
+            mOrdersView.hideProgress();
+            if(orderSummaryModel.getOrders().size()>0){
+                List<OrderDetailResponseModel> orders=new ArrayList<>();
+                for (OrderDetailModel orderDetailModel:orderSummaryModel.getOrders()){
+                    OrderDetailResponseModel orderDetailResponseModel=new OrderDetailResponseModel();
+                    orderDetailResponseModel.setId(orderDetailModel.getId());
+                    orderDetailResponseModel.setOrderStatus(orderDetailModel.getOrderStatus());
+                    orderDetailResponseModel.setMountExist(orderDetailModel.isMountExsist());
+                    orderDetailResponseModel.setMeasureDate(orderDetailModel.getMeasureDate());
+                    orderDetailResponseModel.setDeliveryDate(orderDetailModel.getDeliveryDate());
+                    orderDetailResponseModel.setDepositeAmount(orderDetailModel.getDepositeAmount());
+                    orderDetailResponseModel.setTotalAmount(orderDetailModel.getTotalAmount());
+                    orderDetailResponseModel.setCustomer(orderDetailModel.getCustomer());
+                    orderDetailResponseModel.setOrderDate(orderDetailModel.getOrderDate());
+                    orderDetailResponseModel.setUserNameSurname(orderDetailModel.getUserNameSurname());
+                    orders.add(orderDetailResponseModel);
+                }
+
+                mOrdersView.updateOrderFromAdapter(orders,true);
+            }
+        }
+    }
+
+    @Override
+    public void onFailureSearchOder(String message) {
+        if(mOrdersView!=null){
+            mOrdersView.hideProgress();
+            mOrdersView.showAlert(message,true,true);
         }
     }
 

@@ -44,7 +44,10 @@ public class MyService extends Service {
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
         Log.i(TAG, "onTaskRemoved()");
-        sharedPreferenceHelper.removeKey("lastActivity");
+        /*sharedPreferenceHelper.removeKey("lastActivity");
+        sharedPreferenceHelper.removeKey("orderLineSummaryResponse");*/
+        sharedPreferenceHelper.removeAll();
+
     }
 
     @Override

@@ -34,16 +34,6 @@ public class ReportsActivity extends AppCompatActivity
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent measure= new Intent(ReportsActivity.this,AddOrderActivity.class);
-                Bundle bundle=new Bundle();
-                measure.putExtra("init-key","first-init-add-order");
-                startActivity(measure);
-            }
-        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

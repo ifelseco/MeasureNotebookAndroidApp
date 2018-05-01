@@ -116,6 +116,7 @@
     <string name="title_add_order">Yeni Sipariş</string>
     <string name="title_home">Anasayfa</string>
     <string name="title_search">Ara</string>
+    <string name="filter">Filtre</string>
 
     <string-array name="order_status">
         <item>Eksik</item>

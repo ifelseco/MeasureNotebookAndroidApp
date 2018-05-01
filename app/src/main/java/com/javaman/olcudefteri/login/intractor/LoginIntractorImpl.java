@@ -79,7 +79,12 @@ public class LoginIntractorImpl implements LoginIntractor {
                         //response [200 ,300) aralığında değil ise
                         try {
                             JSONObject jObjError = new JSONObject(response.errorBody().string());
-                            listener.onFailure("Bir hata oluştu : "+jObjError.getString("message"));
+                            if(jObjError.get("baseModel")!=null){
+                                listener.onFailure("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                            }else{
+                                listener.onFailure("Bir hata oluştu : "+jObjError.getString("message"));
+                            }
+
                         } catch (Exception e) {
                             listener.onFailure("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                         }

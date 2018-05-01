@@ -17,4 +17,5 @@ public interface OrdersPresenter {
     void sendDeleteOrderListRequest(String xAuthToken , ArrayList<OrderDetailResponseModel> orders);
     void onDestroy();
     void orderUpdate(OrderUpdateModel orderUpdateModel, String headerData);
+    void orderSearch(String headerData,String orderNumber);
 }

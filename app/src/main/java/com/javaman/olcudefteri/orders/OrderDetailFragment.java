@@ -107,7 +107,6 @@ public class OrderDetailFragment extends Fragment implements OrderView{
         ButterKnife.bind(this, rootView);
         orderStatus=getActivity().getResources().getStringArray(R.array.order_status);
         setView();
-
         return rootView;
     }
 

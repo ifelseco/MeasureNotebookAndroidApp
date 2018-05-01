@@ -3,6 +3,9 @@ package com.javaman.olcudefteri.utill;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
+
+import java.util.Map;
 
 public class SharedPreferenceHelper {
 
@@ -74,6 +77,16 @@ public class SharedPreferenceHelper {
             }
         }
 
+    }
+
+
+    public void removeAll(){
+        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
+        if (sharedPreferences != null) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
+        }
     }
 
 }

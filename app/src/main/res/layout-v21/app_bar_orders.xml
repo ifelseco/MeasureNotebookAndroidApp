@@ -23,6 +23,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/tv_order_select_counter"
                     android:layout_width="wrap_content"
@@ -30,7 +31,18 @@
                     android:text="0 sipariş seçildi"
                     android:textSize="18sp"
                     android:textColor="#ffffff"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="wrap_content"
+                    android:elevation="2dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+                </SearchView>
+
+
             </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
@@ -38,7 +50,10 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
     <include layout="@layout/content_orders" />
+
+
 
 
 
