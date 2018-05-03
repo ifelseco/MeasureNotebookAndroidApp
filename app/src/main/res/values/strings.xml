@@ -117,6 +117,8 @@
     <string name="title_home">Anasayfa</string>
     <string name="title_search">Ara</string>
     <string name="filter">Filtre</string>
+    <string name="filter_close">Filtreyi Kapat</string>
+    <string name="refresh">Yenile</string>
 
     <string-array name="order_status">
         <item>Eksik</item>
@@ -126,6 +128,18 @@
         <item>Hazır</item>
         <item>Teslim Edildi</item>
         <item>Teklif</item>
+    </string-array>
+
+
+    <string-array name="status_filter">
+        <item>Tüm Siparişler</item>
+        <item>Eksik Siparişler</item>
+        <item>Ölçüye Gidilecekler</item>
+        <item>Kayıt Alınmış Siparişler</item>
+        <item>Terzideki Siparişler</item>
+        <item>Hazır Siparişler</item>
+        <item>Teslim Edildilmişler</item>
+        <item>Teklifler</item>
     </string-array>
 
 

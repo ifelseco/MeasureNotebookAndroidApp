@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
+import com.javaman.olcudefteri.orders.model.response.OrderSummaryPageReponseModel;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -100,18 +102,27 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     }
 
     public void updateList(List<OrderDetailResponseModel> orderList){
+        mOrders.clear();
+        mOrders=orderList;
         notifyDataSetChanged();
 
     }
 
-    public void updateListForSearch(List<OrderDetailResponseModel> orderList){
-        if(orderList.size()>0){
+
+    public void updateList(OrderSummaryPageReponseModel orderSummaryPageReponseModel){
+
+        if(orderSummaryPageReponseModel.getOrderDetailPage().getNumber()>0){
+            mOrders.addAll(orderSummaryPageReponseModel.getOrderDetailPage().getContent());
+        }else{
             mOrders.clear();
-            mOrders.addAll(orderList);
-            notifyDataSetChanged();
+            mOrders=orderSummaryPageReponseModel.getOrderDetailPage().getContent();
         }
 
+        notifyDataSetChanged();
+
     }
+
+
 
     public void clearList(){
         mOrders.clear();

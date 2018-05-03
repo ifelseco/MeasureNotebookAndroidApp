@@ -15,8 +15,9 @@ public interface OrdersView {
       void getOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel);
       void sendDeleteOrderListRequest(ArrayList<OrderDetailResponseModel> orders);
       void sendPageRequest(int first,int rows);
+      void sendPageRequestWithFilter(int first,int rows,int orderStatus);
       void deleteOrdersFromAdapter(ArrayList<OrderDetailResponseModel> orders);
-      void updateOrderFromAdapter(List<OrderDetailResponseModel> orders,boolean isSearch);
+      void updateOrderAfterSearch(List<OrderDetailResponseModel> orders);
       void orderSearch(String query);
       void showProgress();
       void hideProgress();

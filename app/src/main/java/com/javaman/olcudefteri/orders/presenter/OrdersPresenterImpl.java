@@ -108,7 +108,7 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
             mOrdersView.getOrders(orderSummaryPageReponseModel);
             //mOrdersView.updateOrderFromAdapter(orderSummaryPageReponseModel.getOrderDetailPage().getContent());
             if(orderSummaryPageReponseModel.getOrderDetailPage().getTotalElements()>0){
-                mOrdersView.showAlert("Siparişler başarıyla listelendi",false,true);
+                //mOrdersView.showAlert("Siparişler başarıyla listelendi",false,true);
             }else{
                 mOrdersView.showAlert("Kayıtlı siparişiniz yok.",false,false);
             }
@@ -143,7 +143,7 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
     public void onSuccessGetFilterOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel, int orderStatus) {
         if(mOrdersView!=null){
             mOrdersView.hideProgress();
-            mOrdersView.showAlert("Siparişler listlendi",false,true);
+            //mOrdersView.showAlert("Siparişler listlendi",false,true);
             mOrdersView.getOrders(orderSummaryPageReponseModel);
         }
     }
@@ -170,7 +170,7 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
                 mTailorView.getOrdersProcessed(orderSummaryModel);
             }
 
-            mTailorView.showAlert("Siparişler listelendi");
+            //mTailorView.showAlert("Siparişler listelendi");
 
 
         }
@@ -206,7 +206,7 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
                     orders.add(orderDetailResponseModel);
                 }
 
-                mOrdersView.updateOrderFromAdapter(orders,true);
+                mOrdersView.updateOrderAfterSearch(orders);
             }
         }
     }

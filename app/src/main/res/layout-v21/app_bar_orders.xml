@@ -24,6 +24,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <Spinner
+                    android:id="@+id/filter_spinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:visibility="gone"/>
+
+
+
                 <TextView
                     android:id="@+id/tv_order_select_counter"
                     android:layout_width="wrap_content"
@@ -41,6 +50,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp">
                 </SearchView>
+
+
+
 
 
             </RelativeLayout>

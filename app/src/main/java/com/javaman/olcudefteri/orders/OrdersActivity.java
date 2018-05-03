@@ -6,9 +6,9 @@ import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.SearchView;
-
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.orders.model.PageModel;
+import com.javaman.olcudefteri.orders.model.response.OrderDetailPage;
 import com.javaman.olcudefteri.orders.model.response.OrderDetailResponseModel;
 import com.javaman.olcudefteri.orders.model.response.OrderSummaryPageReponseModel;
 import com.javaman.olcudefteri.orders.presenter.OrdersPresenter;
@@ -43,16 +45,20 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnItemSelected;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class OrdersActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OrdersView, View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener, SearchView.OnQueryTextListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OrdersView,
+        View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener,
+        SearchView.OnQueryTextListener, AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     @BindView(R.id.recycle_orders)
     RecyclerView recyclerView;
 
     @BindView(R.id.tv_order_select_counter)
     TextView tvOrderSelectCount;
+
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -69,6 +75,9 @@ public class OrdersActivity extends AppCompatActivity
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.filter_spinner)
+    Spinner spinnerFilter;
+
     SearchView searchView;
 
     SharedPreferenceHelper sharedPreferenceHelper;
@@ -76,7 +85,8 @@ public class OrdersActivity extends AppCompatActivity
     RecyclerView.Adapter adapter;
     LinearLayoutManager linearLayoutManager;
     OrdersPresenter mOrdersPresenter;
-    List<OrderDetailResponseModel> orderList=new ArrayList<>();
+    List<OrderDetailResponseModel> orderList = new ArrayList<>();
+    OrderDetailPage curOrderDetailPage=new OrderDetailPage();
     ArrayList<OrderDetailResponseModel> selectedOrderList = new ArrayList<>();
     public static final String ARG_SAVED_ORDERS = "last-saved-orders";
 
@@ -84,33 +94,36 @@ public class OrdersActivity extends AppCompatActivity
     private int rows = 10;
 
     boolean isActionModeActive = false;
-    boolean isScrooling=false;
+    boolean isScrooling = false;
     int countSelectedOrders = 0;
-    int totalOrder;
-    private int currentItems,totalItems,scrollOutItems;
+    private int currentItems, totalItems, scrollOutItems;
+    private boolean spinnerFirstLoad = true;
+    private boolean isFilterMode = false;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orders);
-        sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
+        sharedPreferenceHelper = new SharedPreferenceHelper(getApplicationContext());
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        if (savedInstanceState!=null){
-            this.orderList=savedInstanceState.getParcelableArrayList(ARG_SAVED_ORDERS);
+        if (savedInstanceState != null) {
+            this.orderList = savedInstanceState.getParcelableArrayList(ARG_SAVED_ORDERS);
+
         }
 
         initView();
         initRcyclerView();
 
-        if(savedInstanceState==null){
+
+
+        if (savedInstanceState == null) {
             sendPageRequest(first, rows);
         }
-
-
 
 
     }
@@ -118,7 +131,7 @@ public class OrdersActivity extends AppCompatActivity
 
     public void initView() {
 
-
+        fillSpinner();
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
@@ -129,14 +142,26 @@ public class OrdersActivity extends AppCompatActivity
         mOrdersPresenter = new OrdersPresenterImpl(this);
         tvOrderSelectCount.setVisibility(View.GONE);
         swipeRefreshLayout.setOnRefreshListener(this);
-        searchView=findViewById(R.id.searchView);
+        searchView = findViewById(R.id.searchView);
         searchView.setQueryHint("Sip. no giriniz...");
         searchView.setOnQueryTextListener(this);
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnCloseListener(() -> {
+            clearActionMode();
+            Toast.makeText(this, "" + isFilterMode, Toast.LENGTH_SHORT).show();
             refreshOrder();
             return false;
         });
+        searchView.setOnSearchClickListener(this);
+
+
+    }
+
+    private void fillSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.status_filter, R.layout.spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFilter.setAdapter(adapter);
 
     }
 
@@ -144,38 +169,40 @@ public class OrdersActivity extends AppCompatActivity
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        setRecyclerViewAdapter();
+        adapter = new OrderAdapter(this, this.orderList != null ? this.orderList : new ArrayList<OrderDetailResponseModel>());
+        recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if(newState== AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
-                    isScrooling=true;
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    isScrooling = true;
                 }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                currentItems=linearLayoutManager.getChildCount();
-                totalItems=linearLayoutManager.getItemCount();
-                scrollOutItems=linearLayoutManager.findFirstVisibleItemPosition();
+                currentItems = linearLayoutManager.getChildCount();
+                totalItems = linearLayoutManager.getItemCount();
+                scrollOutItems = linearLayoutManager.findFirstVisibleItemPosition();
 
-                if(isScrooling && (currentItems+scrollOutItems==totalItems)){
-                    isScrooling=false;
-                    first+=10;
-                    sendPageRequest(first,rows);
-                }else{
+                if (isScrooling && (currentItems + scrollOutItems == totalItems) && !curOrderDetailPage.isLast()) {
+                    isScrooling = false;
+                    first += 10;
+                    if(isFilterMode){
+                        if(spinnerFilter.getSelectedItemPosition()==0){
+                            sendPageRequest(first, rows);
+                        }else{
+                            sendPageRequestWithFilter(first,rows,spinnerFilter.getSelectedItemPosition()-1);
+                        }
+                    }else{
+                        sendPageRequest(first, rows);
+                    }
 
                 }
             }
         });
-    }
-
-    public void setRecyclerViewAdapter() {
-        adapter = new OrderAdapter(this, this.orderList!=null?this.orderList:new ArrayList<OrderDetailResponseModel>());
-        recyclerView.setAdapter(adapter);
-
     }
 
 
@@ -184,12 +211,12 @@ public class OrdersActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_orders, menu);
         MenuItem menuItemFilter = menu.findItem(R.id.item_filter);
-
         if (menuItemFilter != null) {
             MyUtil.tintMenuIcon(this, menuItemFilter, android.R.color.white);
         }
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -209,12 +236,44 @@ public class OrdersActivity extends AppCompatActivity
             }
 
 
-        }else if(id==R.id.item_filter){
+        } else if (id == R.id.item_filter) {
+            isFilterMode = true;
+            Toast.makeText(this, "" + isFilterMode, Toast.LENGTH_SHORT).show();
+            showFilterSpinner();
 
+
+        } else if (id == R.id.item_close) {
+            Toast.makeText(this, ""+spinnerFilter.getSelectedItemPosition(), Toast.LENGTH_SHORT).show();
+            clearToolbarAppendNewMenu(R.menu.menu_orders);
+            hideFilterSpinner();
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void showFilterSpinner() {
+        clearToolbarAppendNewMenu(R.menu.menu_close);
+        spinnerFilter.setVisibility(View.VISIBLE);
+        searchView.setVisibility(View.GONE);
+        tvOrderSelectCount.setVisibility(View.GONE);
+
+    }
+
+
+
+    private void hideFilterSpinner() {
+        searchView.setVisibility(View.VISIBLE);
+        tvOrderSelectCount.setVisibility(View.GONE);
+        spinnerFilter.setVisibility(View.GONE);
+        isFilterMode = false;
+        Toast.makeText(this, "" + isFilterMode, Toast.LENGTH_SHORT).show();
+    }
+
+    public void clearToolbarAppendNewMenu(int menuId){
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(menuId);
+    }
+
 
     private void showConfirmDialog(final ArrayList<OrderDetailResponseModel> selectedOrderList) {
         new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
@@ -241,10 +300,10 @@ public class OrdersActivity extends AppCompatActivity
 
     public void clearActionMode() {
         this.selectedOrderList.clear();
+        isFilterMode = false;
         isActionModeActive = false;
         adapter.notifyDataSetChanged();
-        toolbar.getMenu().clear();
-        toolbar.inflateMenu(R.menu.menu_orders);
+        clearToolbarAppendNewMenu(R.menu.menu_orders);
         showHamburgerButton();
         tvOrderSelectCount.setVisibility(View.GONE);
         searchView.setVisibility(View.VISIBLE);
@@ -270,8 +329,8 @@ public class OrdersActivity extends AppCompatActivity
                 break;
             case R.id.measure:
                 Intent measure = new Intent(OrdersActivity.this, AddOrderActivity.class);
-                Bundle bundle=new Bundle();
-                measure.putExtra("init-key","first-init-add-order");
+                Bundle bundle = new Bundle();
+                measure.putExtra("init-key", "first-init-add-order");
                 startActivity(measure);
                 break;
             case R.id.report:
@@ -306,6 +365,15 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
+    public void sendPageRequestWithFilter(int first, int rows, int orderStatus) {
+        String xAuthToken = getSessionIdFromPref();
+        PageModel pageModel = new PageModel();
+        pageModel.setFirst(first);
+        pageModel.setRows(rows);
+        mOrdersPresenter.sendPageRequestWithFilter(xAuthToken,orderStatus,pageModel);
+    }
+
+    @Override
     public void sendDeleteOrderListRequest(ArrayList<OrderDetailResponseModel> orders) {
         String xAuthToken = getSessionIdFromPref();
         mOrdersPresenter.sendDeleteOrderListRequest(xAuthToken, orders);
@@ -319,25 +387,20 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
-    public void updateOrderFromAdapter(List<OrderDetailResponseModel> orders,boolean isSearch) {
-       if(!isSearch){
-           OrderAdapter orderAdapter = (OrderAdapter) adapter;
-           orderAdapter.updateList(orders);
-       }else{
-           OrderAdapter orderAdapter = (OrderAdapter) adapter;
-           orderAdapter.updateListForSearch(orders);
-        }
+    public void updateOrderAfterSearch(List<OrderDetailResponseModel> orders) {
+        OrderAdapter orderAdapter = (OrderAdapter) adapter;
+        orderAdapter.updateList(orders);
     }
 
     @Override
     public void orderSearch(String query) {
-        String headerData=getSessionIdFromPref();
-        mOrdersPresenter.orderSearch(headerData,query);
+        String headerData = getSessionIdFromPref();
+        mOrdersPresenter.orderSearch(headerData, query);
     }
 
     @Override
     public void navigateToLogin() {
-        startActivity(new Intent(OrdersActivity.this , LoginActivity.class));
+        startActivity(new Intent(OrdersActivity.this, LoginActivity.class));
     }
 
     @Override
@@ -348,12 +411,13 @@ public class OrdersActivity extends AppCompatActivity
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
 
     }
 
     @Override
     public String getSessionIdFromPref() {
-        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        String xAuthToken = sharedPreferenceHelper.getStringPreference("sessionId", null);
         return xAuthToken;
     }
 
@@ -363,13 +427,13 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
-    public void showAlert(String message,boolean isError,boolean isOnlyToast) {
-        if(isError){
+    public void showAlert(String message, boolean isError, boolean isOnlyToast) {
+        if (isError) {
 
-            if(isOnlyToast){
+            if (isOnlyToast) {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            }else{
-                SweetAlertDialog pDialog= new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+            } else {
+                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
                 pDialog.setTitleText("Hata...");
                 pDialog.setContentText(message);
                 pDialog.setConfirmText("Kapat");
@@ -377,11 +441,11 @@ public class OrdersActivity extends AppCompatActivity
                 pDialog.show();
             }
 
-        }else{
-            if(isOnlyToast){
+        } else {
+            if (isOnlyToast) {
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            }else{
-                SweetAlertDialog pDialog=new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
+            } else {
+                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
                 pDialog.setTitleText(message);
                 pDialog.setConfirmText("Kapat");
                 pDialog.setCancelable(true);
@@ -392,20 +456,19 @@ public class OrdersActivity extends AppCompatActivity
 
     @Override
     public void getOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel) {
+        this.orderList=orderSummaryPageReponseModel.getOrderDetailPage().getContent();
+        this.curOrderDetailPage=orderSummaryPageReponseModel.getOrderDetailPage();
 
-        this.orderList.addAll(orderSummaryPageReponseModel.getOrderDetailPage().getContent());
-        this.totalOrder = orderSummaryPageReponseModel.getOrderDetailPage().getTotalElements();
-        updateOrderFromAdapter(this.orderList,false);
-
+        OrderAdapter orderAdapter = (OrderAdapter) adapter;
+        orderAdapter.updateList(orderSummaryPageReponseModel);
 
     }
 
 
     @Override
     public boolean onLongClick(View view) {
-        Log.d("Selecetde order :",""+selectedOrderList.size());
-        toolbar.getMenu().clear();
-        toolbar.inflateMenu(R.menu.menu_action_delete);
+        Log.d("Selecetde order :", "" + selectedOrderList.size());
+        clearToolbarAppendNewMenu(R.menu.menu_action_delete);
         searchView.setVisibility(View.GONE);
         tvOrderSelectCount.setVisibility(View.VISIBLE);
         isActionModeActive = true;
@@ -439,7 +502,7 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     public void prepareSelection(View view, int position) {
-        Log.d("Selecetde order :",""+selectedOrderList.size());
+        Log.d("Selecetde order :", "" + selectedOrderList.size());
         if (((CheckBox) view).isChecked()) {
             selectedOrderList.add(this.orderList.get(position));
             Log.d("SelectedOrder", " " + selectedOrderList.size());
@@ -483,12 +546,19 @@ public class OrdersActivity extends AppCompatActivity
         refreshOrder();
     }
 
-    public void refreshOrder(){
-        first=0;
+    public void refreshOrder() {
+
+        first = 0;
         OrderAdapter orderAdapter = (OrderAdapter) adapter;
         orderAdapter.clearList();
-        sendPageRequest(first,rows);
-        swipeRefreshLayout.setRefreshing(false);
+        if(isFilterMode && spinnerFilter.getSelectedItemPosition()>0){
+            sendPageRequestWithFilter(first,rows,spinnerFilter.getSelectedItemPosition()-1);
+        }else{
+            sendPageRequest(first, rows);
+        }
+
+
+
     }
 
 
@@ -506,7 +576,7 @@ public class OrdersActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if(query.length()>0){
+        if (query.length() > 0) {
             orderSearch(query);
         }
         return false;
@@ -516,4 +586,53 @@ public class OrdersActivity extends AppCompatActivity
     public boolean onQueryTextChange(String newText) {
         return false;
     }
+
+    @Override
+    @OnItemSelected(R.id.filter_spinner)
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        switch (position) {
+            case 0:
+                if (!spinnerFirstLoad) {
+                    refreshOrder();
+                }
+                spinnerFirstLoad = false;
+                break;
+            case 1:
+                sendPageRequestWithFilter(0,rows,0);
+                break;
+            case 2:
+                sendPageRequestWithFilter(0,rows,1);
+                break;
+            case 3:
+                sendPageRequestWithFilter(0,rows,2);
+                break;
+            case 4:
+                sendPageRequestWithFilter(0,rows,3);
+                break;
+            case 5:
+                sendPageRequestWithFilter(0,rows,4);
+                break;
+            case 6:
+                sendPageRequestWithFilter(0,rows,5);
+                break;
+            case 7:
+                sendPageRequestWithFilter(0,rows,6);
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        hideFilterSpinner();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.searchView) {
+            toolbar.getMenu().clear();
+        }
+    }
+
+
 }
