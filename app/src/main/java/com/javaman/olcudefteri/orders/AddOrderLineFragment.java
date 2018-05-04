@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.BrizCurtain;
 import com.javaman.olcudefteri.orders.curtain_type_dialog.CurtainDoubleNet;
@@ -299,6 +300,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
         MenuItem menuItemLineList = menu.findItem(R.id.item_line_list);
         MenuItem menuItemUpdate = menu.findItem(R.id.item_update);
+        MenuItem menuItemHome = menu.findItem(R.id.item_home);
 
         if (menuItemLineList != null) {
             MyUtil.tintMenuIcon(getActivity().getApplicationContext(), menuItemLineList, android.R.color.white);
@@ -306,6 +308,10 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
         if (menuItemUpdate != null) {
             MyUtil.tintMenuIcon(getActivity().getApplicationContext(), menuItemUpdate, android.R.color.white);
+        }
+
+        if (menuItemHome != null) {
+            MyUtil.tintMenuIcon(getActivity().getApplicationContext(), menuItemHome, android.R.color.white);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -320,13 +326,16 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
                 startActivity(orderDetail);
                 return true;
             case R.id.item_update:
-                Toast.makeText(getActivity(), "Update", Toast.LENGTH_SHORT).show();
                 //show order update dilog
                 OrderUpdateDialog orderUpdateDialog=new OrderUpdateDialog();
                 Bundle bundle=new Bundle();
                 bundle.putParcelable(ARG_GOTO_ORDER_UPDATE_FROM_ADD_ORDERLINE,orderDetailResponseModel);
                 orderUpdateDialog.setArguments(bundle);
                 showDialog(orderUpdateDialog,"order-update-dialog");
+                return true;
+            case R.id.item_home:
+                Intent home = new Intent(getActivity(), HomeActivity.class);
+                startActivity(home);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

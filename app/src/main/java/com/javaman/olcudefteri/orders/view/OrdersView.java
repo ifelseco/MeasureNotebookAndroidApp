@@ -25,5 +25,6 @@ public interface OrdersView {
       void navigateToLogin();
       void checkSession();
       void showAlert(String message,boolean isError,boolean isOnlyToast);
+      void setEmptyBacground();
 
 }

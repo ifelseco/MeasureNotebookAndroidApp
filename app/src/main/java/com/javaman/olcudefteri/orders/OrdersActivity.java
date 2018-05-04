@@ -3,11 +3,14 @@ package com.javaman.olcudefteri.orders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +29,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.javaman.olcudefteri.home.HomeActivity;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.login.LoginActivity;
@@ -49,7 +54,7 @@ import butterknife.OnItemSelected;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class OrdersActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OrdersView,
+        implements OrdersView,
         View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener, AdapterView.OnItemSelectedListener, View.OnClickListener {
 
@@ -63,11 +68,10 @@ public class OrdersActivity extends AppCompatActivity
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
 
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
+    @BindView(R.id.linear_layout_zero_orders)
+    LinearLayout linearLayoutZeroOrder;
+
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
@@ -78,10 +82,12 @@ public class OrdersActivity extends AppCompatActivity
     @BindView(R.id.filter_spinner)
     Spinner spinnerFilter;
 
+    @BindView(R.id.bottom_navigation)
+    AHBottomNavigation ahBottomNavigation;
+
     SearchView searchView;
 
     SharedPreferenceHelper sharedPreferenceHelper;
-    ActionBarDrawerToggle toggle;
     RecyclerView.Adapter adapter;
     LinearLayoutManager linearLayoutManager;
     OrdersPresenter mOrdersPresenter;
@@ -99,7 +105,7 @@ public class OrdersActivity extends AppCompatActivity
     private int currentItems, totalItems, scrollOutItems;
     private boolean spinnerFirstLoad = true;
     private boolean isFilterMode = false;
-
+    int notfCount=0;
 
 
     @Override
@@ -110,7 +116,8 @@ public class OrdersActivity extends AppCompatActivity
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
+        notfCount=getNotificationCountFromPref();
+        initBottomNav();
         if (savedInstanceState != null) {
             this.orderList = savedInstanceState.getParcelableArrayList(ARG_SAVED_ORDERS);
 
@@ -128,17 +135,65 @@ public class OrdersActivity extends AppCompatActivity
 
     }
 
+    private int getNotificationCountFromPref() {
+        if(sharedPreferenceHelper.containKey("notf-count")){
+            return sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+        }else{
+            return -1;
+        }
+    }
+
+
+    private void initBottomNav() {
+        AHBottomNavigationItem item_home = new AHBottomNavigationItem(R.string.title_home, R.drawable.ic_home_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_notification = new AHBottomNavigationItem(R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.hintColor);
+        ahBottomNavigation.addItem(item_home);
+        ahBottomNavigation.addItem(item_orders);
+        ahBottomNavigation.addItem(item_add_order);
+        ahBottomNavigation.addItem(item_notification);
+        ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.colorAccentText));
+        ahBottomNavigation.setAccentColor(fetchColor(R.color.yello));
+        ahBottomNavigation.setInactiveColor(fetchColor(R.color.hintColor));
+        ahBottomNavigation.setCurrentItem(1);
+        ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        if(notfCount>0){
+            ahBottomNavigation.setNotification(""+notfCount,3);
+        }
+        ahBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
+            if(position==0){
+                Intent home = new Intent(OrdersActivity.this, HomeActivity.class);
+                startActivity(home);
+                return true;
+            }else if(position==1){
+
+                return true;
+            }else if(position==2){
+                Intent measure = new Intent(OrdersActivity.this, AddOrderActivity.class);
+                measure.putExtra("init-key", "first-init-add-order");
+                startActivity(measure);
+                return true;
+            }else if(position==3){
+                Intent home = new Intent(OrdersActivity.this, HomeActivity.class);
+                home.putExtra("init-key", "get-notification-fragment");
+                startActivity(home);
+                return true;
+            }
+            return true;
+        });
+
+    }
+
+    private int fetchColor(@ColorRes int color) {
+        return ContextCompat.getColor(this, color);
+    }
 
     public void initView() {
 
         fillSpinner();
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView.setCheckedItem(R.id.orders);
-        navigationView.setNavigationItemSelectedListener(this);
+        linearLayoutZeroOrder.setVisibility(View.GONE);
         mOrdersPresenter = new OrdersPresenterImpl(this);
         tvOrderSelectCount.setVisibility(View.GONE);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -304,48 +359,13 @@ public class OrdersActivity extends AppCompatActivity
         isActionModeActive = false;
         adapter.notifyDataSetChanged();
         clearToolbarAppendNewMenu(R.menu.menu_orders);
-        showHamburgerButton();
         tvOrderSelectCount.setVisibility(View.GONE);
         searchView.setVisibility(View.VISIBLE);
         tvOrderSelectCount.setText("0 sipariş seçildi");
         countSelectedOrders = 0;
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        switch (id) {
-
-            case R.id.home:
-                Intent home = new Intent(OrdersActivity.this, HomeActivity.class);
-                startActivity(home);
-                break;
-            case R.id.orders:
-                Intent orders = new Intent(OrdersActivity.this, OrdersActivity.class);
-                startActivity(orders);
-                break;
-            case R.id.measure:
-                Intent measure = new Intent(OrdersActivity.this, AddOrderActivity.class);
-                Bundle bundle = new Bundle();
-                measure.putExtra("init-key", "first-init-add-order");
-                startActivity(measure);
-                break;
-            case R.id.report:
-                Intent report = new Intent(OrdersActivity.this, ReportsActivity.class);
-                startActivity(report);
-                break;
-            // this is done, now let us go and intialise the home page.
-            // after this lets start copying the above.
-            // FOLLOW MEEEEE>>>
-        }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     @Override
     protected void onPause() {
@@ -455,6 +475,12 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
+    public void setEmptyBacground() {
+        linearLayoutZeroOrder.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
     public void getOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel) {
         this.orderList=orderSummaryPageReponseModel.getOrderDetailPage().getContent();
         this.curOrderDetailPage=orderSummaryPageReponseModel.getOrderDetailPage();
@@ -477,28 +503,10 @@ public class OrdersActivity extends AppCompatActivity
         return true;
     }
 
-    public void showHamburgerButton() {
-        toggle.setDrawerIndicatorEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        toggle.syncState();
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.openDrawer(GravityCompat.START);
-
-            }
-        });
-    }
 
     public void showArrowButton() {
-        toggle.setDrawerIndicatorEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);// show back button
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     public void prepareSelection(View view, int position) {
@@ -528,10 +536,7 @@ public class OrdersActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (isActionModeActive) {
+        if (isActionModeActive) {
             clearActionMode();
             adapter.notifyDataSetChanged();
         } else {

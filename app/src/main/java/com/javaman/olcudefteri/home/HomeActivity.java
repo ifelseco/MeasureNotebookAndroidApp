@@ -110,17 +110,24 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.home);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Bundle bundle=getIntent().getExtras();
+        if(bundle!=null){
+            if(bundle.containsKey("init-key")){
+                getNotificationFragment();
+                ahBottomNavigation.setCurrentItem(3);
+            }
+        }
 
     }
 
     private void initBottomNav() {
-        AHBottomNavigationItem item_search = new AHBottomNavigationItem(R.string.title_search, R.drawable.ic_search_black_24dp, R.color.hintColor);
-        AHBottomNavigationItem item_processing = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
-        AHBottomNavigationItem item_processed = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_home = new AHBottomNavigationItem(R.string.title_home, R.drawable.ic_home_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
         AHBottomNavigationItem item_notification = new AHBottomNavigationItem(R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.hintColor);
-        ahBottomNavigation.addItem(item_search);
-        ahBottomNavigation.addItem(item_processing);
-        ahBottomNavigation.addItem(item_processed);
+        ahBottomNavigation.addItem(item_home);
+        ahBottomNavigation.addItem(item_orders);
+        ahBottomNavigation.addItem(item_add_order);
         ahBottomNavigation.addItem(item_notification);
         ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.colorAccentText));
         ahBottomNavigation.setAccentColor(fetchColor(R.color.yello));
@@ -131,26 +138,25 @@ public class HomeActivity extends AppCompatActivity
         if(notfCount>0){
             ahBottomNavigation.setNotification(""+notfCount,3);
         }
-        ahBottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-                if(position==0){
-                    //getSearchFragment();
-                    return true;
-                }else if(position==1){
-                    Intent orders= new Intent(HomeActivity.this,OrdersActivity.class);
-                    startActivity(orders);
-                    return true;
-                }else if(position==2){
-                    Intent measure= new Intent(HomeActivity.this,AddOrderActivity.class);
-                    startActivity(measure);
-                    return true;
-                }else if(position==3){
-                    getNotificationFragment();
-                    return true;
-                }
+        ahBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
+            if(position==0){
+                Intent home= new Intent(HomeActivity.this,HomeActivity.class);
+                startActivity(home);
+                return true;
+            }else if(position==1){
+                Intent orders= new Intent(HomeActivity.this,OrdersActivity.class);
+                startActivity(orders);
+                return true;
+            }else if(position==2){
+                Intent measure= new Intent(HomeActivity.this,AddOrderActivity.class);
+                measure.putExtra("init-key","first-init-add-order");
+                startActivity(measure);
+                return true;
+            }else if(position==3){
+                getNotificationFragment();
                 return true;
             }
+            return true;
         });
 
     }

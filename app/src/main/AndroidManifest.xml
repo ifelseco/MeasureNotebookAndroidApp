@@ -50,6 +50,7 @@
         </activity>
         <activity
             android:name=".orders.AddOrderActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_customer_measure"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />

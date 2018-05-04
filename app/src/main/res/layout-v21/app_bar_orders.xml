@@ -63,7 +63,11 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <include layout="@layout/content_orders" />
+    <include layout="@layout/content_orders"
+        android:layout_marginBottom="56dp"
+        android:layout_marginTop="56dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 

@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import android.support.annotation.ColorRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import android.support.design.widget.NavigationView;
@@ -23,6 +25,8 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.gson.Gson;
 import com.javaman.olcudefteri.base.BasePresenter;
 import com.javaman.olcudefteri.base.BasePresenterImpl;
@@ -41,16 +45,13 @@ import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddOrderActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener,BaseView {
+        implements FragmentManager.OnBackStackChangedListener,BaseView {
 
 
-    public static final String MyPREFERENCES = "MyPrefs";
     public static final String ARG_ADD_ORDER = "arg_add_order";
     public static final String ARG_REGISTER_CUSTOMER_FRAGMENT_TAG = "register-customer-fragment";
     public static final String ARG_ADD_ORDER_LINE_FRAGMENT_TAG = "add-order-line-fragment";
-    private Bundle customerFormData = new Bundle();
-    SharedPreferences sharedPref;
-    private boolean isCustomerRegister = false;
+
     private AddCustomerResponse addCustomerResponse;
     private OrderDetailResponseModel orderDetailResponseModel;
     FragmentManager fragmentManager;
@@ -61,14 +62,13 @@ public class AddOrderActivity extends AppCompatActivity
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawer;
-
-    @BindView(R.id.nav_view)
-    NavigationView navigationView;
+    @BindView(R.id.bottom_navigation)
+    AHBottomNavigation ahBottomNavigation;
 
     private BasePresenter mBasePresenter;
     SweetAlertDialog pDialog;
+    int notfCount=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -78,19 +78,10 @@ public class AddOrderActivity extends AppCompatActivity
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
         mBasePresenter=new BasePresenterImpl(this);
         ButterKnife.bind(this);
-
+        notfCount=getNotificationCountFromPref();
+        initBottomNav();
         setSupportActionBar(toolbar);
 
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-
-        navigationView.setCheckedItem(R.id.measure);
-        navigationView.setNavigationItemSelectedListener(this);
 
         Bundle bundle=getIntent().getExtras();
 
@@ -146,7 +137,53 @@ public class AddOrderActivity extends AppCompatActivity
 
     }
 
+    private void initBottomNav() {
+        AHBottomNavigationItem item_home = new AHBottomNavigationItem(R.string.title_home, R.drawable.ic_home_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_notification = new AHBottomNavigationItem(R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.hintColor);
+        ahBottomNavigation.addItem(item_home);
+        ahBottomNavigation.addItem(item_orders);
+        ahBottomNavigation.addItem(item_add_order);
+        ahBottomNavigation.addItem(item_notification);
+        ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.colorAccentText));
+        ahBottomNavigation.setAccentColor(fetchColor(R.color.yello));
+        ahBottomNavigation.setInactiveColor(fetchColor(R.color.hintColor));
+        ahBottomNavigation.setCurrentItem(2);
+        ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        if(notfCount>0){
+            ahBottomNavigation.setNotification(""+notfCount,3);
+        }
+        ahBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
+            if(position==0){
+                Intent home = new Intent(AddOrderActivity.this, HomeActivity.class);
+                startActivity(home);
+                return true;
+            }else if(position==1){
+                Intent orders = new Intent(AddOrderActivity.this, OrdersActivity.class);
+                startActivity(orders);
+                return true;
+            }else if(position==2){
+
+                return true;
+            }else if(position==3){
+                Intent home = new Intent(AddOrderActivity.this, HomeActivity.class);
+                home.putExtra("init-key", "get-notification-fragment");
+                startActivity(home);
+                return true;
+            }
+            return true;
+        });
+
+    }
+
+    private int fetchColor(@ColorRes int color) {
+        return ContextCompat.getColor(this, color);
+    }
+
     public void addFragmentRegisterCustomer() {
+
         checkSession();
         fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
@@ -164,6 +201,7 @@ public class AddOrderActivity extends AppCompatActivity
     }
 
     public void addAddOrderLineFragment(OrderDetailResponseModel orderDetailResponseModel) {
+        hideBottomNav();
         checkSession();
         AddOrderLineFragment addOrderLineFragment = new AddOrderLineFragment();
         Bundle bundle=new Bundle();
@@ -178,15 +216,19 @@ public class AddOrderActivity extends AppCompatActivity
 
     }
 
-
+    private int getNotificationCountFromPref() {
+        if(sharedPreferenceHelper.containKey("notf-count")){
+            return sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+        }else{
+            return -1;
+        }
+    }
 
     @Override
     public void onBackPressed() {
         Log.d("Count : ", "" + fragmentManager.getBackStackEntryCount());
 
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (fragmentManager.getBackStackEntryCount() > 1) {
+       if (fragmentManager.getBackStackEntryCount() > 1) {
             fragmentManager.popBackStack();
         } else {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
@@ -213,40 +255,7 @@ public class AddOrderActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        switch (id) {
-
-            case R.id.home:
-                Intent home = new Intent(AddOrderActivity.this, HomeActivity.class);
-                startActivity(home);
-                break;
-            case R.id.orders:
-                Intent orders = new Intent(AddOrderActivity.this, OrdersActivity.class);
-                startActivity(orders);
-                break;
-            case R.id.measure:
-                Intent measure = new Intent(AddOrderActivity.this, AddOrderActivity.class);
-                Bundle bundle=new Bundle();
-                measure.putExtra("init-key","first-init-add-order");
-                startActivity(measure);
-                break;
-            case R.id.report:
-                Intent report = new Intent(AddOrderActivity.this, ReportsActivity.class);
-                startActivity(report);
-                break;
-            // this is done, now let us go and intialise the home page.
-            // after this lets start copying the above.
-            // FOLLOW MEEEEE>>>
-        }
-
-
-        return true;
-    }
 
     @Override
     protected void onPause() {
@@ -264,7 +273,7 @@ public class AddOrderActivity extends AppCompatActivity
     @Override
     public void onBackStackChanged() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            toggle.setDrawerIndicatorEnabled(false);
+
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);// show back button
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -274,14 +283,13 @@ public class AddOrderActivity extends AppCompatActivity
             });
         } else {
             //show hamburger
-            toggle.setDrawerIndicatorEnabled(true);
+
             getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            toggle.syncState();
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    drawer.openDrawer(GravityCompat.START);
+
                 }
             });
         }
@@ -297,6 +305,10 @@ public class AddOrderActivity extends AppCompatActivity
         super.onDestroy();
     }
 
+
+    public void hideBottomNav(){
+        ahBottomNavigation.hideBottomNavigation(true);
+    }
 
 
     @Override

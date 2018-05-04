@@ -110,7 +110,8 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
             if(orderSummaryPageReponseModel.getOrderDetailPage().getTotalElements()>0){
                 //mOrdersView.showAlert("Siparişler başarıyla listelendi",false,true);
             }else{
-                mOrdersView.showAlert("Kayıtlı siparişiniz yok.",false,false);
+                //mOrdersView.showAlert("Kayıtlı siparişiniz yok.",false,false);
+                mOrdersView.setEmptyBacground();
             }
 
         }
@@ -145,6 +146,13 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
             mOrdersView.hideProgress();
             //mOrdersView.showAlert("Siparişler listlendi",false,true);
             mOrdersView.getOrders(orderSummaryPageReponseModel);
+
+            if(orderSummaryPageReponseModel.getOrderDetailPage().getTotalElements()>0){
+                //mOrdersView.showAlert("Siparişler başarıyla listelendi",false,true);
+            }else{
+                //mOrdersView.showAlert("Kayıtlı siparişiniz yok.",false,false);
+                mOrdersView.setEmptyBacground();
+            }
         }
     }
 

@@ -97,8 +97,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public void deleteSelectedItems(ArrayList<OrderDetailResponseModel> selectedOrderList) {
         for (OrderDetailResponseModel orderDetailResponseModel : selectedOrderList){
             mOrders.remove(orderDetailResponseModel);
+
         }
         notifyDataSetChanged();
+        if(mOrders.size()==0){
+            ordersActivity.setEmptyBacground();
+        }
     }
 
     public void updateList(List<OrderDetailResponseModel> orderList){
