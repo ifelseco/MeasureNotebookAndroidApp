@@ -293,12 +293,10 @@ public class OrdersActivity extends AppCompatActivity
 
         } else if (id == R.id.item_filter) {
             isFilterMode = true;
-            Toast.makeText(this, "" + isFilterMode, Toast.LENGTH_SHORT).show();
             showFilterSpinner();
 
 
         } else if (id == R.id.item_close) {
-            Toast.makeText(this, ""+spinnerFilter.getSelectedItemPosition(), Toast.LENGTH_SHORT).show();
             clearToolbarAppendNewMenu(R.menu.menu_orders);
             hideFilterSpinner();
         }
@@ -321,7 +319,6 @@ public class OrdersActivity extends AppCompatActivity
         tvOrderSelectCount.setVisibility(View.GONE);
         spinnerFilter.setVisibility(View.GONE);
         isFilterMode = false;
-        Toast.makeText(this, "" + isFilterMode, Toast.LENGTH_SHORT).show();
     }
 
     public void clearToolbarAppendNewMenu(int menuId){
@@ -355,6 +352,7 @@ public class OrdersActivity extends AppCompatActivity
 
     public void clearActionMode() {
         this.selectedOrderList.clear();
+        hideArrowButton();
         isFilterMode = false;
         isActionModeActive = false;
         adapter.notifyDataSetChanged();
@@ -364,8 +362,6 @@ public class OrdersActivity extends AppCompatActivity
         tvOrderSelectCount.setText("0 sipariş seçildi");
         countSelectedOrders = 0;
     }
-
-
 
     @Override
     protected void onPause() {
@@ -481,6 +477,12 @@ public class OrdersActivity extends AppCompatActivity
     }
 
     @Override
+    public void hideEmptyBacground() {
+        linearLayoutZeroOrder.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void getOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel) {
         this.orderList=orderSummaryPageReponseModel.getOrderDetailPage().getContent();
         this.curOrderDetailPage=orderSummaryPageReponseModel.getOrderDetailPage();
@@ -495,6 +497,7 @@ public class OrdersActivity extends AppCompatActivity
     public boolean onLongClick(View view) {
         Log.d("Selecetde order :", "" + selectedOrderList.size());
         clearToolbarAppendNewMenu(R.menu.menu_action_delete);
+        hideFilterSpinner();
         searchView.setVisibility(View.GONE);
         tvOrderSelectCount.setVisibility(View.VISIBLE);
         isActionModeActive = true;
@@ -507,6 +510,10 @@ public class OrdersActivity extends AppCompatActivity
     public void showArrowButton() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);// show back button
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    }
+
+    public void hideArrowButton() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);// show back button
     }
 
     public void prepareSelection(View view, int position) {

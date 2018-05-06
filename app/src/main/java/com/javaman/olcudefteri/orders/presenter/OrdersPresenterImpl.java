@@ -109,6 +109,7 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
             //mOrdersView.updateOrderFromAdapter(orderSummaryPageReponseModel.getOrderDetailPage().getContent());
             if(orderSummaryPageReponseModel.getOrderDetailPage().getTotalElements()>0){
                 //mOrdersView.showAlert("Siparişler başarıyla listelendi",false,true);
+                mOrdersView.hideEmptyBacground();
             }else{
                 //mOrdersView.showAlert("Kayıtlı siparişiniz yok.",false,false);
                 mOrdersView.setEmptyBacground();
@@ -149,6 +150,7 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
 
             if(orderSummaryPageReponseModel.getOrderDetailPage().getTotalElements()>0){
                 //mOrdersView.showAlert("Siparişler başarıyla listelendi",false,true);
+                mOrdersView.hideEmptyBacground();
             }else{
                 //mOrdersView.showAlert("Kayıtlı siparişiniz yok.",false,false);
                 mOrdersView.setEmptyBacground();
@@ -215,6 +217,9 @@ public class OrdersPresenterImpl implements OrdersPresenter ,
                 }
 
                 mOrdersView.updateOrderAfterSearch(orders);
+                mOrdersView.hideEmptyBacground();
+            }else{
+                mOrdersView.setEmptyBacground();
             }
         }
     }
