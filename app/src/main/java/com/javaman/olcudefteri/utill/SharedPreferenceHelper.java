@@ -87,6 +87,8 @@ public class SharedPreferenceHelper {
             editor.clear();
             editor.commit();
         }
+
+        Log.d("lastActivity",""+containKey("lastActivity"));
     }
 
 }

@@ -45,6 +45,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -57,7 +59,6 @@
                             android:id="@+id/editTextWidth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="En"
                             android:inputType="number" />
@@ -74,7 +75,6 @@
                             android:id="@+id/editTextHeight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="Boy"
                             android:inputType="number" />
@@ -83,15 +83,13 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -104,7 +102,6 @@
                             android:id="@+id/editTextPattern"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="Desen"
 
@@ -121,7 +118,6 @@
                             android:id="@+id/editTextVariant"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="Varyant"
                             android:inputType="textPersonName" />
@@ -137,7 +133,6 @@
                             android:id="@+id/editTextAlias"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="İsim"
                             android:inputType="textPersonName" />
@@ -146,19 +141,13 @@
                 </LinearLayout>
 
 
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="vertical"
-                    android:padding="5dp">
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen">
 
 
                     <LinearLayout
@@ -179,7 +168,6 @@
                                 android:id="@+id/editTextSunBlindUnitPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/edittext_border_bg_lightgreen"
                                 android:ems="10"
                                 android:hint="Birim Fiyat"
                                 android:inputType="number" />
@@ -209,10 +197,7 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+
 
 
                 <LinearLayout
@@ -220,43 +205,41 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen">
 
-
-                    <EditText
-                        android:id="@+id/editTextSunBlindTotalPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
-                        android:ems="10"
-                        android:hint="Toplam Fiyat"
-                        android:inputType="numberDecimal" />
 
                     <TextView
+                        android:id="@+id/textViewSunBlindUsedMaterial"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="TL"
+                        android:text=""
                         android:textStyle="bold" />
 
 
+                    <TextView
+                        android:id="@+id/textViewSunBlindTotalPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:textStyle="bold" />
+
+
+
+
                 </LinearLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
-
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen"
                     android:orientation="vertical">
 
                     <android.support.design.widget.TextInputLayout
@@ -270,7 +253,6 @@
                             android:id="@+id/editTextSunBlinfDesc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Açıklama"
                             android:inputType="textMultiLine"
                             android:maxLines="5"
@@ -279,16 +261,13 @@
 
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
                     android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:padding="10dp">
 
                     <ImageButton
                         android:id="@+id/btnCancel"

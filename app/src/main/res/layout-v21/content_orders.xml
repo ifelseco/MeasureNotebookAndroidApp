@@ -7,7 +7,7 @@
     tools:showIn="@layout/app_bar_home"
     android:background="@color/lightgray"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.javaman.olcudefteri.orders.OrdersActivity"
+    tools:context="com.javaman.olcudefteri.ui.orders.OrdersActivity"
     android:orientation="vertical">
 
     <RelativeLayout

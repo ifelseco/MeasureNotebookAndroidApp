@@ -1,0 +1,144 @@
+package com.javaman.olcudefteri.ui.orders;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.model.CustomerDetailModel;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * Created by javaman on 08.03.2018.
+ */
+
+public class CustomerDetailFragment extends Fragment implements View.OnClickListener {
+
+    private CustomerDetailModel customerDetailModel;
+
+    @BindView(R.id.tv_customer_name)
+    TextView textViewCustomerName;
+
+    @BindView(R.id.tv_customer_mobile_phone)
+    TextView textViewCustomerMobilePhone;
+
+    @BindView(R.id.tv_customer_fixed_tel)
+    TextView textViewCustomerFixedPhone;
+
+    @BindView(R.id.tv_customer_address)
+    TextView textViewCustomerAddress;
+
+    @BindView(R.id.checkboxNewsletter)
+    CheckBox checkBoxNewsletter;
+
+    @BindView(R.id.linear_layout_newsletter)
+    LinearLayout linearLayoutNewsLetter;
+
+    @BindView(R.id.image_button_call)
+    ImageButton imageButtonCall;
+
+    @BindView(R.id.image_button_sms)
+    ImageButton imageButtonSms;
+
+    @BindView(R.id.image_button_navigation)
+    ImageButton imageButtonNavigation;
+
+
+
+
+
+
+
+    public CustomerDetailFragment() {}
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments().containsKey(OrderDetailActivity.ARG_CURRENT_CUSTOMER)) {
+            customerDetailModel = getArguments().getParcelable(OrderDetailActivity.ARG_CURRENT_CUSTOMER);
+        }
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.customer_detail_fragment, container, false);
+        ButterKnife.bind(this,rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setView();
+    }
+
+    private void setView() {
+
+        imageButtonCall.setOnClickListener(this);
+        imageButtonSms.setOnClickListener(this);
+        imageButtonNavigation.setOnClickListener(this);
+
+        textViewCustomerName.setText(customerDetailModel.getNameSurname());
+        textViewCustomerFixedPhone.setText(customerDetailModel.getFixedPhone());
+        textViewCustomerMobilePhone.setText(customerDetailModel.getMobilePhone());
+        textViewCustomerAddress.setText(customerDetailModel.getAddress());
+
+        if(customerDetailModel.isNewsletterAccepted()){
+            linearLayoutNewsLetter.setVisibility(View.VISIBLE);
+            checkBoxNewsletter.setChecked(true);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id=v.getId();
+
+        switch (id){
+            case R.id.image_button_call:
+                String callNumber1 = customerDetailModel.getMobilePhone();
+                String callNumber2 =customerDetailModel.getFixedPhone();
+                Intent intentCall = new Intent(Intent.ACTION_DIAL);
+
+                if(!callNumber1.isEmpty()){
+
+                    intentCall.setData(Uri.parse("tel:" +callNumber1));
+
+                }else{
+                    intentCall.setData(Uri.parse("tel:" +callNumber2));
+                }
+                startActivity(intentCall);
+                break;
+            case R.id.image_button_sms:
+                String smsNumber = customerDetailModel.getMobilePhone();
+                Uri uri = Uri.parse("smsto:" + smsNumber);
+                Intent intentSms = new Intent(Intent.ACTION_SENDTO, uri);
+                intentSms.putExtra("sms_body", "");
+                startActivity(intentSms);
+                break;
+            case R.id.image_button_navigation:
+
+                break;
+            default:
+                break;
+
+
+        }
+    }
+
+
+}

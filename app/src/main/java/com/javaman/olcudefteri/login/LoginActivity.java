@@ -12,12 +12,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.javaman.olcudefteri.tailor.TailorHomeActivity;
-import com.javaman.olcudefteri.home.HomeActivity;
+import com.javaman.olcudefteri.ui.tailor.TailorHomeActivity;
+import com.javaman.olcudefteri.ui.home.HomeActivity;
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.login.presenter.LoginPresenter;
-import com.javaman.olcudefteri.login.presenter.LoginPresenterImpl;
-import com.javaman.olcudefteri.login.view.LoginView;
+import com.javaman.olcudefteri.presenter.LoginPresenter;
+import com.javaman.olcudefteri.presenter.impl.LoginPresenterImpl;
+import com.javaman.olcudefteri.view.LoginView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import butterknife.BindView;

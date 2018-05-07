@@ -39,15 +39,14 @@
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:background="@color/lightgreen" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -60,7 +59,6 @@
                             android:id="@+id/editTextWidth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:ems="10"
                             android:hint="En"
                             android:inputType="number" />
@@ -78,21 +76,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Boy"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen"
                     android:orientation="vertical">
 
                     <TextView
@@ -106,7 +102,6 @@
 
                     <RadioGroup
                         android:id="@+id/radio_group_direction"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
@@ -116,26 +111,25 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Sağ" />
+                            android:text="Sol" />
 
                         <RadioButton
                             android:id="@+id/radioButtonJaluziRight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Sol" />
+                            android:text="Sağ" />
                     </RadioGroup>
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -149,7 +143,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Desen"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
@@ -165,7 +158,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="Varyant"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
@@ -181,20 +173,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:hint="İsim"
                             android:inputType="textPersonName" />
 
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -211,22 +201,19 @@
                             android:hint="Açıklama"
                             android:minLines="2"
                             android:maxLines="5"
-                            android:background="@drawable/edittext_border_bg_lightgreen"
                             android:scrollbars="vertical"
                             android:inputType="textMultiLine"
                             />
 
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:padding="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen"
                     android:orientation="vertical">
 
 
@@ -248,7 +235,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:hint="Birim Fiyat"
-                                android:background="@drawable/edittext_border_bg_lightgreen"
                                 android:ems="10"
                                 android:inputType="number" />
 
@@ -281,15 +267,13 @@
 
 
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_margin="10dp"
+                    android:background="@drawable/edittext_border_bg_lightgreen"
                     android:padding="5dp">
 
                     <TextView
@@ -301,48 +285,24 @@
                         android:layout_gravity="center"/>
 
                     <TextView
+                        android:id="@+id/textViewJalousieTotalPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="m2"
+                        android:text=""
                         android:textSize="15sp"
                         android:fontFamily="@font/roboto_regular"
                         android:layout_weight="1"
                         android:textStyle="bold"
                         android:layout_gravity="center"/>
 
-                    <EditText
-                        android:id="@+id/editTextJalousieTotalPrice"
-                        android:layout_width="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
-                        android:hint="Fiyat"
-                        android:layout_weight="1"
-                        android:inputType="numberDecimal"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textStyle="bold"
-                        android:text="TL" />
-
-
 
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-
+                    android:padding="10dp"
                     android:orientation="horizontal">
 
                     <ImageButton
@@ -373,11 +333,7 @@
 
                 </LinearLayout>
 
-                <ProgressBar
-                    android:id="@+id/progress_bar_save"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"/>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"

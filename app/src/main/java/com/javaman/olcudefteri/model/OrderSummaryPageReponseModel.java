@@ -1,0 +1,50 @@
+package com.javaman.olcudefteri.model;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import lombok.Data;
+
+/**
+ * Created by javaman on 26.02.2018.
+ */
+
+@Data
+public class OrderSummaryPageReponseModel implements Parcelable {
+
+    private BaseModel baseModel;
+
+    private OrderDetailPage orderDetailPage;
+
+    public OrderSummaryPageReponseModel() {
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.baseModel, flags);
+        dest.writeParcelable(this.orderDetailPage, flags);
+    }
+
+    protected OrderSummaryPageReponseModel(Parcel in) {
+        this.baseModel = in.readParcelable(BaseModel.class.getClassLoader());
+        this.orderDetailPage = in.readParcelable(OrderDetailPage.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<OrderSummaryPageReponseModel> CREATOR = new Parcelable.Creator<OrderSummaryPageReponseModel>() {
+        @Override
+        public OrderSummaryPageReponseModel createFromParcel(Parcel source) {
+            return new OrderSummaryPageReponseModel(source);
+        }
+
+        @Override
+        public OrderSummaryPageReponseModel[] newArray(int size) {
+            return new OrderSummaryPageReponseModel[size];
+        }
+    };
+}
