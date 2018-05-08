@@ -11,7 +11,7 @@ public interface HomeView {
 
     void sendFirebaseRegIdToServer();
     void getNotificationsFromServer();
-    int getNotificationCountFromPref();
+    void getAppUtilInfoFromPref();
     void deleteNotification(NotificationDetailModel notificationDetailModel);
     void deleteAllNotification();
     void getNotifications(NotificationSummaryModel notificationSummaryModel);

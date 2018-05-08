@@ -3,57 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-
-    <group android:checkableBehavior="single">
-
-        <item
-            android:id="@+id/home"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="Anasayfa" />
-
-
-        <item
-            android:id="@+id/orders"
-            android:icon="@drawable/ic_assignment_black_24dp"
-            android:title="Siparişler" />
-
-        <item
-            android:id="@+id/measure"
-            android:icon="@drawable/ic_measure"
-            android:title="Ölçü Al" />
-
-        <item
-            android:id="@+id/report"
-            android:icon="@drawable/ic_report"
-            android:title="Raporlar" />
-
-        <item
-            android:id="@+id/account"
-            android:icon="@drawable/ic_account_circle_black_24dp"
-            android:title="Hesabım" />
-
-    </group>
-
-    <item android:title="Tanıtım">
-
+    <item android:title="Uygulama">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Paylaş" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Toplu Sms" />
-        </menu>
-    </item>
 
-    <item android:title="Oturum">
-        <menu>
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="Ayarlar" />
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
                 android:title="Çıkış" />
+
+
 
         </menu>
     </item>

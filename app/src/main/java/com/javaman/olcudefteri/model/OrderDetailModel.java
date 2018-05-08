@@ -21,6 +21,10 @@ public class OrderDetailModel implements Parcelable {
     @Expose
     private Long id;
 
+    @SerializedName("orderNumber")
+    @Expose
+    private String orderNumber;
+
     @SerializedName("userNameSurname")
     @Expose
     private String userNameSurname;
@@ -70,6 +74,7 @@ public class OrderDetailModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(this.id);
+        dest.writeString(this.orderNumber);
         dest.writeString(this.userNameSurname);
         dest.writeLong(this.orderDate != null ? this.orderDate.getTime() : -1);
         dest.writeDouble(this.totalAmount);
@@ -83,6 +88,7 @@ public class OrderDetailModel implements Parcelable {
 
     protected OrderDetailModel(Parcel in) {
         this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.orderNumber = in.readString();
         this.userNameSurname = in.readString();
         long tmpOrderDate = in.readLong();
         this.orderDate = tmpOrderDate == -1 ? null : new Date(tmpOrderDate);
@@ -97,7 +103,7 @@ public class OrderDetailModel implements Parcelable {
         this.customer = in.readParcelable(CustomerDetailModel.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<OrderDetailModel> CREATOR = new Parcelable.Creator<OrderDetailModel>() {
+    public static final Creator<OrderDetailModel> CREATOR = new Creator<OrderDetailModel>() {
         @Override
         public OrderDetailModel createFromParcel(Parcel source) {
             return new OrderDetailModel(source);

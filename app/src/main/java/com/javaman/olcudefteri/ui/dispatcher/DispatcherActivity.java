@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 import com.javaman.olcudefteri.ui.splash.SplashScreenActivity;
 import com.javaman.olcudefteri.presenter.DispatcherPresenter;
 import com.javaman.olcudefteri.presenter.impl.DispatcherPresenterImpl;
@@ -65,12 +66,14 @@ public class DispatcherActivity extends AppCompatActivity implements DispatcherV
     @Override
     public void getNotificationCountFromServer() {
         String headerData=getSessionIdFromPref();
-        mDispatcherPresenter.getNotificationCount(headerData);
+        mDispatcherPresenter.getAppUtilInfo(headerData);
     }
 
     @Override
-    public void saveNotfCountToPref(int count) {
-        sharedPreferenceHelper.setIntegerPreference("notf-count",count);
+    public void saveAppUtilInfoToPref(AppUtilInfoModel appUtilInfoModel) {
+        sharedPreferenceHelper.setIntegerPreference("notf-count", appUtilInfoModel.getCount());
+        sharedPreferenceHelper.setStringPreference("company-name",appUtilInfoModel.getComapanyName());
+        sharedPreferenceHelper.setStringPreference("name-surname",appUtilInfoModel.getUserNameSurname());
     }
 
     @Override

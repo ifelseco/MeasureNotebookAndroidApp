@@ -1,9 +1,9 @@
 package com.javaman.olcudefteri.view;
 
-import com.javaman.olcudefteri.view.BaseView;
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 
 public interface DispatcherView extends BaseView{
     void getNotificationCountFromServer();
-    void saveNotfCountToPref(int count);
+    void saveAppUtilInfoToPref(AppUtilInfoModel appUtilInfoModel);
     void redirect();
 }

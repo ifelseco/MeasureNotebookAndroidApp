@@ -77,6 +77,8 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     int processingSize=0;
     int processedSize=0;
     private boolean clickForProcessesFragment;
+    private String companyName;
+    private String nameSurname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         setTitle("Terzi : Muharrem Usta");
         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
-        notfCount=getNotificationCountFromPref();
+        getAppUtilInfoFromPref();
         mHomePresenter=new HomePresenterImpl(this);
         mOrdersPresenter=new OrdersPresenterImpl(this);
         mBasePresenter=new BasePresenterImpl(this);
@@ -213,13 +215,21 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     }
 
     @Override
-    public int getNotificationCountFromPref() {
+    public void getAppUtilInfoFromPref() {
         if(sharedPreferenceHelper.containKey("notf-count")){
-            return sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+            notfCount= sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
         }else{
-            return -1;
+            notfCount= -1;
         }
 
+
+        if(sharedPreferenceHelper.containKey("company-name")){
+            companyName=sharedPreferenceHelper.getStringPreference("comapny-name","");
+        }
+
+        if(sharedPreferenceHelper.containKey("company-name")){
+            nameSurname=sharedPreferenceHelper.getStringPreference("comapny-name","");
+        }
     }
 
 

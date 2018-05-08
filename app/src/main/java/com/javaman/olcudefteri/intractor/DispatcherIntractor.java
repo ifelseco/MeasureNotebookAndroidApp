@@ -1,13 +1,13 @@
 package com.javaman.olcudefteri.intractor;
 
-import com.javaman.olcudefteri.model.CountModel;
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 
 public interface DispatcherIntractor {
     interface onNotificationProcessListener{
-        void onSuccess(CountModel countModel);
+        void onSuccess(AppUtilInfoModel appUtilInfoModel);
         void onFailure(String message);
         void navigateToLogin();
     }
 
-    void getNotificationCountFromServer(String headerData , onNotificationProcessListener listener);
+    void getAppUtilInfo(String headerData , onNotificationProcessListener listener);
 }

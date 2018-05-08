@@ -54,8 +54,6 @@ public interface OrdersService {
     Call<OrderSummaryModel> orderSearch(@Header("X-Auth-Token") String xAuthToken , @Query("orderNumber") String orderNumber);
 
 
-
-
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json"

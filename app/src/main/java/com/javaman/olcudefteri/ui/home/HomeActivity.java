@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -41,7 +42,6 @@ import com.javaman.olcudefteri.ui.orders.AddOrderActivity;
 import com.javaman.olcudefteri.model.FirebaseRegIdModel;
 import com.javaman.olcudefteri.utill.FirebaseUtil;
 import com.javaman.olcudefteri.ui.orders.OrdersActivity;
-import com.javaman.olcudefteri.ui.reports.ReportsActivity;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,9 +64,12 @@ public class HomeActivity extends AppCompatActivity
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     public static final String ARG_NOTIFICATIONS = "home-notifications";
+    public static final String ARG_DASHBOARD = "dashboard";
 
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation ahBottomNavigation;
+
+
 
     @BindView(R.id.progress_bar_home)
     ProgressBar progressBarHome;
@@ -79,7 +82,11 @@ public class HomeActivity extends AppCompatActivity
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+
     int notfCount=0;
+    private String companyName;
+    private String nameSurname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +102,8 @@ public class HomeActivity extends AppCompatActivity
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
         sharedPreferenceHelper.removeKey("orderDetailResponse");
 
-        notfCount=getNotificationCountFromPref();
+        getAppUtilInfoFromPref();
+
         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
 
         mHomePresenter=new HomePresenterImpl(this);
@@ -109,15 +117,28 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setCheckedItem(R.id.home);
         navigationView.setNavigationItemSelectedListener(this);
-
+        setAppInfo();
         Bundle bundle=getIntent().getExtras();
         if(bundle!=null){
             if(bundle.containsKey("init-key")){
                 getNotificationFragment();
                 ahBottomNavigation.setCurrentItem(3);
+            }else{
+                getDashboardFragment();
             }
+
+        }else{
+            getDashboardFragment();
         }
 
+    }
+
+    private void setAppInfo() {
+        View navHeader=navigationView.getHeaderView(0);
+        TextView tvCompanyName=navHeader.findViewById(R.id.tv_company_name);
+        TextView tvNameSurname=navHeader.findViewById(R.id.tv_name_surname);
+        tvCompanyName.setText(companyName);
+        tvNameSurname.setText(nameSurname);
     }
 
     private void initBottomNav() {
@@ -140,8 +161,7 @@ public class HomeActivity extends AppCompatActivity
         }
         ahBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
             if(position==0){
-                Intent home= new Intent(HomeActivity.this,HomeActivity.class);
-                startActivity(home);
+                getDashboardFragment();
                 return true;
             }else if(position==1){
                 Intent orders= new Intent(HomeActivity.this,OrdersActivity.class);
@@ -159,6 +179,10 @@ public class HomeActivity extends AppCompatActivity
             return true;
         });
 
+    }
+
+    private void getDashboardFragment() {
+        initFragment(fragmentManager,fragmentTransaction,new DashboardFragment(),null,ARG_DASHBOARD,ARG_DASHBOARD);
     }
 
     public void getNotificationFragment() {
@@ -205,21 +229,12 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -232,30 +247,14 @@ public class HomeActivity extends AppCompatActivity
 
         switch (id){
 
-            case R.id.home:
-                Intent home= new Intent(HomeActivity.this,HomeActivity.class);
-               startActivity(home);
-                break;
-            case R.id.orders:
-                Intent orders= new Intent(HomeActivity.this,OrdersActivity.class);
-                startActivity(orders);
-                break;
-            case R.id.measure:
-                Intent measure= new Intent(HomeActivity.this,AddOrderActivity.class);
-                Bundle bundle=new Bundle();
-                measure.putExtra("init-key","first-init-add-order");
-                startActivity(measure);
-                break;
-            case R.id.report:
-                Intent report= new Intent(HomeActivity.this,ReportsActivity.class);
-                startActivity(report);
+            case R.id.settings:
+
+                Toast.makeText(this, "Ayarlar", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.logout:
                 logout();
                 break;
-            // this is done, now let us go and intialise the home page.
-            // after this lets start copying the above.
-            // FOLLOW MEEEEE>>>
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -290,14 +289,24 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public int getNotificationCountFromPref() {
+    public void getAppUtilInfoFromPref() {
         if(sharedPreferenceHelper.containKey("notf-count")){
-            return sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+            notfCount= sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
         }else{
-            return -1;
+            notfCount= -1;
         }
 
+
+        if(sharedPreferenceHelper.containKey("company-name")){
+            companyName=sharedPreferenceHelper.getStringPreference("company-name","");
+        }
+
+        if(sharedPreferenceHelper.containKey("name-surname")){
+            nameSurname=sharedPreferenceHelper.getStringPreference("name-surname","");
+        }
     }
+
+
 
     @Override
     @Subscribe
@@ -370,9 +379,6 @@ public class HomeActivity extends AppCompatActivity
     public void showAlert(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
-
-
-
 
     @Override
     public void navigateLogin() {

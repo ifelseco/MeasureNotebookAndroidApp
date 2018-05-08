@@ -28,7 +28,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/lightgreen"
@@ -50,7 +49,6 @@
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_editTextWidth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -66,7 +64,6 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_editTextHeight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -125,7 +122,6 @@
                                 android:text="Kruvaze" />
 
                             <RadioButton
-                                android:id="@+id/radioButtonFonKanat"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="10sp"
@@ -253,7 +249,6 @@
                                 android:text="Yan" />
 
                             <RadioButton
-                                android:id="@+id/radioButtonOtherPile"
                                 android:layout_width="wrap_content"
                                 android:fontFamily="@font/roboto_regular"
                                 android:layout_height="wrap_content"
@@ -283,7 +278,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textViewPile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -333,7 +327,6 @@
                         </RadioGroup>
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/input_layout_editTextOtherPile"
                             android:layout_width="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
@@ -365,7 +358,6 @@
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_editTextPattern"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -380,7 +372,6 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_editTextVariant"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -395,7 +386,6 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_editTextAlias"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -421,7 +411,6 @@
                     android:orientation="vertical">
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_editTextFonDesc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -457,7 +446,6 @@
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/input_layout_editTextFonUnitPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

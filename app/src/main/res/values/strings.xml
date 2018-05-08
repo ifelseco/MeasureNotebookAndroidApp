@@ -7,8 +7,6 @@
     <string name="action_settings">Ayarlar</string>
     <string name="title_activity_orders">Siparişler</string>
     <string name="title_activity_customer_measure">Sipariş Kaydı</string>
-    <string name="title_activity_reports">Raporlar</string>
-    <string name="section_format">Hello World from section: %1$d</string>
 
     <item name="visible" type="id" />
     <item name="masked" type="id" />
@@ -56,69 +54,17 @@
         <item>TSP</item>
     </string-array>
 
-    <string-array name="fonType">
-        <item>Kruvaze Kanat</item>
-        <item>Fon Kanat</item>
-        <item>Japon Panel</item>
-    </string-array>
-
-    <string-array name="fonTypeCode">
-        <item>KK</item>
-        <item>FK</item>
-        <item>JP</item>
-    </string-array>
-
-    <string-array name="fonPileType">
-        <item>Amerikan Pile</item>
-        <item>Kanun Pile</item>
-        <item>Yan Pile</item>
-        <item>Diğer</item>
-    </string-array>
-
-    <string-array name="fonPileTypeCode">
-        <item>AP</item>
-        <item>KP</item>
-        <item>YP</item>
-        <item>D</item>
-    </string-array>
-
-    <string name="title_activity_login">Sign in</string>
-
     <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
-    <string name="serach">Ara</string>
 
-    <string-array name="home_titles">
-        <item>Hoşgeldin</item>
-        <item>Bugün nasılsın?</item>
-    </string-array>
-
-    <string name="title_order_list">Orders</string>
-    <string name="title_order_detail">Order Detail</string>
-    <string name="title_activity_order_detail_tabbed">OrderDetailTabbedActivity</string>
-    <string name="tl">u20ba</string>
     <string name="title_activity_tailor_home">Terzi Paneli</string>
     <string name="title_orders">Siparişler</string>
-    <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Bildirimler</string>
     <string name="title_processing">Devam eden işler</string>
     <string name="title_processed">Hazır</string>
     <string name="title_add_order">Yeni Sipariş</string>
     <string name="title_home">Anasayfa</string>
-    <string name="title_search">Ara</string>
     <string name="filter">Filtre</string>
     <string name="filter_close">Filtreyi Kapat</string>
-    <string name="refresh">Yenile</string>
 
     <string-array name="order_status">
         <item>Eksik</item>

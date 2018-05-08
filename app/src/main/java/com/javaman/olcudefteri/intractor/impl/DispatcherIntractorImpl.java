@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.javaman.olcudefteri.api.ApiClient;
 import com.javaman.olcudefteri.intractor.DispatcherIntractor;
 import com.javaman.olcudefteri.model.ApiError;
-import com.javaman.olcudefteri.model.CountModel;
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 import com.javaman.olcudefteri.service.DispatcherService;
 
 import java.io.IOException;
@@ -20,17 +20,17 @@ public class DispatcherIntractorImpl implements DispatcherIntractor {
     private DispatcherService dispatcherService;
 
     @Override
-    public void getNotificationCountFromServer(String headerData, final onNotificationProcessListener listener) {
+    public void getAppUtilInfo(String headerData, final onNotificationProcessListener listener) {
         dispatcherService = ApiClient.getClient().create(DispatcherService.class);
-        Call<CountModel> notificationCountCall = dispatcherService.getNotificationCount(headerData);
-        notificationCountCall.enqueue(new Callback<CountModel>() {
+        Call<AppUtilInfoModel> appUtilInfoModelCall = dispatcherService.getAppUtilInfo(headerData);
+        appUtilInfoModelCall.enqueue(new Callback<AppUtilInfoModel>() {
             @Override
-            public void onResponse(Call<CountModel> call, Response<CountModel> response) {
+            public void onResponse(Call<AppUtilInfoModel> call, Response<AppUtilInfoModel> response) {
                 //request servera ulaştı ve herhangi bir response döndü
                 if (response.isSuccessful()) {
                     //response [200 ,300) aralığında ise
-                    CountModel countModel=response.body();
-                    listener.onSuccess(countModel);
+                    AppUtilInfoModel appUtilInfoModel=response.body();
+                    listener.onSuccess(appUtilInfoModel);
                 } else if(response.code() == 401){
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
                     listener.onFailure(message);
@@ -43,7 +43,7 @@ public class DispatcherIntractorImpl implements DispatcherIntractor {
                     Gson gson = new GsonBuilder().create();
                     try {
                         String errorBody = response.errorBody().string();
-                        CountModel apiError = gson.fromJson(errorBody, CountModel.class);
+                        AppUtilInfoModel apiError = gson.fromJson(errorBody, AppUtilInfoModel.class);
                         listener.onFailure(apiError.getBaseModel().getResponseMessage());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -53,7 +53,7 @@ public class DispatcherIntractorImpl implements DispatcherIntractor {
             }
 
             @Override
-            public void onFailure(Call<CountModel> call, Throwable t) {
+            public void onFailure(Call<AppUtilInfoModel> call, Throwable t) {
 
                 //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
 

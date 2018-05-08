@@ -10,13 +10,9 @@
    <color name="hintColor">#424242</color>-->
 
  <color name="colorPrimary">#ffb300</color>
- <color name="colorPrimaryLight">#ffe54c</color>
- <color name="colorPrimaryDark">#c68400</color>
+    <color name="colorPrimaryDark">#c68400</color>
  <color name="colorAccent">#039be5</color>
- <color name="colorAccentLight">#63ccff</color>
- <color name="colorAccentDark">#006db3</color>
- <color name="colorPrimaryText">#0091ea</color>
- <color name="colorAccentText">#ffffff</color>
+    <color name="colorAccentText">#ffffff</color>
  <color name="colorButtonNormal">#039be5</color>
  <color name="colorControlHighlight">#ffe54c</color>
  <color name="colorControlActivated">#ffe54c</color>
@@ -29,11 +25,7 @@
  <color name="deeppurple">#7c4dff</color>
  <color name="yello">#ffb300</color>
  <color name="cyan">#00bfa5</color>
- <color name="darkblue">#23283a</color>
- <color name="testcolorblue">#152b38</color>
- <color name="pink">#fe104d</color>
+    <color name="pink">#fe104d</color>
  <color name="lightgreen">#8BC34A</color>
-
- <color name="black_overlay">#66000000</color>
 
 </resources>

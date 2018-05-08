@@ -2,7 +2,7 @@ package com.javaman.olcudefteri.presenter.impl;
 
 import com.javaman.olcudefteri.intractor.DispatcherIntractor;
 import com.javaman.olcudefteri.intractor.impl.DispatcherIntractorImpl;
-import com.javaman.olcudefteri.model.CountModel;
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 import com.javaman.olcudefteri.presenter.DispatcherPresenter;
 import com.javaman.olcudefteri.view.DispatcherView;
 
@@ -18,16 +18,16 @@ public class DispatcherPresenterImpl implements DispatcherPresenter,DispatcherIn
     }
 
     @Override
-    public void getNotificationCount(String headerData) {
+    public void getAppUtilInfo(String headerData) {
         if(mDispatcherView!=null){
-            mDispatcherIntractor.getNotificationCountFromServer(headerData,this);
+            mDispatcherIntractor.getAppUtilInfo(headerData,this);
         }
     }
 
     @Override
-    public void onSuccess(CountModel countModel) {
+    public void onSuccess(AppUtilInfoModel appUtilInfoModel) {
         if(mDispatcherView!=null){
-            mDispatcherView.saveNotfCountToPref(countModel.getCount());
+            mDispatcherView.saveAppUtilInfoToPref(appUtilInfoModel);
             mDispatcherView.redirect();
         }
     }
