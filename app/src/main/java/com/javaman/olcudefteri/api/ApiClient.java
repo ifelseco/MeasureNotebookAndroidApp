@@ -29,23 +29,7 @@ public class ApiClient {
     private static Retrofit retrofit = null;
 
 
-    OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .addInterceptor(new Interceptor() {
-                @Override
-                public okhttp3.Response intercept(Chain chain) throws IOException {
-                    Request request = chain.request();
-                    okhttp3.Response response = chain.proceed(request);
 
-                    // todo deal with the issues the way you need to
-                    if (response.code() == 500) {
-                        
-                        return response;
-                    }
-
-                    return response;
-                }
-            })
-            .build();
 
     public static Retrofit getClient() {
 
@@ -58,9 +42,9 @@ public class ApiClient {
                 .addInterceptor(interceptor)
                 .build();
 
-       GsonBuilder builder = new GsonBuilder();
+        GsonBuilder builder = new GsonBuilder();
 
-       builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
+        builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
             public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                 return new Date(json.getAsJsonPrimitive().getAsLong());
             }

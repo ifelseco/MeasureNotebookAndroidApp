@@ -89,6 +89,7 @@
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/til_left_width"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -104,6 +105,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
+                        android:id="@+id/til_right_width"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
@@ -124,7 +126,7 @@
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:layout_margin="10dp"
-                   android:padding="10dp"
+                   android:padding="5dp"
                    android:orientation="vertical"
                    android:background="@drawable/edittext_border_bg_lightgreen">
 
@@ -142,6 +144,7 @@
                            android:layout_weight="1"
                            android:text="Pile Sıklığı:" />
                    </LinearLayout>
+
                    <LinearLayout
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
@@ -153,7 +156,7 @@
                            android:id="@+id/radiGroupPile"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:layout_weight="2"
+                           android:layout_margin="5dp"
                            android:orientation="horizontal">
 
                            <RadioButton
@@ -179,12 +182,12 @@
                        <android.support.design.widget.TextInputLayout
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
-                           android:gravity="center"
-                           android:layout_weight="1">
+                           android:layout_margin="5dp"
+                           android:gravity="center">
 
                            <EditText
                                android:id="@+id/editTextOtherPile"
-                               android:layout_width="120dp"
+                               android:layout_width="wrap_content"
                                android:layout_height="wrap_content"
                                android:ems="10"
                                android:hint="Diğer"
@@ -368,26 +371,6 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_margin="10dp"
-                    android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen">
-
-                    <TextView
-                        android:id="@+id/textViewDoubleNetWindowWidth"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Cam En:"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"/>
-
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

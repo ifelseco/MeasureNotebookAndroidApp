@@ -3,6 +3,8 @@ package com.javaman.olcudefteri.utill;
 import android.util.Base64;
 
 import java.io.UnsupportedEncodingException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 
 /**
  * Created by javaman on 08.02.2018.
@@ -10,7 +12,8 @@ import java.io.UnsupportedEncodingException;
 
 public class ApiUtils {
 
-    public static final String BASE_URL="https://measure-notebook-api.herokuapp.com/";
+   //public static final String BASE_URL="https://measure-notebook-api.herokuapp.com/";
+   public static final String BASE_URL="https://api.olcudefteri.com:8181";
 
     public static String getAuthToken(String username , String password) {
         byte[] data = new byte[0];
@@ -21,5 +24,6 @@ public class ApiUtils {
         }
         return "Basic " + Base64.encodeToString(data, Base64.NO_WRAP);
     }
+
 
 }

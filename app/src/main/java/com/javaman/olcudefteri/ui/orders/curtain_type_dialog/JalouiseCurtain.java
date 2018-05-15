@@ -56,7 +56,6 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
     @BindView(R.id.textViewJalousieM2) TextView tvTotalM2;
     @BindView(R.id.textViewJalousieTotalPrice) TextView tvTotalPrice;
     @BindView(R.id.radio_group_direction) RadioGroup radioGroupDirection;
-    @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
     @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
 
     private AddOrderLinePresenter mAddOrderLinePresenter;

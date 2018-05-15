@@ -12,7 +12,7 @@ import android.util.Log;
 
 public class TakeMeasureApp extends Application {
     private static final String TAG = TakeMeasureApp.class.getSimpleName();
-
+    private static Context mContext;
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
@@ -20,7 +20,12 @@ public class TakeMeasureApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext=this;
         Log.i(TAG, "onCreate()");
+    }
+
+    public static Context getContext(){
+        return mContext;
     }
 
     @Override

@@ -289,6 +289,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -296,7 +297,6 @@
                             android:id="@+id/radiGroupPile"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
                             android:layout_margin="5dp"
                             android:orientation="horizontal">
 
@@ -304,23 +304,17 @@
                                 android:id="@+id/radioButton2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:textSize="15sp"
                                 android:text="2" />
 
                             <RadioButton
                                 android:id="@+id/radioButton2_5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:textSize="15sp"
                                 android:text="2.5" />
 
                             <RadioButton
                                 android:id="@+id/radioButton3"
                                 android:layout_width="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:textSize="15sp"
                                 android:layout_height="wrap_content"
                                 android:text="3" />
 
@@ -328,13 +322,13 @@
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content">
+                            android:gravity="center">
 
                             <EditText
                                 android:id="@+id/editTextOtherPile"
-                                android:layout_width="120dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
                                 android:hint="Diğer"

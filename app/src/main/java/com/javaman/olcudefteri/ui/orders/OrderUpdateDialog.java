@@ -222,10 +222,15 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
             OrderUpdateModel orderUpdateModel = null;
             try {
                 orderUpdateModel = initOrderUpdateModel();
+                if(orderUpdateModel.getDepositeAmount()>orderUpdateModel.getTotalAmount()){
+                    editTextDepositAmount.setError("Kapora toplam fiyattan fazla olamaz.");
+                }else{
+                    showConfirmDialog(orderUpdateModel);
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            showConfirmDialog(orderUpdateModel);
+
         } else if (id == R.id.btn_cancel) {
             dismiss();
         } else if (id == R.id.et_select_delivery_date) {

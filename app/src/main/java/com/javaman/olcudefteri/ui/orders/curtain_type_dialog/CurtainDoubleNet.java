@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +37,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 /**
  * Created by javaman on 18.12.2017.
  * Tül kruvaze dialog
  */
 
-public class CurtainDoubleNet extends DialogFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, View.OnFocusChangeListener ,CalculateView{
+public class CurtainDoubleNet extends DialogFragment implements View.OnClickListener,
+        RadioGroup.OnCheckedChangeListener, View.OnFocusChangeListener ,CalculateView{
 
     @BindView(R.id.editTextWidth)
     EditText etWidth;
@@ -81,9 +85,6 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
     @BindView(R.id.textViewDoubleNetTotalPrice)
     TextView tvTotalPrice;
 
-    @BindView(R.id.textViewDoubleNetWindowWidth)
-    TextView tvDoubleNetWindowWidth;
-
     @BindView(R.id.btnSave)
     ImageButton btnSave;
 
@@ -101,6 +102,12 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
 
     @BindView(R.id.progress_bar_save)
     ProgressBar progressBarSave;
+
+    @BindView(R.id.til_left_width)
+    TextInputLayout tilLeftWidth;
+
+    @BindView(R.id.til_right_width)
+    TextInputLayout tilRightWidth;
 
     public static final int ARG_PRODUCT_VALUE = 6;
     SharedPreferenceHelper sharedPreferenceHelper;
@@ -223,12 +230,16 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
                 orderLineDetailModel.setLineDescription(desc);
             }
 
+            double totalWidth=orderLineDetailModel.getPropertyLeftWidth()+orderLineDetailModel.getPropertyRightWidth();
+            if(totalWidth>orderLineDetailModel.getPropertyWidth()){
+                tilLeftWidth.setError("Hata");
+                tilRightWidth.setError("Hata");
+                Toast.makeText(getActivity(), "Sağ ve sol en toplamı pencere enini geçmemeli!", Toast.LENGTH_SHORT).show();
+            }else{
+                EventBus.getDefault().post(orderLineDetailModel);
+                dismiss();
+            }
 
-            EventBus.getDefault().post(orderLineDetailModel);
-
-
-
-            dismiss();
         } else if (view.getId() == R.id.btnCancel) {
             dismiss();
         } else {
@@ -274,6 +285,14 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
 
 
 
+        }
+    }
+
+    @OnTextChanged({R.id.editTextRightWidth,R.id.editTextLeftWidth})
+    protected void onTextChanged(CharSequence text) {
+        if(text.length()>0){
+            tilLeftWidth.setError(null);
+            tilRightWidth.setError(null);
         }
     }
 
@@ -341,7 +360,8 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
        double totalPrice=calculationResponse.getTotalAmount();
 
         tvTotalMeter.setText(String.format("%.2f", totalM)+" m");
-        tvTotalPrice.setText(String.format("%.2f", totalPrice+" TL"));
+        tvTotalPrice.setText(String.format("%.2f", totalPrice)+" TL");
+
 
     }
 

@@ -113,9 +113,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:padding="5dp"
                     android:orientation="vertical">
+
 
                 </TableLayout>
 
@@ -317,7 +317,7 @@
                             android:id="@+id/editTextStorDesc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Stor açıklama"
+                            android:hint="Açıklama"
                             android:inputType="textMultiLine"
                             android:maxLines="5"
                             android:minLines="2"

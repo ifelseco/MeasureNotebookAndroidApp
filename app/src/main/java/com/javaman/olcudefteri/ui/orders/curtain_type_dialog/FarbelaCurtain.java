@@ -73,7 +73,6 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
         View view=inflater.inflate(R.layout.farbela_curtain,null);
         ButterKnife.bind(this,view);
         initView();
-
         return view;
     }
 
