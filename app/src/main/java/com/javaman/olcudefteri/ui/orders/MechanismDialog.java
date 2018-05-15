@@ -48,6 +48,9 @@ public class MechanismDialog extends DialogFragment implements RadioGroup.OnChec
     @BindView(R.id.btn_save)
     Button btnSave;
 
+    @BindView(R.id.btn_cancel)
+    Button btnCancel;
+
     @BindView(R.id.linear_layout_pices_count)
     LinearLayout linearLayoutPiecesCount;
 
@@ -122,10 +125,11 @@ public class MechanismDialog extends DialogFragment implements RadioGroup.OnChec
     }
 
     @Override
-    @OnClick(R.id.btn_save)
+    @OnClick({R.id.btn_save,R.id.btn_cancel})
     public void onClick(View v) {
+        MechanismEvent mechanismEvent=new MechanismEvent();
         if(v.getId()==R.id.btn_save){
-            MechanismEvent mechanismEvent=new MechanismEvent();
+
             if(mechanisStatus!=1){
                 if(!TextUtils.isEmpty(etParcaCount.getText().toString())){
                     int piecesCount=Integer.parseInt(etParcaCount.getText().toString());
@@ -143,6 +147,10 @@ public class MechanismDialog extends DialogFragment implements RadioGroup.OnChec
                 dismiss();
             }
 
+        }else if(v.getId()==R.id.btn_cancel){
+            mechanismEvent.setMechanismStatus(-1);
+            EventBus.getDefault().post(mechanismEvent);
+            dismiss();
         }
     }
 }

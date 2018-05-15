@@ -148,9 +148,13 @@ public class ZebraCurtain extends DialogFragment implements View.OnClickListener
 
     @Subscribe
     public void getDialogData(MechanismEvent mechanismEvent) {
-        parcaCount=mechanismEvent.getPiecesCount();
-        mechanisStatus=mechanismEvent.getMechanismStatus();
-        setView();
+        if(mechanismEvent.getMechanismStatus()==-1){
+            dismiss();
+        }else{
+            parcaCount=mechanismEvent.getPiecesCount();
+            mechanisStatus=mechanismEvent.getMechanismStatus();
+            setView();
+        }
     }
 
     private void setView() {
