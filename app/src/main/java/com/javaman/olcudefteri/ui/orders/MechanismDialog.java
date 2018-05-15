@@ -1,0 +1,148 @@
+package com.javaman.olcudefteri.ui.orders;
+
+import android.app.Dialog;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TableLayout;
+
+import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.event.MechanismEvent;
+import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+
+import org.greenrobot.eventbus.EventBus;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class MechanismDialog extends DialogFragment implements RadioGroup.OnCheckedChangeListener,View.OnClickListener {
+
+
+    int parcaCount, mechanisStatus;
+
+    @BindView(R.id.radioGroupType)
+    RadioGroup radioGroupType;
+
+    @BindView(R.id.radioButtonParcali)
+    RadioButton radioButtonParcali;
+
+    @BindView(R.id.radioButtonCokluMekanizma)
+    RadioButton radioButtonCokluMekanizma;
+
+    @BindView(R.id.editTextParcaCount)
+    EditText etParcaCount;
+
+    @BindView(R.id.btn_save)
+    Button btnSave;
+
+    @BindView(R.id.linear_layout_pices_count)
+    LinearLayout linearLayoutPiecesCount;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            dialog.getWindow().setLayout(width, height);
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.mechanism_dialog_layout, null);
+        ButterKnife.bind(this, view);
+        initView();
+        setCancelable(false);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+            getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
+
+        return view;
+    }
+
+    private void initView() {
+        btnSave.setVisibility(View.GONE);
+        linearLayoutPiecesCount.setVisibility(View.GONE);
+        radioGroupType.clearCheck();
+        radioGroupType.setOnCheckedChangeListener(this);
+
+    }
+
+
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        RadioButton selectedRadioButton = radioGroup.findViewById(i);
+
+        int id = selectedRadioButton.getId();
+
+        if (id == R.id.radioButtonCokluMekanizma) {
+            btnSave.setVisibility(View.VISIBLE);
+            mechanisStatus=3;
+            linearLayoutPiecesCount.setVisibility(View.VISIBLE);
+            etParcaCount.setVisibility(View.VISIBLE);
+
+
+        }else if(id == R.id.radioButtonParcali){
+            btnSave.setVisibility(View.VISIBLE);
+            mechanisStatus=2;
+            linearLayoutPiecesCount.setVisibility(View.VISIBLE);
+            etParcaCount.setVisibility(View.VISIBLE);
+
+        }
+        else if(id==R.id.radioButtonTekKasa){
+            btnSave.setVisibility(View.VISIBLE);
+            parcaCount=0;
+            mechanisStatus=1;
+            etParcaCount.setText("");
+            etParcaCount.setVisibility(View.GONE);
+            linearLayoutPiecesCount.setVisibility(View.GONE);
+
+        }else{
+            btnSave.setVisibility(View.GONE);
+            mechanisStatus=0;
+        }
+    }
+
+    @Override
+    @OnClick(R.id.btn_save)
+    public void onClick(View v) {
+        if(v.getId()==R.id.btn_save){
+            MechanismEvent mechanismEvent=new MechanismEvent();
+            if(mechanisStatus!=1){
+                if(!TextUtils.isEmpty(etParcaCount.getText().toString())){
+                    int piecesCount=Integer.parseInt(etParcaCount.getText().toString());
+                    mechanismEvent.setMechanismStatus(mechanisStatus);
+                    mechanismEvent.setPiecesCount(piecesCount);
+                    EventBus.getDefault().post(mechanismEvent);
+                    dismiss();
+                }else{
+                    etParcaCount.setError("Parça sayısı giriniz!");
+                }
+            }else{
+                mechanismEvent.setMechanismStatus(mechanisStatus);
+                mechanismEvent.setPiecesCount(0);
+                EventBus.getDefault().post(mechanismEvent);
+                dismiss();
+            }
+
+        }
+    }
+}

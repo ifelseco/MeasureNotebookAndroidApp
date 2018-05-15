@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.ui.orders.curtain_type_dialog;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,16 +25,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.event.MechanismEvent;
 import com.javaman.olcudefteri.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.model.ProductDetailModel;
 import com.javaman.olcudefteri.model.CalculationResponse;
 import com.javaman.olcudefteri.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.ui.orders.MechanismDialog;
 import com.javaman.olcudefteri.view.CalculateView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,77 +51,63 @@ import butterknife.OnClick;
  * Stor perde dialog
  */
 
-public class ZebraCurtain extends DialogFragment implements RadioGroup.OnCheckedChangeListener, View.OnClickListener,CalculateView {
+public class ZebraCurtain extends DialogFragment implements View.OnClickListener, CalculateView {
 
 
+
+    String pattern, variant, alias, desc, beadNo, skirtNo;
     int parcaCount,mechanisStatus;
-    String pattern ,variant ,alias ,desc,beadNo,skirtNo;
-    @BindView(R.id.radioGroupType) RadioGroup radioGroupType;
-    @BindView(R.id.radioGroupZincir) RadioGroup radioGroupDirection;
-    @BindView(R.id.radioButtonParcali) RadioButton radioButtonParcali;
-    @BindView(R.id.radioButtonCokluMekanizma) RadioButton radioButtonCokluMekanizma;
-    @BindView(R.id.tableMeasureParcali) TableLayout tableLayoutParcali;
-    @BindView(R.id.editTextParcaCount) EditText etParcaCount;
-    @BindView(R.id.editTextStorUnitPrice) EditText etUnitPrice;
-    @BindView(R.id.editTextWidth) EditText etWidth;
-    @BindView(R.id.editTextHeight) EditText etHeight;
-    @BindView(R.id.btnCancel) ImageButton btnCancel;
-    @BindView(R.id.btnSave) ImageButton btnSave;
-    @BindView(R.id.btnCalculate) ImageButton btnCalculate;
-    @BindView(R.id.textViewStorM2) TextView tvStorM2;
-    @BindView(R.id.textViewProductValue) TextView tvProductValue;
-    @BindView(R.id.textViewStorTotalPrice) TextView tvTotalPrice;
-    @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
-    @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
-    @BindView(R.id.linear_layout_normal) LinearLayout linearLayoutNormalWidthHeight;
-    @BindView(R.id.linear_layout_normal_direction) LinearLayout linearLayoutNormalDirection;
-    @BindView(R.id.linear_layout_pices_count) LinearLayout linearLayoutPiecesCount;
-    @BindView(R.id.editTextVariant) EditText etVariant;
-    @BindView(R.id.editTextPattern) EditText etPattern;
-    @BindView(R.id.editTextAlias) EditText etAlias;
-    @BindView(R.id.editTextStorDesc) EditText etDesc;
-    @BindView(R.id.editTextBoncuk) EditText etBead;
-    @BindView(R.id.editTextEtekDilimiNo) EditText etSkirt;
 
+
+    @BindView(R.id.radioGroupZincir)
+    RadioGroup radioGroupDirection;
+
+    @BindView(R.id.editTextStorUnitPrice)
+    EditText etUnitPrice;
+    @BindView(R.id.editTextWidth)
+    EditText etWidth;
+    @BindView(R.id.editTextHeight)
+    EditText etHeight;
+    @BindView(R.id.btnCancel)
+    ImageButton btnCancel;
+    @BindView(R.id.btnSave)
+    ImageButton btnSave;
+    @BindView(R.id.btnCalculate)
+    ImageButton btnCalculate;
+    @BindView(R.id.textViewStorM2)
+    TextView tvStorM2;
+    @BindView(R.id.textViewStorTotalPrice)
+    TextView tvTotalPrice;
+    @BindView(R.id.textViewProductValue)
+    TextView tvProductValue;
+    @BindView(R.id.progress_bar_calc)
+    ProgressBar progressBarCalc;
+    @BindView(R.id.progress_bar_save)
+    ProgressBar progressBarSave;
+    @BindView(R.id.linear_layout_normal)
+    LinearLayout linearLayoutNormalWidthHeight;
+    @BindView(R.id.linear_layout_normal_direction)
+    LinearLayout linearLayoutNormalDirection;
+
+    @BindView(R.id.editTextVariant)
+    EditText etVariant;
+    @BindView(R.id.editTextPattern)
+    EditText etPattern;
+    @BindView(R.id.editTextAlias)
+    EditText etAlias;
+    @BindView(R.id.editTextStorDesc)
+    EditText etDesc;
+    @BindView(R.id.editTextBoncuk)
+    EditText etBead;
+    @BindView(R.id.editTextEtekDilimiNo)
+    EditText etSkirt;
+
+    @BindView(R.id.tableMeasureParcali)
+    TableLayout tableLayoutParcali;
 
     public static final int ARG_PRODUCT_VALUE = 3;
     private AddOrderLinePresenter mAddOrderLinePresenter;
-    private TextWatcher textWatcherParcaCount = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            tableLayoutParcali.removeAllViews();
-        }
 
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            if (charSequence.length() != 0) {
-                tableLayoutParcali.setVisibility(View.VISIBLE);
-                parcaCount = Integer.parseInt(etParcaCount.getText().toString());
-
-                if (parcaCount <= 10) {
-                    for (int j = 0; j < parcaCount; j++) {
-                        View row = getLayoutInflater().inflate(R.layout.parcali_stor_row, null, false);
-                        TextView textView = row.findViewById(R.id.labelParca);
-                        textView.setText("Parça " + (j + 1));
-
-                        tableLayoutParcali.addView(row);
-                    }
-                } else {
-
-                    Toast.makeText(getActivity(), "En fazla 10 parça olabilir.", Toast.LENGTH_SHORT).show();
-                }
-
-
-            } else {
-                tableLayoutParcali.removeAllViews();
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    };
     SharedPreferenceHelper sharedPreferenceHelper;
 
 
@@ -137,70 +127,66 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.roller_curtain, null);
-        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
-        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
-        ButterKnife.bind(this,view);
-        intiView();
+        sharedPreferenceHelper = new SharedPreferenceHelper(getActivity().getApplicationContext());
+        mAddOrderLinePresenter = new AddOrderLinePresenterImpl(this);
+        ButterKnife.bind(this, view);
+        initView();
         return view;
     }
 
-    private void intiView() {
-        tvProductValue.setText("Zebra");
-        radioGroupType.clearCheck();
-        radioGroupType.setOnCheckedChangeListener(this);
-        etParcaCount.addTextChangedListener(textWatcherParcaCount);
-        tableLayoutParcali.setVisibility(View.GONE);
-        etParcaCount.setVisibility(View.GONE);
-        linearLayoutNormalWidthHeight.setVisibility(View.GONE);
-        linearLayoutNormalDirection.setVisibility(View.GONE);
-        linearLayoutPiecesCount.setVisibility(View.GONE);
-
+    private void initView() {
         setCancelable(false);
 
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
+        tvProductValue.setText("Zebra");
+        linearLayoutNormalWidthHeight.setVisibility(View.GONE);
+        linearLayoutNormalDirection.setVisibility(View.GONE);
+        showDialog(new MechanismDialog(),"mechanism-dialog");
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        RadioButton selectedRadioButton = radioGroup.findViewById(i);
+    @Subscribe
+    public void getDialogData(MechanismEvent mechanismEvent) {
+        parcaCount=mechanismEvent.getPiecesCount();
+        mechanisStatus=mechanismEvent.getMechanismStatus();
+        setView();
+    }
 
-        int id = selectedRadioButton.getId();
+    private void setView() {
 
-        if (id == R.id.radioButtonCokluMekanizma) {
-            mechanisStatus=3;
-            linearLayoutPiecesCount.setVisibility(View.VISIBLE);
-            etParcaCount.setVisibility(View.VISIBLE);
+        if (mechanisStatus == 3) {
             linearLayoutNormalWidthHeight.setVisibility(View.GONE);
             linearLayoutNormalDirection.setVisibility(View.GONE);
+            createTableView(parcaCount);
 
-        }else if(id == R.id.radioButtonParcali){
-            mechanisStatus=2;
-            linearLayoutPiecesCount.setVisibility(View.VISIBLE);
-            etParcaCount.setVisibility(View.VISIBLE);
+        }else if(mechanisStatus == 2){
             linearLayoutNormalWidthHeight.setVisibility(View.GONE);
             linearLayoutNormalDirection.setVisibility(View.GONE);
+            createTableView(parcaCount);
         }
-        else if(id==R.id.radioButtonTekKasa){
-            parcaCount=0;
-            mechanisStatus=1;
-            etParcaCount.setText("");
+        else if(mechanisStatus==1){
             tableLayoutParcali.removeAllViews();
             tableLayoutParcali.setVisibility(View.GONE);
-            etParcaCount.setVisibility(View.GONE);
-            linearLayoutPiecesCount.setVisibility(View.GONE);
             linearLayoutNormalWidthHeight.setVisibility(View.VISIBLE);
             linearLayoutNormalDirection.setVisibility(View.VISIBLE);
 
-        }else{
-            mechanisStatus=0;
+        }
+    }
+
+    private void createTableView(int parcaCount) {
+        for (int j = 0; j < parcaCount; j++) {
+            View row = getLayoutInflater().inflate(R.layout.parcali_stor_row, null, false);
+            TextView textView = row.findViewById(R.id.labelParca);
+            textView.setText("Parça " + (j + 1));
+
+            tableLayoutParcali.addView(row);
         }
     }
 
 
     @Override
-    @OnClick({R.id.btnCancel,R.id.btnSave,R.id.btnCalculate})
+    @OnClick({R.id.btnCancel, R.id.btnSave, R.id.btnCalculate})
     public void onClick(View view) {
 
         if (view.getId() == R.id.btnSave) {
@@ -241,28 +227,27 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
             }
 
 
-
             if (parcaCount > 0) {
 
                 for (int count = 0; count < parcaCount; count++) {
                     TableRow row = (TableRow) tableLayoutParcali.getChildAt(count);
-                    EditText etWidthP=row.findViewById(R.id.editTextWidthP);
-                    EditText etHeightP=row.findViewById(R.id.editTextHeightP);
-                    RadioGroup radioGroupDirectionP=row.findViewById(R.id.radioGroupDirectionP);
+                    EditText etWidthP = row.findViewById(R.id.editTextWidthP);
+                    EditText etHeightP = row.findViewById(R.id.editTextHeightP);
+                    RadioGroup radioGroupDirectionP = row.findViewById(R.id.radioGroupDirectionP);
                     OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
                     orderLineDetailModel.setProduct(productDetailModel);
 
-                    if (!TextUtils.isEmpty(etWidthP.getText().toString())){
-                        double width=Double.parseDouble(etWidthP.getText().toString());
+                    if (!TextUtils.isEmpty(etWidthP.getText().toString())) {
+                        double width = Double.parseDouble(etWidthP.getText().toString());
                         orderLineDetailModel.setPropertyWidth(width);
                     }
 
-                    if(!TextUtils.isEmpty(etHeightP.getText().toString())){
-                        double height=Double.parseDouble(etWidthP.getText().toString());
+                    if (!TextUtils.isEmpty(etHeightP.getText().toString())) {
+                        double height = Double.parseDouble(etWidthP.getText().toString());
                         orderLineDetailModel.setPropertyHeight(height);
                     }
 
-                    if(!TextUtils.isEmpty(etUnitPrice.getText().toString())){
+                    if (!TextUtils.isEmpty(etUnitPrice.getText().toString())) {
                         double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
                         orderLineDetailModel.setUnitPrice(unitPrice);
                     }
@@ -270,19 +255,18 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
                     if (radioGroupDirectionP.getCheckedRadioButtonId() != -1) {
                         int checkedId = radioGroupDirectionP.getCheckedRadioButtonId();
                         if (checkedId == R.id.radioButtonStorLeftP) {
-                            int direction=1;
+                            int direction = 1;
                             orderLineDetailModel.setDirection(direction);
                         } else if (checkedId == R.id.radioButtonStorRightP) {
-                            int direction=2;
+                            int direction = 2;
                             orderLineDetailModel.setDirection(direction);
 
                         } else {
-                            int direction=2;
+                            int direction = 2;
                             orderLineDetailModel.setDirection(direction);
 
                         }
                     }
-
 
 
                     productDetailModel.setPatternCode(pattern);
@@ -308,17 +292,17 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
                 OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
                 orderLineDetailModel.setProduct(productDetailModel);
 
-                if (!TextUtils.isEmpty(etWidth.getText().toString())){
-                    double width=Double.parseDouble(etWidth.getText().toString());
+                if (!TextUtils.isEmpty(etWidth.getText().toString())) {
+                    double width = Double.parseDouble(etWidth.getText().toString());
                     orderLineDetailModel.setPropertyWidth(width);
                 }
 
-                if(!TextUtils.isEmpty(etHeight.getText().toString())){
-                    double height=Double.parseDouble(etHeight.getText().toString());
+                if (!TextUtils.isEmpty(etHeight.getText().toString())) {
+                    double height = Double.parseDouble(etHeight.getText().toString());
                     orderLineDetailModel.setPropertyHeight(height);
                 }
 
-                if(!TextUtils.isEmpty(etUnitPrice.getText().toString())){
+                if (!TextUtils.isEmpty(etUnitPrice.getText().toString())) {
                     double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
                     orderLineDetailModel.setUnitPrice(unitPrice);
                 }
@@ -326,14 +310,14 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
                 if (radioGroupDirection.getCheckedRadioButtonId() != -1) {
                     int checkedId = radioGroupDirection.getCheckedRadioButtonId();
                     if (checkedId == R.id.radioButtonStorLeft) {
-                        int direction=1;
+                        int direction = 1;
                         orderLineDetailModel.setDirection(direction);
                     } else if (checkedId == R.id.radioButtonStorRight) {
-                        int direction=2;
+                        int direction = 2;
                         orderLineDetailModel.setDirection(direction);
 
                     } else {
-                        int direction=2;
+                        int direction = 2;
                         orderLineDetailModel.setDirection(direction);
 
                     }
@@ -354,11 +338,6 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
             }
 
 
-
-
-
-
-
             dismiss();
         } else if (view.getId() == R.id.btnCancel) {
             dismiss();
@@ -372,24 +351,24 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
             if (parcaCount > 0) {
 
 
-                if(TextUtils.isEmpty(etUnitPrice.getText().toString())){
+                if (TextUtils.isEmpty(etUnitPrice.getText().toString())) {
                     etUnitPrice.setError("Birim fiyat giriniz!");
-                }else{
+                } else {
                     for (int count = 0; count < parcaCount; count++) {
                         TableRow row = (TableRow) tableLayoutParcali.getChildAt(count);
-                        EditText etWidthP=row.findViewById(R.id.editTextWidthP);
-                        EditText etHeightP=row.findViewById(R.id.editTextHeightP);
-                        RadioGroup radioGroupDirectionP=row.findViewById(R.id.radioGroupDirectionP);
+                        EditText etWidthP = row.findViewById(R.id.editTextWidthP);
+                        EditText etHeightP = row.findViewById(R.id.editTextHeightP);
+                        RadioGroup radioGroupDirectionP = row.findViewById(R.id.radioGroupDirectionP);
 
-                        if (TextUtils.isEmpty(etWidthP.getText().toString())){
+                        if (TextUtils.isEmpty(etWidthP.getText().toString())) {
                             etWidthP.setError("Parça en giriniz!");
-                        }else if(TextUtils.isEmpty(etHeightP.getText().toString())){
+                        } else if (TextUtils.isEmpty(etHeightP.getText().toString())) {
                             etHeightP.setError("Parça boy giriniz!");
-                        }else {
+                        } else {
                             OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
                             orderLineDetailModel.setProduct(productDetailModel);
-                            double width=Double.parseDouble(etWidthP.getText().toString());
-                            double height=Double.parseDouble(etWidthP.getText().toString());
+                            double width = Double.parseDouble(etWidthP.getText().toString());
+                            double height = Double.parseDouble(etWidthP.getText().toString());
                             double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
                             orderLineDetailModel.setPropertyWidth(width);
                             orderLineDetailModel.setPropertyHeight(height);
@@ -398,10 +377,10 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
                         }
                     }
 
-                    if(parcaCount==orderLines.size()){
+                    if (parcaCount == orderLines.size()) {
                         addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
                         calculateOrderLine(addOrderLineDetailListModel);
-                    }else{
+                    } else {
                         Toast.makeText(getActivity(), "Parçalardan biri eksik bilgi içeriyor", Toast.LENGTH_SHORT).show();
                     }
 
@@ -411,17 +390,18 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
 
             } else {
 
-                if (TextUtils.isEmpty(etWidth.getText().toString())){
+                if (TextUtils.isEmpty(etWidth.getText().toString())) {
                     etWidth.setError("Parça en giriniz!");
-                }else if(TextUtils.isEmpty(etHeight.getText().toString())){
+                } else if (TextUtils.isEmpty(etHeight.getText().toString())) {
                     etHeight.setError("Parça boy giriniz!");
-                }if(TextUtils.isEmpty(etUnitPrice.getText().toString())){
+                }
+                if (TextUtils.isEmpty(etUnitPrice.getText().toString())) {
                     etUnitPrice.setError("Birim fiyat giriniz!");
-                }else{
+                } else {
                     OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
                     orderLineDetailModel.setProduct(productDetailModel);
-                    double width=Double.parseDouble(etWidth.getText().toString());
-                    double height=Double.parseDouble(etHeight.getText().toString());
+                    double width = Double.parseDouble(etWidth.getText().toString());
+                    double height = Double.parseDouble(etHeight.getText().toString());
                     double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
                     orderLineDetailModel.setPropertyWidth(width);
                     orderLineDetailModel.setPropertyHeight(height);
@@ -437,12 +417,14 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
         }
     }
 
-
+    public void showDialog(DialogFragment dialogFragment , String fragmentTag){
+        dialogFragment.show(getFragmentManager(),fragmentTag);
+    }
 
     @Override
     public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
-        String sessionId=getSessionIdFromPref();
-        mAddOrderLinePresenter.calculateOrderLine(orderLineDetailListModel,sessionId);
+        String sessionId = getSessionIdFromPref();
+        mAddOrderLinePresenter.calculateOrderLine(orderLineDetailListModel, sessionId);
     }
 
     @Override
@@ -462,17 +444,17 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
 
     @Override
     public String getSessionIdFromPref() {
-        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        String xAuthToken = sharedPreferenceHelper.getStringPreference("sessionId", null);
         return xAuthToken;
     }
 
     @Override
     public void updateAmount(CalculationResponse calculationResponse) {
-        double totalM2=calculationResponse.getUsedMaterial();
-        double totalPrice=calculationResponse.getTotalAmount();
+        double totalM2 = calculationResponse.getUsedMaterial();
+        double totalPrice = calculationResponse.getTotalAmount();
 
-        tvStorM2.setText(String.format("%.2f",totalM2)+" m2");
-        tvTotalPrice.setText(String.format("%.2f",totalPrice)+" TL");
+        tvStorM2.setText(String.format("%.2f", totalM2) + " m2");
+        tvTotalPrice.setText(String.format("%.2f", totalPrice) + " TL");
     }
 
     @Override
@@ -481,4 +463,15 @@ public class ZebraCurtain extends DialogFragment implements RadioGroup.OnChecked
         mAddOrderLinePresenter.onDestroyCalculate();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
 }

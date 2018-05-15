@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.ui.orders.curtain_type_dialog;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,16 +25,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.event.MechanismEvent;
 import com.javaman.olcudefteri.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.model.ProductDetailModel;
 import com.javaman.olcudefteri.model.CalculationResponse;
 import com.javaman.olcudefteri.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.ui.orders.MechanismDialog;
 import com.javaman.olcudefteri.view.CalculateView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,23 +51,17 @@ import butterknife.OnClick;
  * Stor perde dialog
  */
 
-public class RollerCurtain extends DialogFragment implements RadioGroup.OnCheckedChangeListener, View.OnClickListener, CalculateView {
+public class RollerCurtain extends DialogFragment implements View.OnClickListener, CalculateView {
 
 
-    int parcaCount, mechanisStatus;
+
     String pattern, variant, alias, desc, beadNo, skirtNo;
-    @BindView(R.id.radioGroupType)
-    RadioGroup radioGroupType;
+    int parcaCount,mechanisStatus;
+
+
     @BindView(R.id.radioGroupZincir)
     RadioGroup radioGroupDirection;
-    @BindView(R.id.radioButtonParcali)
-    RadioButton radioButtonParcali;
-    @BindView(R.id.radioButtonCokluMekanizma)
-    RadioButton radioButtonCokluMekanizma;
-    @BindView(R.id.tableMeasureParcali)
-    TableLayout tableLayoutParcali;
-    @BindView(R.id.editTextParcaCount)
-    EditText etParcaCount;
+
     @BindView(R.id.editTextStorUnitPrice)
     EditText etUnitPrice;
     @BindView(R.id.editTextWidth)
@@ -90,8 +88,7 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
     LinearLayout linearLayoutNormalWidthHeight;
     @BindView(R.id.linear_layout_normal_direction)
     LinearLayout linearLayoutNormalDirection;
-    @BindView(R.id.linear_layout_pices_count)
-    LinearLayout linearLayoutPiecesCount;
+
     @BindView(R.id.editTextVariant)
     EditText etVariant;
     @BindView(R.id.editTextPattern)
@@ -105,45 +102,12 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
     @BindView(R.id.editTextEtekDilimiNo)
     EditText etSkirt;
 
+    @BindView(R.id.tableMeasureParcali)
+    TableLayout tableLayoutParcali;
 
     public static final int ARG_PRODUCT_VALUE = 2;
     private AddOrderLinePresenter mAddOrderLinePresenter;
-    private TextWatcher textWatcherParcaCount = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            tableLayoutParcali.removeAllViews();
-        }
 
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            if (charSequence.length() != 0) {
-                tableLayoutParcali.setVisibility(View.VISIBLE);
-                parcaCount = Integer.parseInt(etParcaCount.getText().toString());
-
-                if (parcaCount <= 10) {
-                    for (int j = 0; j < parcaCount; j++) {
-                        View row = getLayoutInflater().inflate(R.layout.parcali_stor_row, null, false);
-                        TextView textView = row.findViewById(R.id.labelParca);
-                        textView.setText("Parça " + (j + 1));
-
-                        tableLayoutParcali.addView(row);
-                    }
-                } else {
-
-                    Toast.makeText(getActivity(), "En fazla 10 parça olabilir.", Toast.LENGTH_SHORT).show();
-                }
-
-
-            } else {
-                tableLayoutParcali.removeAllViews();
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-
-        }
-    };
     SharedPreferenceHelper sharedPreferenceHelper;
 
 
@@ -166,60 +130,57 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
         sharedPreferenceHelper = new SharedPreferenceHelper(getActivity().getApplicationContext());
         mAddOrderLinePresenter = new AddOrderLinePresenterImpl(this);
         ButterKnife.bind(this, view);
-        intiView();
+        initView();
         return view;
     }
 
-    private void intiView() {
-        tvProductValue.setText("Stor");
-        radioGroupType.clearCheck();
-        radioGroupType.setOnCheckedChangeListener(this);
-        etParcaCount.addTextChangedListener(textWatcherParcaCount);
-        tableLayoutParcali.setVisibility(View.GONE);
-        etParcaCount.setVisibility(View.GONE);
-        linearLayoutNormalWidthHeight.setVisibility(View.GONE);
-        linearLayoutNormalDirection.setVisibility(View.GONE);
-        linearLayoutPiecesCount.setVisibility(View.GONE);
-
+    private void initView() {
         setCancelable(false);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
+        tvProductValue.setText("Stor");
+        linearLayoutNormalWidthHeight.setVisibility(View.GONE);
+        linearLayoutNormalDirection.setVisibility(View.GONE);
+        showDialog(new MechanismDialog(),"mechanism-dialog");
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        RadioButton selectedRadioButton = radioGroup.findViewById(i);
+    @Subscribe
+    public void getDialogData(MechanismEvent mechanismEvent) {
+        parcaCount=mechanismEvent.getPiecesCount();
+        mechanisStatus=mechanismEvent.getMechanismStatus();
+        setView();
+    }
 
-        int id = selectedRadioButton.getId();
+    private void setView() {
 
-        if (id == R.id.radioButtonCokluMekanizma) {
-            mechanisStatus = 3;
-            linearLayoutPiecesCount.setVisibility(View.VISIBLE);
-            etParcaCount.setVisibility(View.VISIBLE);
+        if (mechanisStatus == 3) {
             linearLayoutNormalWidthHeight.setVisibility(View.GONE);
             linearLayoutNormalDirection.setVisibility(View.GONE);
+            createTableView(parcaCount);
 
-        } else if (id == R.id.radioButtonParcali) {
-            mechanisStatus = 2;
-            linearLayoutPiecesCount.setVisibility(View.VISIBLE);
-            etParcaCount.setVisibility(View.VISIBLE);
+        }else if(mechanisStatus == 2){
             linearLayoutNormalWidthHeight.setVisibility(View.GONE);
             linearLayoutNormalDirection.setVisibility(View.GONE);
-        } else if (id == R.id.radioButtonTekKasa) {
-            parcaCount = 0;
-            mechanisStatus = 1;
-            etParcaCount.setText("");
+            createTableView(parcaCount);
+        }
+        else if(mechanisStatus==1){
             tableLayoutParcali.removeAllViews();
             tableLayoutParcali.setVisibility(View.GONE);
-            etParcaCount.setVisibility(View.GONE);
-            linearLayoutPiecesCount.setVisibility(View.GONE);
             linearLayoutNormalWidthHeight.setVisibility(View.VISIBLE);
             linearLayoutNormalDirection.setVisibility(View.VISIBLE);
 
-        } else {
-            mechanisStatus = 0;
+        }
+    }
+
+    private void createTableView(int parcaCount) {
+        for (int j = 0; j < parcaCount; j++) {
+            View row = getLayoutInflater().inflate(R.layout.parcali_stor_row, null, false);
+            TextView textView = row.findViewById(R.id.labelParca);
+            textView.setText("Parça " + (j + 1));
+
+            tableLayoutParcali.addView(row);
         }
     }
 
@@ -502,4 +463,15 @@ public class RollerCurtain extends DialogFragment implements RadioGroup.OnChecke
         mAddOrderLinePresenter.onDestroyCalculate();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
 }
