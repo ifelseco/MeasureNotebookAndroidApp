@@ -122,7 +122,7 @@ public class TailorOrderAdapter extends RecyclerView.Adapter<TailorOrderAdapter.
                 imageButtonFinish.setVisibility(View.VISIBLE);
             }
 
-            tvOrderNo.setText(String.valueOf(orderDetailModel.getId()));
+            tvOrderNo.setText(orderDetailModel.getOrderNumber());
 
             tvNameSurname.setText(orderDetailModel.getCustomer().getNameSurname());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy");

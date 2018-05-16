@@ -184,7 +184,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         }
 
         public void bind(OrderDetailResponseModel order, int position) {
-            tvOrderNo.setText(String.valueOf(order.getId()));
+            tvOrderNo.setText(order.getOrderNumber());
             Log.i("cust-track",""+order.getCustomer().getId());
             tvNameSurname.setText(order.getCustomer().getNameSurname());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-M-yyyy");

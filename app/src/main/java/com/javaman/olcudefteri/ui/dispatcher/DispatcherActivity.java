@@ -36,7 +36,7 @@ public class DispatcherActivity extends AppCompatActivity implements DispatcherV
         Intent serviceIntent = new Intent(this, MyService.class);
         startService(serviceIntent);
         if(sharedPreferenceHelper.containKey("lastActivity")){
-            getNotificationCountFromServer();
+            getAppUtilInfoFromServer();
         }else{
             redirectActivity();
         }
@@ -64,7 +64,7 @@ public class DispatcherActivity extends AppCompatActivity implements DispatcherV
 
 
     @Override
-    public void getNotificationCountFromServer() {
+    public void getAppUtilInfoFromServer() {
         String headerData=getSessionIdFromPref();
         mDispatcherPresenter.getAppUtilInfo(headerData);
     }

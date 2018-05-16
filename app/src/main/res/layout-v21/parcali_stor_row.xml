@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Parça"
+                android:text="@string/piece_text"
                 android:layout_weight="1"
                 android:textSize="15sp" />
 
@@ -69,7 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="En"
+                        android:hint="@string/width_text"
                         android:inputType="number" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -86,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="Boy"
+                        android:hint="@string/height_text"
                         android:inputType="number" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginLeft="5dp"
-                android:text="Zincir" />
+                android:text="@string/chain_text" />
 
             <RadioGroup
                 android:id="@+id/radioGroupDirectionP"
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Solda"
+                    android:text="@string/direction_left_text"
                     android:textSize="15sp" />
 
                 <RadioButton
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Sağda"
+                    android:text="@string/direction_right_text"
                     android:textSize="15sp" />
 
             </RadioGroup>

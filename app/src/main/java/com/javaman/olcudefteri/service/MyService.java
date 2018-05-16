@@ -46,7 +46,9 @@ public class MyService extends Service {
         Log.i(TAG, "onTaskRemoved()");
         /*sharedPreferenceHelper.removeKey("lastActivity");
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");*/
+        String firebaseRegId=sharedPreferenceHelper.getStringPreference("firebase_reg_id","");
         sharedPreferenceHelper.removeAll();
+        sharedPreferenceHelper.setStringPreference("firebase_reg_id",firebaseRegId);
 
     }
 

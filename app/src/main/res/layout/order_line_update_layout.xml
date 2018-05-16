@@ -97,7 +97,7 @@
                                 android:background="@drawable/edittext_border_bg_lightgreen"
                                 android:ems="10"
                                 android:fontFamily="@font/roboto_regular"
-                                android:hint="Desen"
+                                android:hint="@string/pattern_text"
                                 android:padding="5dp"
                                 android:textSize="15sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -115,7 +115,7 @@
                                 android:background="@drawable/edittext_border_bg_lightgreen"
                                 android:ems="10"
                                 android:fontFamily="@font/roboto_regular"
-                                android:hint="Varyant"
+                                android:hint="@string/variant_text"
                                 android:padding="5dp"
                                 android:textSize="15sp" />
                         </android.support.design.widget.TextInputLayout>
@@ -199,6 +199,7 @@
                             android:ems="10"
                             android:fontFamily="@font/roboto_regular"
                             android:hint="Pile Sıklığı"
+                            android:inputType="numberDecimal"
                             android:textSize="15sp" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -226,13 +227,13 @@
                             android:id="@+id/rb_left"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Zincir Solda" />
+                            android:text="@string/chain_left_text" />
 
                         <RadioButton
                             android:id="@+id/rb_right"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Zincir Sağda" />
+                            android:text="@string/chain_right_text" />
                     </RadioGroup>
 
 
@@ -303,19 +304,19 @@
                             android:id="@+id/rb_one_piece"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tek Kas." />
+                            android:text="@string/normal_mech_text" />
 
                         <RadioButton
                             android:id="@+id/rb_pieces"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Parçalı" />
+                            android:text="@string/pieces_mech_text" />
 
                         <RadioButton
                             android:id="@+id/rb_multi_mech"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Çok. Mek." />
+                            android:text="@string/multi_pieces_text" />
                     </RadioGroup>
 
 
@@ -482,19 +483,19 @@
                             android:id="@+id/rb_kruvaze"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kruvaze Kanat" />
+                            android:text="@string/kruvaze_k_text" />
 
                         <RadioButton
                             android:id="@+id/rb_japon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Japon Panel" />
+                            android:text="@string/japon_k_text" />
 
                         <RadioButton
                             android:id="@+id/rb_fon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Fon Kanat" />
+                            android:text="@string/fon_k_text" />
                     </RadioGroup>
 
 
@@ -511,25 +512,25 @@
                             android:id="@+id/rb_american"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Amerikan" />
+                            android:text="@string/pile_type_american_text" />
 
                         <RadioButton
                             android:id="@+id/rb_kanun"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kanun" />
+                            android:text="@string/pile_type_kanun_text" />
 
                         <RadioButton
                             android:id="@+id/rb_yan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Yan" />
+                            android:text="@string/pile_type_yan_text" />
 
                         <RadioButton
                             android:id="@+id/rb_other"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Diğer" />
+                            android:text="@string/other_text" />
                     </RadioGroup>
 
 
@@ -642,7 +643,7 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/edittext_border_bg_lightgreen"
                             android:fontFamily="@font/roboto_regular"
-                            android:hint="Açıklama"
+                            android:hint="@string/description_text"
                             android:inputType="textMultiLine"
                             android:textSize="15sp" />
 
@@ -656,30 +657,27 @@
                     android:orientation="horizontal"
                     android:padding="5dp">
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/btn_cancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rectangle_background_pink"
                         android:padding="3dp"
-                        android:src="@drawable/ic_dialog_close_dark"
+                        android:text="@string/cancel_button_text"
+                        android:backgroundTint="@android:color/holo_red_light"
                         android:textColor="#ffffff" />
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/btn_save"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rectangle_background_light_green"
-
                         android:padding="3dp"
-                        android:text="Kaydet"
-                        android:textColor="#ffffff"
-                        android:tint="#ffffff"
-                        app:srcCompat="@drawable/ic_check_black_24dp" />
+                        android:text="@string/save_button_text"
+                        android:backgroundTint="@color/lightgreen"
+                        android:textColor="#ffffff" />
 
 
                 </LinearLayout>

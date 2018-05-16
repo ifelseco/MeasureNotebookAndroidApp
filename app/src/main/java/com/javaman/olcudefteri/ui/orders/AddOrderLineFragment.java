@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.DialogFragment;
@@ -23,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -73,7 +75,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * Created by javaman on 14.12.2017.
  */
 
-public class AddOrderLineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, View.OnTouchListener ,AddOrderLineView{
+public class AddOrderLineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, View.OnTouchListener, AddOrderLineView {
 
     SharedPreferenceHelper sharedPreferenceHelper;
     public static final String ARG_GOTO_ORDERLINE = "arg_goto_order_line";
@@ -82,13 +84,13 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     private BottomSheetBehavior bottomSheetBehavior;
     private int productCount;
     private boolean spinnerTouched = false;
-    private LocationProduct locationProduct=new LocationProduct();
+    private LocationProduct locationProduct = new LocationProduct();
     private String[] productNames;
     private String[] productCodes;
-    private String locationTypeCount="";
+    private String locationTypeCount = "";
     int currentProductValue;
     double orderTotalAmount;
-    private TextWatcher textWatcherTypeNumber=new TextWatcher(){
+    private TextWatcher textWatcherTypeNumber = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -96,12 +98,12 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if(s.length()>=0){
-                locationTypeCount=etLocationTypeNumber.getText().toString();
-                if(checkBoxDoor.isChecked()){
+            if (s.length() >= 0) {
+                locationTypeCount = etLocationTypeNumber.getText().toString();
+                if (checkBoxDoor.isChecked()) {
                     locationProduct.setLocationType("Kapı " + locationTypeCount);
                     tvLocationType.setText(locationProduct.getLocationType());
-                }else if(checkBoxWindow.isChecked()){
+                } else if (checkBoxWindow.isChecked()) {
                     locationProduct.setLocationType("Cam " + locationTypeCount);
                     tvLocationType.setText(locationProduct.getLocationType());
                 }
@@ -116,7 +118,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     };
 
 
-    private TextWatcher textWatcherOtherLocation=new TextWatcher(){
+    private TextWatcher textWatcherOtherLocation = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -124,7 +126,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if(s.length()>=0){
+            if (s.length() >= 0) {
                 locationProduct.setLocationName(etLocationOther.getText().toString());
                 tvLocationName.setText(etLocationOther.getText().toString());
             }
@@ -200,6 +202,14 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     @BindView(R.id.image_button_close)
     ImageButton imageButtonClose;
 
+    @BindView(R.id.image_view_expand)
+    ImageView imageViewExpand;
+
+
+    @BindView(R.id.image_view_collapse)
+    ImageView imageViewCollapse;
+
+
     SweetAlertDialog pDialog;
     String[] orderStatus;
 
@@ -210,24 +220,23 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        orderStatus=getActivity().getResources().getStringArray(R.array.order_status);
+        orderStatus = getActivity().getResources().getStringArray(R.array.order_status);
         productNames = getActivity().getResources().getStringArray(R.array.curtains);
-        productCodes=getActivity().getResources().getStringArray(R.array.curtainsCode);
-        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
-        if(getArguments().containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)){
-            orderDetailResponseModel=getArguments().getParcelable(OrderDetailActivity.ARG_CURRENT_ORDER);
+        productCodes = getActivity().getResources().getStringArray(R.array.curtainsCode);
+        sharedPreferenceHelper = new SharedPreferenceHelper(getActivity().getApplicationContext());
+        if (getArguments().containsKey(OrderDetailActivity.ARG_CURRENT_ORDER)) {
+            orderDetailResponseModel = getArguments().getParcelable(OrderDetailActivity.ARG_CURRENT_ORDER);
         }
 
     }
-
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.add_order_layout, container, false);
-        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
-        mOrderPresenter=new OrderPresenterImpl(this);
+        mAddOrderLinePresenter = new AddOrderLinePresenterImpl(this);
+        mOrderPresenter = new OrderPresenterImpl(this);
         ButterKnife.bind(this, view);
         getActivity().setTitle("Sipariş Oluştur");
         initView();
@@ -237,7 +246,6 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     }
 
     private void initView() {
-
         imageButtonClose.setOnClickListener(this);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         spinnerLocation.setOnTouchListener(this);
@@ -263,7 +271,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
         spinnerLocation.setOnItemSelectedListener(this);
         etLocationTypeNumber.addTextChangedListener(textWatcherTypeNumber);
         etLocationOther.addTextChangedListener(textWatcherOtherLocation);
-        pDialog=new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+        pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
     }
 
 
@@ -273,8 +281,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
         Calendar calendar = Calendar.getInstance();
 
 
-
-        if(orderDetailResponseModel!=null){
+        if (orderDetailResponseModel != null) {
 
             tvOrderStatus.setText(orderStatus[orderDetailResponseModel.getOrderStatus()]);
 
@@ -284,12 +291,34 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
             int minutes = calendar.get(Calendar.MINUTE);
             tvCustomerName.setText(orderDetailResponseModel.getCustomer().getNameSurname());
             tvOrderDate.setText(orderDate);
-            tvOrderNumber.setText("" + orderDetailResponseModel.getId());
+            tvOrderNumber.setText(orderDetailResponseModel.getOrderNumber());
             tvOrderTime.setText("" + hours + ":" + minutes);
-            orderTotalAmount=orderDetailResponseModel.getTotalAmount();
-            tvOrderTotalAmount.setText(String.format("%.2f",orderTotalAmount));        }
+            orderTotalAmount = orderDetailResponseModel.getTotalAmount();
+            tvOrderTotalAmount.setText(String.format("%.2f", orderTotalAmount));
+        }
+        changeStateBottomSheet();
 
+    }
 
+    private void changeStateBottomSheet() {
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    imageViewExpand.setVisibility(View.VISIBLE);
+                    imageViewCollapse.setVisibility(View.GONE);
+                } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    imageViewExpand.setVisibility(View.GONE);
+                    imageViewCollapse.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
     }
 
     @Override
@@ -321,16 +350,16 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
         switch (item.getItemId()) {
             case R.id.item_line_list:
                 Intent orderDetail = new Intent(getActivity(), OrderDetailActivity.class);
-                orderDetail.putExtra(ARG_GOTO_ORDERLINE,orderDetailResponseModel.getId());
+                orderDetail.putExtra(ARG_GOTO_ORDERLINE, orderDetailResponseModel.getId());
                 startActivity(orderDetail);
                 return true;
             case R.id.item_update:
                 //show order update dilog
-                OrderUpdateDialog orderUpdateDialog=new OrderUpdateDialog();
-                Bundle bundle=new Bundle();
-                bundle.putParcelable(ARG_GOTO_ORDER_UPDATE_FROM_ADD_ORDERLINE,orderDetailResponseModel);
+                OrderUpdateDialog orderUpdateDialog = new OrderUpdateDialog();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(ARG_GOTO_ORDER_UPDATE_FROM_ADD_ORDERLINE, orderDetailResponseModel);
                 orderUpdateDialog.setArguments(bundle);
-                showDialog(orderUpdateDialog,"order-update-dialog");
+                showDialog(orderUpdateDialog, "order-update-dialog");
                 return true;
             case R.id.item_home:
                 Intent home = new Intent(getActivity(), HomeActivity.class);
@@ -355,7 +384,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
 
         } else if (id == R.id.cb_door) {
-            if(checkBoxDoor.isChecked()){
+            if (checkBoxDoor.isChecked()) {
                 checkBoxWindow.setChecked(false);
                 if (!locationTypeCount.isEmpty()) {
                     locationProduct.setLocationType("Kapı " + locationTypeCount);
@@ -366,12 +395,12 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
                     tvLocationType.setText(locationProduct.getLocationType());
 
                 }
-            }else{
+            } else {
                 tvLocationType.setText("");
             }
 
         } else if (id == R.id.cb_window) {
-            if(checkBoxWindow.isChecked()){
+            if (checkBoxWindow.isChecked()) {
                 checkBoxDoor.setChecked(false);
 
                 if (!locationTypeCount.isEmpty()) {
@@ -382,7 +411,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
                     locationProduct.setLocationType("Cam");
                     tvLocationType.setText(locationProduct.getLocationType());
                 }
-            }else{
+            } else {
                 tvLocationType.setText("");
             }
 
@@ -482,15 +511,15 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
 
     private void updateLocationProduct(final List<String> productValues) {
         linearLayoutLocation.removeAllViews();
-        int productCount=productValues.size();
-        int count=0;
-        if(productCount>0){
+        int productCount = productValues.size();
+        int count = 0;
+        if (productCount > 0) {
             tvCount.setText("" + productCount);
-        }else{
+        } else {
             tvCount.setText("");
         }
 
-        for (final String productValue:productValues) {
+        for (final String productValue : productValues) {
 
             count++;
             View view = getLayoutInflater().inflate(R.layout.product_value_layout, linearLayoutLocation, false);
@@ -498,47 +527,47 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
             TextView tvProductValue = view.findViewById(R.id.tv_product_value);
             TextView tvCount2 = view.findViewById(R.id.tv_count);
             tvProductValue.setText(productValue);
-            int index= Arrays.asList(productNames).indexOf(productValue);
-            final String productCode=productCodes[index];
+            int index = Arrays.asList(productNames).indexOf(productValue);
+            final String productCode = productCodes[index];
             tvCount2.setText("" + count);
 
             btnEdit.setOnClickListener(v -> {
 
-                switch (productCode){
+                switch (productCode) {
                     case "TP":
-                        showDialog(new NetCurtain() , "Tül Perde");
+                        showDialog(new NetCurtain(), "Tül Perde");
                         break;
                     case "GP":
-                        Toast.makeText(getActivity(), ""+locationProduct.getLocationName()+locationProduct.getLocationType(), Toast.LENGTH_SHORT).show();
-                        showDialog(new SunBlindCurtain() , "Güneşlik Perde");
+                        Toast.makeText(getActivity(), "" + locationProduct.getLocationName() + locationProduct.getLocationType(), Toast.LENGTH_SHORT).show();
+                        showDialog(new SunBlindCurtain(), "Güneşlik Perde");
                         break;
                     case "SP":
-                        showDialog(new RollerCurtain() , "Stor Perde");
+                        showDialog(new RollerCurtain(), "Stor Perde");
                         break;
                     case "ZP":
-                        showDialog(new ZebraCurtain() , "Zebra Perde");
+                        showDialog(new ZebraCurtain(), "Zebra Perde");
                         break;
                     case "JP":
-                        showDialog(new JalouiseCurtain() , "Jaluzi Perde");
+                        showDialog(new JalouiseCurtain(), "Jaluzi Perde");
                         break;
                     case "DP":
-                        showDialog(new VerticalCurtain() , "Dikey Perde");
+                        showDialog(new VerticalCurtain(), "Dikey Perde");
                         break;
                     case "KTP":
-                        showDialog(new CurtainDoubleNet() , "Kruvaze Tül Perde");
+                        showDialog(new CurtainDoubleNet(), "Kruvaze Tül Perde");
                         break;
                     case "BP":
-                        showDialog(new BrizCurtain() , "Briz Perde");
+                        showDialog(new BrizCurtain(), "Briz Perde");
                         break;
                     case "FARBP":
-                        showDialog(new FarbelaCurtain() , "Farbela Perde");
+                        showDialog(new FarbelaCurtain(), "Farbela Perde");
                         break;
                     case "FP":
-                        showDialog(new FonCurtain() , "Fon Perde");
+                        showDialog(new FonCurtain(), "Fon Perde");
                         break;
                     case "TSP":
                         //Tül Stor dialog
-                        showDialog(new NetStorCurtain() , "Tül Stor");
+                        showDialog(new NetStorCurtain(), "Tül Stor");
                         break;
                 }
             });
@@ -549,8 +578,8 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    public void showDialog(DialogFragment dialogFragment , String fragmentTag){
-        dialogFragment.show(getFragmentManager(),fragmentTag);
+    public void showDialog(DialogFragment dialogFragment, String fragmentTag) {
+        dialogFragment.show(getFragmentManager(), fragmentTag);
     }
 
 
@@ -568,7 +597,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
                 }
 
             } else {
-                if(position>0){
+                if (position > 0) {
                     String location = parent.getItemAtPosition(position).toString();
                     locationProduct.setLocationName(location);
                     tvLocationName.setText(location);
@@ -605,14 +634,14 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     @Override
     @Subscribe
     public void addOrderLine(OrderLineDetailModel orderLineDetailModel) {
-        String sessionId=getSessionIdFromPref();
+        String sessionId = getSessionIdFromPref();
         orderLineDetailModel.setLocationName(locationProduct.getLocationName());
         orderLineDetailModel.setLocationType(locationProduct.getLocationType());
-        OrderDetailModel orderDetailModel=new OrderDetailModel();
+        OrderDetailModel orderDetailModel = new OrderDetailModel();
         orderDetailModel.setId(orderDetailResponseModel.getId());
         orderLineDetailModel.setOrder(orderDetailModel);
-        mAddOrderLinePresenter.addOrderLine(orderLineDetailModel,sessionId);
-        currentProductValue=orderLineDetailModel.getProduct().getProductValue();
+        mAddOrderLinePresenter.addOrderLine(orderLineDetailModel, sessionId);
+        currentProductValue = orderLineDetailModel.getProduct().getProductValue();
 
     }
 
@@ -620,18 +649,18 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     @Override
     @Subscribe
     public void addOrderLineList(AddOrderLineDetailListModel orderLineDetailListModel) {
-        String sessionId=getSessionIdFromPref();
+        String sessionId = getSessionIdFromPref();
 
-        for (OrderLineDetailModel orderLineDetailModel:orderLineDetailListModel.getOrderLineDetailModelList()) {
+        for (OrderLineDetailModel orderLineDetailModel : orderLineDetailListModel.getOrderLineDetailModelList()) {
             orderLineDetailModel.setLocationName(locationProduct.getLocationName());
             orderLineDetailModel.setLocationType(locationProduct.getLocationType());
-            OrderDetailModel orderDetailModel=new OrderDetailModel();
+            OrderDetailModel orderDetailModel = new OrderDetailModel();
             orderDetailModel.setId(orderDetailResponseModel.getId());
             orderLineDetailModel.setOrder(orderDetailModel);
-            currentProductValue=orderLineDetailModel.getProduct().getProductValue();
+            currentProductValue = orderLineDetailModel.getProduct().getProductValue();
         }
 
-        mAddOrderLinePresenter.addOrderLineList(orderLineDetailListModel,sessionId);
+        mAddOrderLinePresenter.addOrderLineList(orderLineDetailListModel, sessionId);
     }
 
 
@@ -640,21 +669,21 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     public void updateOrder(OrderUpdateModel orderUpdateModel) {
         //set order id
         orderUpdateModel.setId(orderDetailResponseModel.getId());
-        String headerData=getSessionIdFromPref();
-        mOrderPresenter.orderUpdate(orderUpdateModel,headerData);
+        String headerData = getSessionIdFromPref();
+        mOrderPresenter.orderUpdate(orderUpdateModel, headerData);
 
     }
 
 
     @Override
     public String getSessionIdFromPref() {
-        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        String xAuthToken = sharedPreferenceHelper.getStringPreference("sessionId", null);
         return xAuthToken;
     }
 
     @Override
     public void navigateToLogin() {
-        startActivity(new Intent(getActivity() , LoginActivity.class));
+        startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
     @Override
@@ -663,18 +692,18 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void showAlert(String message,boolean isError) {
-        if(isError){
+    public void showAlert(String message, boolean isError) {
+        if (isError) {
 
-            SweetAlertDialog pDialog= new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
+            SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
             pDialog.setTitleText("Hata...");
             pDialog.setContentText(message);
             pDialog.setConfirmText("Kapat");
             pDialog.setCancelable(true);
             pDialog.show();
 
-        }else{
-            SweetAlertDialog pDialog=new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
+        } else {
+            SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
             //pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
             pDialog.setTitleText(message);
             pDialog.setConfirmText("Kapat");
@@ -706,68 +735,68 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     @Override
     public void updateCart(double orderTotalAmount) {
 
-        this.orderTotalAmount=orderTotalAmount;
-        tvOrderTotalAmount.setText(String.format("%.2f",orderTotalAmount));
+        this.orderTotalAmount = orderTotalAmount;
+        tvOrderTotalAmount.setText(String.format("%.2f", orderTotalAmount));
         orderDetailResponseModel.setTotalAmount(orderTotalAmount);
 
-       switch (currentProductValue){
-           case 0:
-               checkBoxNetCurt.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[0]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
-           case 1:
-               checkBoxSunBLind.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[1]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
-           case 2:
-               checkBoxStor.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[2]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
-           case 3:
-               checkBoxZebra.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[3]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
-           case 4:
-               checkBoxJaluzi.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[4]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
-           case 5:
-               checkBoxVertical.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[5]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
-           case 6:
-               checkBoxKruvaze.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[6]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
-           case 7:
-               checkBoxBriz.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[7]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
-           case 8:
-               checkBoxFarb.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[8]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
-           case 9:
-               checkBoxFon.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[9]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
-           case 10:
-               checkBoxNetStor.setChecked(false);
-               locationProduct.getProductValue().remove(productNames[10]);
-               updateLocationProduct(locationProduct.getProductValue());
-               break;
+        switch (currentProductValue) {
+            case 0:
+                checkBoxNetCurt.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[0]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
+            case 1:
+                checkBoxSunBLind.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[1]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
+            case 2:
+                checkBoxStor.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[2]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
+            case 3:
+                checkBoxZebra.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[3]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
+            case 4:
+                checkBoxJaluzi.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[4]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
+            case 5:
+                checkBoxVertical.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[5]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
+            case 6:
+                checkBoxKruvaze.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[6]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
+            case 7:
+                checkBoxBriz.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[7]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
+            case 8:
+                checkBoxFarb.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[8]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
+            case 9:
+                checkBoxFon.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[9]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
+            case 10:
+                checkBoxNetStor.setChecked(false);
+                locationProduct.getProductValue().remove(productNames[10]);
+                updateLocationProduct(locationProduct.getProductValue());
+                break;
 
-       }
+        }
     }
 
     @Override
@@ -781,8 +810,6 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
         orderDetailResponseModel.setOrderStatus(orderUpdateModel.getOrderStatus());
         setView(orderDetailResponseModel);
     }
-
-
 
 
 }

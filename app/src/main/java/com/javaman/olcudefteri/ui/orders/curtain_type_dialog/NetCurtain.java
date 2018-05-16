@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -68,9 +69,9 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     TextView tvTotalPrice;
 
     @BindView(R.id.btnSave)
-    ImageButton btnSave;
+    Button btnSave;
     @BindView(R.id.btnCancel)
-    ImageButton btnCancel;
+    Button btnCancel;
     @BindView(R.id.btnCalculate)
     ImageButton btnCalculate;
     @BindView(R.id.radiGroupPile)

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -68,10 +69,8 @@ public class RollerCurtain extends DialogFragment implements View.OnClickListene
     EditText etWidth;
     @BindView(R.id.editTextHeight)
     EditText etHeight;
-    @BindView(R.id.btnCancel)
-    ImageButton btnCancel;
-    @BindView(R.id.btnSave)
-    ImageButton btnSave;
+    @BindView(R.id.btnCancel) Button btnCancel;
+    @BindView(R.id.btnSave) Button btnSave;
     @BindView(R.id.btnCalculate)
     ImageButton btnCalculate;
     @BindView(R.id.textViewStorM2)
@@ -82,8 +81,7 @@ public class RollerCurtain extends DialogFragment implements View.OnClickListene
     TextView tvProductValue;
     @BindView(R.id.progress_bar_calc)
     ProgressBar progressBarCalc;
-    @BindView(R.id.progress_bar_save)
-    ProgressBar progressBarSave;
+
     @BindView(R.id.linear_layout_normal)
     LinearLayout linearLayoutNormalWidthHeight;
     @BindView(R.id.linear_layout_normal_direction)

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -89,19 +90,16 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
     ImageButton btnSave;
 
     @BindView(R.id.btnCancel)
-    ImageButton btnCancel;
+    Button btnCancel;
 
     @BindView(R.id.btnCalculate)
-    ImageButton btnCalculate;
+    Button btnCalculate;
 
     @BindView(R.id.radiGroupPile)
     RadioGroup radioGroupPile;
 
     @BindView(R.id.progress_bar_calc)
     ProgressBar progressBarCalc;
-
-    @BindView(R.id.progress_bar_save)
-    ProgressBar progressBarSave;
 
     @BindView(R.id.til_left_width)
     TextInputLayout tilLeftWidth;

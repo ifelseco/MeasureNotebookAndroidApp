@@ -52,8 +52,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     boolean doubleBackToExitPressedOnce = false;
-    private int first = 0;
-    private int rows = 10;
+
     private HomePresenter mHomePresenter;
     private BasePresenter mBasePresenter;
     private OrdersPresenter mOrdersPresenter;
@@ -89,11 +88,11 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     private void initview() {
         setContentView(R.layout.activity_tailor_home);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
-        setTitle("Terzi : Muharrem Usta");
         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         getAppUtilInfoFromPref();
+        setAppInfo();
+        setSupportActionBar(toolbar);
         mHomePresenter=new HomePresenterImpl(this);
         mOrdersPresenter=new OrdersPresenterImpl(this);
         mBasePresenter=new BasePresenterImpl(this);
@@ -102,6 +101,11 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         getProcessingOrderFragment();
         getProcessedOrderFromServer();
 
+    }
+
+    private void setAppInfo() {
+        toolbar.setTitle(companyName);
+        toolbar.setSubtitle("Terzi: "+nameSurname);
     }
 
     public void getNotificationFragment() {
@@ -224,11 +228,11 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
 
 
         if(sharedPreferenceHelper.containKey("company-name")){
-            companyName=sharedPreferenceHelper.getStringPreference("comapny-name","");
+            companyName=sharedPreferenceHelper.getStringPreference("company-name","");
         }
 
-        if(sharedPreferenceHelper.containKey("company-name")){
-            nameSurname=sharedPreferenceHelper.getStringPreference("comapny-name","");
+        if(sharedPreferenceHelper.containKey("name-surname")){
+            nameSurname=sharedPreferenceHelper.getStringPreference("name-surname","");
         }
     }
 

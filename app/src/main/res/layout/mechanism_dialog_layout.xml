@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Parça Sayısı"
+                android:hint="@string/pieces_count_text"
                 android:inputType="textPersonName" />
         </android.support.design.widget.TextInputLayout>
 
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:backgroundTint="@color/pink"
-            android:text="Vazgeç"
+            android:text="@string/cancel_button_text"
             android:textColor="@android:color/white"/>
 
         <Button

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -71,9 +72,9 @@ public class ZebraCurtain extends DialogFragment implements View.OnClickListener
     @BindView(R.id.btnCancel)
     ImageButton btnCancel;
     @BindView(R.id.btnSave)
-    ImageButton btnSave;
+    Button btnSave;
     @BindView(R.id.btnCalculate)
-    ImageButton btnCalculate;
+    Button btnCalculate;
     @BindView(R.id.textViewStorM2)
     TextView tvStorM2;
     @BindView(R.id.textViewStorTotalPrice)
@@ -82,8 +83,7 @@ public class ZebraCurtain extends DialogFragment implements View.OnClickListener
     TextView tvProductValue;
     @BindView(R.id.progress_bar_calc)
     ProgressBar progressBarCalc;
-    @BindView(R.id.progress_bar_save)
-    ProgressBar progressBarSave;
+
     @BindView(R.id.linear_layout_normal)
     LinearLayout linearLayoutNormalWidthHeight;
     @BindView(R.id.linear_layout_normal_direction)

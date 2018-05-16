@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -73,9 +74,9 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     @BindView(R.id.btnSave)
     ImageButton btnSave;
     @BindView(R.id.btnCancel)
-    ImageButton btnCancel;
+    Button btnCancel;
     @BindView(R.id.btnCalculate)
-    ImageButton btnCalculate;
+    Button btnCalculate;
     @BindView(R.id.radiGroupPile)
     RadioGroup radioGroupPile;
     @BindView(R.id.radiGroupPileType)

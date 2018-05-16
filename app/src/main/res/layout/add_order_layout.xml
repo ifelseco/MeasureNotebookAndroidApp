@@ -314,7 +314,7 @@
                             android:layout_height="wrap_content"
                             android:visibility="gone"
                             android:inputType="text"
-                            android:hint="Diğer Mekan"/>
+                            android:hint="@string/other_location_text"/>
 
                         <ImageButton
                             android:id="@+id/image_button_close"
@@ -349,14 +349,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Cam"/>
+                        android:hint="@string/window_text"/>
 
                     <CheckBox
                         android:id="@+id/cb_door"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Kapı"/>
+                        android:hint="@string/door_text"/>
 
                     <EditText
                         android:id="@+id/et_location_type_number"
@@ -364,7 +364,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:layout_weight="2"
-                        android:hint="No"/>
+                        android:hint="@string/no_text"/>
 
 
                 </LinearLayout>
@@ -410,7 +410,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:hint="Güneşlik"/>
+                        android:hint="@string/GP"/>
 
                     <CheckBox
                         android:id="@+id/cb_kruvaze"
@@ -567,6 +567,27 @@
                     android:textColor="#F44336"
                     android:textSize="17sp"
                     android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right">
+                    <ImageView
+                        android:id="@+id/image_view_expand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_expand_less_black_24dp"
+                        android:tint="@color/pink"/>
+
+                    <ImageView
+                        android:id="@+id/image_view_collapse"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_expand_more_black_24dp"
+                        android:tint="@color/pink"/>
+                </LinearLayout>
 
             </LinearLayout>
 

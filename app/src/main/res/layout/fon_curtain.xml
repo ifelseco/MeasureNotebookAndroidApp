@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/lightgreen"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Fon"
+                    android:text="@string/FP"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
                     android:textSize="17sp"
@@ -58,7 +58,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Kanat En"
+                            android:hint="@string/k_width_text"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -73,7 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Kanat Boy"
+                            android:hint="@string/k_height_text"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -100,7 +100,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Fon Türü"
+                            android:text="@string/fon_type_text"
                             android:fontFamily="@font/roboto_regular"
                             android:textSize="15sp" />
 
@@ -119,14 +119,14 @@
                                 android:textSize="10sp"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="Kruvaze" />
+                                android:text="@string/fon_type_kruvaze_text" />
 
                             <RadioButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="10sp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:text="Fon" />
+                                android:text="@string/fon_type_fon_text" />
 
                             <RadioButton
                                 android:id="@+id/radioButtonJaponPanel"
@@ -134,7 +134,7 @@
                                 android:textSize="10sp"
                                 android:fontFamily="@font/roboto_regular"
                                 android:layout_height="wrap_content"
-                                android:text="Japon" />
+                                android:text="@string/fon_type_japon_text" />
 
 
 
@@ -155,7 +155,7 @@
                             android:layout_marginRight="10dp"
                             android:fontFamily="@font/roboto_regular"
                             android:textSize="15sp"
-                            android:text="Yön "/>
+                            android:text="@string/direction_text"/>
 
                         <RadioGroup
                             android:id="@+id/radio_group_fon_direction"
@@ -172,7 +172,7 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="10sp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:hint="Sol"/>
+                                android:hint="@string/direction_left_text"/>
 
                             <RadioButton
                                 android:id="@+id/radi_button_right"
@@ -180,7 +180,7 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="10sp"
                                 android:fontFamily="@font/roboto_regular"
-                                android:hint="Sağ"/>
+                                android:hint="@string/direction_right_text"/>
 
                             <RadioButton
                                 android:id="@+id/radi_button_left_right"
@@ -188,7 +188,7 @@
                                 android:textSize="10sp"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_regular"
-                                android:hint="Sol+Sağ"/>
+                                android:hint="@string/direction_right_left_text"/>
 
 
 
@@ -209,7 +209,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Pile Türü"
+                            android:text="@string/pile_type_text"
                             android:fontFamily="@font/roboto_regular"
                             android:textSize="15sp"
                             android:layout_marginRight="10dp"/>
@@ -229,7 +229,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_regular"
                                 android:textSize="10sp"
-                                android:text="Amerikan" />
+                                android:text="@string/pile_type_american_text" />
 
                             <RadioButton
                                 android:id="@+id/radioButtonKanun"
@@ -238,7 +238,7 @@
                                 android:fontFamily="@font/roboto_regular"
                                 android:textSize="10sp"
 
-                                android:text="Kanun" />
+                                android:text="@string/pile_type_kanun_text" />
 
                             <RadioButton
                                 android:id="@+id/radioButtonYan"
@@ -246,14 +246,14 @@
                                 android:fontFamily="@font/roboto_regular"
                                 android:layout_height="wrap_content"
                                 android:textSize="10sp"
-                                android:text="Yan" />
+                                android:text="@string/pile_type_yan_text" />
 
                             <RadioButton
                                 android:layout_width="wrap_content"
                                 android:fontFamily="@font/roboto_regular"
                                 android:layout_height="wrap_content"
                                 android:textSize="10sp"
-                                android:text="Diğer" />
+                                android:text="@string/other_text" />
 
                         </RadioGroup>
 
@@ -283,7 +283,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto_regular"
                             android:textSize="15sp"
-                            android:text="Pile Sıklığı:" />
+                            android:text="@string/pile_text" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -304,19 +304,19 @@
                                 android:id="@+id/radioButton2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2" />
+                                android:text="@string/pile_2" />
 
                             <RadioButton
                                 android:id="@+id/radioButton2_5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2.5" />
+                                android:text="@string/pile_2.5" />
 
                             <RadioButton
                                 android:id="@+id/radioButton3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="3" />
+                                android:text="@string/pile_3" />
 
                         </RadioGroup>
 
@@ -331,7 +331,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-                                android:hint="Diğer"
+                                android:hint="@string/other_pile_text"
                                 android:inputType="numberDecimal" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -361,7 +361,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Desen"
+                            android:hint="@string/pattern_text"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -375,7 +375,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Varyant"
+                            android:hint="@string/variant_text"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -389,7 +389,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="İsim"
+                            android:hint="@string/alias_text"
                             android:inputType="textPersonName" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -414,7 +414,7 @@
                             android:id="@+id/editTextFonDesc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Açıklama"
+                            android:hint="@string/description_text"
                             android:inputType="textMultiLine"
                             android:maxLines="5"
                             android:minLines="2"
@@ -450,7 +450,7 @@
                                 android:id="@+id/editTextFonUnitPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:hint="Birim Fiyat"
+                                android:hint="@string/unitprice_text"
                                 android:ems="10"
                                 android:inputType="number" />
 
@@ -529,30 +529,28 @@
                     android:padding="10dp"
                     android:layout_margin="10dp">
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/btnCancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rectangle_background_pink"
                         android:padding="3dp"
-                        android:src="@drawable/ic_dialog_close_dark"
+                        android:text="@string/cancel_button_text"
+                        android:backgroundTint="@android:color/holo_red_light"
                         android:textColor="#ffffff" />
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/btnSave"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rectangle_background_light_green"
-
                         android:padding="3dp"
-                        android:text="Kaydet"
+                        android:text="@string/save_button_text"
                         android:textColor="#ffffff"
-                        android:tint="#ffffff"
-                        app:srcCompat="@drawable/ic_check_black_24dp" />
+                        android:backgroundTint="@color/lightgreen" />
+
 
 
                 </LinearLayout>

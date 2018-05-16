@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -175,10 +176,10 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
     EditText etSkirt;
 
     @BindView(R.id.btn_cancel)
-    ImageButton btnCancel;
+    Button btnCancel;
 
     @BindView(R.id.btn_save)
-    ImageButton btnSave;
+    Button btnSave;
 
     @BindView(R.id.progress_bar_calc)
     ProgressBar progressCalc;

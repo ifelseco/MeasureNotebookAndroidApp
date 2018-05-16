@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -43,8 +44,8 @@ import butterknife.OnClick;
 public class SunBlindCurtain extends DialogFragment implements View.OnClickListener,CalculateView{
 
 
-    @BindView(R.id.btnCancel) ImageButton btnCancel;
-    @BindView(R.id.btnSave) ImageButton btnSave;
+    @BindView(R.id.btnCancel) Button btnCancel;
+    @BindView(R.id.btnSave) Button btnSave;
     @BindView(R.id.btnCalculate) ImageButton btnCalculate;
     @BindView(R.id.editTextWidth) EditText etWidth;
     @BindView(R.id.editTextHeight) EditText etHeight;

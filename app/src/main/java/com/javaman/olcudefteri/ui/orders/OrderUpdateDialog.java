@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -79,10 +80,10 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
     ImageButton imageButtonSave;
 
     @BindView(R.id.btn_edit_deposit)
-    ImageButton imageButtonEditDepoist;
+    Button btnEditDepoist;
 
     @BindView(R.id.btn_edit_total)
-    ImageButton imageButtonEditTotal;
+    Button btnEditTotal;
 
     @BindView(R.id.container_measure)
     LinearLayout linearLayoutMeasureDate;

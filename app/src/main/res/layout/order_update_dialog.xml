@@ -244,26 +244,28 @@
                 android:layout_margin="5dp"
                 android:orientation="horizontal">
 
-                <ImageButton
+                <Button
                     android:id="@+id/btn_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/rectangle_background_light_green"
                     android:padding="5dp"
                     android:layout_marginRight="5dp"
-                    app:srcCompat="@drawable/ic_dialog_close_dark" />
+                    android:text="@string/cancel_button_text"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@android:color/holo_red_light"/>
 
-                <ImageButton
+                <Button
                     android:id="@+id/btn_save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:tint="#FFFFFF"
-                    android:background="@drawable/rectangle_background_light_green"
                     android:padding="5dp"
-                    android:layout_marginLeft="5dp"
-                    app:srcCompat="@drawable/ic_check_black_24dp" />
+                    android:layout_marginRight="5dp"
+                    android:text="Güncelle"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@color/lightgreen"/>
+
 
 
             </LinearLayout>

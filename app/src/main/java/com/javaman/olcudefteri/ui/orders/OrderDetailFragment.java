@@ -130,7 +130,7 @@ public class OrderDetailFragment extends Fragment implements OrderView{
         int minutes = calendar.get(Calendar.MINUTE);
         String hoursString,minutesString;
 
-        tvOrderNo.setText("" + orderDetailResponseModel.getId());
+        tvOrderNo.setText(orderDetailResponseModel.getOrderNumber());
         tvOrderDate.setText(orderDate);
         if(hours<10){
             hoursString="0"+hours;

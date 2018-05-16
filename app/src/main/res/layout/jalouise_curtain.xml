@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/lightgreen"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Jaluzi"
+                    android:text="@string/JP"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
                     android:textSize="17sp"
@@ -58,7 +58,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="En"
+                            android:hint="@string/width_text"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -73,7 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Boy"
+                            android:hint="@string/height_text"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -92,7 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:text="Yön"
+                        android:text="@string/direction_text"
                         android:textSize="15sp"
                         android:fontFamily="@font/roboto_regular"/>
 
@@ -139,7 +139,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Desen"
+                            android:hint="@string/pattern_text"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -153,7 +153,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Varyant"
+                            android:hint="@string/variant_text"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -167,7 +167,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="İsim"
+                            android:hint="@string/alias_text"
                             android:inputType="textPersonName" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -191,7 +191,7 @@
                             android:id="@+id/editTextDesc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Açıklama"
+                            android:hint="@string/description_text"
                             android:minLines="2"
                             android:maxLines="5"
                             android:scrollbars="vertical"
@@ -226,7 +226,7 @@
                                 android:id="@+id/editTextJalousieUnitPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:hint="Birim Fiyat"
+                                android:hint="@string/unitprice_text"
                                 android:ems="10"
                                 android:inputType="number" />
 
@@ -297,30 +297,27 @@
                     android:padding="10dp"
                     android:orientation="horizontal">
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/btnCancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rectangle_background_pink"
                         android:padding="3dp"
-                        android:src="@drawable/ic_dialog_close_dark"
+                        android:text="@string/cancel_button_text"
+                        android:backgroundTint="@android:color/holo_red_light"
                         android:textColor="#ffffff" />
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/btnSave"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rectangle_background_light_green"
-
                         android:padding="3dp"
-                        android:text="Kaydet"
+                        android:text="@string/save_button_text"
                         android:textColor="#ffffff"
-                        android:tint="#ffffff"
-                        app:srcCompat="@drawable/ic_check_black_24dp" />
+                        android:backgroundTint="@color/lightgreen" />
 
 
                 </LinearLayout>

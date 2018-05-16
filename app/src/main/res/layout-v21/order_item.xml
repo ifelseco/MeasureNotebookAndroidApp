@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:layout_weight="1"
-                    android:text="Sipariş No:"
+                    android:text="@string/order_number_text"
                     android:textSize="17sp" />
 
                 <TextView
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textStyle="bold"
-                    android:text="Sipariş numarası"
+                    android:text="@string/order_number_text"
                     android:fontFamily="@font/roboto_regular"
                     android:textSize="15sp" />
 
@@ -83,12 +83,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Müşteri Adı:"
+                android:text="@string/customer_name_text"
                 android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/tv_custmer_namesurname"
-                android:text="Müşteri adı soyadı"
+                android:text="@string/customer_name_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:layout_marginLeft="5dp"
-                    android:text="Sipariş Tarihi:"
+                    android:text="@string/order_date_text"
                     android:textSize="17sp" />
 
                 <TextView
@@ -196,7 +196,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Teslim Tarihi:"
+                android:text="@string/delivery_date_text"
                 android:layout_marginLeft="5dp"
                 android:textSize="17sp" />
 
@@ -252,7 +252,7 @@
                     android:textStyle="bold"
                     android:padding="4dp"
                     android:layout_marginRight="4dp"
-                    android:text="Montaj var"
+                    android:text="@string/mount_exsist_text"
                     android:textSize="15sp" />
             </LinearLayout>
 

@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/roboto_regular"
-                android:text="GÜN SONU"
+                android:text="@string/end_day_text"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/roboto_regular"
-                android:text="YAKLAŞAN ÖLÇÜLER"
+                android:text="@string/next_measure_text"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/roboto_regular"
-                android:text="YASKLAŞAN TESLİMATLAR"
+                android:text="@string/next_delivery_text"
                 android:textSize="15sp" />
 
         </LinearLayout>

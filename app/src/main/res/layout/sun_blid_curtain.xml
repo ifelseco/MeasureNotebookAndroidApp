@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/lightgreen"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Güneşlik"
+                    android:text="@string/GP"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
                     android:textSize="17sp"
@@ -100,7 +100,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Desen"
+                            android:hint="@string/pattern_text"
 
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
@@ -115,7 +115,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Varyant"
+                            android:hint="@string/variant_text"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -129,7 +129,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="İsim"
+                            android:hint="@string/alias_text"
                             android:inputType="textPersonName" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -163,7 +163,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-                                android:hint="Birim Fiyat"
+                                android:hint="@string/unitprice_text"
                                 android:inputType="number" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -246,7 +246,7 @@
                             android:id="@+id/editTextSunBlinfDesc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Açıklama"
+                            android:hint="@string/description_text"
                             android:inputType="textMultiLine"
                             android:maxLines="5"
                             android:minLines="2"
@@ -262,27 +262,27 @@
                     android:orientation="horizontal"
                     android:padding="10dp">
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/btnCancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rectangle_background_pink"
                         android:padding="3dp"
-                        android:src="@drawable/ic_dialog_close_dark" />
+                        android:text="@string/cancel_button_text"
+                        android:backgroundTint="@android:color/holo_red_light"
+                        android:textColor="#ffffff" />
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/btnSave"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rectangle_background_light_green"
                         android:padding="3dp"
+                        android:text="@string/save_button_text"
                         android:textColor="#ffffff"
-                        android:tint="#ffffff"
-                        app:srcCompat="@drawable/ic_check_black_24dp" />
+                        android:backgroundTint="@color/lightgreen" />
                 </LinearLayout>
 
                 <View

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -31,8 +32,8 @@ import butterknife.OnClick;
 
 public class FarbelaCurtain extends DialogFragment implements View.OnClickListener, View.OnFocusChangeListener, RadioGroup.OnCheckedChangeListener {
 
-    @BindView(R.id.btnCancel) ImageButton btnCancel;
-    @BindView(R.id.btnSave) ImageButton btnSave;
+    @BindView(R.id.btnCancel) Button btnCancel;
+    @BindView(R.id.btnSave) Button btnSave;
     @BindView(R.id.editTextOtherPile) EditText etOtherPile;
     @BindView(R.id.radiGroupPile) RadioGroup radioGroupPile;
     @BindView(R.id.editTextWidth) EditText editTextWidth;
@@ -43,7 +44,6 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
     @BindView(R.id.editTextVariant) EditText editTextVariant;
     @BindView(R.id.editTextAlias) EditText editTextAlias;
     @BindView(R.id.editTextFarbelaTotalPrice) EditText editTextTotalPrice;
-    @BindView(R.id.progress_bar_save) ProgressBar progressBarSave;
 
     public static final int ARG_PRODUCT_VALUE = 8;
 

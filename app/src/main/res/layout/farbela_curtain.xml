@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/lightgreen"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Farbela"
+                    android:text="@string/FARBP"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
                     android:textSize="17sp"
@@ -56,7 +56,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="En"
+                            android:hint="@string/width_text"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -71,7 +71,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Boy"
+                            android:hint="@string/height_text"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -96,7 +96,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Model adı"
+                            android:hint="@string/model_name_text"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -123,7 +123,7 @@
                             android:textSize="15sp"
                             android:fontFamily="@font/roboto_regular"
                             android:layout_weight="1"
-                            android:text="Pile Sıklığı:" />
+                            android:text="@string/pile_text" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -144,19 +144,19 @@
                                 android:id="@+id/radioButton2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2" />
+                                android:text="@string/pile_2" />
 
                             <RadioButton
                                 android:id="@+id/radioButton2_5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="2.5" />
+                                android:text="@string/pile_2.5" />
 
                             <RadioButton
                                 android:id="@+id/radioButton3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="3" />
+                                android:text="@string/pile_3" />
 
                         </RadioGroup>
 
@@ -171,7 +171,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ems="10"
-                                android:hint="Diğer"
+                                android:hint="@string/other_pile_text"
                                 android:inputType="numberDecimal" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -199,7 +199,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Desen"
+                            android:hint="@string/pattern_text"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -213,7 +213,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="Varyant"
+                            android:hint="@string/variant_text"
                             android:inputType="textPersonName" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -227,7 +227,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="İsim"
+                            android:hint="@string/alias_text"
                             android:inputType="textPersonName" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -251,7 +251,7 @@
                             android:id="@+id/editTextFarbelaDesc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Açıklama"
+                            android:hint="@string/description_text"
                             android:minLines="2"
                             android:maxLines="5"
                             android:scrollbars="vertical"
@@ -280,7 +280,7 @@
                             android:id="@+id/editTextFarbelaTotalPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Farbela toplam fiyat giriniz."
+                            android:hint="@string/farbela_total_price_input_text"
                             android:inputType="numberDecimal" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -294,30 +294,27 @@
                     android:padding="10dp"
                     android:orientation="horizontal">
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/btnCancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rectangle_background_pink"
                         android:padding="3dp"
-                        android:src="@drawable/ic_dialog_close_dark"
+                        android:text="@string/cancel_button_text"
+                        android:backgroundTint="@android:color/holo_red_light"
                         android:textColor="#ffffff" />
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/btnSave"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/rectangle_background_light_green"
-
                         android:padding="3dp"
-                        android:text="Kaydet"
+                        android:text="@string/save_button_text"
                         android:textColor="#ffffff"
-                        android:tint="#ffffff"
-                        app:srcCompat="@drawable/ic_check_black_24dp" />
+                        android:backgroundTint="@color/lightgreen" />
 
 
                 </LinearLayout>

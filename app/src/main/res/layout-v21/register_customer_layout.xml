@@ -47,7 +47,7 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_account_circle_black_24dp"
                             android:ems="10"
-                            android:hint="Ad Soyad"
+                            android:hint="@string/name_surname_text"
                             android:inputType="textPersonName" />
 
 
@@ -76,7 +76,7 @@
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_phonelink_ring_black_24dp"
                             android:ems="10"
-                            android:hint="Cep numarası"
+                            android:hint="@string/mobile_phone_text"
                             android:inputType="phone" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -104,7 +104,7 @@
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/ic_phone_black_24dp"
                             android:ems="10"
-                            android:hint="Sabit telefon"
+                            android:hint="@string/fixed_tel_text"
                             android:inputType="phone" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -132,7 +132,7 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/ic_location_on_black_24dp"
                             android:gravity="top|left"
-                            android:hint="Adres"
+                            android:hint="@string/address_text"
                             android:inputType="textMultiLine"
                             android:maxLines="5"
                             android:minLines="1"
@@ -155,14 +155,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:hint="Kampanyalarımız hakkında bilgilendirilmek istermisiniz ?" />
+                        android:hint="@string/newsletter_text" />
 
                     <CheckBox
                         android:id="@+id/cehckBoxTobeMeasured"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:hint="Ölçüye gidilecek mi?" />
+                        android:hint="@string/measure_question_text" />
 
                 </LinearLayout>
 
@@ -185,7 +185,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:text="Kaydet"
+                        android:text="@string/save_button_text"
                         android:textColor="#ffffff"
                         android:textSize="15sp" />
 
