@@ -34,7 +34,7 @@
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/BP"
                     android:textAlignment="center"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -58,7 +58,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="@string/briz_width_text"
+                            android:hint="Briz En"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -73,7 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="@string/briz_height_text"
+                            android:hint="Briz Boy"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -98,7 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="@string/farbela_width_text"
+                            android:hint="Farbela En"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -113,7 +113,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ems="10"
-                            android:hint="@string/farbela_height_text"
+                            android:hint="Farbela Boy"
                             android:inputType="number" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -294,35 +294,31 @@
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1">
 
 
                         <EditText
                             android:id="@+id/editTextBrizUnitPrice"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:ems="10"
+                            android:padding="5dp"
+                            android:text=""
                             android:hint="@string/unitprice_text"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <ProgressBar
-                        android:id="@+id/progress_bar_calc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="gone" />
-
-                    <ImageButton
+                    <Button
                         android:id="@+id/btnCalculate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="Hesap"
+                        android:textColor="@android:color/white"
+                        android:fontFamily="@font/roboto_regular"
                         android:layout_weight="2"
-                        android:background="@drawable/rectangle_background_light_green"
-                        android:padding="5dp"
-                        app:srcCompat="@drawable/ic_calc" />
+                        android:background="@color/lightgreen"/>
 
 
                 </LinearLayout>
@@ -335,9 +331,16 @@
                     android:padding="10dp"
                     android:background="@drawable/edittext_border_bg_lightgreen">
 
+                    <ProgressBar
+                        android:id="@+id/progress_bar_calc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="gone"/>
+
                     <TextView
                         android:id="@+id/textViewBrizM"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
                         android:layout_weight="1"
@@ -345,7 +348,7 @@
 
                     <TextView
                         android:id="@+id/textViewBrizTotalPrice"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textSize="15sp"

@@ -72,7 +72,7 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     TextView tvTotalPrice;
 
     @BindView(R.id.btnSave)
-    ImageButton btnSave;
+    Button btnSave;
     @BindView(R.id.btnCancel)
     Button btnCancel;
     @BindView(R.id.btnCalculate)

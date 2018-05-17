@@ -137,11 +137,11 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
 
             tvLocationName.setText(orderLineDetailModel.getLocationName());
             tvLocationType.setText(orderLineDetailModel.getLocationType());
-            tvProductALias.setText("İsim :"+orderLineDetailModel.getProduct().getAliasName());
-            tvProductPattern.setText("Desen :"+orderLineDetailModel.getProduct().getPatternCode());
-            tvProductVariant.setText("Variant :"+orderLineDetailModel.getProduct().getVariantCode());
-            tvProductWidth.setText("En :"+orderLineDetailModel.getPropertyWidth());
-            tvProductHeight.setText("Boy :"+orderLineDetailModel.getPropertyHeight());
+            tvProductALias.setText(orderLineDetailModel.getProduct().getAliasName());
+            tvProductPattern.setText(orderLineDetailModel.getProduct().getPatternCode());
+            tvProductVariant.setText(orderLineDetailModel.getProduct().getVariantCode());
+            tvProductWidth.setText(String.format("%.2f",orderLineDetailModel.getPropertyWidth())+" cm");
+            tvProductHeight.setText(String.format("%.2f",orderLineDetailModel.getPropertyHeight())+" cm");
 
             Currency currency=Currency.getInstance(new Locale("tr","TR"));
             tvUnitPrice.setText(""+currency.getSymbol()+" "+String.format("%.2f",orderLineDetailModel.getUnitPrice()));

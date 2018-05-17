@@ -11,6 +11,7 @@
         <item name="colorControlHighlight">@color/colorControlHighlight</item>
         <item name="colorControlActivated">@color/colorControlActivated</item>
         <item name="android:textColorHint">@color/hintColor</item>
+        <item name="cardViewStyle">@style/CardView</item>
 
 
     </style>

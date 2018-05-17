@@ -63,7 +63,7 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
     @BindView(R.id.progress_bar_calc) ProgressBar progressCalc;
     @BindView(R.id.btnCancel) Button btnCancel;
     @BindView(R.id.btnSave) Button btnSave;
-    @BindView(R.id.btnCalculate) ImageButton btnCalculate;
+    @BindView(R.id.btnCalculate) Button btnCalculate;
     double pile,unitPrice ;
     private AddOrderLinePresenter mAddOrderLinePresenter;
     public static final int ARG_PRODUCT_VALUE = 7;

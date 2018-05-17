@@ -10,8 +10,8 @@ import android.util.Log;
  * Created by javaman on 15.12.2017.
  */
 
-public class TakeMeasureApp extends Application {
-    private static final String TAG = TakeMeasureApp.class.getSimpleName();
+public class MeasureNotebookApp extends Application {
+    private static final String TAG = MeasureNotebookApp.class.getSimpleName();
     private static Context mContext;
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);

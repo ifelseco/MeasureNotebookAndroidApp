@@ -12,6 +12,7 @@
         <item name="colorControlActivated">@color/colorControlActivated</item>
         <item name="android:textColorHint">@color/hintColor</item>
         <item name="android:editTextStyle">@style/App_EditTextStyle</item>
+        <item name="cardViewStyle">@style/CardView</item>
 
 
     </style>

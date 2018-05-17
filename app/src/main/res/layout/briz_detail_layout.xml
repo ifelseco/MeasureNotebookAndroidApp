@@ -1,6 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:divider="@drawable/vertical_divider_gray"
+    android:showDividers="middle"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,6 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:fontFamily="@font/roboto_regular"
             android:text="Pile Sıklığı :"
             android:textSize="17sp" />
@@ -27,10 +30,7 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightgreen"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:fontFamily="@font/roboto_regular"
             android:text="Farbela En :"
             android:textSize="17sp" />
@@ -56,10 +57,7 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightgreen"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:fontFamily="@font/roboto_regular"
             android:text="Farbela Boy :"
             android:textSize="17sp" />

@@ -24,11 +24,14 @@ public class AddCustomerResponse implements Parcelable {
 
     private Long customerId;
 
+    private String orderNumber;
+
 
     private String customerNameSurname;
 
     public AddCustomerResponse() {
     }
+
 
     @Override
     public int describeContents() {
@@ -41,6 +44,7 @@ public class AddCustomerResponse implements Parcelable {
         dest.writeValue(this.id);
         dest.writeLong(this.orderDate != null ? this.orderDate.getTime() : -1);
         dest.writeValue(this.customerId);
+        dest.writeString(this.orderNumber);
         dest.writeString(this.customerNameSurname);
     }
 
@@ -50,10 +54,11 @@ public class AddCustomerResponse implements Parcelable {
         long tmpOrderDate = in.readLong();
         this.orderDate = tmpOrderDate == -1 ? null : new Date(tmpOrderDate);
         this.customerId = (Long) in.readValue(Long.class.getClassLoader());
+        this.orderNumber = in.readString();
         this.customerNameSurname = in.readString();
     }
 
-    public static final Parcelable.Creator<AddCustomerResponse> CREATOR = new Parcelable.Creator<AddCustomerResponse>() {
+    public static final Creator<AddCustomerResponse> CREATOR = new Creator<AddCustomerResponse>() {
         @Override
         public AddCustomerResponse createFromParcel(Parcel source) {
             return new AddCustomerResponse(source);

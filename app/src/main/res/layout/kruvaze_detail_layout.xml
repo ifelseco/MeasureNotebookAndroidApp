@@ -1,6 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:divider="@drawable/vertical_divider_gray"
+    android:showDividers="middle"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,6 +16,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto_regular"
             android:text="Pile Sıklığı :"
+            android:textStyle="bold"
             android:textSize="17sp" />
 
         <TextView
@@ -27,21 +30,18 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightgreen"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="6dp">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:fontFamily="@font/roboto_regular"
             android:text="Sol En :"
             android:textSize="17sp" />
@@ -57,21 +57,18 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightgreen"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="6dp">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:fontFamily="@font/roboto_regular"
             android:text="Sağ En :"
             android:textSize="17sp" />

@@ -97,6 +97,7 @@ public class AddOrderActivity extends AppCompatActivity
                 orderDetailResponseModel.setCustomer(customerDetailModel);
                 orderDetailResponseModel.setOrderDate(addCustomerResponse.getOrderDate());
                 orderDetailResponseModel.setId(addCustomerResponse.getId());
+                orderDetailResponseModel.setOrderNumber(addCustomerResponse.getOrderNumber());
                 if(orderDetailResponseModel!=null){
                     addAddOrderLineFragment(orderDetailResponseModel);
                 }else{

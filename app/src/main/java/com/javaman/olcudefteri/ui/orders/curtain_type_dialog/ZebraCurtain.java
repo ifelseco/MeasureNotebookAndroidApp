@@ -70,7 +70,7 @@ public class ZebraCurtain extends DialogFragment implements View.OnClickListener
     @BindView(R.id.editTextHeight)
     EditText etHeight;
     @BindView(R.id.btnCancel)
-    ImageButton btnCancel;
+    Button btnCancel;
     @BindView(R.id.btnSave)
     Button btnSave;
     @BindView(R.id.btnCalculate)

@@ -288,21 +288,17 @@
 
                         </android.support.design.widget.TextInputLayout>
 
-                        <ProgressBar
-                            android:id="@+id/progress_bar_calc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:visibility="gone" />
 
-                        <ImageButton
+
+                        <Button
                             android:id="@+id/btnCalculate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="Hesap"
+                            android:textColor="@android:color/white"
+                            android:fontFamily="@font/roboto_regular"
                             android:layout_weight="2"
-                            android:background="@drawable/rectangle_background_light_green"
-                            android:padding="5dp"
-                            app:srcCompat="@drawable/ic_calc" />
+                            android:background="@color/lightgreen"/>
 
 
                     </LinearLayout>
@@ -324,9 +320,15 @@
                     android:padding="10dp"
                     android:background="@drawable/edittext_border_bg_lightgreen">
 
+                    <ProgressBar
+                        android:id="@+id/progress_bar_calc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
                     <TextView
                         android:id="@+id/textViewStorM2"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
                         android:layout_weight="1"
@@ -335,7 +337,7 @@
 
                     <TextView
                         android:id="@+id/textViewStorTotalPrice"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"

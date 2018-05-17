@@ -64,7 +64,7 @@ public class NetStorCurtain extends DialogFragment implements RadioGroup.OnCheck
     @BindView(R.id.editTextHeight) EditText etHeight;
     @BindView(R.id.btnCancel) Button btnCancel;
     @BindView(R.id.btnSave) Button btnSave;
-    @BindView(R.id.btnCalculate) ImageButton btnCalculate;
+    @BindView(R.id.btnCalculate) Button btnCalculate;
     @BindView(R.id.textViewStorM2) TextView tvStorM2;
     @BindView(R.id.textViewStorTotalPrice) TextView tvTotalPrice;
     @BindView(R.id.textViewProductValue) TextView tvProductValue;

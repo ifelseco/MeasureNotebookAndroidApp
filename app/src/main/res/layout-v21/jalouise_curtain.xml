@@ -108,14 +108,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/direction_left_text" />
+                            android:text="Sol" />
 
                         <RadioButton
                             android:id="@+id/radioButtonJaluziRight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/direction_right_text" />
+                            android:text="Sağ" />
                     </RadioGroup>
                 </LinearLayout>
 
@@ -232,21 +232,17 @@
 
                         </android.support.design.widget.TextInputLayout>
 
-                        <ProgressBar
-                            android:id="@+id/progress_bar_calc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:visibility="gone" />
 
-                        <ImageButton
+
+                        <Button
                             android:id="@+id/btnCalculate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="Hesap"
+                            android:textColor="@android:color/white"
+                            android:fontFamily="@font/roboto_regular"
                             android:layout_weight="2"
-                            android:background="@drawable/rectangle_background_light_green"
-                            android:padding="5dp"
-                            app:srcCompat="@drawable/ic_calc" />
+                            android:background="@color/lightgreen"/>
 
 
                     </LinearLayout>
@@ -267,10 +263,14 @@
                     android:layout_margin="10dp"
                     android:background="@drawable/edittext_border_bg_lightgreen"
                     android:padding="5dp">
-
+                    <ProgressBar
+                        android:id="@+id/progress_bar_calc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
                     <TextView
                         android:id="@+id/textViewJalousieM2"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
                         android:layout_weight="1"
@@ -278,7 +278,7 @@
 
                     <TextView
                         android:id="@+id/textViewJalousieTotalPrice"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textSize="15sp"

@@ -157,8 +157,8 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
     @BindView(R.id.et_unit_rice)
     EditText etUnitPrice;
 
-    @BindView(R.id.btn_calculate)
-    ImageButton btnCalculate;
+    @BindView(R.id.btnCalculate)
+    Button btnCalculate;
 
     @BindView(R.id.tv_line_amount)
     TextView tvLineAmount;
@@ -435,10 +435,10 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
 
 
     @Override
-    @OnClick({R.id.btn_calculate, R.id.btn_save, R.id.btn_cancel})
+    @OnClick({R.id.btnCalculate, R.id.btn_save, R.id.btn_cancel})
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.btn_calculate) {
+        if (id == R.id.btnCalculate) {
             orderLineDetailModel=setOrderLine(true);
             AddOrderLineDetailListModel addOrderLineDetailListModel=new AddOrderLineDetailListModel();
             addOrderLineDetailListModel.setOrderLineDetailModelList(new ArrayList<>());

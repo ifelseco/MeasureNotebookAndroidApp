@@ -71,8 +71,7 @@ public class RollerCurtain extends DialogFragment implements View.OnClickListene
     EditText etHeight;
     @BindView(R.id.btnCancel) Button btnCancel;
     @BindView(R.id.btnSave) Button btnSave;
-    @BindView(R.id.btnCalculate)
-    ImageButton btnCalculate;
+    @BindView(R.id.btnCalculate) Button btnCalculate;
     @BindView(R.id.textViewStorM2)
     TextView tvStorM2;
     @BindView(R.id.textViewStorTotalPrice)

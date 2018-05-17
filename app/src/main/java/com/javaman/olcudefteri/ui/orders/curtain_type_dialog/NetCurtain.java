@@ -73,7 +73,7 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     @BindView(R.id.btnCancel)
     Button btnCancel;
     @BindView(R.id.btnCalculate)
-    ImageButton btnCalculate;
+    Button btnCalculate;
     @BindView(R.id.radiGroupPile)
     RadioGroup radioGroupPile;
 

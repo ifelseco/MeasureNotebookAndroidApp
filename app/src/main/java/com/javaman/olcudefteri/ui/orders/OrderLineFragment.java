@@ -61,7 +61,6 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
             tvBrizAltWidth, tvBrizAltHeight, tvFarbelaModel, tvFonPile,
             tvFonDirection, tvFonType, tvFonPileName, tvOrderLineDesc;
 
-    View viewLine;
     LinearLayout linearLayoutDetail, linearLayoutDesc;
     ImageButton imageButtonClose;
     View detailView;
@@ -112,8 +111,6 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
         dialog.setContentView(modalbottomsheet);
         dialog.setCanceledOnTouchOutside(true);
         dialog.setCancelable(true);
-        linearLayoutDesc = modalbottomsheet.findViewById(R.id.linear_layout_dec);
-        tvOrderLineDesc = modalbottomsheet.findViewById(R.id.tv_line_description);
         initDialogView(modalbottomsheet);
     }
 
@@ -125,7 +122,6 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
     private void initDialogView(View modalbottomsheet) {
 
         linearLayoutDetail = modalbottomsheet.findViewById(R.id.linear_layout_order_line_detail);
-        viewLine = modalbottomsheet.findViewById(R.id.view_line_detail);
         tvLocationName = modalbottomsheet.findViewById(R.id.tv_location_name);
         tvLocationType = modalbottomsheet.findViewById(R.id.tv_location_type);
         tvProductValue = modalbottomsheet.findViewById(R.id.tv_product_value);
@@ -138,20 +134,22 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
         tvUnitPrice = modalbottomsheet.findViewById(R.id.tv_unit_price);
         tvLineAmount = modalbottomsheet.findViewById(R.id.tv_line_amount);
         imageButtonClose = modalbottomsheet.findViewById(R.id.image_button_close);
+        linearLayoutDesc = modalbottomsheet.findViewById(R.id.linear_layout_dec);
+        tvOrderLineDesc = modalbottomsheet.findViewById(R.id.tv_line_description);
         imageButtonClose.setOnClickListener(this);
 
     }
 
     private void setDialogView(OrderLineDetailModel orderLineDetailModel) {
         linearLayoutDetail.setVisibility(View.VISIBLE);
-        viewLine.setVisibility(View.VISIBLE);
         tvLocationName.setText(orderLineDetailModel.getLocationName());
         tvLocationType.setText(orderLineDetailModel.getLocationType());
-        tvProductALias.setText("İsim :"+orderLineDetailModel.getProduct().getAliasName());
-        tvProductPattern.setText("Desen :"+orderLineDetailModel.getProduct().getPatternCode());
-        tvProductVariant.setText("Variant :"+orderLineDetailModel.getProduct().getVariantCode());
-        tvProductWidth.setText("En :"+orderLineDetailModel.getPropertyWidth());
-        tvProductHeight.setText("Boy :"+orderLineDetailModel.getPropertyHeight());
+        tvProductALias.setText(orderLineDetailModel.getProduct().getAliasName());
+        tvProductPattern.setText(orderLineDetailModel.getProduct().getPatternCode());
+        tvProductVariant.setText(orderLineDetailModel.getProduct().getVariantCode());
+        tvProductWidth.setText(String.format("%.2f",orderLineDetailModel.getPropertyWidth())+" cm");
+        tvProductHeight.setText(String.format("%.2f",orderLineDetailModel.getPropertyHeight())+" cm");
+        linearLayoutDesc.setVisibility(View.VISIBLE);
         tvOrderLineDesc.setText(orderLineDetailModel.getLineDescription());
 
 
@@ -171,13 +169,12 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
                 tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial() + " m");
                 detailView = getLayoutInflater().inflate(R.layout.net_curtain_detail_layout, linearLayoutDetail, false);
                 tvNetPile = detailView.findViewById(R.id.tv_net_pile);
-                tvNetPile.setText("" + orderLineDetailModel.getSizeOfPile());
+                tvNetPile.setText(String.format("%.2f",orderLineDetailModel.getSizeOfPile()));
                 linearLayoutDetail.addView(detailView);
                 break;
             case 1:
                 linearLayoutDetail.removeAllViews();
                 linearLayoutDetail.setVisibility(View.GONE);
-                viewLine.setVisibility(View.GONE);
                 tvProductValue.setText(productArray[1]);
                 tvUsedMaterial.setText(orderLineDetailModel.getUsedMaterial() + " m");
                 break;
@@ -206,13 +203,13 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
                 }
 
                 if (orderLineDetailModel.getBeadNo().isEmpty()) {
-                    tvStorBeadNo.setText("Boncuk yok");
+                    tvStorBeadNo.setText("Boncuk Yok");
                 } else {
                     tvStorBeadNo.setText(orderLineDetailModel.getBeadNo());
                 }
 
                 if (orderLineDetailModel.getSkirtNo().isEmpty()) {
-                    tvStorSkirtNo.setText("Etek Dilimi yok");
+                    tvStorSkirtNo.setText("Etek Dilimi Yok");
                 } else {
                     tvStorSkirtNo.setText(orderLineDetailModel.getBeadNo());
                 }
@@ -310,9 +307,9 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
                 tvBrizAltWidth = detailView.findViewById(R.id.tv_briz_alternatif_width);
                 tvBrizAltHeight = detailView.findViewById(R.id.tv_briz_alternatif_height);
 
-                tvBrizPile.setText("" + orderLineDetailModel.getSizeOfPile());
-                tvBrizAltHeight.setText("Farbela En:" + orderLineDetailModel.getPropertyAlternativeHeight() + " m");
-                tvBrizAltWidth.setText("Farbela Boy" + orderLineDetailModel.getPropertyAlternativeWidth() + " m");
+                tvBrizPile.setText(String.format("%.2f",orderLineDetailModel.getSizeOfPile()));
+                tvBrizAltHeight.setText(String.format("%.2f",orderLineDetailModel.getPropertyAlternativeHeight()) + " m");
+                tvBrizAltWidth.setText(String.format("%.2f",orderLineDetailModel.getPropertyAlternativeWidth()) + " m");
                 linearLayoutDetail.addView(detailView);
                 break;
             case 8:
@@ -340,7 +337,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
 
                     setPileName(orderLineDetailModel);
 
-                    tvFonPile.setText("" + orderLineDetailModel.getSizeOfPile());
+                    tvFonPile.setText(String.format("%.2f",orderLineDetailModel.getSizeOfPile()));
 
                     if (orderLineDetailModel.getDirection() == 1) {
                         tvFonDirection.setText("Sol");
@@ -352,7 +349,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
                 } else if (orderLineDetailModel.getFonType() == 2) {
                     tvFonType.setText("Fon Kanat");
                     setPileName(orderLineDetailModel);
-                    tvFonPile.setText("" + orderLineDetailModel.getSizeOfPile());
+                    tvFonPile.setText(String.format("%.2f",orderLineDetailModel.getSizeOfPile()));
 
                     if (orderLineDetailModel.getDirection() == 1) {
                         tvFonDirection.setText("Sol");

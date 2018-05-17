@@ -74,16 +74,16 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
     EditText editTextDepositAmount;
 
     @BindView(R.id.btn_cancel)
-    ImageButton imageButtonCancel;
+    Button imageButtonCancel;
 
     @BindView(R.id.btn_save)
-    ImageButton imageButtonSave;
+    Button imageButtonSave;
 
     @BindView(R.id.btn_edit_deposit)
-    Button btnEditDepoist;
+    ImageButton btnEditDepoist;
 
     @BindView(R.id.btn_edit_total)
-    Button btnEditTotal;
+    ImageButton btnEditTotal;
 
     @BindView(R.id.container_measure)
     LinearLayout linearLayoutMeasureDate;

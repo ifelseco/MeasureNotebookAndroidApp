@@ -87,7 +87,7 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
     TextView tvTotalPrice;
 
     @BindView(R.id.btnSave)
-    ImageButton btnSave;
+    Button btnSave;
 
     @BindView(R.id.btnCancel)
     Button btnCancel;
