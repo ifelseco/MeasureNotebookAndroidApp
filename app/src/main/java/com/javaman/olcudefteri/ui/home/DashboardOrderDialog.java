@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -20,21 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.login.LoginActivity;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.model.OrderSummaryModel;
 import com.javaman.olcudefteri.presenter.ReportPresenter;
-import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.presenter.impl.ReportPresenterImpl;
-import com.javaman.olcudefteri.ui.orders.OrderLineAdapter;
-import com.javaman.olcudefteri.ui.orders.OrderLineFragment;
-import com.javaman.olcudefteri.ui.tailor.TailorHomeActivity;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 import com.javaman.olcudefteri.view.ReportView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class DashboardOrderDialog extends DialogFragment implements View.OnClickListener,ReportView{
 

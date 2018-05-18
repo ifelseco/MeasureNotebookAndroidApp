@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.login.LoginActivity;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;

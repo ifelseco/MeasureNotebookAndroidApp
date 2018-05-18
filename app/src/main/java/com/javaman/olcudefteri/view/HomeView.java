@@ -1,5 +1,6 @@
 package com.javaman.olcudefteri.view;
 
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 import com.javaman.olcudefteri.model.NotificationDetailModel;
 import com.javaman.olcudefteri.model.NotificationSummaryModel;
 
@@ -11,6 +12,8 @@ public interface HomeView {
 
     void sendFirebaseRegIdToServer();
     void getNotificationsFromServer();
+    void getAppUtilInfoFromServer();
+    void saveAppUtilInfoToPref(AppUtilInfoModel appUtilInfoModel);
     void getAppUtilInfoFromPref();
     void deleteNotification(NotificationDetailModel notificationDetailModel);
     void deleteAllNotification();

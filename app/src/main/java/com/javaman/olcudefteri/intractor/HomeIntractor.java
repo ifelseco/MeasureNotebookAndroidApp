@@ -1,5 +1,6 @@
 package com.javaman.olcudefteri.intractor;
 
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 import com.javaman.olcudefteri.model.NotificationDetailModel;
 import com.javaman.olcudefteri.model.NotificationSummaryModel;
 import com.javaman.olcudefteri.model.FirebaseRegIdModel;
@@ -21,6 +22,11 @@ public interface HomeIntractor {
         void onSuccessDeleteAll(String message);
         void onFailureDeleteAll(String message);
     }
+    interface onAppInfoListener{
+        void onSuccess(AppUtilInfoModel appUtilInfoModel);
+        void onFailure(String message);
+        void navigateToLogin();
+    }
 
     void sendFirebaseRegIdToServer(String xAuthToken , FirebaseRegIdModel regIdModel);
 
@@ -28,4 +34,5 @@ public interface HomeIntractor {
 
     void deleteNotification(String xAuthToken,NotificationDetailModel notificationDetailModel,onNotificationProcessListener listener);
     void deleteAllNotification(String xAuthToken,onNotificationProcessListener listener);
+    void getAppUtilInfo(String headerData , onAppInfoListener listener);
 }

@@ -7,9 +7,11 @@ import com.google.gson.GsonBuilder;
 import com.javaman.olcudefteri.api.ApiClient;
 import com.javaman.olcudefteri.intractor.HomeIntractor;
 import com.javaman.olcudefteri.model.ApiError;
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 import com.javaman.olcudefteri.model.BaseModel;
 import com.javaman.olcudefteri.model.NotificationDetailModel;
 import com.javaman.olcudefteri.model.NotificationSummaryModel;
+import com.javaman.olcudefteri.service.AppInfoService;
 import com.javaman.olcudefteri.service.NotificationService;
 import com.javaman.olcudefteri.model.FirebaseRegIdModel;
 import com.javaman.olcudefteri.service.FirebaseService;
@@ -31,6 +33,7 @@ public class HomeIntractorImpl implements HomeIntractor {
     NotificationService notificationService;
     NotificationSummaryModel notificationSummaryModel;
     BaseModel baseModel;
+    private AppInfoService appInfoService;
 
     @Override
     public void sendFirebaseRegIdToServer(String xAuthToken , FirebaseRegIdModel regIdModel) {
@@ -293,6 +296,69 @@ public class HomeIntractorImpl implements HomeIntractor {
 
                     listener.onFailureDeleteAll("Ağ hatası : " + t.getMessage());
                 }
+            }
+        });
+    }
+
+    @Override
+    public void getAppUtilInfo(String headerData, final onAppInfoListener listener) {
+        appInfoService = ApiClient.getClient().create(AppInfoService.class);
+        Call<AppUtilInfoModel> appUtilInfoModelCall = appInfoService.getAppUtilInfo(headerData);
+        appUtilInfoModelCall.enqueue(new Callback<AppUtilInfoModel>() {
+            @Override
+            public void onResponse(Call<AppUtilInfoModel> call, Response<AppUtilInfoModel> response) {
+                //request servera ulaştı ve herhangi bir response döndü
+                if (response.isSuccessful()) {
+                    //response [200 ,300) aralığında ise
+                    AppUtilInfoModel appUtilInfoModel=response.body();
+                    listener.onSuccess(appUtilInfoModel);
+                } else if(response.code() == 401){
+                    String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
+                    listener.onFailure(message);
+                    listener.navigateToLogin();
+                }else if (response.code() == 403) {
+                    String message = "Sadece yetkili kullanıcılara bildirim gelir";
+                    listener.onFailure(message);
+                } else {
+                    //response [200 ,300) aralığında değil ise
+                    Gson gson = new GsonBuilder().create();
+                    try {
+                        String errorBody = response.errorBody().string();
+                        AppUtilInfoModel apiError = gson.fromJson(errorBody, AppUtilInfoModel.class);
+                        listener.onFailure(apiError.getBaseModel().getResponseMessage());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AppUtilInfoModel> call, Throwable t) {
+
+                //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
+
+                if (t instanceof HttpException) {
+
+                    Gson gson = new GsonBuilder().create();
+
+                    try {
+
+                        String errorBody = ((HttpException) t).response().errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+                        listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+
+                    }
+                } else {
+
+                    listener.onFailure("Ağ hatası : " + t.getMessage());
+                }
+
+
             }
         });
     }

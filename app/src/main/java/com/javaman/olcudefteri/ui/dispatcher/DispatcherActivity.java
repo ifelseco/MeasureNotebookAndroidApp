@@ -5,41 +5,30 @@ import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 
-import com.javaman.olcudefteri.model.AppUtilInfoModel;
 import com.javaman.olcudefteri.ui.splash.SplashScreenActivity;
-import com.javaman.olcudefteri.presenter.DispatcherPresenter;
-import com.javaman.olcudefteri.presenter.impl.DispatcherPresenterImpl;
 import com.javaman.olcudefteri.service.MyService;
-import com.javaman.olcudefteri.view.DispatcherView;
-import com.javaman.olcudefteri.login.LoginActivity;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 /**
  * Created by javaman on 15.12.2017.
  */
 
-public class DispatcherActivity extends AppCompatActivity implements DispatcherView{
+public class DispatcherActivity extends AppCompatActivity{
 
     private static final String TAG = DispatcherActivity.class.getSimpleName();
     SharedPreferenceHelper sharedPreferenceHelper;
-    private DispatcherPresenter mDispatcherPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate()");
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
-        mDispatcherPresenter=new DispatcherPresenterImpl(this);
         Intent serviceIntent = new Intent(this, MyService.class);
         startService(serviceIntent);
-        if(sharedPreferenceHelper.containKey("lastActivity")){
-            getAppUtilInfoFromServer();
-        }else{
-            redirectActivity();
-        }
+        redirectActivity();
 
 
     }
@@ -63,64 +52,5 @@ public class DispatcherActivity extends AppCompatActivity implements DispatcherV
     }
 
 
-    @Override
-    public void getAppUtilInfoFromServer() {
-        String headerData=getSessionIdFromPref();
-        mDispatcherPresenter.getAppUtilInfo(headerData);
-    }
 
-    @Override
-    public void saveAppUtilInfoToPref(AppUtilInfoModel appUtilInfoModel) {
-        sharedPreferenceHelper.setIntegerPreference("notf-count", appUtilInfoModel.getCount());
-        sharedPreferenceHelper.setStringPreference("company-name",appUtilInfoModel.getComapanyName());
-        sharedPreferenceHelper.setStringPreference("name-surname",appUtilInfoModel.getUserNameSurname());
-    }
-
-    @Override
-    public void redirect() {
-        redirectActivity();
-    }
-
-    @Override
-    public void logout() {
-
-    }
-
-    @Override
-    public void checkSession() {
-
-    }
-
-    @Override
-    public void navigateToLogin() {
-        startActivity(new Intent(DispatcherActivity.this, LoginActivity.class));
-    }
-
-    @Override
-    public String getSessionIdFromPref() {
-        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
-        return xAuthToken;
-    }
-
-    @Override
-    public void removeKeyFromPref(String key) {
-
-    }
-
-    @Override
-    public void showAlert(String message, boolean isToast) {
-        if(isToast){
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void showProgress(String message) {
-
-    }
-
-    @Override
-    public void hideProgress() {
-
-    }
 }

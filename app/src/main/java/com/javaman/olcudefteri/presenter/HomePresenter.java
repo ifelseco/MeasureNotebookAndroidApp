@@ -14,4 +14,5 @@ public interface HomePresenter {
     void getNotificationsFromServer(String xAuthToken);
     void deleteNotification(String xAuthToken , NotificationDetailModel notificationDetailModel);
     void deleteAllNotification(String xAuthToken);
+    void getAppUtilInfo(String headerData);
 }

@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.javaman.olcudefteri.login.LoginActivity;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 

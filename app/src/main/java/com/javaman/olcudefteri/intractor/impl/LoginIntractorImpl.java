@@ -32,7 +32,7 @@ public class LoginIntractorImpl implements LoginIntractor {
 
 
 
-    public void login(String username, String password, final onLoginFinishedListener listener) {
+    public void login(String username, String password,boolean rememberMeActive, final onLoginFinishedListener listener) {
 
         if (TextUtils.isEmpty(username)) {
             listener.onUserNameEmptyError();
@@ -66,6 +66,7 @@ public class LoginIntractorImpl implements LoginIntractor {
 
                         listener.openSession(sessionId);
                         listener.onSuccess(authResponse);
+                        listener.setRememberMe(username,password,rememberMeActive);
 
                     }else if(response.code()==401){
                         String message = "Kullanıcı adı yada parola hatalı.";

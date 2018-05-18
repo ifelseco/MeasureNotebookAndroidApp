@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.login.LoginActivity;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.event.OrderDeleteEvent;
 import com.javaman.olcudefteri.event.OrderUpdateEvent;
 import com.javaman.olcudefteri.model.OrderUpdateModel;

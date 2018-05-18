@@ -2,6 +2,7 @@ package com.javaman.olcudefteri.presenter.impl;
 
 import com.javaman.olcudefteri.intractor.HomeIntractor;
 import com.javaman.olcudefteri.intractor.impl.HomeIntractorImpl;
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 import com.javaman.olcudefteri.model.NotificationDetailModel;
 import com.javaman.olcudefteri.model.NotificationSummaryModel;
 import com.javaman.olcudefteri.presenter.HomePresenter;
@@ -12,7 +13,7 @@ import com.javaman.olcudefteri.model.FirebaseRegIdModel;
  * Created by javaman on 20.02.2018.
  */
 
-public class HomePresenterImpl implements HomePresenter,HomeIntractor.onNotificationProcessListener {
+public class HomePresenterImpl implements HomePresenter,HomeIntractor.onNotificationProcessListener,HomeIntractor.onAppInfoListener {
 
     HomeView mHomeViev;
     HomeIntractor mHomeIntractor;
@@ -77,6 +78,21 @@ public class HomePresenterImpl implements HomePresenter,HomeIntractor.onNotifica
     }
 
     @Override
+    public void onSuccess(AppUtilInfoModel appUtilInfoModel) {
+        if(mHomeViev!=null){
+            mHomeViev.saveAppUtilInfoToPref(appUtilInfoModel);
+
+        }
+    }
+
+    @Override
+    public void onFailure(String message) {
+        if(mHomeViev!=null){
+            mHomeViev.showAlert(message);
+        }
+    }
+
+    @Override
     public void navigateToLogin() {
         if(mHomeViev!=null){
             mHomeViev.navigateLogin();
@@ -113,4 +129,12 @@ public class HomePresenterImpl implements HomePresenter,HomeIntractor.onNotifica
             mHomeViev.showAlert(message);
         }
     }
+
+    @Override
+    public void getAppUtilInfo(String headerData) {
+        if(mHomeViev!=null){
+            mHomeIntractor.getAppUtilInfo(headerData,this);
+        }
+    }
+
 }

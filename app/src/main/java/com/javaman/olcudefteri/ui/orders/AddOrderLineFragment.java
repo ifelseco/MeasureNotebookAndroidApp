@@ -33,7 +33,7 @@ import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.ui.home.HomeActivity;
-import com.javaman.olcudefteri.login.LoginActivity;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.ui.orders.curtain_type_dialog.BrizCurtain;
 import com.javaman.olcudefteri.ui.orders.curtain_type_dialog.CurtainDoubleNet;
 import com.javaman.olcudefteri.ui.orders.curtain_type_dialog.FarbelaCurtain;

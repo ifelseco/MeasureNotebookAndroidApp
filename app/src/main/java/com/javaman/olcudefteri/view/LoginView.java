@@ -13,4 +13,5 @@ public interface LoginView {
     void navigatetoHome(boolean isTailor);
     void showAlert(String message);
     void openSession(String sessionId);
+    void setRememberMe(String username,String password,boolean rememberMeActive);
 }

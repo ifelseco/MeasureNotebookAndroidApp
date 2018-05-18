@@ -6,6 +6,6 @@ package com.javaman.olcudefteri.presenter;
 
 public interface LoginPresenter {
 
-    void validateCredential(String username , String password);
+    void validateCredential(String username , String password,boolean rememberMeActive);
     void onDestroy();
 }

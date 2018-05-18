@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.ui.home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +30,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 import com.javaman.olcudefteri.presenter.BasePresenter;
 import com.javaman.olcudefteri.presenter.impl.BasePresenterImpl;
 import com.javaman.olcudefteri.view.BaseView;
@@ -37,7 +39,7 @@ import com.javaman.olcudefteri.model.NotificationSummaryModel;
 import com.javaman.olcudefteri.presenter.HomePresenter;
 import com.javaman.olcudefteri.presenter.impl.HomePresenterImpl;
 import com.javaman.olcudefteri.view.HomeView;
-import com.javaman.olcudefteri.login.LoginActivity;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.ui.orders.AddOrderActivity;
 import com.javaman.olcudefteri.model.FirebaseRegIdModel;
 import com.javaman.olcudefteri.utill.FirebaseUtil;
@@ -52,7 +54,7 @@ import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,BaseView,HomeView {
+        implements NavigationView.OnNavigationItemSelectedListener ,BaseView,HomeView, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     boolean doubleBackToExitPressedOnce = false;
@@ -99,15 +101,16 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
+        sharedPreferenceHelper.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
         sharedPreferenceHelper.removeKey("orderDetailResponse");
 
-        getAppUtilInfoFromPref();
 
         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
 
         mHomePresenter=new HomePresenterImpl(this);
         mBasePresenter=new BasePresenterImpl(this);
+        getAppUtilInfoFromPref();
         initBottomNav();
         sendFirebaseRegIdToServer();
 
@@ -117,7 +120,7 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setCheckedItem(R.id.home);
         navigationView.setNavigationItemSelectedListener(this);
-        setAppInfo();
+        getAppUtilInfoFromServer();
         Bundle bundle=getIntent().getExtras();
         if(bundle!=null){
             if(bundle.containsKey("init-key")){
@@ -142,6 +145,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void initBottomNav() {
+
         AHBottomNavigationItem item_home = new AHBottomNavigationItem(R.string.title_home, R.drawable.ic_home_black_24dp, R.color.hintColor);
         AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
         AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
@@ -289,6 +293,24 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
+    public void getAppUtilInfoFromServer() {
+        String headerData=getSessionIdFromPref();
+        mHomePresenter.getAppUtilInfo(headerData);
+    }
+
+    @Override
+    public void saveAppUtilInfoToPref(AppUtilInfoModel appUtilInfoModel) {
+        notfCount=appUtilInfoModel.getCount();
+        companyName=appUtilInfoModel.getComapanyName();
+        nameSurname=appUtilInfoModel.getUserNameSurname();
+        setAppInfo();
+        sharedPreferenceHelper.setIntegerPreference("notf-count", appUtilInfoModel.getCount());
+        sharedPreferenceHelper.setStringPreference("company-name",appUtilInfoModel.getComapanyName());
+        sharedPreferenceHelper.setStringPreference("name-surname",appUtilInfoModel.getUserNameSurname());
+
+    }
+
+    @Override
     public void getAppUtilInfoFromPref() {
         if(sharedPreferenceHelper.containKey("notf-count")){
             notfCount= sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
@@ -305,7 +327,6 @@ public class HomeActivity extends AppCompatActivity
             nameSurname=sharedPreferenceHelper.getStringPreference("name-surname","");
         }
     }
-
 
 
     @Override
@@ -403,10 +424,17 @@ public class HomeActivity extends AppCompatActivity
                 homeNotificationFragment.removeAllItemFromAdapter();
                 mNotificationSummaryModel.getNotificationDetailModelList().clear();
                 updateNotificationCount(mNotificationSummaryModel);
+                sharedPreferenceHelper.setIntegerPreference("notf-count",0);
             }else{
                 homeNotificationFragment.removeItemFromAdapter(notificationDetailModel);
                 mNotificationSummaryModel.getNotificationDetailModelList().remove(notificationDetailModel);
                 updateNotificationCount(mNotificationSummaryModel);
+
+                int notf_count=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+                if(notf_count!=-1){
+                    notf_count--;
+                    sharedPreferenceHelper.setIntegerPreference("notf-count",notf_count);
+                }
             }
         }
     }
@@ -462,5 +490,15 @@ public class HomeActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key=="notf-count"){
+            notfCount=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+            if(notfCount>0){
+                ahBottomNavigation.setNotification(""+notfCount,3);
+            }
+        }
     }
 }

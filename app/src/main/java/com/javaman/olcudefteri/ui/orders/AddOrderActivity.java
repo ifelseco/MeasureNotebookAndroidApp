@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.ui.orders;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -28,7 +29,7 @@ import com.javaman.olcudefteri.presenter.impl.BasePresenterImpl;
 import com.javaman.olcudefteri.view.BaseView;
 import com.javaman.olcudefteri.ui.home.HomeActivity;
 import com.javaman.olcudefteri.R;
-import com.javaman.olcudefteri.login.LoginActivity;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.model.CustomerDetailModel;
 import com.javaman.olcudefteri.model.AddCustomerResponse;
 import com.javaman.olcudefteri.model.OrderDetailResponseModel;
@@ -39,7 +40,7 @@ import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddOrderActivity extends AppCompatActivity
-        implements FragmentManager.OnBackStackChangedListener,BaseView {
+        implements FragmentManager.OnBackStackChangedListener,BaseView, SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     public static final String ARG_ADD_ORDER = "arg_add_order";
@@ -69,6 +70,7 @@ public class AddOrderActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_order);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
+        sharedPreferenceHelper.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
         mBasePresenter=new BasePresenterImpl(this);
         ButterKnife.bind(this);
@@ -362,6 +364,16 @@ public class AddOrderActivity extends AppCompatActivity
     public void navigateToLogin() {
         startActivity(new Intent(AddOrderActivity.this , LoginActivity.class));
 
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key=="notf-count"){
+            notfCount=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+            if(notfCount>0){
+                ahBottomNavigation.setNotification(""+notfCount,3);
+            }
+        }
     }
 }
 

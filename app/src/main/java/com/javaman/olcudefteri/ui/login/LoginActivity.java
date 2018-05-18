@@ -1,11 +1,13 @@
-package com.javaman.olcudefteri.login;
+package com.javaman.olcudefteri.ui.login;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -17,6 +19,7 @@ import com.javaman.olcudefteri.ui.home.HomeActivity;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.presenter.LoginPresenter;
 import com.javaman.olcudefteri.presenter.impl.LoginPresenterImpl;
+import com.javaman.olcudefteri.utill.CipherHelper;
 import com.javaman.olcudefteri.view.LoginView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
@@ -27,6 +30,8 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String ARG_LOGIN_1="78s78ds78d45f";
+    private static final String ARG_LOGIN_2="343434dfdfdfdf";
 
     @BindView(R.id.et_username)
     EditText editTextUsername;
@@ -40,6 +45,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @BindView(R.id.pb_login)
     ProgressBar progressBarLogin;
 
+    @BindView(R.id.cb_remember)
+    CheckBox cbRememberMe;
+
     private LoginPresenter mLoginPresenter;
     SharedPreferenceHelper sharedPreferenceHelper;
 
@@ -49,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
+
         if(sharedPreferenceHelper.containKey("lastActivity")){
             sharedPreferenceHelper.removeKey("lastActivity");
         }
@@ -61,12 +70,40 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
         mLoginPresenter=new LoginPresenterImpl(this);
         ButterKnife.bind(this);
+        controlRememberMe(sharedPreferenceHelper);
+    }
+
+    private void controlRememberMe(SharedPreferenceHelper sharedPreferenceHelper) {
+        if(sharedPreferenceHelper.containKey("rememberMe")){
+            boolean rememberMeActive=sharedPreferenceHelper.getBooleanPreference("rememberMe",false);
+            if(rememberMeActive){
+                if(sharedPreferenceHelper.containKey(ARG_LOGIN_1)){
+                    if(!TextUtils.isEmpty(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_1,""))){
+                        try {
+                            editTextUsername.setText(CipherHelper.decrypt(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_1,"")));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                if(sharedPreferenceHelper.containKey(ARG_LOGIN_2)){
+                    if(!TextUtils.isEmpty(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_2,""))){
+                        try {
+                            editTextPassword.setText(CipherHelper.decrypt(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_2,"")));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @OnClick(R.id.btn_login)
     public void onClick(View v){
         mLoginPresenter.validateCredential(editTextUsername.getText().toString().trim() ,
-                editTextPassword.getText().toString().trim());
+                editTextPassword.getText().toString().trim(),cbRememberMe.isChecked());
     }
 
     @Override
@@ -110,6 +147,23 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void openSession(String sessionId) {
         sharedPreferenceHelper.setStringPreference("sessionId", sessionId);
+    }
+
+    @Override
+    public void setRememberMe(String username, String password, boolean rememberMeActive) {
+        if(rememberMeActive){
+           sharedPreferenceHelper.setBooleanPreference("rememberMe",rememberMeActive);
+            try {
+                sharedPreferenceHelper.setStringPreference(ARG_LOGIN_1, CipherHelper.encrypt(username));
+                sharedPreferenceHelper.setStringPreference(ARG_LOGIN_2,CipherHelper.encrypt(password));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            sharedPreferenceHelper.setBooleanPreference("rememberMe",rememberMeActive);
+            sharedPreferenceHelper.removeKey(ARG_LOGIN_1);
+            sharedPreferenceHelper.removeKey(ARG_LOGIN_2);
+        }
     }
 
     @Override

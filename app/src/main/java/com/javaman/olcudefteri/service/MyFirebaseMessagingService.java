@@ -40,7 +40,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             //remoteMessage.getData().getData()-->orderId
 
 
-
+            int notf_count=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+            if(notf_count>-1){
+                notf_count++;
+                sharedPreferenceHelper.setIntegerPreference("notf-count",notf_count);
+            }
             String title = remoteMessage.getNotification().getTitle();
             String message = remoteMessage.getData().get("message");
             Long orderId = Long.parseLong(remoteMessage.getData().get("data"));
@@ -49,9 +53,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         }
 
-        if (remoteMessage.getData().size() > 0) {
-            Log.e(TAG, "Data: " + remoteMessage.getData());
-        }
+
     }
 
     private void createNotification(String messageBody, String messageTitle, Long orderId, String time) {

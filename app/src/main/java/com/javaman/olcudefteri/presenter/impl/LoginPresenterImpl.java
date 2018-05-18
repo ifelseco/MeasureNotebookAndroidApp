@@ -24,11 +24,11 @@ public class LoginPresenterImpl implements LoginPresenter,LoginIntractor.onLogin
 
 
     @Override
-    public void validateCredential(String username, String password) {
+    public void validateCredential(String username, String password,boolean rememberMeActive) {
 
         if(mLoginView!=null){
             mLoginView.showProgress();
-           mLoginIntractor.login(username,password,this);
+           mLoginIntractor.login(username,password,rememberMeActive,this);
            // mLoginIntractor.dummyLogin(username,password,this);
         }
 
@@ -77,6 +77,11 @@ public class LoginPresenterImpl implements LoginPresenter,LoginIntractor.onLogin
 
             mLoginView.openSession(sessionId);
         }
+    }
+
+    @Override
+    public void setRememberMe(String username, String password, boolean isRememberMe) {
+        mLoginView.setRememberMe(username,password,isRememberMe);
     }
 
     @Override

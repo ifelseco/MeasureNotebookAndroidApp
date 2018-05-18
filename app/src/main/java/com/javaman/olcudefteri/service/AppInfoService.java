@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 
-public interface DispatcherService {
+public interface AppInfoService {
 
     @GET("/util/android")
     @Headers({

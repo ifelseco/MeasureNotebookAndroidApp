@@ -47,9 +47,12 @@ public class MyService extends Service {
         /*sharedPreferenceHelper.removeKey("lastActivity");
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");*/
         String firebaseRegId=sharedPreferenceHelper.getStringPreference("firebase_reg_id","");
+        int notf_count=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+        boolean rememberMe=sharedPreferenceHelper.getBooleanPreference("rememberMe",false);
         sharedPreferenceHelper.removeAll();
         sharedPreferenceHelper.setStringPreference("firebase_reg_id",firebaseRegId);
-
+        sharedPreferenceHelper.setIntegerPreference("notf-count",notf_count);
+        sharedPreferenceHelper.setBooleanPreference("rememberMe",rememberMe);
     }
 
     @Override

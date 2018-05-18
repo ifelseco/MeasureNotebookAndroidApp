@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.ui.tailor;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -19,6 +20,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.model.AppUtilInfoModel;
 import com.javaman.olcudefteri.presenter.BasePresenter;
 import com.javaman.olcudefteri.presenter.impl.BasePresenterImpl;
 import com.javaman.olcudefteri.view.BaseView;
@@ -27,7 +29,7 @@ import com.javaman.olcudefteri.model.NotificationDetailModel;
 import com.javaman.olcudefteri.model.NotificationSummaryModel;
 import com.javaman.olcudefteri.presenter.HomePresenter;
 import com.javaman.olcudefteri.presenter.impl.HomePresenterImpl;
-import com.javaman.olcudefteri.login.LoginActivity;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.model.FirebaseRegIdModel;
 import com.javaman.olcudefteri.utill.FirebaseUtil;
 import com.javaman.olcudefteri.model.OrderDetailModel;
@@ -45,7 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class TailorHomeActivity extends AppCompatActivity implements BaseView,TailorView {
+public class TailorHomeActivity extends AppCompatActivity implements BaseView,TailorView, SharedPreferences.OnSharedPreferenceChangeListener {
 
     SharedPreferenceHelper sharedPreferenceHelper;
     String text;
@@ -90,16 +92,17 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         ButterKnife.bind(this);
         FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
-        getAppUtilInfoFromPref();
-        setAppInfo();
+        sharedPreferenceHelper.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         setSupportActionBar(toolbar);
         mHomePresenter=new HomePresenterImpl(this);
         mOrdersPresenter=new OrdersPresenterImpl(this);
         mBasePresenter=new BasePresenterImpl(this);
+        getAppUtilInfoFromPref();
         initBottomNav();
         sendFirebaseRegIdToServer();
         getProcessingOrderFragment();
         getProcessedOrderFromServer();
+        getAppUtilInfoFromServer();
 
     }
 
@@ -218,23 +221,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         }
     }
 
-    @Override
-    public void getAppUtilInfoFromPref() {
-        if(sharedPreferenceHelper.containKey("notf-count")){
-            notfCount= sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
-        }else{
-            notfCount= -1;
-        }
 
-
-        if(sharedPreferenceHelper.containKey("company-name")){
-            companyName=sharedPreferenceHelper.getStringPreference("company-name","");
-        }
-
-        if(sharedPreferenceHelper.containKey("name-surname")){
-            nameSurname=sharedPreferenceHelper.getStringPreference("name-surname","");
-        }
-    }
 
 
 
@@ -300,6 +287,42 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     public void getNotificationsFromServer() {
         String xAuthToken=getSessionIdFromPref();
         mHomePresenter.getNotificationsFromServer(xAuthToken);
+    }
+
+    @Override
+    public void getAppUtilInfoFromServer() {
+        String headerData=getSessionIdFromPref();
+        mHomePresenter.getAppUtilInfo(headerData);
+    }
+
+    @Override
+    public void saveAppUtilInfoToPref(AppUtilInfoModel appUtilInfoModel) {
+        notfCount=appUtilInfoModel.getCount();
+        companyName=appUtilInfoModel.getComapanyName();
+        nameSurname=appUtilInfoModel.getUserNameSurname();
+        setAppInfo();
+        sharedPreferenceHelper.setIntegerPreference("notf-count", appUtilInfoModel.getCount());
+        sharedPreferenceHelper.setStringPreference("company-name",appUtilInfoModel.getComapanyName());
+        sharedPreferenceHelper.setStringPreference("name-surname",appUtilInfoModel.getUserNameSurname());
+
+    }
+
+    @Override
+    public void getAppUtilInfoFromPref() {
+        if(sharedPreferenceHelper.containKey("notf-count")){
+            notfCount= sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+        }else{
+            notfCount= -1;
+        }
+
+
+        if(sharedPreferenceHelper.containKey("company-name")){
+            companyName=sharedPreferenceHelper.getStringPreference("company-name","");
+        }
+
+        if(sharedPreferenceHelper.containKey("name-surname")){
+            nameSurname=sharedPreferenceHelper.getStringPreference("name-surname","");
+        }
     }
 
     @Override
@@ -414,10 +437,16 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
                 homeNotificationFragment.removeAllItemFromAdapter();
                 mNotificationSummaryModel.getNotificationDetailModelList().clear();
                 updateNotificationCount(mNotificationSummaryModel);
+                sharedPreferenceHelper.setIntegerPreference("notf-count",0);
             }else{
                 homeNotificationFragment.removeItemFromAdapter(notificationDetailModel);
                 mNotificationSummaryModel.getNotificationDetailModelList().remove(notificationDetailModel);
                 updateNotificationCount(mNotificationSummaryModel);
+                int notf_count=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+                if(notf_count!=-1){
+                    notf_count--;
+                    sharedPreferenceHelper.setIntegerPreference("notf-count",notf_count);
+                }
             }
         }
     }
@@ -483,4 +512,13 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     }
 
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key=="notf-count"){
+            notfCount=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+            if(notfCount>0){
+                ahBottomNavigation.setNotification(""+notfCount,2);
+            }
+        }
+    }
 }

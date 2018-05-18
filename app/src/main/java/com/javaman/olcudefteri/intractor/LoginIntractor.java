@@ -13,13 +13,14 @@ public interface LoginIntractor {
         void onPasswordEmptyError();
         void onSuccess(AuthResponse authResponse);
         void openSession(String sessionId);
+        void setRememberMe(String username,String password,boolean isRememberMe);
         void onFailure(String message);
 
     }
 
     //void dummyLogin(String username, String password, onLoginFinishedListener listener);
 
-    void login(String username, String password, onLoginFinishedListener listener);
+    void login(String username, String password,boolean rememberMeActive, onLoginFinishedListener listener);
 
 
 

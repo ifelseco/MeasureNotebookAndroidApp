@@ -13,6 +13,8 @@ public class SharedPreferenceHelper {
     private static SharedPreferences sharedPreferences;
     private Context context;
 
+
+
     public SharedPreferenceHelper(Context context){
         this.context=context;
     }
@@ -26,6 +28,11 @@ public class SharedPreferenceHelper {
             editor.commit();
         }
 
+    }
+
+    public  SharedPreferences getSharedPreferences(){
+        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
+        return sharedPreferences;
     }
 
     public String getStringPreference(String key,String defaultValue) {
@@ -48,6 +55,27 @@ public class SharedPreferenceHelper {
         }
 
     }
+
+    public void setBooleanPreference(String key, boolean value) {
+
+        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
+        if (sharedPreferences != null && !TextUtils.isEmpty(key)) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(key, value);
+            editor.commit();
+        }
+
+    }
+
+    public boolean getBooleanPreference(String key,boolean defaultValue) {
+        boolean value = false;
+        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_FILE, Context.MODE_PRIVATE);
+        if (sharedPreferences != null) {
+            value = sharedPreferences.getBoolean(key, defaultValue);
+        }
+        return value;
+    }
+
 
     public int getIntegerPreference(String key,int defaultValue) {
         int value = -1;
