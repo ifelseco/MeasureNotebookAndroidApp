@@ -26,21 +26,6 @@
 
 
     <string-array name="curtains">
-        <item>Tül Perde</item>
-        <item>Güneşlik</item>
-        <item>Stor Perde</item>
-        <item>Zebra Perde</item>
-        <item>Jaluzi</item>
-        <item>Dikey Perde</item>
-        <item>Kruvaze Tül</item>
-        <item>Briz</item>
-        <item>Farbela</item>
-        <item>Fon Perde</item>
-        <item>Tül Stor</item>
-    </string-array>
-
-
-    <string-array name="curtainsCode">
         <item>@string/TP</item>
         <item>@string/GP</item>
         <item>@string/SP</item>
@@ -52,6 +37,21 @@
         <item>@string/FARBP</item>
         <item>@string/FP</item>
         <item>@string/TSP</item>
+    </string-array>
+
+
+    <string-array name="curtainsCode">
+        <item>TP</item>
+        <item>GP</item>
+        <item>SP</item>
+        <item>ZP</item>
+        <item>JP</item>
+        <item>DP</item>
+        <item>KTP</item>
+        <item>BP</item>
+        <item>FARBP</item>
+        <item>FP</item>
+        <item>TSP</item>
     </string-array>
 
     <!-- Strings related to login -->

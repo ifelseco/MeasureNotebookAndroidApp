@@ -55,7 +55,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lightgreen" />
+            android:background="@color/generalBorderColor" />
 
 
         <LinearLayout
@@ -94,7 +94,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lightgreen" />
+            android:background="@color/generalBorderColor" />
 
 
         <LinearLayout
@@ -137,7 +137,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/lightgreen" />
+            android:background="@color/generalBorderColor" />
 
 
 
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_margin="5dp"
-                android:background="@color/colorAccent"
+                android:background="@color/secondaryColor"
                 android:tint="#ffffff"
                 app:srcCompat="@drawable/ic_format_list_bulleted_black_24dp" />
 
@@ -176,7 +176,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@color/lightgreen"
+                android:background="@color/generalBorderColor"
                 android:tint="#ffffff"
                 app:srcCompat="@drawable/ic_check_black_24dp" />
 
@@ -190,7 +190,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="@color/lightgreen" />
+            android:background="@color/generalBorderColor" />
     </LinearLayout>
 
 

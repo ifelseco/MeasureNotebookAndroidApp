@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private void controlRememberMe(SharedPreferenceHelper sharedPreferenceHelper) {
         if(sharedPreferenceHelper.containKey("rememberMe")){
             boolean rememberMeActive=sharedPreferenceHelper.getBooleanPreference("rememberMe",false);
+            cbRememberMe.setChecked(rememberMeActive);
             if(rememberMeActive){
                 if(sharedPreferenceHelper.containKey(ARG_LOGIN_1)){
                     if(!TextUtils.isEmpty(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_1,""))){
@@ -96,6 +97,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                         }
                     }
                 }
+
+
             }
         }
     }

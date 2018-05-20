@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.ui.orders.curtain_type_dialog;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.javaman.olcudefteri.model.ProductDetailModel;
 import com.javaman.olcudefteri.model.CalculationResponse;
 import com.javaman.olcudefteri.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.view.CalculateView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
@@ -196,6 +198,11 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
     public String getSessionIdFromPref() {
         String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
         return xAuthToken;
+    }
+
+    @Override
+    public void navigateLogin() {
+        startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
     @Override

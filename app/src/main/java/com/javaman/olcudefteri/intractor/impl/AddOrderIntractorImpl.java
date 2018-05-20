@@ -13,6 +13,8 @@ import com.javaman.olcudefteri.model.ApiError;
 
 import com.javaman.olcudefteri.model.AddCustomerModel;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -39,8 +41,8 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
 
 
             customerService = ApiClient.getClient().create(CustomerService.class);
-            String xAuthToken=headerData;
-            Call<AddCustomerResponse> addCustomerResponse = customerService.addCustomer(xAuthToken,addCustomerModel);
+            String xAuthToken = headerData;
+            Call<AddCustomerResponse> addCustomerResponse = customerService.addCustomer(xAuthToken, addCustomerModel);
             addCustomerResponse.enqueue(new Callback<AddCustomerResponse>() {
                 @Override
                 public void onResponse(Call<AddCustomerResponse> call, Response<AddCustomerResponse> response) {
@@ -53,25 +55,28 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
                         listener.onSuccess(addCustomerResponse);
                         Log.d("Response body", response.body().toString());
                         Log.d("Auth response:", addCustomerResponse.toString());
-                    } else {
-
-                        //response [200 ,300) aralığında değil ise
-
-                        Gson gson = new GsonBuilder().create();
+                    }else if(response.code() == 401){
+                        String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
+                        listener.onFailure(message);
+                        listener.navigateToLogin();
+                    }else if(response.code()==503){
+                        String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                        listener.onFailure(message);
+                    }else {
 
                         try {
+                            JSONObject jObjError = new JSONObject(response.errorBody().string());
+                            if(jObjError.get("baseModel")!=null){
+                                listener.onFailure("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                            }else{
+                                listener.onFailure("Bir hata oluştu : "+jObjError.getString("message"));
+                            }
 
-                            String errorBody = response.errorBody().string();
-
-                            ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-
-                            Log.d("Hata Mesaj:", apiError.getStatus() +" "+ apiError.getMessage());
-                            listener.onFailure(apiError.getStatus() +" "+ apiError.getMessage());
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                        } catch (Exception e) {
+                            listener.onFailure("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                         }
+
+
 
                     }
 
@@ -91,8 +96,8 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
                             String errorBody = ((HttpException) t).response().errorBody().string();
                             ApiError apiError = gson.fromJson(errorBody, ApiError.class);
 
-                            Log.d("Request Error :", apiError.getStatus() +" "+ apiError.getMessage());
-                            listener.onFailure(apiError.getStatus() +" "+ apiError.getMessage());
+                            Log.d("Request Error :", apiError.getStatus() + " " + apiError.getMessage());
+                            listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
 
                         } catch (IOException e) {
                             e.printStackTrace();

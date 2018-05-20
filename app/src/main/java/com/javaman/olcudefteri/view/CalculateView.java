@@ -15,4 +15,5 @@ public interface CalculateView {
     void hideProgress();
     String getSessionIdFromPref();
     void updateAmount(CalculationResponse calculationResponse);
+    void navigateLogin();
 }

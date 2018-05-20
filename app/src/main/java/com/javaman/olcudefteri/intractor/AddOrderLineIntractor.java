@@ -16,11 +16,13 @@ public interface AddOrderLineIntractor {
     interface onAddOrderLineListener{
         void onSuccessAddOrderLine(AddOrderLineResponse addOrderLineResponse,OrderLineDetailModel orderLineDetailModel);
         void onFailureAddOrderLine(String message);
+        void navigateToLogin();
     }
 
     interface onAddOrderLinesListener{
         void onSuccessAddOrderLines(AddOrderLineListResponse addOrderLineListResponse);
         void onFailureAddOrderLines(String message);
+        void navigateToLogin();
     }
 
     interface onDeleteOrderLineListener{
@@ -36,6 +38,7 @@ public interface AddOrderLineIntractor {
     interface onCalculateOrderLineListener{
         void onSuccessCalculateOrderLines(CalculationResponse calculationResponse);
         void onFailureCalculateOrderLines(String message);
+        void navigateToLogin();
     }
 
 

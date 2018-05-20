@@ -11,6 +11,8 @@ import com.javaman.olcudefteri.model.BaseModel;
 import com.javaman.olcudefteri.model.OrderUpdateModel;
 import com.javaman.olcudefteri.service.OrderService;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -36,27 +38,37 @@ public class OrderIntractorImpl implements OrderIntractor {
                     //response [200 ,300) aralığında ise
                     BaseModel baseModel = response.body();
                     listener.onSuccessUpdateOrder(baseModel,orderUpdateModel);
-                } else {
+                }else if (response.code() == 403) {
+                    String message = "Sadece izinli kullanıcılar silme işlemi yapabilir.";
+                    listener.onFailureUpdateOrder(message);
+                }else if(response.code() == 401){
+                    String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
+                    listener.onFailureUpdateOrder(message);
+                    listener.navigateToLogin();
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureUpdateOrder(message);
+                }else{
 
                     //response [200 ,300) aralığında değil ise
-
-                    Gson gson = new GsonBuilder().create();
-
                     try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureUpdateOrder("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else if(jObjError.getString("responseMessage")!=null){
+                            listener.onFailureUpdateOrder("Bir hata oluştu : "+jObjError.getString("responseMessage"));
 
-                        String errorBody = response.errorBody().string();
+                        }
+                        else{
+                            listener.onFailureUpdateOrder("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
 
-                        BaseModel apiError = gson.fromJson(errorBody, BaseModel.class);
-
-                        Log.d("Hata Mesaj:", response.code() +" "+ apiError.getResponseMessage());
-                        listener.onFailureUpdateOrder("Server hatası :"+response.code() +"\n"+ apiError.getResponseMessage());
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureUpdateOrder("Beklenmedik hata..." + e.getMessage());
+                    } catch (Exception e) {
+                        listener.onFailureUpdateOrder("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
 
                 }
+
 
             }
 
@@ -106,18 +118,24 @@ public class OrderIntractorImpl implements OrderIntractor {
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
                     listener.onFailureDeleteOrder(message);
                     listener.navigateToLogin();
-                }
-                else{
-                    Gson gson = new GsonBuilder().create();
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureDeleteOrder(message);
+                }else{
+
+                    //response [200 ,300) aralığında değil ise
                     try {
-                        String errorBody = response.errorBody().string();
-                        BaseModel apiError = gson.fromJson(errorBody, BaseModel.class);
-                        Log.d("Hata Mesaj:", apiError.getResponseCode() + " " + apiError.getResponseMessage());
-                        listener.onFailureDeleteOrder(apiError.getResponseCode() + " " + apiError.getResponseMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureDeleteOrder("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureDeleteOrder("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailureDeleteOrder("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailureDeleteOrder("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
+
                 }
 
             }

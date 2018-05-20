@@ -122,6 +122,7 @@ public class OrdersPresenterImpl implements OrdersPresenter,
     @Override
     public void onSuccessDeleteOrders(String message, ArrayList<OrderDetailResponseModel> orders) {
         if(mOrdersView!=null){
+            mOrdersView.hideProgress();
             mOrdersView.showAlert(message,false,false);
             mOrdersView.deleteOrdersFromAdapter(orders);
         }
@@ -130,6 +131,7 @@ public class OrdersPresenterImpl implements OrdersPresenter,
     @Override
     public void onFailureDeleteOrders(String message) {
         if(mOrdersView!=null){
+            mOrdersView.hideProgress();
             mOrdersView.showAlert(message,true,true);
 
         }
@@ -138,6 +140,7 @@ public class OrdersPresenterImpl implements OrdersPresenter,
     @Override
     public void onFailureGetOrders(String message) {
         if(mOrdersView!=null){
+            mOrdersView.hideProgress();
             mOrdersView.showAlert(message,true,false);
         }
     }

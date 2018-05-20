@@ -26,17 +26,17 @@
 
 
     <string-array name="curtains">
-        <item>Tül Perde</item>
-        <item>Güneşlik</item>
-        <item>Stor Perde</item>
-        <item>Zebra Perde</item>
-        <item>Jaluzi</item>
-        <item>Dikey Perde</item>
-        <item>Kruvaze Tül</item>
-        <item>Briz</item>
-        <item>Farbela</item>
-        <item>Fon Perde</item>
-        <item>Tül Stor</item>
+        <item>@string/TP</item>
+        <item>@string/GP</item>
+        <item>@string/SP</item>
+        <item>@string/ZP</item>
+        <item>@string/JP</item>
+        <item>@string/DP</item>
+        <item>@string/KTP</item>
+        <item>@string/BP</item>
+        <item>@string/FARBP</item>
+        <item>@string/FP</item>
+        <item>@string/TSP</item>
     </string-array>
 
 
@@ -55,5 +55,127 @@
     </string-array>
 
     <!-- Strings related to login -->
+
+    <string name="title_activity_tailor_home">Terzi Paneli</string>
+    <string name="title_orders">Siparişler</string>
+    <string name="title_notifications">Bildirimler</string>
+    <string name="title_processing">Devam eden işler</string>
+    <string name="title_processed">Hazır</string>
+    <string name="title_add_order">Yeni Sipariş</string>
+    <string name="title_home">Anasayfa</string>
+    <string name="filter">Filtre</string>
+    <string name="filter_close">Filtreyi Kapat</string>
+
+    <string-array name="order_status">
+        <item>Eksik</item>
+        <item>Ölçüye Gidilecek</item>
+        <item>Kayıt Alındı</item>
+        <item>Terzide</item>
+        <item>Hazır</item>
+        <item>Teslim Edildi</item>
+        <item>Teklif</item>
+    </string-array>
+    <string-array name="status_filter">
+        <item>Tüm Siparişler</item>
+        <item>Eksik Siparişler</item>
+        <item>Ölçüye Gidilecekler</item>
+        <item>Kayıt Alınmış Siparişler</item>
+        <item>Terzideki Siparişler</item>
+        <item>Hazır Siparişler</item>
+        <item>Teslim Edildilmişler</item>
+        <item>Teklifler</item>
+    </string-array>
+
+    <string name="TP">Tül Perde</string>
+    <string name="GP">Güneşlik</string>
+    <string name="SP">Stor Perde</string>
+    <string name="ZP">Zebra Perde</string>
+    <string name="JP">Jaluzi</string>
+    <string name="DP">Dikey Perde</string>
+    <string name="KTP">Kruvaze Tül</string>
+    <string name="BP">Briz</string>
+    <string name="FARBP">Farbela</string>
+    <string name="FP">Fon Perde</string>
+    <string name="TSP">Tül Stor</string>
+
+    <string name="save_button_text">Kaydet</string>
+    <string name="cancel_button_text">Vazgeç</string>
+    <string name="calculate_button_text">Hesapla</string>
+    <string name="Update_button_text">Güncelle</string>
+    <string name="pile_text">Pile Sıklığı</string>
+    <string name="other_pile_text">Diğer Pile</string>
+    <string name="pattern_text">Desen</string>
+    <string name="variant_text">Varyant</string>
+    <string name="alias_text">İsim</string>
+    <string name="description_text">Açıklama</string>
+    <string name="unitprice_text">Birim Fiyat</string>
+    <string name="fon_type_text">Fon Türü</string>
+    <string name="direction_text">Yön</string>
+    <string name="z_direction_text">Zincir Yönü</string>
+    <string name="pile_type_text">Pile Türü</string>
+    <string name="other_text">Diğer</string>
+    <string name="fon_type_kruvaze_text">Kruvaze</string>
+    <string name="fon_type_japon_text">Japon</string>
+    <string name="fon_type_fon_text">Fon</string>
+    <string name="direction_left_text">Sol</string>
+    <string name="direction_right_text">Sağ</string>
+    <string name="pile_type_american_text">Amerikan</string>
+    <string name="pile_type_yan_text">Yan</string>
+    <string name="pile_type_kanun_text">Kanun</string>
+    <string name="pile_2">2</string>
+    <string name="pile_2.5">2.5</string>
+    <string name="pile_3">3</string>
+    <string name="end_day_text">Gün Sonu</string>
+    <string name="next_measure_text">Yaklaşan Ölçüler</string>
+    <string name="next_delivery_text">Yaklaşan Teslimatlar</string>
+    <string name="login_button_text">Giriş</string>
+    <string name="username_text">Kullanıcı Adı</string>
+    <string name="company_name_text">Firma Adı</string>
+    <string name="order_number_text">Sipariş No</string>
+    <string name="customer_name_text">Müşteri Adı</string>
+    <string name="order_date_text">Sipariş Tarihi</string>
+    <string name="delivery_date_text">Teslim Tarihi</string>
+    <string name="mount_exsist_text">Montaj var</string>
+    <string name="piece_text">Parça</string>
+    <string name="chain_text">Zincir Yönü</string>
+    <string name="chain_left_text">Zincir Solda</string>
+    <string name="chain_right_text">Zincir Sağda</string>
+    <string name="normal_mech_text">Tek Kas.</string>
+    <string name="pieces_mech_text">Parçalı</string>
+    <string name="multi_pieces_text">Çok. Mek.</string>
+    <string name="kruvaze_k_text">Kruvaze Kanat</string>
+    <string name="japon_k_text">Japon Panel</string>
+    <string name="fon_k_text">Fon Kanat</string>
+    <string name="email_text">E-Posta</string>
+    <string name="password_text">Parola</string>
+    <string name="briz_width_text">Briz En</string>
+    <string name="briz_height_text">Briz Boy</string>
+    <string name="farbela_width_text">Farbela En</string>
+    <string name="farbela_height_text">Farbela Boy</string>
+    <string name="width_text">En</string>
+    <string name="height_text">Boy</string>
+    <string name="left_width_text">Sol En</string>
+    <string name="right_width_text">Sağ En</string>
+    <string name="model_name_text">Model Adı</string>
+    <string name="farbela_total_price_input_text">Farbela toplam fiyat giriniz.</string>
+    <string name="k_width_text">Kanat En</string>
+    <string name="k_height_text">Kanat Boy</string>
+    <string name="direction_right_left_text">Sol+Sağ</string>
+    <string name="pieces_count_text">Parça Sayısı</string>
+    <string name="name_surname_text">Ad Soyad</string>
+    <string name="mobile_phone_text">Cep Tel</string>
+    <string name="fixed_tel_text">Sabit Tel</string>
+    <string name="address_text">Adres</string>
+    <string name="newsletter_text">Kampanyalarımız hakkında bilgilendirilmek istermisiniz ?</string>
+    <string name="measure_question_text">Ölçüye gidilecek mi?</string>
+    <string name="bead_text">Boncuk No</string>
+    <string name="skirt_text">Etek No</string>
+    <string name="price_text">Fiyat</string>
+    <string name="tl_text">TL</string>
+    <string name="other_location_text">Diğer Mekan</string>
+    <string name="window_text">Cam</string>
+    <string name="door_text">Kapı</string>
+    <string name="no_text">No</string>
+
 
 </resources>

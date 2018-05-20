@@ -128,6 +128,20 @@ public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
     }
 
     @Override
+    public void navigateToLogin() {
+        if(mAddOrderLineView!=null){
+            mAddOrderLineView.navigateToLogin();
+
+        }else if(mOrderLineView!=null){
+            mOrderLineView.navigateToLogin();
+
+
+        }else if(mCalculateView!=null){
+            mCalculateView.navigateLogin();
+        }
+    }
+
+    @Override
     public void onSuccessAddOrderLines(AddOrderLineListResponse addOrderLineListResponse) {
         if(mAddOrderLineView!=null){
             mAddOrderLineView.hideProgress();

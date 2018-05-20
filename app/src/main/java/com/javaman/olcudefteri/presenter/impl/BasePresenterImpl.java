@@ -64,6 +64,7 @@ public class BasePresenterImpl implements BasePresenter,BaseIntractor.onBaseProc
     @Override
     public void onFailureLogout(String message) {
         if(mBaseViev!=null){
+            mBaseViev.hideProgress();
             mBaseViev.showAlert(message,true);
         }
     }
@@ -83,6 +84,13 @@ public class BasePresenterImpl implements BasePresenter,BaseIntractor.onBaseProc
         if(mBaseViev!=null){
             mBaseViev.showAlert(message,true);
             mBaseViev.logout();
+        }
+    }
+
+    @Override
+    public void navigateToLogin() {
+        if(mBaseViev!=null){
+            mBaseViev.navigateToLogin();
         }
     }
 }

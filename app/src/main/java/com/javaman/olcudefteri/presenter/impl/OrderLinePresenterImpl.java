@@ -63,6 +63,7 @@ public class OrderLinePresenterImpl implements OrderLinePresenter,OrderLineIntra
     @Override
     public void onFailureGetOrderLines(String message) {
         if(mOrderDetailVew!=null){
+            mOrderDetailVew.hideProgress();
             mOrderDetailVew.showAlert(message);
         }
     }
@@ -79,6 +80,7 @@ public class OrderLinePresenterImpl implements OrderLinePresenter,OrderLineIntra
     @Override
     public void onFailureDeleteOrderLine(String message) {
         if(mOrderLineView!=null){
+            mOrderDetailVew.hideProgress();
             mOrderLineView.showAlert(message,true,false);
         }
     }

@@ -14,6 +14,7 @@ public interface AddOrderIntractor {
         void onPhoneEmptyError();
         void onSuccess(AddCustomerResponse addCustomerResponse);
         void onFailure(String message);
+        void navigateToLogin();
 
     }
 

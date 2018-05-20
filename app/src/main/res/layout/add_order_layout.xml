@@ -64,7 +64,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+                    android:background="@color/generalBorderColor" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+                    android:background="@color/generalBorderColor" />
 
 
                 <LinearLayout
@@ -141,7 +141,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+                    android:background="@color/generalBorderColor" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -215,7 +215,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/lightgreen" />
+                    android:background="@color/generalBorderColor" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -248,7 +248,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:tint="@color/lightgreen"
+                            android:tint="@color/generalBorderColor"
                             app:srcCompat="@drawable/ic_tl" />
 
                         <TextView
@@ -268,7 +268,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/lightgreen" />
+                    android:background="@color/generalBorderColor" />
 
 
             </LinearLayout>
@@ -335,7 +335,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/lightgreen"/>
+                    android:background="@color/generalBorderColor"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -374,7 +374,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/lightgreen" />
+                    android:background="@color/generalBorderColor" />
 
             </LinearLayout>
 
@@ -438,7 +438,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/lightgreen"/>
+                    android:background="@color/generalBorderColor"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -488,7 +488,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/lightgreen"/>
+                    android:background="@color/generalBorderColor"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -516,7 +516,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/lightgreen" />
+                    android:background="@color/generalBorderColor" />
 
             </LinearLayout>
 
@@ -546,7 +546,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/lightgreen"
+                android:background="@color/generalBorderColor"
                 android:padding="16dp">
 
                 <TextView
@@ -564,7 +564,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="#F44336"
+                    android:textColor="@color/primaryDarkColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -578,7 +578,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_expand_less_black_24dp"
-                        android:tint="@color/pink"/>
+                        android:tint="@color/primaryDarkColor"/>
 
                     <ImageView
                         android:id="@+id/image_view_collapse"
@@ -586,7 +586,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_expand_more_black_24dp"
-                        android:tint="@color/pink"/>
+                        android:tint="@color/primaryDarkColor"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -622,7 +622,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
-                android:background="@color/lightgreen"/>
+                android:background="@color/generalBorderColor"/>
 
             <LinearLayout
                 android:id="@+id/linear_layout_location"

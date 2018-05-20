@@ -16,6 +16,8 @@ import com.javaman.olcudefteri.service.NotificationService;
 import com.javaman.olcudefteri.model.FirebaseRegIdModel;
 import com.javaman.olcudefteri.service.FirebaseService;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -56,24 +58,20 @@ public class HomeIntractorImpl implements HomeIntractor {
 
                     //listener.showNotification();
 
-                } else {
+                }
 
-                    //response [200 ,300) aralığında değil ise
-
-                    Gson gson = new GsonBuilder().create();
+                else {
 
                     try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            Log.e("FBase RegId Send Error",jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            Log.e("FBase RegId Send Error",jObjError.getString("message"));
+                        }
 
-                        String errorBody = response.errorBody().string();
-
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-
-                        Log.d("Hata Mesaj:", apiError.getStatus() +" "+ apiError.getMessage());
-                        //listener.onFailureGetOrderLines(apiError.getStatus() +" "+ apiError.getMessage());
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        // listener.onFailureGetOrderLines("Beklenmedik hata..." + e.getMessage());
+                    } catch (Exception e) {
+                        Log.e("Beklenmedik hata : ",e.getMessage()+"\n"+response.message());
                     }
 
                 }
@@ -138,16 +136,22 @@ public class HomeIntractorImpl implements HomeIntractor {
                 }else if (response.code() == 403) {
                     String message = "Sadece yetkili kullanıcılara bildirim gelir";
                     listener.onFailureGetNotification(message);
-                } else {
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureGetNotification(message);
+                }
+                else {
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        listener.onFailureGetNotification(apiError.getStatus() + " " + apiError.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureGetNotification("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureGetNotification("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailureGetNotification("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailureGetNotification("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
             }
@@ -201,16 +205,23 @@ public class HomeIntractorImpl implements HomeIntractor {
                 }else if (response.code() == 403) {
                     String message = "Sadece yetkili kullanıcılar bildirim silebilir.";
                     listener.onFailureDelete(message);
-                }else{
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureDelete(message);
+                }
+
+                else{
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        listener.onFailureDelete(apiError.getStatus() + " " + apiError.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureDelete("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureDelete("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailureDelete("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailureDelete("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
             }
@@ -259,18 +270,27 @@ public class HomeIntractorImpl implements HomeIntractor {
                 }else if (response.code() == 403) {
                     String message = "Sadece yetkili kullanıcılar bildirim silebilir.";
                     listener.onFailureDeleteAll(message);
-                }else{
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureDelete(message);
+                }
+
+                else{
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        listener.onFailureDeleteAll(apiError.getStatus() + " " + apiError.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureDeleteAll("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureDelete("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailureDelete("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailureDelete("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
+
+
             }
 
             @Override
@@ -319,18 +339,26 @@ public class HomeIntractorImpl implements HomeIntractor {
                 }else if (response.code() == 403) {
                     String message = "Sadece yetkili kullanıcılara bildirim gelir";
                     listener.onFailure(message);
-                } else {
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailure(message);
+                }
+
+                else{
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        AppUtilInfoModel apiError = gson.fromJson(errorBody, AppUtilInfoModel.class);
-                        listener.onFailure(apiError.getBaseModel().getResponseMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailure("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailure("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailure("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
+
             }
 
             @Override

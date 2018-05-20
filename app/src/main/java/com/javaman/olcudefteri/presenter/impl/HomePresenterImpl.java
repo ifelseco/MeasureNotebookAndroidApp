@@ -80,6 +80,7 @@ public class HomePresenterImpl implements HomePresenter,HomeIntractor.onNotifica
     @Override
     public void onSuccess(AppUtilInfoModel appUtilInfoModel) {
         if(mHomeViev!=null){
+            mHomeViev.hideProgress(true);
             mHomeViev.saveAppUtilInfoToPref(appUtilInfoModel);
 
         }
@@ -88,6 +89,7 @@ public class HomePresenterImpl implements HomePresenter,HomeIntractor.onNotifica
     @Override
     public void onFailure(String message) {
         if(mHomeViev!=null){
+            mHomeViev.hideProgress(true);
             mHomeViev.showAlert(message);
         }
     }
@@ -102,6 +104,7 @@ public class HomePresenterImpl implements HomePresenter,HomeIntractor.onNotifica
     @Override
     public void onSuccessDelete(NotificationDetailModel notificationDetailModel) {
         if(mHomeViev!=null){
+            mHomeViev.hideProgress(true);
             mHomeViev.updateNotifications(notificationDetailModel,false);
         }
     }

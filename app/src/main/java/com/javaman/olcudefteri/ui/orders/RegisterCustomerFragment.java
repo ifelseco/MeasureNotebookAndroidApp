@@ -21,6 +21,7 @@ import com.javaman.olcudefteri.model.CustomerDetailModel;
 import com.javaman.olcudefteri.model.AddCustomerResponse;
 import com.javaman.olcudefteri.presenter.AddOrderPresenter;
 import com.javaman.olcudefteri.presenter.impl.AddOrderPresenterImpl;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.view.AddOrderView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
@@ -179,6 +180,11 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
     public String getSessionIdFromPref() {
         String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
         return xAuthToken;
+    }
+
+    @Override
+    public void navigateLogin() {
+        startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
     @Override

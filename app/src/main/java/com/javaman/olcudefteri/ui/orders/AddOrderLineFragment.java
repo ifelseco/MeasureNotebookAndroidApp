@@ -262,6 +262,8 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
         checkBoxSunBLind.setOnClickListener(this);
         checkBoxVertical.setOnClickListener(this);
         checkBoxKruvaze.setOnClickListener(this);
+        imageViewCollapse.setOnClickListener(this);
+        imageViewExpand.setOnClickListener(this);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.rooms, android.R.layout.simple_spinner_item);
@@ -383,7 +385,11 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
             spinnerLocation.setSelection(0);
 
 
-        } else if (id == R.id.cb_door) {
+        }else if(id==R.id.image_view_collapse){
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }else if(id==R.id.image_view_expand){
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        }else if (id == R.id.cb_door) {
             if (checkBoxDoor.isChecked()) {
                 checkBoxWindow.setChecked(false);
                 if (!locationTypeCount.isEmpty()) {

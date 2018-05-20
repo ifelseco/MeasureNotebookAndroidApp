@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.ui.orders.curtain_type_dialog;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.widget.RadioGroup;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.model.ProductDetailModel;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -195,7 +197,6 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
     public void onDestroy() {
         super.onDestroy();
     }
-
 
 
 }

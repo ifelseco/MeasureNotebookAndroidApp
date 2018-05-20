@@ -9,6 +9,7 @@ public interface BaseIntractor {
         void onFailureLogout(String message);
         void onSuccessCheckSession(LoginUserModel loginUserModel);
         void onFailureCheckSession(String message);
+        void navigateToLogin();
     }
 
     void logout(String sessionId , onBaseProcessListener listener);

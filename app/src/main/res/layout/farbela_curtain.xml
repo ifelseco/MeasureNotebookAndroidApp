@@ -29,7 +29,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/lightgreen"
+                    android:background="@color/generalBorderColor"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/FARBP"
                     android:textAlignment="center"
@@ -314,7 +314,7 @@
                         android:padding="3dp"
                         android:text="@string/save_button_text"
                         android:textColor="#ffffff"
-                        android:backgroundTint="@color/lightgreen" />
+                        android:backgroundTint="@color/generalBorderColor" />
 
 
                 </LinearLayout>
@@ -323,7 +323,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/lightgreen" />
+                    android:background="@color/generalBorderColor" />
 
 
             </LinearLayout>

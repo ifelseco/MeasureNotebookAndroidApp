@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.ui.orders;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -26,6 +27,7 @@ import com.javaman.olcudefteri.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.model.CalculationResponse;
 import com.javaman.olcudefteri.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.view.CalculateView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
@@ -787,6 +789,11 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
             tvUsedMaterial.setText(String.format("%.2f", totalM) + " m");
         }
 
+    }
+
+    @Override
+    public void navigateLogin() {
+        startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
     @Override

@@ -73,4 +73,11 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
             mAddOrderView.showAlert(message);
         }
     }
+
+    @Override
+    public void navigateToLogin() {
+        if(mAddOrderView!=null){
+            mAddOrderView.navigateLogin();
+        }
+    }
 }

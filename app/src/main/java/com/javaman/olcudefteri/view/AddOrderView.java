@@ -15,4 +15,6 @@ public interface AddOrderView {
     void navigateToOrder(AddCustomerResponse addCustomerResponse);
     void showAlert(String message);
     String getSessionIdFromPref();
+
+    void navigateLogin();
 }

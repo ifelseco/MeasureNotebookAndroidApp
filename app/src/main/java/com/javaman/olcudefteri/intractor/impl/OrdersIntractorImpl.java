@@ -17,6 +17,8 @@ import com.javaman.olcudefteri.model.OrderSummaryPageReponseModel;
 import com.javaman.olcudefteri.service.OrderService;
 import com.javaman.olcudefteri.service.OrdersService;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,9 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
                     listener.onFailureGetOrders(message);
                     listener.navigateToLogin();
+                }else if(response.code() == 403){
+                    String message = "Yetkisiz kullanıcı!";
+                    listener.onFailureGetOrders(message);
                 }else if(response.code()==503){
                     String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
                     listener.onFailureGetOrders(message);
@@ -66,15 +71,16 @@ public class OrdersIntractorImpl implements OrdersIntractor {
 
                 else {
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailureGetOrders(apiError.getStatus() + " " + apiError.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureGetOrders("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureGetOrders("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailureGetOrders("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailureGetOrders("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
             }
@@ -144,15 +150,16 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     listener.onFailureDeleteOrders(message);
                 }
                 else{
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailureDeleteOrders(apiError.getStatus() + " " + apiError.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureDeleteOrders("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureDeleteOrders("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailureDeleteOrders("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailureDeleteOrders("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
 
@@ -213,16 +220,18 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                 }
                 else {
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailureGetFilterOrders(apiError.getStatus() + " " + apiError.getMessage(),orderStatus);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureGetFilterOrders("Beklenmedik hata..." + e.getMessage(),orderStatus);
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureGetFilterOrders("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"),orderStatus);
+                        }else{
+                            listener.onFailureGetFilterOrders("Bir hata oluştu : "+jObjError.getString("message"),orderStatus);
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailureGetFilterOrders("Beklenmedik hata : "+e.getMessage()+"\n"+response.message(),orderStatus);
                     }
+
                 }
             }
 
@@ -273,7 +282,11 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     orderSummaryModel = response.body();
                     //orderSummaryPageReponseModel.getOrderDetailPage().setContent(orderDetailResponseModels);
                     listener.onSuccessGetTailorFilterOrders(orderSummaryModel,orderStatus);
-                } else if(response.code() == 401){
+                }else if(response.code() == 403){
+                    String message = "Yetkisiz kullanıcı!";
+                    listener.onFailureGetTailorFilterOrders(message);
+                }
+                else if(response.code() == 401){
                     String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
                     listener.onFailureGetTailorFilterOrders(message);
                     listener.navigateToLogin();
@@ -283,15 +296,16 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                 }
                 else {
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailureGetTailorFilterOrders(apiError.getStatus() + " " + apiError.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureGetTailorFilterOrders("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureGetTailorFilterOrders("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailureGetTailorFilterOrders("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailureGetTailorFilterOrders("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
             }
@@ -353,22 +367,18 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                 else {
 
                     //response [200 ,300) aralığında değil ise
-
-                    Gson gson = new GsonBuilder().create();
-
                     try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureUpdateOrder("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailureUpdateOrder("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
 
-                        String errorBody = response.errorBody().string();
-
-                        BaseModel apiError = gson.fromJson(errorBody, BaseModel.class);
-
-                        Log.d("Hata Mesaj:", response.code() +" "+ apiError.getResponseMessage());
-                        listener.onFailureUpdateOrder("Server hatası :"+response.code() +"\n"+ apiError.getResponseMessage());
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureUpdateOrder("Beklenmedik hata..." + e.getMessage());
+                    } catch (Exception e) {
+                        listener.onFailureUpdateOrder("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
+
 
                 }
 
@@ -427,15 +437,16 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                 }
                 else {
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailureSearchOder(apiError.getStatus() + " " + apiError.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureSearchOder("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureSearchOder("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailureSearchOder("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailureSearchOder("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
             }

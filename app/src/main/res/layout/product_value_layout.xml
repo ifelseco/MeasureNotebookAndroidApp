@@ -19,6 +19,7 @@
             android:fontFamily="@font/roboto_regular"
             android:gravity="left"
             android:textStyle="bold"
+            android:textColor="@color/primaryColor"
             android:padding="5dp"
             android:text="1"
             android:textSize="15sp" />
@@ -45,7 +46,7 @@
             android:layout_weight="1"
             android:background="@null"
             android:padding="5dp"
-            android:tint="@color/pink"
+            android:tint="@color/primaryColor"
             app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
 
 
@@ -53,5 +54,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/lightgreen"/>
+        android:background="@color/generalBorderColor"/>
 </LinearLayout>

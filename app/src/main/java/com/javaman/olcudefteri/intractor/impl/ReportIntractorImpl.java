@@ -12,6 +12,8 @@ import com.javaman.olcudefteri.model.OrderSummaryPageReponseModel;
 import com.javaman.olcudefteri.service.OrdersService;
 import com.javaman.olcudefteri.service.ReportService;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -50,15 +52,16 @@ public class ReportIntractorImpl implements ReportIntractor {
                     listener.onFailure(message);
                 }else {
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailure("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailure("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailure("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
             }
@@ -121,15 +124,16 @@ public class ReportIntractorImpl implements ReportIntractor {
                     listener.onFailure(message);
                 }else {
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailure("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailure("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailure("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
             }
@@ -192,15 +196,16 @@ public class ReportIntractorImpl implements ReportIntractor {
                     listener.onFailure(message);
                 }else {
                     //response [200 ,300) aralığında değil ise
-                    Gson gson = new GsonBuilder().create();
                     try {
-                        String errorBody = response.errorBody().string();
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailure("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailure("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailure("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
                 }
             }

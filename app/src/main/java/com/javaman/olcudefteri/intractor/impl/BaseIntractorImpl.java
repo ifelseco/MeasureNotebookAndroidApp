@@ -12,6 +12,8 @@ import com.javaman.olcudefteri.model.BaseModel;
 import com.javaman.olcudefteri.model.LoginUserModel;
 import com.javaman.olcudefteri.service.LoginService;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -47,25 +49,30 @@ public class BaseIntractorImpl implements BaseIntractor {
                     
 
 
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureCheckSession(message);
                 }else {
 
-                    //response [200 ,300) aralığında değil ise
-
-                    Gson gson = new GsonBuilder().create();
-
                     try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
 
-                        String errorBody = response.errorBody().string();
+                            listener.onFailureCheckSession("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
 
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+                        }else if(jObjError.getString("responseMessage")!=null){
 
-                        Log.d("Hata Mesaj:", apiError.getStatus() + " " + apiError.getMessage());
-                        listener.onFailureLogout("Hata: "+apiError.getStatus() + " " + apiError.getMessage());
+                            listener.onFailureCheckSession("Bir hata oluştu : "+jObjError.getString("responseMessage"));
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureLogout("Beklenmedik hata..." + e.getMessage());
+                        }else{
+                            listener.onFailureCheckSession("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailureCheckSession("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
+
+
 
                 }
 
@@ -126,27 +133,31 @@ public class BaseIntractorImpl implements BaseIntractor {
                     listener.onSuccessCheckSession(loginUserModel);
 
 
-
+                }else if(response.code() == 401){
+                    String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
+                    listener.onFailureCheckSession(message);
+                    listener.navigateToLogin();
+                }else if(response.code()==503){
+                    String message="Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailureCheckSession(message);
                 }else {
 
-                    //response [200 ,300) aralığında değil ise
-
-                    Gson gson = new GsonBuilder().create();
-
                     try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        if(jObjError.get("baseModel")!=null){
+                            listener.onFailureCheckSession("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        }else{
+                            listener.onFailureCheckSession("Bir hata oluştu : "+jObjError.getString("message"));
+                        }
 
-                        String errorBody = response.errorBody().string();
-
-                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-                        String message="Oturumunuz zaman aşımına uğradı.\nTekrar giriş yapınız";
-                        listener.onFailureCheckSession(message);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        listener.onFailureCheckSession("Beklenmedik hata..." + e.getMessage());
+                    } catch (Exception e) {
+                        listener.onFailureCheckSession("Beklenmedik hata : "+e.getMessage()+"\n"+response.message());
                     }
 
+
+
                 }
+
 
             }
 

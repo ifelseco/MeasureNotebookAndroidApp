@@ -64,7 +64,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@color/lightgreen"
+                    android:tint="@color/generalBorderColor"
                     app:srcCompat="@drawable/ic_date_range_black_24dp"/>
 
                 <TextView
@@ -98,7 +98,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@color/lightgreen"
+                    android:tint="@color/generalBorderColor"
                     app:srcCompat="@drawable/ic_date_range_black_24dp"/>
 
                 <TextView
@@ -129,7 +129,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@color/lightgreen"
+                    android:tint="@color/generalBorderColor"
                     app:srcCompat="@drawable/ic_drill"/>
 
                 <TextView
@@ -165,7 +165,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@color/lightgreen"
+                    android:tint="@color/generalBorderColor"
                     app:srcCompat="@drawable/ic_tl"/>
 
                 <TextView
@@ -186,7 +186,7 @@
                     android:id="@+id/btn_edit_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@color/lightgreen"
+                    android:tint="@color/generalBorderColor"
                     android:background="@null"
                     android:padding="5dp"
                     android:layout_marginLeft="5dp"
@@ -207,7 +207,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@color/lightgreen"
+                    android:tint="@color/generalBorderColor"
                     app:srcCompat="@drawable/ic_tl"/>
 
                 <TextView
@@ -228,7 +228,7 @@
                     android:id="@+id/btn_edit_deposit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@color/lightgreen"
+                    android:tint="@color/generalBorderColor"
                     android:background="@null"
                     android:padding="5dp"
                     android:layout_marginLeft="5dp"
@@ -264,7 +264,7 @@
                     android:layout_marginRight="5dp"
                     android:text="Güncelle"
                     android:textColor="@android:color/white"
-                    android:backgroundTint="@color/lightgreen"/>
+                    android:backgroundTint="@color/generalBorderColor"/>
 
 
 
