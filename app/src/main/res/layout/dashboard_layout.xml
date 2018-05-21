@@ -10,7 +10,7 @@
     android:paddingRight="20dp">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card_end_of_day"
+        android:id="@+id/card_next_delivery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -30,16 +30,18 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_gravity="center"
-                android:background="@drawable/cerclebackgroundpink"
+                android:background="@drawable/cerclebackgroundprimary"
                 android:padding="10dp"
-                app:srcCompat="@drawable/ic_receipt_black_24dp" />
+                android:tint="@color/secondaryLightColor"
+                app:srcCompat="@drawable/ic_date_range_black_24dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="@color/primaryDarkColor"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/end_day_text"
+                android:text="@string/next_delivery_text"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -67,15 +69,17 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_gravity="center"
-                android:background="@drawable/cercleshapeaccent"
+                android:background="@drawable/cerclebackgroundprimary"
                 android:padding="10dp"
-                android:tint="@android:color/black"
+                android:tint="@color/secondaryLightColor"
                 app:srcCompat="@drawable/ic_measure" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="@color/primaryDarkColor"
+
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/next_measure_text"
                 android:textSize="15sp" />
@@ -85,7 +89,7 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card_next_delivery"
+        android:id="@+id/card_end_of_day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -105,22 +109,27 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_gravity="center"
-                android:background="@drawable/cerclebackgroundyello"
+                android:background="@drawable/cerclebackgroundprimary"
                 android:padding="10dp"
-                android:tint="@android:color/black"
-                app:srcCompat="@drawable/ic_delivered" />
+                android:tint="@color/secondaryLightColor"
+                app:srcCompat="@drawable/ic_receipt_black_24dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="@color/primaryDarkColor"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/next_delivery_text"
+                android:text="@string/end_day_text"
                 android:textSize="15sp" />
 
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+
+
+
+
 
 
 </LinearLayout>

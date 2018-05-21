@@ -22,6 +22,7 @@ import com.javaman.olcudefteri.presenter.impl.OrderLinePresenterImpl;
 import com.javaman.olcudefteri.view.OrderDetailVew;
 
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,7 +114,7 @@ public class TailorOrderDetailActivity extends AppCompatActivity implements Orde
     }
 
     private void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        StyleableToast.makeText(this,msg,R.style.info_toast_style).show();
     }
 
     @Override

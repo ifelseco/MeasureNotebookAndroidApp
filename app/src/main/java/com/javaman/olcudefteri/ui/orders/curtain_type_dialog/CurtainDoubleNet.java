@@ -31,6 +31,7 @@ import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.view.CalculateView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -234,7 +235,7 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
             if(totalWidth>orderLineDetailModel.getPropertyWidth()){
                 tilLeftWidth.setError("Hata");
                 tilRightWidth.setError("Hata");
-                Toast.makeText(getActivity(), "Sağ ve sol en toplamı pencere enini geçmemeli!", Toast.LENGTH_SHORT).show();
+                StyleableToast.makeText(getActivity(),"Sağ ve sol en toplamı pencere enini geçmemeli!",R.style.warn_toast_style).show();
             }else{
                 EventBus.getDefault().post(orderLineDetailModel);
                 dismiss();
@@ -255,7 +256,7 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
             }else if(TextUtils.isEmpty(etUnitprice.getText().toString())){
                 etUnitprice.setError("Birim fiyat giriniz!");
             }else if(radioGroupPile.getCheckedRadioButtonId() == -1 && TextUtils.isEmpty(etOtherPile.getText().toString())){
-                Toast.makeText(getActivity(), "Pile sıklığı giriniz!", Toast.LENGTH_SHORT).show();
+                StyleableToast.makeText(getActivity(),"Pile sıklığı giriniz!",R.style.warn_toast_style).show();
             }else{
                 double unitPrice, pile;
                 unitPrice = Double.parseDouble(etUnitprice.getText().toString());
@@ -335,7 +336,7 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
 
     @Override
     public void showAlert(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
     }
 
     @Override

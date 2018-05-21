@@ -34,6 +34,7 @@ import com.javaman.olcudefteri.model.CustomerDetailModel;
 import com.javaman.olcudefteri.model.AddCustomerResponse;
 import com.javaman.olcudefteri.model.OrderDetailResponseModel;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,8 +145,9 @@ public class AddOrderActivity extends AppCompatActivity
         ahBottomNavigation.addItem(item_add_order);
         ahBottomNavigation.addItem(item_notification);
         ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
-        ahBottomNavigation.setAccentColor(fetchColor(R.color.primaryColor));
-        ahBottomNavigation.setInactiveColor(fetchColor(R.color.hintColor));
+        ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
+        ahBottomNavigation.setInactiveColor(fetchColor(R.color.primaryDarkColor));
+        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.secondaryDarkColor));
         ahBottomNavigation.setCurrentItem(2);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
@@ -327,14 +329,7 @@ public class AddOrderActivity extends AppCompatActivity
 
     @Override
     public void showAlert(String message,boolean isToast) {
-        if(isToast){
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        }else{
-            pDialog=new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE);
-            pDialog.setTitleText(message);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
+        StyleableToast.makeText(this,message,R.style.info_toast_style).show();
     }
 
     @Override

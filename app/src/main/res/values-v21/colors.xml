@@ -12,7 +12,7 @@
 
     <color name="colorButtonNormal">#7da453</color>
     <color name="colorControlHighlight">#e1ffb1</color>
-    <color name="colorControlActivated">#9fa8da</color>
+    <color name="colorControlActivated">@color/primaryDarkColor</color>
 
     <color name="hintColor">#424242</color>
     <color name="lime">#CDDC39</color>

@@ -38,6 +38,7 @@ import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.ui.orders.MechanismDialog;
 import com.javaman.olcudefteri.view.CalculateView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -387,7 +388,7 @@ public class ZebraCurtain extends DialogFragment implements View.OnClickListener
                         addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
                         calculateOrderLine(addOrderLineDetailListModel);
                     } else {
-                        Toast.makeText(getActivity(), "Parçalardan biri eksik bilgi içeriyor", Toast.LENGTH_SHORT).show();
+                        StyleableToast.makeText(getActivity(),"Parçalardan biri eksik bilgi içeriyor",R.style.warn_toast_style).show();
                     }
 
 
@@ -435,7 +436,8 @@ public class ZebraCurtain extends DialogFragment implements View.OnClickListener
 
     @Override
     public void showAlert(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
+
     }
 
     @Override

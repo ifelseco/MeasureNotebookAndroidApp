@@ -25,6 +25,7 @@ import com.javaman.olcudefteri.presenter.OrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.OrderLinePresenterImpl;
 import com.javaman.olcudefteri.view.OrderLineView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -506,14 +507,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void showAlert(String message, boolean isError,boolean isToast) {
-        if(isToast){
-            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-        }else{
-            pDialog=new SweetAlertDialog(getActivity(),SweetAlertDialog.NORMAL_TYPE);
-            pDialog.setTitleText(message);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
+        StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
     }
 
     @Override

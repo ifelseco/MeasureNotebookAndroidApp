@@ -30,6 +30,7 @@ import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.view.CalculateView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -176,6 +177,14 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
 
     @BindView(R.id.et_skirt)
     EditText etSkirt;
+
+    @BindView(R.id.et_location_name)
+    EditText etLocationName;
+
+    @BindView(R.id.et_location_type)
+    EditText etLocationType;
+
+
 
     @BindView(R.id.btn_cancel)
     Button btnCancel;
@@ -421,6 +430,18 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
             etDesc.setText(orderLineDetailModel.getLineDescription());
         } else {
             etDesc.setText("");
+        }
+
+        if(!TextUtils.isEmpty(orderLineDetailModel.getLocationName())){
+            etLocationName.setText(orderLineDetailModel.getLocationName());
+        }else{
+            etLocationName.setText("");
+        }
+
+        if(!TextUtils.isEmpty(orderLineDetailModel.getLocationType())){
+            etLocationType.setText(orderLineDetailModel.getLocationType());
+        }else{
+            etLocationType.setText("");
         }
 
         etWidth.setText(String.valueOf(orderLineDetailModel.getPropertyWidth()));
@@ -746,6 +767,15 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
             etUnitPrice.setError("Birim Fiyat Giriniz");
         }
 
+        if(!TextUtils.isEmpty(etLocationName.getText().toString())){
+            orderLineDetailModel.setLocationType(etLocationName.getText().toString());
+        }
+
+
+        if(!TextUtils.isEmpty(etLocationType.getText().toString())){
+            orderLineDetailModel.setLocationName(etLocationName.getText().toString());
+        }
+
 
     }
 
@@ -758,7 +788,7 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
 
     @Override
     public void showAlert(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
     }
 
     @Override

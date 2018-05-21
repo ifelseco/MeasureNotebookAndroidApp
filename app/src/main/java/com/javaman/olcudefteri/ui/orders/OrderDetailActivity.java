@@ -36,6 +36,7 @@ import com.javaman.olcudefteri.presenter.impl.OrderLinePresenterImpl;
 import com.javaman.olcudefteri.view.OrderDetailVew;
 import com.javaman.olcudefteri.utill.MyUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -310,7 +311,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     }
 
     private void showToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        StyleableToast.makeText(this,msg,R.style.info_toast_style).show();
     }
 
     public void showDialog(DialogFragment dialogFragment , String fragmentTag){
@@ -328,6 +329,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
             EventBus.getDefault().post(orderDeleteEvent);
             fabMenu.close(true);
         } else if (v.getId() == R.id.fab_order_status) {
+            openOrderStatusEdit();
             fabMenu.close(true);
         } else if (v.getId() == R.id.fab_customer_delete) {
             fabMenu.close(true);
@@ -335,6 +337,14 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
             fabMenu.close(true);
         }
 
+    }
+
+    private void openOrderStatusEdit() {
+        OrderStatusUpdateDialog orderStatusUpdateDialog=new OrderStatusUpdateDialog();
+        Bundle bundle=new Bundle();
+        bundle.putParcelable(ARG_GOTO_UPDATE_ORDER_FROM_ORDER_DETAIL,orderDetailResponseModel);
+        orderStatusUpdateDialog.setArguments(bundle);
+        showDialog(orderStatusUpdateDialog,"order-status-update-dialog");
     }
 
     private void gotoAddOrderLine() {

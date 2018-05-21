@@ -29,6 +29,7 @@ import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.view.CalculateView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -207,7 +208,7 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
             }else if(TextUtils.isEmpty(etUnitprice.getText().toString())){
                 etUnitprice.setError("Bİrim fiyat giriniz!");
             }else if(radioGroupPile.getCheckedRadioButtonId() == -1 && TextUtils.isEmpty(etOtherPile.getText().toString()) ){
-                Toast.makeText(getActivity(), "Pile sıklığı giriniz!", Toast.LENGTH_SHORT).show();
+                StyleableToast.makeText(getActivity(),"Pile sıklığı giriniz!",R.style.warn_toast_style).show();
             }else{
                 unitPrice = Double.parseDouble(etUnitprice.getText().toString());
                 if (radioGroupPile.getCheckedRadioButtonId() != -1) {
@@ -279,7 +280,7 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
 
     @Override
     public void showAlert(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
     }
 
     @Override

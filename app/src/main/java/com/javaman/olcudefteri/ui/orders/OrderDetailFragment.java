@@ -22,6 +22,7 @@ import com.javaman.olcudefteri.presenter.OrderPresenter;
 import com.javaman.olcudefteri.presenter.impl.OrderPresenterImpl;
 import com.javaman.olcudefteri.view.OrderView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -219,6 +220,7 @@ public class OrderDetailFragment extends Fragment implements OrderView{
         mOrderPresenter.orderUpdate(orderUpdateModel,headerData);
     }
 
+
     @Override
     public String getSessionIdFromPref() {
         String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
@@ -245,20 +247,9 @@ public class OrderDetailFragment extends Fragment implements OrderView{
     @Override
     public void showAlert(String message,boolean isError) {
         if(isError){
-
-            SweetAlertDialog pDialog= new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
-            pDialog.setTitleText("Hata...");
-            pDialog.setContentText(message);
-            pDialog.setConfirmText("Kapat");
-            pDialog.setCancelable(true);
-            pDialog.show();
-
+            StyleableToast.makeText(getActivity(),message,R.style.error_toast_style);
         }else{
-            SweetAlertDialog pDialog=new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
-            pDialog.setTitleText(message);
-            pDialog.setConfirmText("Kapat");
-            pDialog.setCancelable(true);
-            pDialog.show();
+            StyleableToast.makeText(getActivity(),message,R.style.info_toast_style);
         }
     }
 

@@ -39,6 +39,7 @@ import com.javaman.olcudefteri.presenter.OrdersPresenter;
 import com.javaman.olcudefteri.presenter.impl.OrdersPresenterImpl;
 import com.javaman.olcudefteri.view.TailorView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -233,8 +234,9 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         ahBottomNavigation.addItem(item_processed);
         ahBottomNavigation.addItem(item_notification);
         ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
-        ahBottomNavigation.setAccentColor(fetchColor(R.color.primaryColor));
-        ahBottomNavigation.setInactiveColor(fetchColor(R.color.hintColor));
+        ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
+        ahBottomNavigation.setInactiveColor(fetchColor(R.color.primaryDarkColor));
+        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.secondaryDarkColor));
         ahBottomNavigation.setCurrentItem(0);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         if(notfCount>0){
@@ -366,16 +368,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
 
     @Override
     public void showAlert(String message,boolean isToast) {
-        if(!isFinishing()){
-            if(isToast){
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            }else{
-                pDialog=new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE);
-                pDialog.setTitleText(message);
-                pDialog.setCancelable(false);
-                pDialog.show();
-            }
-        }
+        StyleableToast.makeText(this,message,R.style.info_toast_style).show();
     }
 
     @Override
@@ -400,11 +393,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
 
     @Override
     public void showAlert(String message) {
-
-        if(!isFinishing()){
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        }
-
+        StyleableToast.makeText(this,message,R.style.info_toast_style).show();
     }
 
 

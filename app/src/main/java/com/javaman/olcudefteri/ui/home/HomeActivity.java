@@ -45,6 +45,7 @@ import com.javaman.olcudefteri.model.FirebaseRegIdModel;
 import com.javaman.olcudefteri.utill.FirebaseUtil;
 import com.javaman.olcudefteri.ui.orders.OrdersActivity;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -155,8 +156,9 @@ public class HomeActivity extends AppCompatActivity
         ahBottomNavigation.addItem(item_add_order);
         ahBottomNavigation.addItem(item_notification);
         ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
-        ahBottomNavigation.setAccentColor(fetchColor(R.color.primaryColor));
-        ahBottomNavigation.setInactiveColor(fetchColor(R.color.hintColor));
+        ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
+        ahBottomNavigation.setInactiveColor(fetchColor(R.color.primaryDarkColor));
+        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.secondaryDarkColor));
         ahBottomNavigation.setCurrentItem(0);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
@@ -219,7 +221,7 @@ public class HomeActivity extends AppCompatActivity
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Çıkmak için tekrar basın.", Toast.LENGTH_SHORT).show();
+        StyleableToast.makeText(this,"Çıkmak için tekrar basın.",R.style.info_toast_style).show();
 
         new Handler().postDelayed(new Runnable() {
 
@@ -370,14 +372,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void showAlert(String message,boolean isToast) {
-        if(isToast){
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        }else{
-            pDialog=new SweetAlertDialog(this,SweetAlertDialog.NORMAL_TYPE);
-            pDialog.setTitleText(message);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
+        StyleableToast.makeText(this,message,R.style.info_toast_style).show();
+
     }
 
     @Override
@@ -398,7 +394,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void showAlert(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        StyleableToast.makeText(this,message,R.style.info_toast_style).show();
     }
 
     @Override

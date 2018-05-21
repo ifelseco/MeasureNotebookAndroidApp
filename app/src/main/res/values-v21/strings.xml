@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OlcuDefteri</string>
+    <string name="app_name">Ölçü Defterim</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -129,7 +129,7 @@
     <string name="next_measure_text">Yaklaşan Ölçüler</string>
     <string name="next_delivery_text">Yaklaşan Teslimatlar</string>
     <string name="login_button_text">Giriş</string>
-    <string name="username_text">Kullanıcı Adı</string>
+    <string name="username_text">E-Posta</string>
     <string name="company_name_text">Firma Adı</string>
     <string name="order_number_text">Sipariş No</string>
     <string name="customer_name_text">Müşteri Adı</string>

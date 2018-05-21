@@ -22,6 +22,7 @@ import com.javaman.olcudefteri.presenter.impl.LoginPresenterImpl;
 import com.javaman.olcudefteri.utill.CipherHelper;
 import com.javaman.olcudefteri.view.LoginView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -143,8 +144,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void showAlert(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
+        StyleableToast.makeText(this,message,R.style.info_toast_style).show();
     }
 
     @Override

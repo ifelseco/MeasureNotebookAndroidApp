@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_order_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:cardCornerRadius="3dp"
-    >
+    app:cardCornerRadius="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@drawable/vertical_divider"
+        android:showDividers="middle"
         android:orientation="vertical">
 
 
@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:layout_weight="1"
-                    android:text="@string/order_number_text"
+                    android:text="Sipariş No:"
                     android:textSize="17sp" />
 
                 <TextView
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:textStyle="bold"
-                    android:text="@string/order_number_text"
+                    android:text="Sipariş numarası"
                     android:fontFamily="@font/roboto_regular"
                     android:textSize="15sp" />
 
@@ -65,10 +65,7 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/generalBorderColor" />
+
 
 
         <LinearLayout
@@ -83,12 +80,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/customer_name_text"
+                android:text="Müşteri Adı:"
                 android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/tv_custmer_namesurname"
-                android:text="@string/customer_name_text"
+                android:text="Müşteri adı soyadı"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
@@ -99,10 +96,7 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/generalBorderColor" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -127,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:layout_marginLeft="5dp"
-                    android:text="@string/order_date_text"
+                    android:text="Sipariş Tarihi:"
                     android:textSize="17sp" />
 
                 <TextView
@@ -174,10 +168,6 @@
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/generalBorderColor" />
 
 
         <LinearLayout
@@ -196,7 +186,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="@string/delivery_date_text"
+                android:text="Teslim Tarihi:"
                 android:layout_marginLeft="5dp"
                 android:textSize="17sp" />
 
@@ -212,11 +202,6 @@
 
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/generalBorderColor" />
 
 
 
@@ -252,7 +237,7 @@
                     android:textStyle="bold"
                     android:padding="4dp"
                     android:layout_marginRight="4dp"
-                    android:text="@string/mount_exsist_text"
+                    android:text="Montaj var"
                     android:textSize="15sp" />
             </LinearLayout>
 

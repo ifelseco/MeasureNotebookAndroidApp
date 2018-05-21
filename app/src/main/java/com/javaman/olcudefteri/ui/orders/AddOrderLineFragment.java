@@ -58,6 +58,7 @@ import com.javaman.olcudefteri.presenter.impl.OrderPresenterImpl;
 import com.javaman.olcudefteri.view.AddOrderLineView;
 import com.javaman.olcudefteri.utill.MyUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -544,7 +545,6 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
                         showDialog(new NetCurtain(), "Tül Perde");
                         break;
                     case "GP":
-                        Toast.makeText(getActivity(), "" + locationProduct.getLocationName() + locationProduct.getLocationType(), Toast.LENGTH_SHORT).show();
                         showDialog(new SunBlindCurtain(), "Güneşlik Perde");
                         break;
                     case "SP":
@@ -700,21 +700,10 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
     @Override
     public void showAlert(String message, boolean isError) {
         if (isError) {
-
-            SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
-            pDialog.setTitleText("Hata...");
-            pDialog.setContentText(message);
-            pDialog.setConfirmText("Kapat");
-            pDialog.setCancelable(true);
-            pDialog.show();
-
+            StyleableToast.makeText(getActivity(),message,R.style.error_toast_style).show();
         } else {
-            SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
-            //pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.setTitleText(message);
-            pDialog.setConfirmText("Kapat");
-            pDialog.setCancelable(true);
-            pDialog.show();
+            StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
+
         }
     }
 

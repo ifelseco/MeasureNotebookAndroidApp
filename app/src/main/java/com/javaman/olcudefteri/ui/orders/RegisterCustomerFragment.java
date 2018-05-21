@@ -24,6 +24,7 @@ import com.javaman.olcudefteri.presenter.impl.AddOrderPresenterImpl;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.view.AddOrderView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -173,7 +174,8 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
 
     @Override
     public void showAlert(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
+
     }
 
     @Override

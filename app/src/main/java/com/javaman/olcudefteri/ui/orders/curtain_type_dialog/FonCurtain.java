@@ -29,6 +29,7 @@ import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.view.CalculateView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -355,12 +356,12 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
                 etUnitprice.setError("Birim fiyat giriniz!");
 
             } else if (radioGroupFonType.getCheckedRadioButtonId() == -1) {
-                Toast.makeText(getActivity(), "Fon türü seçiniz!", Toast.LENGTH_SHORT).show();
+                StyleableToast.makeText(getActivity(),"Fon türü seçiniz!",R.style.warn_toast_style).show();
             } else {
 
                 if (fonType != 3) {
                     if (radioGroupPile.getCheckedRadioButtonId() == -1 && etOtherPile.getText().toString().isEmpty()) {
-                        Toast.makeText(getActivity(), "Pile sıklığı giriniz!", Toast.LENGTH_SHORT).show();
+                        StyleableToast.makeText(getActivity(),"Pile sıklığı giriniz!",R.style.warn_toast_style).show();
                     }else{
                         if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                             int checkedId = radioGroupPile.getCheckedRadioButtonId();
@@ -417,7 +418,7 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
 
     @Override
     public void showAlert(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
     }
 
     @Override

@@ -40,6 +40,7 @@ import com.javaman.olcudefteri.presenter.impl.OrdersPresenterImpl;
 import com.javaman.olcudefteri.view.OrdersView;
 import com.javaman.olcudefteri.utill.MyUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,11 +152,12 @@ public class OrdersActivity extends AppCompatActivity
         ahBottomNavigation.addItem(item_add_order);
         ahBottomNavigation.addItem(item_notification);
         ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
-        ahBottomNavigation.setAccentColor(fetchColor(R.color.primaryColor));
-        ahBottomNavigation.setInactiveColor(fetchColor(R.color.hintColor));
+        ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
+        ahBottomNavigation.setInactiveColor(fetchColor(R.color.primaryDarkColor));
         ahBottomNavigation.setCurrentItem(1);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.secondaryDarkColor));
         if(notfCount>0){
             ahBottomNavigation.setNotification(""+notfCount,3);
         }
@@ -200,7 +202,6 @@ public class OrdersActivity extends AppCompatActivity
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnCloseListener(() -> {
             clearActionMode();
-            Toast.makeText(this, "" + isFilterMode, Toast.LENGTH_SHORT).show();
             refreshOrder();
             return false;
         });
@@ -283,7 +284,7 @@ public class OrdersActivity extends AppCompatActivity
                 showConfirmDialog(this.selectedOrderList);
 
             } else {
-                Toast.makeText(this, "Sipariş seçmediniz.", Toast.LENGTH_SHORT).show();
+                StyleableToast.makeText(this,"Sipariş seçmediniz.",R.style.info_toast_style).show();
                 clearActionMode();
             }
 
@@ -441,30 +442,17 @@ public class OrdersActivity extends AppCompatActivity
 
     @Override
     public void showAlert(String message, boolean isError, boolean isOnlyToast) {
-        if (isError) {
 
-            if (isOnlyToast) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            if (isError) {
+
+                    StyleableToast.makeText(this,message,R.style.error_toast_style).show();
+
             } else {
-                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
-                pDialog.setTitleText("Hata...");
-                pDialog.setContentText(message);
-                pDialog.setConfirmText("Kapat");
-                pDialog.setCancelable(true);
-                pDialog.show();
+
+                    StyleableToast.makeText(this,message,R.style.info_toast_style).show();
+
             }
 
-        } else {
-            if (isOnlyToast) {
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            } else {
-                SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
-                pDialog.setTitleText(message);
-                pDialog.setConfirmText("Kapat");
-                pDialog.setCancelable(true);
-                pDialog.show();
-            }
-        }
     }
 
     @Override

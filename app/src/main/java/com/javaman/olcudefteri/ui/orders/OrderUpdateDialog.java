@@ -98,10 +98,8 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
         if (arguments != null) {
             if (arguments.containsKey(AddOrderLineFragment.ARG_GOTO_ORDER_UPDATE_FROM_ADD_ORDERLINE)) {
                 orderDetailResponseModel = arguments.getParcelable(AddOrderLineFragment.ARG_GOTO_ORDER_UPDATE_FROM_ADD_ORDERLINE);
-                Toast.makeText(getActivity(), "" + orderDetailResponseModel.isMountExist(), Toast.LENGTH_SHORT).show();
             } else if (arguments.containsKey(OrderDetailActivity.ARG_GOTO_UPDATE_ORDER_FROM_ORDER_DETAIL)) {
                 orderDetailResponseModel = arguments.getParcelable(OrderDetailActivity.ARG_GOTO_UPDATE_ORDER_FROM_ORDER_DETAIL);
-                Toast.makeText(getActivity(), "" + orderDetailResponseModel.isMountExist(), Toast.LENGTH_SHORT).show();
             }
         } else {
             dismiss();
@@ -216,7 +214,6 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
 
         if (id == R.id.btn_edit_total) {
             enableEdittext(editTextTotalAmount);
-            Toast.makeText(getActivity(), "" + spinnerOrderStatus.getSelectedItemPosition(), Toast.LENGTH_SHORT).show();
         } else if (id == R.id.btn_edit_deposit) {
             enableEdittext(editTextDepositAmount);
         } else if (id == R.id.btn_save) {

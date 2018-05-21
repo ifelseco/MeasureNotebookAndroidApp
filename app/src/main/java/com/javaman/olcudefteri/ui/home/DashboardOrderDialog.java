@@ -25,6 +25,7 @@ import com.javaman.olcudefteri.presenter.ReportPresenter;
 import com.javaman.olcudefteri.presenter.impl.ReportPresenterImpl;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 import com.javaman.olcudefteri.view.ReportView;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -184,9 +185,8 @@ public class DashboardOrderDialog extends DialogFragment implements View.OnClick
 
     @Override
     public void showAlert(String message, boolean isToast) {
-        if(!getActivity().isFinishing()){
-            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-        }
+        StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
+
     }
 
     @Override

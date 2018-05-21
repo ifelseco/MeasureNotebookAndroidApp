@@ -21,6 +21,7 @@ import com.javaman.olcudefteri.model.NotificationDetailModel;
 import com.javaman.olcudefteri.model.NotificationSummaryModel;
 import com.javaman.olcudefteri.ui.tailor.TailorHomeActivity;
 import com.javaman.olcudefteri.utill.MyUtil;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -123,7 +124,7 @@ public class HomeNotificationFragment extends Fragment implements RecyclerItemTo
                 if(notificationSummaryModel.getNotificationDetailModelList().size()>0){
                     showConfirmDialog();
                 }else{
-                    Toast.makeText(getActivity(), "Hiç bildirim yok", Toast.LENGTH_SHORT).show();
+                    StyleableToast.makeText(getActivity(),"Hiç bildirim yok",R.style.info_toast_style).show();
                 }
             default:
                 return super.onOptionsItemSelected(item);

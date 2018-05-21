@@ -62,6 +62,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.16.20'
     annotationProcessor "org.projectlombok:lombok:1.16.20"
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
+    implementation 'com.muddzdev:styleabletoast:2.1.2'
 }
 
 
