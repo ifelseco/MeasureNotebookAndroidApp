@@ -16,7 +16,7 @@ public class OrderUpdateModel implements Parcelable {
 	private double depositeAmount;
 	private Date deliveryDate;
 	private Date measureDate;
-	private boolean isMountExist;
+	private boolean mountExist;
 	private int orderStatus;
 	private String orderNumber;
 
@@ -37,7 +37,7 @@ public class OrderUpdateModel implements Parcelable {
 		dest.writeDouble(this.depositeAmount);
 		dest.writeLong(this.deliveryDate != null ? this.deliveryDate.getTime() : -1);
 		dest.writeLong(this.measureDate != null ? this.measureDate.getTime() : -1);
-		dest.writeByte(this.isMountExist ? (byte) 1 : (byte) 0);
+		dest.writeByte(this.mountExist ? (byte) 1 : (byte) 0);
 		dest.writeInt(this.orderStatus);
 		dest.writeString(this.orderNumber);
 	}
@@ -53,7 +53,7 @@ public class OrderUpdateModel implements Parcelable {
 		this.deliveryDate = tmpDeliveryDate == -1 ? null : new Date(tmpDeliveryDate);
 		long tmpMeasureDate = in.readLong();
 		this.measureDate = tmpMeasureDate == -1 ? null : new Date(tmpMeasureDate);
-		this.isMountExist = in.readByte() != 0;
+		this.mountExist = in.readByte() != 0;
 		this.orderStatus = in.readInt();
 		this.orderNumber = in.readString();
 	}

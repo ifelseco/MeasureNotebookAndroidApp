@@ -129,8 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="match_parent"
@@ -157,12 +156,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:background="@color/secondaryLightColor"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/lightgray"
+
                 android:orientation="horizontal">
 
                 <TextView
@@ -171,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-
+                    android:textColor="@color/primaryDarkColor"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Toplam Fiyat"
                     android:textSize="15sp" />
@@ -182,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-
+                    android:textColor="@color/primaryDarkColor"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Kapora"
                     android:textSize="15sp" />
@@ -191,7 +191,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/generalBorderColor"
                 android:orientation="horizontal">
 
                 <TextView
@@ -200,7 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textStyle="bold"
-
+                    android:textColor="@color/primaryDarkColor"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Kalan Ödeme:"
                     android:textSize="17sp" />

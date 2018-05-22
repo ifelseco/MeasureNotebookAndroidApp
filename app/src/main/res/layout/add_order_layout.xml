@@ -152,6 +152,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:tint="@color/primaryDarkColor"
                             app:srcCompat="@drawable/ic_date_range_black_24dp" />
 
                         <TextView
@@ -186,6 +187,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:tint="@color/primaryDarkColor"
                             app:srcCompat="@drawable/ic_access_time_black_24dp" />
 
 
@@ -238,7 +240,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:tint="@color/generalBorderColor"
+                            android:tint="@color/primaryDarkColor"
                             app:srcCompat="@drawable/ic_tl" />
 
                         <TextView
@@ -526,7 +528,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/generalBorderColor"
+                android:background="@color/primaryDarkColor"
                 android:padding="16dp">
 
                 <TextView
@@ -535,7 +537,7 @@
                     android:layout_marginRight="10dp"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Seçilen Ürünler"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/secondaryLightColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -544,7 +546,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/primaryDarkColor"
+                    android:textColor="@color/secondaryLightColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -558,7 +560,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_expand_less_black_24dp"
-                        android:tint="@color/primaryDarkColor"/>
+                        android:tint="@color/secondaryLightColor"/>
 
                     <ImageView
                         android:id="@+id/image_view_collapse"
@@ -566,7 +568,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_expand_more_black_24dp"
-                        android:tint="@color/primaryDarkColor"/>
+                        android:tint="@color/secondaryLightColor"/>
                 </LinearLayout>
 
             </LinearLayout>

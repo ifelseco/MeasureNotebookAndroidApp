@@ -301,8 +301,8 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
                         EventBus.getDefault().post(orderUpdateModel);
-                        dismiss();
                         sDialog.dismissWithAnimation();
+                        dismiss();
                     }
                 })
                 .showCancelButton(true)

@@ -18,7 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider_gray"
+            android:divider="@drawable/vertical_divider_primary"
             android:orientation="vertical"
             android:showDividers="middle|end">
 
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:padding="5dp"
-                    android:tint="@color/generalBorderColor"
+                    android:tint="@color/primaryDarkColor"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_more_black_24dp" />
 
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:padding="5dp"
-                    android:tint="@color/generalBorderColor"
+                    android:tint="@color/primaryDarkColor"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:padding="5dp"
-                    android:tint="@color/generalBorderColor"
+                    android:tint="@color/primaryDarkColor"
                     app:srcCompat="@drawable/ic_dialog_close_dark" />
 
 
@@ -313,10 +313,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/lightBlue"
+            android:background="@color/primaryColor"
             android:divider="@drawable/vertical_divider_primary"
             android:orientation="vertical"
-
             android:padding="6dp"
             android:showDividers="middle">
 
@@ -329,10 +328,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Kullanılan Malzeme :"
-                    android:textColor="@color/generalBorderColor"
+                    android:textColor="@color/secondaryLightColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -359,10 +358,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Birim Fiyat :"
-                    android:textColor="@color/generalBorderColor"
+                    android:textColor="@color/secondaryLightColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -389,10 +388,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Tutar :"
-                    android:textColor="@color/generalBorderColor"
+                    android:textColor="@color/secondaryLightColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 

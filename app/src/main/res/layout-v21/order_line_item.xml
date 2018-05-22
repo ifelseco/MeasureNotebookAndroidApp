@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:padding="5dp"
-                    android:tint="@color/generalBorderColor"
+                    android:tint="@color/primaryDarkColor"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_more_black_24dp" />
 
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:padding="5dp"
-                    android:tint="@color/generalBorderColor"
+                    android:tint="@color/primaryDarkColor"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_more_vert_black_24dp" />
 
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:padding="5dp"
-                    android:tint="@color/generalBorderColor"
+                    android:tint="@color/primaryDarkColor"
                     app:srcCompat="@drawable/ic_dialog_close_dark" />
 
 
@@ -313,7 +313,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/lightBlue"
+            android:background="@color/secondaryLightColor"
             android:divider="@drawable/vertical_divider_primary"
             android:orientation="vertical"
 
@@ -332,7 +332,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Kullanılan Malzeme :"
-                    android:textColor="@color/generalBorderColor"
+                    android:textColor="@color/primaryDarkColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -362,7 +362,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Birim Fiyat :"
-                    android:textColor="@color/generalBorderColor"
+                    android:textColor="@color/primaryDarkColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -392,7 +392,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Tutar :"
-                    android:textColor="@color/generalBorderColor"
+                    android:textColor="@color/primaryDarkColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 

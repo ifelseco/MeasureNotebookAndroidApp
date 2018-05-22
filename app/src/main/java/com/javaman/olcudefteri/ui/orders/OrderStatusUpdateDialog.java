@@ -143,8 +143,8 @@ public class OrderStatusUpdateDialog extends DialogFragment implements View.OnCl
                 .setConfirmText("Evet")
                 .setConfirmClickListener(sDialog -> {
                     EventBus.getDefault().post(orderUpdateModel);
-                    dismiss();
                     sDialog.dismissWithAnimation();
+                    dismiss();
                 })
                 .showCancelButton(true)
                 .setCancelText("Vazgeç!")

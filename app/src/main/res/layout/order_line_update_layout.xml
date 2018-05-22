@@ -37,7 +37,7 @@
                         android:id="@+id/textViewProductValue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/generalBorderColor"
+                        android:background="@color/primaryDarkColor"
                         android:fontFamily="@font/roboto_regular"
                         android:text=""
                         android:textAlignment="center"
@@ -721,7 +721,7 @@
                         android:layout_weight="1"
                         android:padding="3dp"
                         android:text="@string/save_button_text"
-                        android:background="@color/generalBorderColor"
+                        android:background="@color/primaryDarkColor"
                         android:textColor="#ffffff" />
 
 
