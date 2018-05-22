@@ -768,12 +768,12 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
         }
 
         if(!TextUtils.isEmpty(etLocationName.getText().toString())){
-            orderLineDetailModel.setLocationType(etLocationName.getText().toString());
+            orderLineDetailModel.setLocationName(etLocationName.getText().toString());
         }
 
 
         if(!TextUtils.isEmpty(etLocationType.getText().toString())){
-            orderLineDetailModel.setLocationName(etLocationName.getText().toString());
+            orderLineDetailModel.setLocationType(etLocationType.getText().toString());
         }
 
 

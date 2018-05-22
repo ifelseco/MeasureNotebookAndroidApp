@@ -173,37 +173,37 @@ public class TailorOrderLineAdapter extends RecyclerView.Adapter<TailorOrderLine
             }
 
             if (!TextUtils.isEmpty(orderLine.getProduct().getAliasName())) {
-                textViewProductAlias.setText("İsim: " + orderLine.getProduct().getAliasName());
+                textViewProductAlias.setText(orderLine.getProduct().getAliasName());
             } else {
-                textViewProductAlias.setText("İsim: seçilmedi");
+                textViewProductAlias.setText("Seçilmedi");
             }
 
             if (!TextUtils.isEmpty(orderLine.getProduct().getPatternCode())) {
-                textViewProductPatter.setText("Desen: " + orderLine.getProduct().getPatternCode());
+                textViewProductPatter.setText(orderLine.getProduct().getPatternCode());
             } else {
-                textViewProductPatter.setText("Desen: seçilmedi");
+                textViewProductPatter.setText("Seçilmedi");
             }
 
             if (!TextUtils.isEmpty(orderLine.getProduct().getVariantCode())) {
-                textViewProductVariant.setText("Varyant: " + orderLine.getProduct().getVariantCode());
+                textViewProductVariant.setText(orderLine.getProduct().getVariantCode());
             } else {
-                textViewProductVariant.setText("Varyant: seçilmedi");
+                textViewProductVariant.setText("Seçilmedi");
             }
 
             if(!TextUtils.isEmpty(orderLine.getLineDescription())){
                 textViewDesc.setText(orderLine.getLineDescription());
             }
 
-            textViewProductWidth.setText("En: " + orderLine.getPropertyWidth());
-            textViewProductHeight.setText("Boy: " + orderLine.getPropertyHeight());
-            textViewUsed.setText(""+orderLine.getUsedMaterial()+" metre");
+            textViewProductWidth.setText(String.format("%.2f",orderLine.getPropertyWidth())+" cm");
+            textViewProductHeight.setText(String.format("%.2f",orderLine.getPropertyHeight())+" cm");
+            textViewUsed.setText(""+orderLine.getUsedMaterial()+" m");
 
             switch (productValue) {
                 case 0:
                     textViewProductValue.setText(productArray[0]);
                     linearLayoutDetail.setVisibility(View.VISIBLE);
                     linearLayoutPile.setVisibility(View.VISIBLE);
-                    textViewPile.setText("" + orderLine.getSizeOfPile());
+                    textViewPile.setText(String.format("%.2f",orderLine.getSizeOfPile()));
                     break;
                 case 1:
                     textViewProductValue.setText(productArray[1]);
@@ -213,27 +213,27 @@ public class TailorOrderLineAdapter extends RecyclerView.Adapter<TailorOrderLine
                     textViewProductValue.setText(productArray[6]);
                     linearLayoutPile.setVisibility(View.VISIBLE);
                     linearLayoutKruvaze.setVisibility(View.VISIBLE);
-                    textViewPile.setText("" + orderLine.getSizeOfPile());
-                    textViewKruvazeLeftWidth.setText("Sol En: " + orderLine.getPropertyLeftWidth());
-                    textViewKruvazeRightWidth.setText("Sağ En: " + orderLine.getPropertyRightWidth());
+                    textViewPile.setText(String.format("%.2f",orderLine.getSizeOfPile()));
+                    textViewKruvazeLeftWidth.setText(String.format("%.2f",orderLine.getPropertyLeftWidth())+" cm");
+                    textViewKruvazeRightWidth.setText(String.format("%.2f",orderLine.getPropertyRightWidth())+" cm");
                     break;
                 case 7:
                     linearLayoutDetail.setVisibility(View.VISIBLE);
                     textViewProductValue.setText(productArray[7]);
                     linearLayoutPile.setVisibility(View.VISIBLE);
                     linearLayoutBriz.setVisibility(View.VISIBLE);
-                    textViewPile.setText("" + orderLine.getSizeOfPile());
-                    textViewAltWidth.setText("Farbela En: " + orderLine.getPropertyAlternativeWidth());
-                    textViewAltHeight.setText("Farbela Boy: " + orderLine.getPropertyAlternativeHeight());
+                    textViewPile.setText(String.format("%.2f",orderLine.getSizeOfPile()));
+                    textViewAltWidth.setText(String.format("%.2f",orderLine.getPropertyAlternativeWidth())+" cm");
+                    textViewAltHeight.setText(String.format("%.2f",orderLine.getPropertyAlternativeHeight())+" cm");
                     break;
                 case 8:
                     linearLayoutDetail.setVisibility(View.VISIBLE);
                     linearLayoutFarbela.setVisibility(View.VISIBLE);
                     textViewProductValue.setText(productArray[8]);
                     if (!TextUtils.isEmpty(orderLine.getPropertyModelName())) {
-                        textViewFarbelaModelName.setText("Model Adı: " + orderLine.getPropertyModelName());
+                        textViewFarbelaModelName.setText(orderLine.getPropertyModelName());
                     } else {
-                        textViewFarbelaModelName.setText("Model Adı: Seçilmedi");
+                        textViewFarbelaModelName.setText("Seçilmedi");
                     }
                     break;
                 case 9:
@@ -245,34 +245,34 @@ public class TailorOrderLineAdapter extends RecyclerView.Adapter<TailorOrderLine
                     if (orderLine.getFonType() == 1) {
                         textViewFonType.setText("Kruvaze Kanat");
                         if (!TextUtils.isEmpty(orderLine.getPileName())) {
-                            textViewFonPileName.setText("Pile Türü: " + orderLine.getPileName());
+                            textViewFonPileName.setText(orderLine.getPileName());
                         } else {
-                            textViewFonPileName.setText("Pile Türü: Seçilmedi");
+                            textViewFonPileName.setText("Seçilmedi");
                         }
 
-                        textViewPile.setText("" + orderLine.getSizeOfPile());
+                        textViewPile.setText(String.format("%.2f",orderLine.getSizeOfPile()));
 
 
                         if (orderLine.getDirection() == 1) {
-                            textViewFonDirection.setText("Yön: Sol");
+                            textViewFonDirection.setText("Sol");
                         } else if (orderLine.getDirection() == 2) {
-                            textViewFonDirection.setText("Yön: Sağ");
+                            textViewFonDirection.setText("Sağ");
                         }
 
 
                     } else if (orderLine.getFonType() == 2) {
                         textViewFonType.setText("Fon Kanat");
                         if (!TextUtils.isEmpty(orderLine.getPileName())) {
-                            textViewFonPileName.setText("Pile Türü: " + orderLine.getPileName());
+                            textViewFonPileName.setText(orderLine.getPileName());
                         } else {
-                            textViewFonPileName.setText("Pile Türü: Seçilmedi");
+                            textViewFonPileName.setText("Seçilmedi");
                         }
-                        textViewPile.setText("" + orderLine.getSizeOfPile());
+                        textViewPile.setText(String.format("%.2f",orderLine.getSizeOfPile()));
 
                         if (orderLine.getDirection() == 1) {
-                            textViewFonDirection.setText("Yön: Sol");
+                            textViewFonDirection.setText("Sol");
                         } else if (orderLine.getDirection() == 2) {
-                            textViewFonDirection.setText("Yön: Sağ");
+                            textViewFonDirection.setText("Sağ");
                         }
 
                     } else if (orderLine.getFonType() == 2) {

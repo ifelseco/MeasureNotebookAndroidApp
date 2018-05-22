@@ -28,7 +28,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/generalBorderColor"
+                    android:background="@color/primaryDarkColor"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/GP"
                     android:textAlignment="center"
@@ -39,14 +39,14 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/generalBorderColor" />
+                    android:background="@color/primaryDarkColor" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -142,7 +142,7 @@
                     android:layout_margin="10dp"
                     android:orientation="vertical"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen">
+                    android:background="@drawable/general_edittext_border_bg_primary">
 
 
                     <LinearLayout
@@ -196,7 +196,7 @@
                     android:layout_margin="10dp"
                     android:orientation="horizontal"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen">
+                    android:background="@drawable/general_edittext_border_bg_primary">
 
                     <ProgressBar
                         android:id="@+id/progress_bar_calc"
@@ -234,7 +234,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:orientation="vertical">
 
                     <android.support.design.widget.TextInputLayout
@@ -283,13 +283,13 @@
                         android:padding="3dp"
                         android:text="@string/save_button_text"
                         android:textColor="#ffffff"
-                        android:backgroundTint="@color/generalBorderColor" />
+                        android:backgroundTint="@color/primaryDarkColor" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/generalBorderColor" />
+                    android:background="@color/primaryDarkColor" />
 
             </LinearLayout>
 

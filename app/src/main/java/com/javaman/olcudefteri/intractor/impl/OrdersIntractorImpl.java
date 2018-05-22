@@ -154,7 +154,10 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         if(jObjError.get("baseModel")!=null){
                             listener.onFailureDeleteOrders("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
-                        }else{
+                        }else if(jObjError.getString("responseMessage")!=null){
+                            listener.onFailureDeleteOrders("Bir hata oluştu : "+jObjError.getString("responseMessage"));
+                        }
+                        else{
                             listener.onFailureDeleteOrders("Bir hata oluştu : "+jObjError.getString("message"));
                         }
 
@@ -371,7 +374,9 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         if(jObjError.get("baseModel")!=null){
                             listener.onFailureUpdateOrder("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
-                        }else{
+                        }else if(jObjError.getString("responseMessage")!=null){
+                            listener.onFailureUpdateOrder("Bir hata oluştu : "+jObjError.getString("responseMessage"));
+                        } else{
                             listener.onFailureUpdateOrder("Bir hata oluştu : "+jObjError.getString("message"));
                         }
 

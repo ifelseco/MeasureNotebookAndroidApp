@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@drawable/vertical_divider"
+        android:divider="@drawable/vertical_divider_primary"
         android:showDividers="middle"
         android:orientation="vertical">
 
@@ -275,7 +275,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:background="@color/generalBorderColor" />
+            android:background="@color/primaryDarkColor" />
     </LinearLayout>
 
 

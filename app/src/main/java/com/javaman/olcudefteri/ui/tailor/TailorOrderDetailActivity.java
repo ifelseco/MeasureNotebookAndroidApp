@@ -19,6 +19,8 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.model.OrderLineSummaryResponseModel;
 import com.javaman.olcudefteri.presenter.OrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.OrderLinePresenterImpl;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
+import com.javaman.olcudefteri.ui.orders.AddOrderActivity;
 import com.javaman.olcudefteri.view.OrderDetailVew;
 
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
@@ -140,9 +142,10 @@ public class TailorOrderDetailActivity extends AppCompatActivity implements Orde
         String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
         return xAuthToken;
     }
+
     @Override
     public void navigateToLogin() {
-
+        startActivity(new Intent(TailorOrderDetailActivity.this , LoginActivity.class));
     }
 
     @Override

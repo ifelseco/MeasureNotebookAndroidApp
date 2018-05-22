@@ -25,7 +25,7 @@ public interface ReportService {
     Call<OrderSummaryModel> getNextMeasure(@Header("X-Auth-Token") String xAuthToken);
 
 
-    @GET("/report/next/measure/")
+    @GET("/report/next/delivery/")
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json"

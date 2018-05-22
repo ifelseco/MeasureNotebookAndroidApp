@@ -133,7 +133,10 @@ public class OrderLineIntractorImpl implements OrderLineIntractor {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         if(jObjError.get("baseModel")!=null){
                             listener.onFailureDeleteOrderLine("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
-                        }else{
+                        }else if(jObjError.getString("responseMessage")!=null){
+                            listener.onFailureDeleteOrderLine("Bir hata oluştu : "+jObjError.getString("responseMessage"));
+                        }
+                        else{
                             listener.onFailureDeleteOrderLine("Bir hata oluştu : "+jObjError.getString("message"));
                         }
 

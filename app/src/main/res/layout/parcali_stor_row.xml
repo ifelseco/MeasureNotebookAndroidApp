@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
     android:padding="15dp"
-    android:background="@drawable/edittext_border_bg_lightgreen"
+    android:background="@drawable/general_edittext_border_bg_primary"
     android:orientation="vertical">
 
 

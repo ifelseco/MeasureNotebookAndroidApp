@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:cursorVisible="true"
-                android:textCursorDrawable="@android:color/white"
+                android:textCursorDrawable="@color/primaryDarkColor"
                 android:padding="20dp"
                 android:background="@drawable/edittext_border_bg_primary"
                 android:gravity="center|left|bottom"
@@ -51,9 +51,7 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@android:color/white"
-            app:passwordToggleTint="@android:color/white"
-            app:passwordToggleEnabled="true">
+            android:textColorHint="@android:color/white">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_password"
@@ -62,7 +60,7 @@
                 android:layout_margin="10dp"
                 android:padding="20dp"
                 android:cursorVisible="true"
-                android:textCursorDrawable="@android:color/white"
+                android:textCursorDrawable="@color/primaryDarkColor"
                 android:gravity="center|left|bottom"
                 android:background="@drawable/edittext_border_bg_primary"
                 android:hint="@string/password_text"
@@ -97,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="15dp"
-            android:backgroundTint="@color/primaryDarkColor"
+            android:background="@color/primaryDarkColor"
             android:padding="10dp"
             android:text="Giriş yap"
             android:textColor="@android:color/white"

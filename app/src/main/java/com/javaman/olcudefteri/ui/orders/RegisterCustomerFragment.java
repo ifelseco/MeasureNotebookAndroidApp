@@ -22,6 +22,7 @@ import com.javaman.olcudefteri.model.AddCustomerResponse;
 import com.javaman.olcudefteri.presenter.AddOrderPresenter;
 import com.javaman.olcudefteri.presenter.impl.AddOrderPresenterImpl;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
+import com.javaman.olcudefteri.utill.MaskWatcher;
 import com.javaman.olcudefteri.view.AddOrderView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -34,7 +35,7 @@ import butterknife.OnClick;
  * Created by javaman on 14.12.2017.
  */
 
-public class RegisterCustomerFragment extends Fragment implements AddOrderView {
+public class RegisterCustomerFragment extends Fragment implements AddOrderView, View.OnFocusChangeListener {
 
     @BindView(R.id.editTextName)
     EditText editTextName;
@@ -75,8 +76,35 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
         ButterKnife.bind(this,view);
         sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         mAddOrderPresenter=new AddOrderPresenterImpl(this);
+        setEdittextMask();
         return view;
     }
+
+    private void setEdittextMask() {
+
+        editTextFixedPhone.addTextChangedListener(new MaskWatcher("(####)-###-##-##"));
+        editTextMobilePhone.addTextChangedListener(new MaskWatcher("(####)-###-##-##"));
+        editTextMobilePhone.setOnFocusChangeListener(this);
+        editTextFixedPhone.setOnFocusChangeListener(this);
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if(v.getId()==R.id.editTextMobilePhone){
+            if(hasFocus){
+                editTextMobilePhone.setHint("(05xx)-xxx-xx-xx");
+            }else{
+                editTextMobilePhone.setHint("");
+            }
+        }else if(v.getId()==R.id.editTextFixedPhone){
+            if(hasFocus){
+                editTextFixedPhone.setHint("(0xxx)-xxx-xx-xx");
+            }else{
+                editTextFixedPhone.setHint("");
+            }
+        }
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -194,6 +222,7 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView {
         super.onDestroy();
         mAddOrderPresenter.onDestroy();
     }
+
 
 
 }

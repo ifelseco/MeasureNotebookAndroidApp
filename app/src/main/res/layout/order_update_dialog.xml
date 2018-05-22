@@ -31,7 +31,7 @@
                 android:layout_margin="5dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:background="@drawable/edittext_border_bg_lightgreen">
+                android:background="@drawable/general_edittext_border_bg_primary">
 
 
                 <TextView
@@ -59,7 +59,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:background="@drawable/edittext_border_bg_lightgreen">
+                android:background="@drawable/general_edittext_border_bg_primary">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
                 <EditText
                     android:id="@+id/et_select_delivery_date"
                     android:layout_width="match_parent"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:focusable="false"
                     android:layout_height="wrap_content" />
 
@@ -93,7 +93,7 @@
                 android:layout_margin="5dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:background="@drawable/edittext_border_bg_lightgreen">
+                android:background="@drawable/general_edittext_border_bg_primary">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
                 <EditText
                     android:id="@+id/et_select_measure_date"
                     android:layout_width="match_parent"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
@@ -124,7 +124,7 @@
                 android:layout_margin="5dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:background="@drawable/edittext_border_bg_lightgreen">
+                android:background="@drawable/general_edittext_border_bg_primary">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -160,7 +160,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:background="@drawable/edittext_border_bg_lightgreen">
+                android:background="@drawable/general_edittext_border_bg_primary">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -177,7 +177,7 @@
                 <EditText
                     android:id="@+id/et_order_total"
                     android:layout_width="wrap_content"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:layout_weight="1"/>
@@ -202,7 +202,7 @@
                 android:layout_margin="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:background="@drawable/edittext_border_bg_lightgreen">
+                android:background="@drawable/general_edittext_border_bg_primary">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -219,7 +219,7 @@
                 <EditText
                     android:id="@+id/et_order_deposit"
                     android:layout_width="wrap_content"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:layout_weight="1"/>
@@ -253,7 +253,7 @@
                     android:layout_marginRight="5dp"
                     android:text="@string/cancel_button_text"
                     android:textColor="@android:color/white"
-                    android:backgroundTint="@android:color/holo_red_light"/>
+                    android:background="@android:color/holo_red_light"/>
 
                 <Button
                     android:id="@+id/btn_save"
@@ -264,7 +264,7 @@
                     android:layout_marginRight="5dp"
                     android:text="Güncelle"
                     android:textColor="@android:color/white"
-                    android:backgroundTint="@color/generalBorderColor"/>
+                    android:background="@color/primaryDarkColor"/>
 
 
 

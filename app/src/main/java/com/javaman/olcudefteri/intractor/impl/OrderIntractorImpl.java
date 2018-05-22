@@ -128,7 +128,10 @@ public class OrderIntractorImpl implements OrderIntractor {
                         JSONObject jObjError = new JSONObject(response.errorBody().string());
                         if(jObjError.get("baseModel")!=null){
                             listener.onFailureDeleteOrder("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
-                        }else{
+                        }else if(jObjError.getString("responseMessage")!=null){
+                            listener.onFailureDeleteOrder("Bir hata oluştu : "+jObjError.getString("responseMessage"));
+                        }
+                        else{
                             listener.onFailureDeleteOrder("Bir hata oluştu : "+jObjError.getString("message"));
                         }
 

@@ -33,6 +33,7 @@ import com.javaman.olcudefteri.model.OrderDetailResponseModel;
 import com.javaman.olcudefteri.model.OrderLineSummaryResponseModel;
 import com.javaman.olcudefteri.presenter.OrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.OrderLinePresenterImpl;
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.view.OrderDetailVew;
 import com.javaman.olcudefteri.utill.MyUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
@@ -417,9 +418,10 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
         return xAuthToken;
     }
+
     @Override
     public void navigateToLogin() {
-
+        startActivity(new Intent(OrderDetailActivity.this , LoginActivity.class));
     }
 
     @Override

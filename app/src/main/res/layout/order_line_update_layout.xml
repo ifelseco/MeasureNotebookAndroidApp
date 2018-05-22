@@ -57,7 +57,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:background="@drawable/general_edittext_border_bg_primary"
                         android:layout_margin="5dp"
                         android:padding="5dp">
 
@@ -100,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:background="@drawable/general_edittext_border_bg_primary"
                         android:layout_margin="5dp"
                         android:padding="5dp">
 
@@ -125,7 +125,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:background="@drawable/general_edittext_border_bg_primary"
                         android:layout_margin="5dp"
                         android:padding="5dp">
 
@@ -170,7 +170,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:padding="5dp"
                     android:layout_margin="5dp"
                     android:orientation="vertical">
@@ -224,7 +224,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:padding="5dp"
                     android:layout_margin="5dp"
                     android:visibility="gone">
@@ -252,7 +252,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:padding="5dp"
                     android:layout_margin="5dp"
                     android:visibility="gone">
@@ -294,7 +294,7 @@
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:layout_margin="5dp"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:background="@drawable/general_edittext_border_bg_primary"
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
@@ -339,7 +339,7 @@
                         android:layout_margin="5dp"
                         android:padding="5dp"
                         android:layout_weight="1"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:background="@drawable/general_edittext_border_bg_primary"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -370,7 +370,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:padding="5dp"
                     android:layout_margin="5dp"
                     android:visibility="gone">
@@ -425,7 +425,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:padding="5dp"
                     android:layout_margin="5dp"
                     android:visibility="gone">
@@ -481,7 +481,7 @@
                     android:orientation="horizontal"
                     android:padding="5dp"
                     android:layout_margin="5dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:visibility="gone">
 
                     <android.support.design.widget.TextInputLayout
@@ -507,7 +507,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:padding="5dp"
                     android:layout_margin="5dp"
                     android:visibility="gone">
@@ -588,7 +588,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:background="@drawable/general_edittext_border_bg_primary"
                         android:padding="5dp"
                         android:layout_margin="5dp"
                         android:orientation="horizontal">
@@ -619,7 +619,7 @@
                             android:textColor="@android:color/white"
                             android:fontFamily="@font/roboto_regular"
                             android:layout_weight="2"
-                            android:background="@color/generalBorderColor"/>
+                            android:background="@color/primaryDarkColor"/>
 
                     </LinearLayout>
 
@@ -627,7 +627,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/edittext_border_bg_lightgreen"
+                        android:background="@drawable/general_edittext_border_bg_primary"
                         android:padding="5dp"
                         android:layout_margin="5dp"
                         android:orientation="horizontal">
@@ -675,7 +675,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_margin="5dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:padding="5dp">
 
                     <android.support.design.widget.TextInputLayout
@@ -710,7 +710,7 @@
                         android:layout_weight="1"
                         android:padding="3dp"
                         android:text="@string/cancel_button_text"
-                        android:backgroundTint="@android:color/holo_red_light"
+                        android:background="@android:color/holo_red_light"
                         android:textColor="#ffffff" />
 
                     <Button
@@ -721,7 +721,7 @@
                         android:layout_weight="1"
                         android:padding="3dp"
                         android:text="@string/save_button_text"
-                        android:backgroundTint="@color/generalBorderColor"
+                        android:background="@color/generalBorderColor"
                         android:textColor="#ffffff" />
 
 

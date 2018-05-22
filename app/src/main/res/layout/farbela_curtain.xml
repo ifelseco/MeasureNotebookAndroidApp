@@ -29,7 +29,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/generalBorderColor"
+                    android:background="@color/primaryDarkColor"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/FARBP"
                     android:textAlignment="center"
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -83,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -107,7 +107,7 @@
                     android:padding="10dp"
                     android:layout_margin="10dp"
                     android:orientation="vertical"
-                    android:background="@drawable/edittext_border_bg_lightgreen">
+                    android:background="@drawable/general_edittext_border_bg_primary">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -186,7 +186,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -238,7 +238,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen"
+                    android:background="@drawable/general_edittext_border_bg_primary"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -268,7 +268,7 @@
                     android:orientation="horizontal"
                     android:layout_margin="10dp"
                     android:padding="10dp"
-                    android:background="@drawable/edittext_border_bg_lightgreen">
+                    android:background="@drawable/general_edittext_border_bg_primary">
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
@@ -302,7 +302,7 @@
                         android:layout_weight="1"
                         android:padding="3dp"
                         android:text="@string/cancel_button_text"
-                        android:backgroundTint="@android:color/holo_red_light"
+                        android:background="@android:color/holo_red_light"
                         android:textColor="#ffffff" />
 
                     <Button
@@ -314,7 +314,7 @@
                         android:padding="3dp"
                         android:text="@string/save_button_text"
                         android:textColor="#ffffff"
-                        android:backgroundTint="@color/generalBorderColor" />
+                        android:background="@color/primaryDarkColor" />
 
 
                 </LinearLayout>
@@ -323,7 +323,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/generalBorderColor" />
+                    android:background="@color/primaryDarkColor" />
 
 
             </LinearLayout>

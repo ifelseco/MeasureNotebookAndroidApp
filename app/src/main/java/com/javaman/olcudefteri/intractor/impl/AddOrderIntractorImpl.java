@@ -34,7 +34,7 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
     public void addCustomer(AddCustomerModel addCustomerModel, String headerData, final onSendCustomerListener listener) {
         if (TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getNameSurname())) {
             listener.onNameEmptyError();
-        } else if (TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getMobilePhone()) ||
+        } else if (TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getMobilePhone()) &&
                 TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getFixedPhone())) {
             listener.onPhoneEmptyError();
         } else {

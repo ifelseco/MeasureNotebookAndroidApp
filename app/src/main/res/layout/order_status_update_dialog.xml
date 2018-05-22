@@ -31,7 +31,7 @@
                 android:layout_margin="5dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:background="@drawable/edittext_border_bg_lightgreen">
+                android:background="@drawable/general_edittext_border_bg_primary">
 
 
                 <TextView
@@ -67,7 +67,7 @@
                     android:layout_marginRight="5dp"
                     android:text="@string/cancel_button_text"
                     android:textColor="@android:color/white"
-                    android:backgroundTint="@android:color/holo_red_light"/>
+                    android:background="@android:color/holo_red_light"/>
 
                 <Button
                     android:id="@+id/btn_save"
@@ -78,7 +78,7 @@
                     android:layout_marginRight="5dp"
                     android:text="Güncelle"
                     android:textColor="@android:color/white"
-                    android:backgroundTint="@color/generalBorderColor"/>
+                    android:background="@color/primaryDarkColor"/>
 
 
 
