@@ -58,7 +58,8 @@ public class OrderLineIntractorImpl implements OrderLineIntractor {
                 } else {
                     //response [200 ,300) aralığında değil ise
                     try {
-                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String errorBody=response.errorBody().string();
+                        JSONObject jObjError = new JSONObject(errorBody);
                         if(jObjError.get("baseModel")!=null){
                             listener.onFailureGetOrderLines("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
@@ -130,10 +131,9 @@ public class OrderLineIntractorImpl implements OrderLineIntractor {
                 } else {
                     //response [200 ,300) aralığında değil ise
                     try {
-                        JSONObject jObjError = new JSONObject(response.errorBody().string());
-                        if(jObjError.get("baseModel")!=null){
-                            listener.onFailureDeleteOrderLine("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
-                        }else if(jObjError.getString("responseMessage")!=null){
+                        String errorBody=response.errorBody().string();
+                        JSONObject jObjError = new JSONObject(errorBody);
+                        if(jObjError.getString("responseMessage")!=null){
                             listener.onFailureDeleteOrderLine("Bir hata oluştu : "+jObjError.getString("responseMessage"));
                         }
                         else{

@@ -90,68 +90,16 @@
                     android:background="@drawable/general_edittext_border_bg_primary"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="@string/fon_type_text"
-                            android:fontFamily="@font/roboto_regular"
-                            android:textSize="15sp" />
-
-                        <RadioGroup
-                            android:id="@+id/radiGroupFonType"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/general_edittext_border_bg_primary"
-                            android:layout_weight="2"
-                            android:layout_margin="5dp"
-                            android:orientation="vertical">
-
-                            <RadioButton
-                                android:id="@+id/radioButtonKruvazeKanat"
-                                android:layout_width="wrap_content"
-                                android:textSize="10sp"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@string/fon_type_kruvaze_text" />
-
-                            <RadioButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textSize="10sp"
-                                android:fontFamily="@font/roboto_regular"
-                                android:text="@string/fon_type_fon_text" />
-
-                            <RadioButton
-                                android:id="@+id/radioButtonJaponPanel"
-                                android:layout_width="wrap_content"
-                                android:textSize="10sp"
-                                android:fontFamily="@font/roboto_regular"
-                                android:layout_height="wrap_content"
-                                android:text="@string/fon_type_japon_text" />
-
-
-
-                        </RadioGroup>
-
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_marginRight="10dp"
                             android:fontFamily="@font/roboto_regular"
                             android:textSize="15sp"
@@ -162,9 +110,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:background="@drawable/general_edittext_border_bg_primary"
                             android:padding="5dp"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
 
                             <RadioButton
                                 android:id="@+id/radi_button_left"
@@ -199,66 +146,7 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="@string/pile_type_text"
-                            android:fontFamily="@font/roboto_regular"
-                            android:textSize="15sp"
-                            android:layout_marginRight="10dp"/>
-
-                        <RadioGroup
-                            android:id="@+id/radiGroupPileType"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/general_edittext_border_bg_primary"
-                            android:layout_margin="5dp"
-                            android:layout_weight="2"
-                            android:orientation="vertical">
-
-                            <RadioButton
-                                android:id="@+id/radioButtonAmerican"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:textSize="10sp"
-                                android:text="@string/pile_type_american_text" />
-
-                            <RadioButton
-                                android:id="@+id/radioButtonKanun"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:textSize="10sp"
-
-                                android:text="@string/pile_type_kanun_text" />
-
-                            <RadioButton
-                                android:id="@+id/radioButtonYan"
-                                android:layout_width="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:layout_height="wrap_content"
-                                android:textSize="10sp"
-                                android:text="@string/pile_type_yan_text" />
-
-                            <RadioButton
-                                android:layout_width="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:layout_height="wrap_content"
-                                android:textSize="10sp"
-                                android:text="@string/other_text" />
-
-                        </RadioGroup>
-
-
-                    </LinearLayout>
 
                 </LinearLayout>
 

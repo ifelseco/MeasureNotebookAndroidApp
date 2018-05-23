@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.ui.orders.curtain_type_dialog;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.event.FonTypeEvent;
+import com.javaman.olcudefteri.event.MechanismEvent;
 import com.javaman.olcudefteri.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.model.ProductDetailModel;
@@ -32,6 +35,7 @@ import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,12 +86,11 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     Button btnCalculate;
     @BindView(R.id.radiGroupPile)
     RadioGroup radioGroupPile;
-    @BindView(R.id.radiGroupPileType)
-    RadioGroup radioGroupPileType;
+
+
     @BindView(R.id.radio_group_fon_direction)
     RadioGroup radioGroupDirection;
-    @BindView(R.id.radiGroupFonType)
-    RadioGroup radioGroupFonType;
+
     @BindView(R.id.progress_bar_calc)
     ProgressBar progressBarCalc;
 
@@ -144,8 +147,6 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     private void initView() {
 
         radioGroupPile.setOnCheckedChangeListener(this);
-        radioGroupFonType.setOnCheckedChangeListener(this);
-        radioGroupPileType.setOnCheckedChangeListener(this);
         radioGroupDirection.setOnCheckedChangeListener(this);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
@@ -153,6 +154,52 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
         }
 
         setCancelable(false);
+
+        showDialog(new FonTypeDialog(),"fon-type-dialog");
+
+    }
+
+    public void showDialog(DialogFragment dialogFragment , String fragmentTag){
+        dialogFragment.show(getFragmentManager(),fragmentTag);
+    }
+
+    @Subscribe
+    public void getDialogData(FonTypeEvent fonTypeEvent) {
+        if(fonTypeEvent.getFonType()==-1){
+            dismiss();
+        }else{
+            fonType=fonTypeEvent.getFonType();
+            pileName=fonTypeEvent.getPileName();
+            setView();
+        }
+    }
+
+    private void setView() {
+        if (fonType == 3) {
+            sashCount=0;
+            pile = 0;
+            radioGroupDirection.setEnabled(false);
+            radioGroupPile.setEnabled(false);
+
+            disableRadioButton(radioGroupDirection);
+            disableRadioButton(radioGroupPile);
+            etOtherPile.setEnabled(false);
+
+            resetRadioButton(radioGroupDirection);
+            resetRadioButton(radioGroupPile);
+        } else if (fonType == 1) {
+            fonType = 1;
+            enableRadioButton(radioGroupDirection);
+            enableRadioButton(radioGroupPile);
+            etOtherPile.setEnabled(true);
+
+        } else {
+            fonType = 2;
+            enableRadioButton(radioGroupDirection);
+            enableRadioButton(radioGroupPile);
+            etOtherPile.setEnabled(true);
+
+        }
     }
 
 
@@ -183,37 +230,7 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
             }
         } else if (id == R.id.radiGroupFonType) {
 
-            if (i == R.id.radioButtonJaponPanel) {
-                fonType = 3;
-                sashCount=0;
-                pile = 0;
-                radioGroupDirection.setEnabled(false);
-                radioGroupPile.setEnabled(false);
-                radioGroupPileType.setEnabled(false);
 
-                disableRadioButton(radioGroupDirection);
-                disableRadioButton(radioGroupPile);
-                disableRadioButton(radioGroupPileType);
-                etOtherPile.setEnabled(false);
-
-                resetRadioButton(radioGroupDirection);
-                resetRadioButton(radioGroupPile);
-                resetRadioButton(radioGroupPileType);
-            } else if (i == R.id.radioButtonKruvazeKanat) {
-                fonType = 1;
-                enableRadioButton(radioGroupDirection);
-                enableRadioButton(radioGroupPile);
-                enableRadioButton(radioGroupPileType);
-                etOtherPile.setEnabled(true);
-
-            } else {
-                fonType = 2;
-                enableRadioButton(radioGroupDirection);
-                enableRadioButton(radioGroupPile);
-                enableRadioButton(radioGroupPileType);
-                etOtherPile.setEnabled(true);
-
-            }
 
         } else if (id == R.id.radio_group_fon_direction) {
             if (i == R.id.radi_button_left) {
@@ -226,16 +243,6 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
                 sashCount = 2;
             }else{
                 sashCount=0;
-            }
-        } else {
-            if (i == R.id.radioButtonAmerican) {
-                pileName = "AP";
-            } else if (i == R.id.radioButtonKanun) {
-                pileName = "KP";
-            } else if (i == R.id.radioButtonYan) {
-                pileName = "YP";
-            } else {
-                pileName = "O";
             }
         }
 
@@ -355,7 +362,7 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
             } else if (TextUtils.isEmpty(etUnitprice.getText().toString())) {
                 etUnitprice.setError("Birim fiyat giriniz!");
 
-            } else if (radioGroupFonType.getCheckedRadioButtonId() == -1) {
+            } else if (fonType==-1) {
                 StyleableToast.makeText(getActivity(),"Fon türü seçiniz!",R.style.warn_toast_style).show();
             } else {
 
@@ -454,5 +461,17 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
     public void onDestroy() {
         super.onDestroy();
         mAddOrderLinePresenter.onDestroyCalculate();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
     }
 }

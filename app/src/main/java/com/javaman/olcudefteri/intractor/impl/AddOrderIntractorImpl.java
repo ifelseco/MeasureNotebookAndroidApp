@@ -65,7 +65,8 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
                     }else {
 
                         try {
-                            JSONObject jObjError = new JSONObject(response.errorBody().string());
+                            String errorBody=response.errorBody().string();
+                            JSONObject jObjError = new JSONObject(errorBody);
                             if(jObjError.get("baseModel")!=null){
                                 listener.onFailure("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                             }else{

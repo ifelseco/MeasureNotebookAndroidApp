@@ -60,7 +60,8 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
                 }else {
 
                     try {
-                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String errorBody=response.errorBody().string();
+                        JSONObject jObjError = new JSONObject(errorBody);
                         if(jObjError.get("baseModel")!=null){
                             listener.onFailureAddOrderLine("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
@@ -137,7 +138,8 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
                 }else {
 
                     try {
-                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String errorBody=response.errorBody().string();
+                        JSONObject jObjError = new JSONObject(errorBody);
                         if(jObjError.get("baseModel")!=null){
                             listener.onFailureAddOrderLines("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
@@ -223,7 +225,8 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
                 }else {
 
                     try {
-                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        String errorBody=response.errorBody().string();
+                        JSONObject jObjError = new JSONObject(errorBody);
                         if(jObjError.get("baseModel")!=null){
                             listener.onFailureCalculateOrderLines("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{

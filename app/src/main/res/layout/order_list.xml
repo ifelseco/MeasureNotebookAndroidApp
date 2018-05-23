@@ -43,7 +43,7 @@
                         android:layout_height="75dp"
                         android:background="@drawable/cerclebackgroundgray"
                         android:padding="10dp"
-                        android:tint="@color/primaryDarkColor"
+                        android:tint="@color/secondaryLightColor"
                         app:srcCompat="@drawable/ic_assignment_black_24dp" />
 
                     <TextView

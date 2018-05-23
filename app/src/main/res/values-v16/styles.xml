@@ -63,7 +63,7 @@
         <item name="textColor">#fff</item>
         <item name="font">@font/roboto_regular</item>
         <item name="textSize">14sp</item>
-        <item name="colorBackground">@android:color/holo_blue_light</item>
+        <item name="colorBackground">@color/secondaryColor</item>
         <item name="solidBackground">true</item>
 
         <item name="iconStart">@drawable/ic_error_black_24dp</item>
