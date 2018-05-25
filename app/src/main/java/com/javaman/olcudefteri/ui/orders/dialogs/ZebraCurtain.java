@@ -1,4 +1,4 @@
-package com.javaman.olcudefteri.ui.orders.curtain_type_dialog;
+package com.javaman.olcudefteri.ui.orders.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -49,7 +49,7 @@ import butterknife.OnClick;
  * Stor perde dialog
  */
 
-public class RollerCurtain extends DialogFragment implements View.OnClickListener, CalculateView {
+public class ZebraCurtain extends DialogFragment implements View.OnClickListener, CalculateView {
 
 
 
@@ -66,9 +66,12 @@ public class RollerCurtain extends DialogFragment implements View.OnClickListene
     EditText etWidth;
     @BindView(R.id.editTextHeight)
     EditText etHeight;
-    @BindView(R.id.btnCancel) Button btnCancel;
-    @BindView(R.id.btnSave) Button btnSave;
-    @BindView(R.id.btnCalculate) Button btnCalculate;
+    @BindView(R.id.btnCancel)
+    Button btnCancel;
+    @BindView(R.id.btnSave)
+    Button btnSave;
+    @BindView(R.id.btnCalculate)
+    Button btnCalculate;
     @BindView(R.id.textViewStorM2)
     TextView tvStorM2;
     @BindView(R.id.textViewStorTotalPrice)
@@ -99,7 +102,7 @@ public class RollerCurtain extends DialogFragment implements View.OnClickListene
     @BindView(R.id.tableMeasureParcali)
     TableLayout tableLayoutParcali;
 
-    public static final int ARG_PRODUCT_VALUE = 2;
+    public static final int ARG_PRODUCT_VALUE = 3;
     private AddOrderLinePresenter mAddOrderLinePresenter;
 
     SharedPreferenceHelper sharedPreferenceHelper;
@@ -134,7 +137,7 @@ public class RollerCurtain extends DialogFragment implements View.OnClickListene
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
-        tvProductValue.setText("Stor");
+        tvProductValue.setText("Zebra");
         linearLayoutNormalWidthHeight.setVisibility(View.GONE);
         linearLayoutNormalDirection.setVisibility(View.GONE);
         showDialog(new MechanismDialog(),"mechanism-dialog");
@@ -380,7 +383,6 @@ public class RollerCurtain extends DialogFragment implements View.OnClickListene
                         calculateOrderLine(addOrderLineDetailListModel);
                     } else {
                         StyleableToast.makeText(getActivity(),"Parçalardan biri eksik bilgi içeriyor",R.style.warn_toast_style).show();
-
                     }
 
 
@@ -429,6 +431,7 @@ public class RollerCurtain extends DialogFragment implements View.OnClickListene
     @Override
     public void showAlert(String message) {
         StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
+
     }
 
     @Override
@@ -462,7 +465,11 @@ public class RollerCurtain extends DialogFragment implements View.OnClickListene
         mAddOrderLinePresenter.onDestroyCalculate();
     }
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public void navigateLogin() {
@@ -473,11 +480,5 @@ public class RollerCurtain extends DialogFragment implements View.OnClickListene
     public void onDetach() {
         super.onDetach();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        EventBus.getDefault().register(this);
     }
 }

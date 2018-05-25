@@ -1,4 +1,4 @@
-package com.javaman.olcudefteri.ui.home;
+package com.javaman.olcudefteri.ui.orders.dialogs;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -16,9 +16,10 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.ui.home.DashboardFragment;
+import com.javaman.olcudefteri.ui.home.ReportAdapter;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.model.OrderSummaryModel;
 import com.javaman.olcudefteri.presenter.ReportPresenter;

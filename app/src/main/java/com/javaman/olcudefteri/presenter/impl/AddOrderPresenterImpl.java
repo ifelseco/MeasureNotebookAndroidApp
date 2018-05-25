@@ -7,6 +7,7 @@ import com.javaman.olcudefteri.view.AddOrderView;
 import com.javaman.olcudefteri.intractor.AddOrderIntractor;
 import com.javaman.olcudefteri.intractor.impl.AddOrderIntractorImpl;
 import com.javaman.olcudefteri.view.CalculateView;
+import com.javaman.olcudefteri.view.CustomerView;
 
 /**
  * Created by javaman on 15.02.2018.
@@ -16,6 +17,7 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
 
     AddOrderView mAddOrderView;
     CalculateView mCalculateView;
+    CustomerView customerView;
     AddOrderIntractor mAddOrderIntractor;
 
     public AddOrderPresenterImpl(AddOrderView addOrderView){
@@ -24,14 +26,18 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
 
     }
 
-
-
+    public AddOrderPresenterImpl(CustomerView customerView) {
+        this.customerView = customerView;
+        mAddOrderIntractor=new AddOrderIntractorImpl();
+    }
 
     @Override
     public void addCustomer(AddCustomerModel addCustomerModel , String headerData) {
         if(mAddOrderView!=null){
             mAddOrderView.showProgress();
-            mAddOrderIntractor.addCustomer(addCustomerModel,headerData,this);
+            mAddOrderIntractor.addNewCustomer(addCustomerModel,headerData,this);
+        }else if(customerView!=null){
+            mAddOrderIntractor.addOrderToCustomer(addCustomerModel,headerData,this);
         }
     }
 
@@ -39,6 +45,8 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
     public void onDestroy() {
         if(mAddOrderView!=null){
             mAddOrderView=null;
+        }else if(customerView!=null){
+            customerView=null;
         }
     }
 
@@ -59,10 +67,20 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
     }
 
     @Override
+    public void onPhoneFormatError(boolean isMobile,boolean isFixed) {
+        if(mAddOrderView!=null){
+            mAddOrderView.hideProgress();
+            mAddOrderView.setPhoneFormatError(isMobile,isFixed);
+        }
+    }
+
+    @Override
     public void onSuccess(AddCustomerResponse addCustomerResponse) {
         if(mAddOrderView!=null){
             mAddOrderView.hideProgress();
             mAddOrderView.navigateToOrder(addCustomerResponse);
+        }else if(customerView!=null){
+            customerView.navigateToOrder(addCustomerResponse);
         }
     }
 
@@ -71,6 +89,8 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
         if(mAddOrderView!=null){
             mAddOrderView.hideProgress();
             mAddOrderView.showAlert(message);
+        }else if(customerView!=null){
+            customerView.showAlert(message,true);
         }
     }
 
@@ -78,6 +98,8 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
     public void navigateToLogin() {
         if(mAddOrderView!=null){
             mAddOrderView.navigateLogin();
+        }else if(customerView!=null){
+            customerView.navigateToLogin();
         }
     }
 }

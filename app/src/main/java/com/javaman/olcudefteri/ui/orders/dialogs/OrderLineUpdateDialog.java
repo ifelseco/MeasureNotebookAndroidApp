@@ -1,4 +1,4 @@
-package com.javaman.olcudefteri.ui.orders;
+package com.javaman.olcudefteri.ui.orders.dialogs;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -28,6 +28,7 @@ import com.javaman.olcudefteri.model.CalculationResponse;
 import com.javaman.olcudefteri.presenter.AddOrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.AddOrderLinePresenterImpl;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
+import com.javaman.olcudefteri.ui.orders.OrderLineFragment;
 import com.javaman.olcudefteri.view.CalculateView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;

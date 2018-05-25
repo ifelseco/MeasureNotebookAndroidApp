@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.model.AddCustomerModel;
@@ -22,6 +22,7 @@ import com.javaman.olcudefteri.model.AddCustomerResponse;
 import com.javaman.olcudefteri.presenter.AddOrderPresenter;
 import com.javaman.olcudefteri.presenter.impl.AddOrderPresenterImpl;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
+import com.javaman.olcudefteri.ui.orders.dialogs.CustomerTypeDialog;
 import com.javaman.olcudefteri.utill.MaskWatcher;
 import com.javaman.olcudefteri.view.AddOrderView;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
@@ -77,8 +78,14 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView, 
         sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
         mAddOrderPresenter=new AddOrderPresenterImpl(this);
         setEdittextMask();
+        showDialog(new CustomerTypeDialog(),"customer-type-dialog");
         return view;
     }
+
+    public void showDialog(DialogFragment dialogFragment , String fragmentTag){
+        dialogFragment.show(getFragmentManager(),fragmentTag);
+    }
+
 
     private void setEdittextMask() {
 
@@ -153,10 +160,13 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView, 
         if(id==R.id.takeMeasureButton){
 
             CustomerDetailModel customerDetailModel=new CustomerDetailModel();
+
             customerDetailModel.setNameSurname(editTextName.getText().toString());
             customerDetailModel.setAddress(editTextAddress.getText().toString());
-            customerDetailModel.setMobilePhone(editTextMobilePhone.getText().toString());
-            customerDetailModel.setFixedPhone(editTextFixedPhone.getText().toString());
+            String mobilePhone=editTextMobilePhone.getText().toString().replaceAll("[^0-9]","");
+            String fixedPhone=editTextFixedPhone.getText().toString().replaceAll("[^0-9]","");
+            customerDetailModel.setMobilePhone(mobilePhone);
+            customerDetailModel.setFixedPhone(fixedPhone);
             customerDetailModel.setNewsletterAccepted(checkBoxQuestion.isChecked());
 
             AddCustomerModel addCustomerModel=new AddCustomerModel();
@@ -164,11 +174,11 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView, 
             addCustomerModel.setOrderStatus(cehckBoxTobeMeasured.isChecked()==true ? 1:0);
 
             String sessionId=getSessionIdFromPref();
-
             mAddOrderPresenter.addCustomer(addCustomerModel,sessionId);
 
         }
     }
+
 
 
     @Override
@@ -191,6 +201,20 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView, 
         editTextMobilePhone.setError("En az bir telefon bilgisi girmelisiniz.");
         editTextFixedPhone.setError("En az bir telefon bilgisi girmelisiniz.");
 
+    }
+
+    @Override
+    public void setPhoneFormatError(boolean isMobile, boolean isFixed) {
+        if(isMobile && !isFixed){
+            editTextMobilePhone.setError("Cep telefonu hatalı girildi");
+        }else if(!isMobile && isFixed){
+            editTextFixedPhone.setError("Sabit telefon hatalı girildi");
+        }else if(!isMobile && !isFixed){
+
+        }else{
+            editTextMobilePhone.setError("Cep telefonu hatalı girildi");
+            editTextFixedPhone.setError("Sabit telefon hatalı girildi");
+        }
     }
 
     @Override

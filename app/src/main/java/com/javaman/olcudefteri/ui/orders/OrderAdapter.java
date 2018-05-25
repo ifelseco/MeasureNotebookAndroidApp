@@ -33,7 +33,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     List<OrderDetailResponseModel> mOrders;
     OrdersActivity ordersActivity;
     LayoutInflater inflater;
-    private SparseBooleanArray itemStateArray = new SparseBooleanArray();
 
 
     public OrderAdapter(Context context, List<OrderDetailResponseModel> mOrders) {
@@ -79,15 +78,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         Log.i("track", " in onBindViewHolder");
         OrderDetailResponseModel order = mOrders.get(position);
         holder.itemView.setTag(order);
-
-        if (!ordersActivity.isActionModeActive) {
-            holder.checkBoxSelectOrder.setVisibility(View.GONE);
-            itemStateArray.clear();
-        } else {
-            holder.checkBoxSelectOrder.setVisibility(View.VISIBLE);
-            holder.checkBoxSelectOrder.setChecked(false);
-        }
-
         holder.bind(order, position);
     }
 
@@ -151,9 +141,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         @BindView(R.id.tv_order_time)
         TextView tvOrderTime;
 
-        @BindView(R.id.checkbox_select_order)
-        CheckBox checkBoxSelectOrder;
-
         @BindView(R.id.image_view_order_status2)
         ImageView imageViewOrderStatus;
 
@@ -176,8 +163,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             super(itemView);
             Log.i("track", " in MyViewHolder constructor");
             ButterKnife.bind(this, itemView);
-            checkBoxSelectOrder.setOnClickListener(this);
-            cardViewOrder.setOnLongClickListener(ordersActivity);
             cardViewOrder.setOnClickListener(this);
             this.ordersActivity = ordersActivity;
 
@@ -198,14 +183,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
 
             tvOrderTime.setText(""+hours+" : "+minutes);
-
-            Log.i("Item Array :", itemStateArray.toString());
-
-            if (!itemStateArray.get(position, false)) {
-                checkBoxSelectOrder.setChecked(false);
-            } else {
-                checkBoxSelectOrder.setChecked(true);
-            }
 
             if (order.getDeliveryDate() != null && !order.getDeliveryDate().equals("")) {
                 String deliveryDate = simpleDateFormat.format(order.getDeliveryDate());
@@ -260,32 +237,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
         @Override
         public void onClick(View view) {
-
-            if(view.getId()==R.id.checkbox_select_order){
-                //checkbox click
-                int adapterPosition = getAdapterPosition();
-                if (!itemStateArray.get(adapterPosition, false)) {
-                    checkBoxSelectOrder.setChecked(true);
-                    itemStateArray.put(adapterPosition, true);
-                    ordersActivity.prepareSelection(view, getAdapterPosition());
-                } else {
-                    checkBoxSelectOrder.setChecked(false);
-                    itemStateArray.put(adapterPosition, false);
-                    ordersActivity.prepareSelection(view, getAdapterPosition());
-                }
-            }else{
-                OrderDetailResponseModel orderDetailResponseModel= (OrderDetailResponseModel) view.getTag();
-
-                if(!ordersActivity.isActionModeActive){
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, OrderDetailActivity.class);
-                    intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , orderDetailResponseModel.getId());
-                    context.startActivity(intent);
-
-                }
-            }
-
-
+            OrderDetailResponseModel orderDetailResponseModel= (OrderDetailResponseModel) view.getTag();
+            Context context = view.getContext();
+            Intent intent = new Intent(context, OrderDetailActivity.class);
+            intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , orderDetailResponseModel.getId());
+            context.startActivity(intent);
         }
 
 

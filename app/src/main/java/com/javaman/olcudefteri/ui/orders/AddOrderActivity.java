@@ -140,9 +140,11 @@ public class AddOrderActivity extends AppCompatActivity
         AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
         AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
         AHBottomNavigationItem item_notification = new AHBottomNavigationItem(R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_customer = new AHBottomNavigationItem(R.string.title_customer, R.drawable.ic_account_circle_black_24dp, R.color.hintColor);
         ahBottomNavigation.addItem(item_home);
         ahBottomNavigation.addItem(item_orders);
         ahBottomNavigation.addItem(item_add_order);
+        ahBottomNavigation.addItem(item_customer);
         ahBottomNavigation.addItem(item_notification);
         ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
         ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
@@ -152,7 +154,7 @@ public class AddOrderActivity extends AppCompatActivity
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         if(notfCount>0){
-            ahBottomNavigation.setNotification(""+notfCount,3);
+            ahBottomNavigation.setNotification(""+notfCount,4);
         }
         ahBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
             if(position==0){
@@ -167,6 +169,11 @@ public class AddOrderActivity extends AppCompatActivity
 
                 return true;
             }else if(position==3){
+                Intent home = new Intent(AddOrderActivity.this, HomeActivity.class);
+                home.putExtra("init-key", "get-customers-fragment");
+                startActivity(home);
+                return true;
+            }else if(position==4){
                 Intent home = new Intent(AddOrderActivity.this, HomeActivity.class);
                 home.putExtra("init-key", "get-notification-fragment");
                 startActivity(home);
@@ -366,7 +373,7 @@ public class AddOrderActivity extends AppCompatActivity
         if(key=="notf-count"){
             notfCount=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
             if(notfCount>0){
-                ahBottomNavigation.setNotification(""+notfCount,3);
+                ahBottomNavigation.setNotification(""+notfCount,4);
             }
         }
     }

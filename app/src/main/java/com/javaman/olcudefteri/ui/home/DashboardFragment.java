@@ -9,10 +9,9 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.ui.orders.dialogs.DashboardOrderDialog;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import butterknife.BindView;

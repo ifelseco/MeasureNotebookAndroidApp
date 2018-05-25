@@ -1,4 +1,4 @@
-package com.javaman.olcudefteri.ui.orders.curtain_type_dialog;
+package com.javaman.olcudefteri.ui.orders.dialogs;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,60 +38,33 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
 
 /**
  * Created by javaman on 18.12.2017.
- * Tül perde dialog
+ * Güneşlik dialog
  */
-public class NetCurtain extends DialogFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, View.OnFocusChangeListener, CalculateView {
+
+public class SunBlindCurtain extends DialogFragment implements View.OnClickListener,CalculateView{
 
 
-    @BindView(R.id.editTextWidth)
-    EditText etWidth;
-    @BindView(R.id.editTextHeight)
-    EditText etHeight;
-    @BindView(R.id.editTextVariant)
-    EditText etVariant;
-    @BindView(R.id.editTextPattern)
-    EditText etPattern;
-    @BindView(R.id.editTextAlias)
-    EditText etAlias;
-    @BindView(R.id.editTextOtherPile)
-    EditText etOtherPile;
-    @BindView(R.id.editTextNetUnitPrice)
-    EditText etUnitprice;
-
-    @BindView(R.id.editTextNetDesc)
-    EditText etDesc;
-    @BindView(R.id.textViewNetM)
-    TextView tvTotalMeter;
-
-    @BindView(R.id.textViewNetTotalPrice)
-    TextView tvTotalPrice;
-
-    @BindView(R.id.btnSave)
-    Button btnSave;
-    @BindView(R.id.btnCancel)
-    Button btnCancel;
-    @BindView(R.id.btnCalculate)
-    Button btnCalculate;
-    @BindView(R.id.radiGroupPile)
-    RadioGroup radioGroupPile;
-
-    @BindView(R.id.progress_bar_calc)
-    ProgressBar progressBarCalc;
-    double totalPrice, unitPrice, totalM, pile;
+    @BindView(R.id.btnCancel) Button btnCancel;
+    @BindView(R.id.btnSave) Button btnSave;
+    @BindView(R.id.btnCalculate) Button btnCalculate;
+    @BindView(R.id.editTextWidth) EditText etWidth;
+    @BindView(R.id.editTextHeight) EditText etHeight;
+    @BindView(R.id.editTextSunBlinfDesc) EditText etDesc;
+    @BindView(R.id.editTextSunBlindUnitPrice) EditText etUnitPrice;
+    @BindView(R.id.textViewSunBlindTotalPrice) TextView tvTotalPrice;
+    @BindView(R.id.textViewSunBlindUsedMaterial) TextView tvTotalM;
+    @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
+    @BindView(R.id.editTextVariant) EditText etVariant;
+    @BindView(R.id.editTextPattern) EditText etPattern;
+    @BindView(R.id.editTextAlias) EditText etAlias;
     private AddOrderLinePresenter mAddOrderLinePresenter;
-    public static final int ARG_PRODUCT_VALUE = 0;
+    public static final int ARG_PRODUCT_VALUE = 1;
     SharedPreferenceHelper sharedPreferenceHelper;
 
 
-    private void resetRadioButton() {
-
-        radioGroupPile.clearCheck();
-
-    }
 
     @Override
     public void onStart() {
@@ -109,13 +81,12 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.net_curtain_layout, null);
+        View view=inflater.inflate(R.layout.sun_blid_curtain,null);
+        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
-        mAddOrderLinePresenter = new AddOrderLinePresenterImpl(this);
-        ButterKnife.bind(this, view);
-        radioGroupPile.setOnCheckedChangeListener(this);
+        ButterKnife.bind(this,view);
         setCancelable(false);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
 
@@ -123,11 +94,11 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     }
 
     @Override
-    @OnClick({R.id.btnSave, R.id.btnCancel, R.id.btnCalculate})
+    @OnClick({R.id.btnSave , R.id.btnCancel , R.id.btnCalculate})
     public void onClick(View view) {
         List<OrderLineDetailModel> orderLines = new ArrayList<>();
 
-        if (view.getId() == R.id.btnSave) {
+        if (view.getId()==R.id.btnSave){
             OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
             ProductDetailModel productDetailModel=new ProductDetailModel();
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
@@ -142,27 +113,12 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
                 double height = Double.parseDouble(etHeight.getText().toString());
                 orderLineDetailModel.setPropertyHeight(height);            }
 
-            if (!etUnitprice.getText().toString().isEmpty()) {
-                double unitPrice = Double.parseDouble(etUnitprice.getText().toString());
+            if (!etUnitPrice.getText().toString().isEmpty()) {
+                double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
                 orderLineDetailModel.setUnitPrice(unitPrice);
             }
 
-            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
-                if (radioGroupPile.getCheckedRadioButtonId() != -1) {
-                    int checkedId = radioGroupPile.getCheckedRadioButtonId();
-                    if (checkedId == R.id.radioButton2) {
-                        pile = 2;
-                    } else if (checkedId == R.id.radioButton2_5) {
-                        pile = 2.5;
-                    } else {
-                        pile = 3;
-                    }
-                } else {
-                    pile = Double.parseDouble(etOtherPile.getText().toString());
-                }
 
-                orderLineDetailModel.setSizeOfPile(pile);
-            }
 
             if (!etPattern.getText().toString().isEmpty()) {
                 String pattern =etPattern.getText().toString();
@@ -189,13 +145,10 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
 
 
             EventBus.getDefault().post(orderLineDetailModel);
-
             dismiss();
-
-
-        } else if (view.getId() == R.id.btnCancel) {
+        }else if(view.getId()==R.id.btnCancel){
             dismiss();
-        } else {
+        }else{
 
             AddOrderLineDetailListModel addOrderLineDetailListModel = new AddOrderLineDetailListModel();
             OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
@@ -204,69 +157,18 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
             orderLineDetailModel.setProduct(productDetailModel);
 
             if(TextUtils.isEmpty(etWidth.getText().toString())){
-                etWidth.setError("Genişlik giriniz!");
-            }else if(TextUtils.isEmpty(etUnitprice.getText().toString())){
-                etUnitprice.setError("Bİrim fiyat giriniz!");
-            }else if(radioGroupPile.getCheckedRadioButtonId() == -1 && TextUtils.isEmpty(etOtherPile.getText().toString()) ){
-                StyleableToast.makeText(getActivity(),"Pile sıklığı giriniz!",R.style.warn_toast_style).show();
+                etWidth.setError("En giriniz!");
+            }else if(TextUtils.isEmpty(etUnitPrice.getText().toString())){
+                etUnitPrice.setError("Birim fiyat giriniz!");
             }else{
-                unitPrice = Double.parseDouble(etUnitprice.getText().toString());
-                if (radioGroupPile.getCheckedRadioButtonId() != -1) {
-                    int checkedId = radioGroupPile.getCheckedRadioButtonId();
-                    if (checkedId == R.id.radioButton2) {
-                        pile = 2;
-                    } else if (checkedId == R.id.radioButton2_5) {
-                        pile = 2.5;
-                    } else {
-                        pile = 3;
-                    }
-                } else {
-                    pile = Double.parseDouble(etOtherPile.getText().toString());
-                }
-
-                double netWidth = Double.parseDouble(etWidth.getText().toString());
-
+                double width=Double.parseDouble(etWidth.getText().toString());
+                double unitPrice=Double.parseDouble(etUnitPrice.getText().toString());
+                orderLineDetailModel.setPropertyWidth(width);
                 orderLineDetailModel.setUnitPrice(unitPrice);
-                orderLineDetailModel.setPropertyWidth(netWidth);
-                orderLineDetailModel.setSizeOfPile(pile);
                 orderLines.add(orderLineDetailModel);
                 addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
                 calculateOrderLine(addOrderLineDetailListModel);
             }
-
-        }
-
-    }
-
-
-    @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        switch (i) {
-            case R.id.radioButton2:
-                etOtherPile.clearFocus();
-                etOtherPile.setText("");
-                break;
-
-            case R.id.radioButton2_5:
-                etOtherPile.clearFocus();
-                etOtherPile.setText("");
-                break;
-
-            case R.id.radioButton3:
-                etOtherPile.clearFocus();
-                etOtherPile.setText("");
-                break;
-        }
-    }
-
-    @Override
-    @OnFocusChange(R.id.editTextOtherPile)
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (v.getId() == R.id.editTextOtherPile) {
-            if (hasFocus) {
-                resetRadioButton();
-            }
-        } else {
 
         }
     }
@@ -281,6 +183,7 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     @Override
     public void showAlert(String message) {
         StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
+
     }
 
     @Override
@@ -300,17 +203,16 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
     }
 
     @Override
-    public void updateAmount(CalculationResponse calculationResponse) {
-        totalPrice = calculationResponse.getTotalAmount();
-        totalM = calculationResponse.getUsedMaterial();
-        tvTotalMeter.setText(String.format("%.2f", totalM)+" m");
-        tvTotalPrice.setText(String.format("%.2f",totalPrice)+" TL");
-    }
-
-
-    @Override
     public void navigateLogin() {
         startActivity(new Intent(getActivity(), LoginActivity.class));
+    }
+
+    @Override
+    public void updateAmount(CalculationResponse calculationResponse) {
+        double totalPrice = calculationResponse.getTotalAmount();
+        double totalM= calculationResponse.getUsedMaterial();
+        tvTotalPrice.setText(String.format("%.2f",totalPrice)+" TL");
+        tvTotalM.setText(String.format("%.2f",totalM)+" m");
     }
 
     @Override
@@ -319,3 +221,4 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
         mAddOrderLinePresenter.onDestroyCalculate();
     }
 }
+

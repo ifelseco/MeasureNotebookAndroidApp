@@ -49,20 +49,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right">
-
-                <CheckBox
-                    android:id="@+id/checkbox_select_order"
-                    android:layout_width="wrap_content"
-                    android:buttonTint="@color/primaryDarkColor"
-                    android:layout_height="match_parent" />
-
-            </LinearLayout>
-
 
         </LinearLayout>
 

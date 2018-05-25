@@ -178,6 +178,7 @@
     <string name="no_text">No</string>
     <string name="location_text">Mekan</string>
     <string name="location_type_text">Kapı/Pencere No</string>
+    <string name="title_customer">Müşteri</string>
 
 
 </resources>

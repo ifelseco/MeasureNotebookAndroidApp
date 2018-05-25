@@ -12,6 +12,7 @@ public interface AddOrderIntractor {
     interface onSendCustomerListener{
         void onNameEmptyError();
         void onPhoneEmptyError();
+        void onPhoneFormatError(boolean isMobile,boolean isFixed);
         void onSuccess(AddCustomerResponse addCustomerResponse);
         void onFailure(String message);
         void navigateToLogin();
@@ -19,7 +20,8 @@ public interface AddOrderIntractor {
     }
 
 
-    void addCustomer(AddCustomerModel addCustomerModel, String headerData, onSendCustomerListener listener);
+    void addNewCustomer(AddCustomerModel addCustomerModel, String headerData, onSendCustomerListener listener);
+    void addOrderToCustomer(AddCustomerModel addCustomerModel, String headerData, onSendCustomerListener listener);
 
 
 }

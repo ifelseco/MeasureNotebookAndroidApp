@@ -1,4 +1,4 @@
-package com.javaman.olcudefteri.ui.orders;
+package com.javaman.olcudefteri.ui.orders.dialogs;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -24,6 +24,7 @@ import android.widget.Switch;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.model.OrderDetailResponseModel;
 import com.javaman.olcudefteri.model.OrderUpdateModel;
+import com.javaman.olcudefteri.ui.orders.OrderDetailActivity;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 import org.greenrobot.eventbus.EventBus;

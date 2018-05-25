@@ -1,4 +1,4 @@
-package com.javaman.olcudefteri.ui.orders.curtain_type_dialog;
+package com.javaman.olcudefteri.ui.orders.dialogs;
 
 import android.app.Dialog;
 import android.content.Intent;

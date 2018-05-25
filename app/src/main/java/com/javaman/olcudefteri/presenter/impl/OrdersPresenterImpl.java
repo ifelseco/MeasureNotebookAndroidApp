@@ -216,6 +216,7 @@ public class OrdersPresenterImpl implements OrdersPresenter,
                     orderDetailResponseModel.setTotalAmount(orderDetailModel.getTotalAmount());
                     orderDetailResponseModel.setCustomer(orderDetailModel.getCustomer());
                     orderDetailResponseModel.setOrderDate(orderDetailModel.getOrderDate());
+                    orderDetailResponseModel.setOrderNumber(orderDetailModel.getOrderNumber());
                     orderDetailResponseModel.setUserNameSurname(orderDetailModel.getUserNameSurname());
                     orders.add(orderDetailResponseModel);
                 }

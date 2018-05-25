@@ -12,6 +12,7 @@ public interface AddOrderView {
     void hideProgress();
     void setNameEmptyError();
     void setPhoneEmptyError();
+    void setPhoneFormatError(boolean isMobile,boolean isFixed);
     void navigateToOrder(AddCustomerResponse addCustomerResponse);
     void showAlert(String message);
     String getSessionIdFromPref();

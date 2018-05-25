@@ -94,8 +94,38 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
         imageButtonNavigation.setOnClickListener(this);
 
         textViewCustomerName.setText(customerDetailModel.getNameSurname());
-        textViewCustomerFixedPhone.setText(customerDetailModel.getFixedPhone());
-        textViewCustomerMobilePhone.setText(customerDetailModel.getMobilePhone());
+
+
+        if(customerDetailModel.getFixedPhone()!=null){
+            if(customerDetailModel.getFixedPhone().length()==11){
+                textViewCustomerFixedPhone.setText(String.format(String.format("(%s) %s-%s-%s", customerDetailModel.getFixedPhone().substring(0, 4), customerDetailModel.getFixedPhone().substring(4, 7),
+                        customerDetailModel.getFixedPhone().substring(7, 9),customerDetailModel.getFixedPhone().substring(9, 11))));
+            }else if(customerDetailModel.getFixedPhone().length()==10){
+                textViewCustomerFixedPhone.setText(String.format(String.format("(%s) %s-%s-%s", customerDetailModel.getFixedPhone().substring(0, 3), customerDetailModel.getFixedPhone().substring(3, 6),
+                        customerDetailModel.getFixedPhone().substring(6, 8),customerDetailModel.getFixedPhone().substring(8, 10))));
+            }else{
+                textViewCustomerFixedPhone.setText(customerDetailModel.getFixedPhone());
+            }
+        }else{
+            textViewCustomerFixedPhone.setText("");
+        }
+
+        if(customerDetailModel.getMobilePhone()!=null){
+            if(customerDetailModel.getMobilePhone().length()==11){
+                textViewCustomerMobilePhone.setText(String.format(String.format("(%s) %s-%s-%s", customerDetailModel.getMobilePhone().substring(0, 4), customerDetailModel.getMobilePhone().substring(4, 7),
+                        customerDetailModel.getMobilePhone().substring(7, 9),customerDetailModel.getMobilePhone().substring(9, 11))));
+            }else if(customerDetailModel.getMobilePhone().length()==10){
+                textViewCustomerMobilePhone.setText(String.format(String.format("(%s) %s-%s-%s", customerDetailModel.getMobilePhone().substring(0, 3), customerDetailModel.getMobilePhone().substring(3, 6),
+                        customerDetailModel.getMobilePhone().substring(6, 8),customerDetailModel.getMobilePhone().substring(8, 10))));
+            }
+            else{
+                textViewCustomerMobilePhone.setText(customerDetailModel.getMobilePhone());
+            }
+        }else{
+            textViewCustomerMobilePhone.setText("");
+        }
+
+
         textViewCustomerAddress.setText(customerDetailModel.getAddress());
 
         if(customerDetailModel.isNewsletterAccepted()){

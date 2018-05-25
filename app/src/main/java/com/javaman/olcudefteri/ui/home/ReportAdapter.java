@@ -1,7 +1,6 @@
 package com.javaman.olcudefteri.ui.home;
 
 import android.content.Context;
-import android.graphics.Movie;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.model.OrderDetailModel;
+import com.javaman.olcudefteri.ui.orders.dialogs.DashboardOrderDialog;
 
 
 import java.text.SimpleDateFormat;

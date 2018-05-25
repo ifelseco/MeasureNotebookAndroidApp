@@ -1,4 +1,4 @@
-package com.javaman.olcudefteri.ui.orders.curtain_type_dialog;
+package com.javaman.olcudefteri.ui.orders.dialogs;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,29 +42,29 @@ import butterknife.OnClick;
 
 /**
  * Created by javaman on 18.12.2017.
- * Güneşlik dialog
+ * Jaluzi Dialog
  */
 
-public class SunBlindCurtain extends DialogFragment implements View.OnClickListener,CalculateView{
-
+public class JalouiseCurtain extends DialogFragment implements View.OnClickListener,CalculateView{
 
     @BindView(R.id.btnCancel) Button btnCancel;
     @BindView(R.id.btnSave) Button btnSave;
     @BindView(R.id.btnCalculate) Button btnCalculate;
     @BindView(R.id.editTextWidth) EditText etWidth;
     @BindView(R.id.editTextHeight) EditText etHeight;
-    @BindView(R.id.editTextSunBlinfDesc) EditText etDesc;
-    @BindView(R.id.editTextSunBlindUnitPrice) EditText etUnitPrice;
-    @BindView(R.id.textViewSunBlindTotalPrice) TextView tvTotalPrice;
-    @BindView(R.id.textViewSunBlindUsedMaterial) TextView tvTotalM;
-    @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
+    @BindView(R.id.editTextJalousieUnitPrice) EditText etUnitPrice;
     @BindView(R.id.editTextVariant) EditText etVariant;
     @BindView(R.id.editTextPattern) EditText etPattern;
     @BindView(R.id.editTextAlias) EditText etAlias;
-    private AddOrderLinePresenter mAddOrderLinePresenter;
-    public static final int ARG_PRODUCT_VALUE = 1;
-    SharedPreferenceHelper sharedPreferenceHelper;
+    @BindView(R.id.editTextDesc) EditText etDesc;
+    @BindView(R.id.textViewJalousieM2) TextView tvTotalM2;
+    @BindView(R.id.textViewJalousieTotalPrice) TextView tvTotalPrice;
+    @BindView(R.id.radio_group_direction) RadioGroup radioGroupDirection;
+    @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
 
+    private AddOrderLinePresenter mAddOrderLinePresenter;
+    public static final int ARG_PRODUCT_VALUE = 4;
+    SharedPreferenceHelper sharedPreferenceHelper;
 
 
     @Override
@@ -81,11 +82,12 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.sun_blid_curtain,null);
-        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
+        View view=inflater.inflate(R.layout.jalouise_curtain,null);
         sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
+        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
         ButterKnife.bind(this,view);
         setCancelable(false);
+
         if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
@@ -93,17 +95,17 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
         return view;
     }
 
+
     @Override
-    @OnClick({R.id.btnSave , R.id.btnCancel , R.id.btnCalculate})
+    @OnClick({R.id.btnSave,R.id.btnCalculate,R.id.btnCancel})
     public void onClick(View view) {
         List<OrderLineDetailModel> orderLines = new ArrayList<>();
 
-        if (view.getId()==R.id.btnSave){
+        if (view.getId() == R.id.btnSave) {
             OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
             ProductDetailModel productDetailModel=new ProductDetailModel();
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
             orderLineDetailModel.setProduct(productDetailModel);
-
             if (!etWidth.getText().toString().isEmpty()) {
                 double width = Double.parseDouble(etWidth.getText().toString());
                 orderLineDetailModel.setPropertyWidth(width);
@@ -111,7 +113,22 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
 
             if (!etHeight.getText().toString().isEmpty()) {
                 double height = Double.parseDouble(etHeight.getText().toString());
-                orderLineDetailModel.setPropertyHeight(height);            }
+                orderLineDetailModel.setPropertyHeight(height);
+            }
+
+            if (radioGroupDirection.getCheckedRadioButtonId() != -1) {
+                int  direction;
+                int checkedId = radioGroupDirection.getCheckedRadioButtonId();
+                if (checkedId == R.id.radioButtonJaluziLeft) {
+                    direction = 1;
+                } else if (checkedId == R.id.radioButtonJaluziRight) {
+                    direction = 2;
+                } else {
+                    direction = 0;
+                }
+
+                orderLineDetailModel.setDirection(direction);
+            }
 
             if (!etUnitPrice.getText().toString().isEmpty()) {
                 double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
@@ -144,6 +161,7 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
             }
 
 
+
             EventBus.getDefault().post(orderLineDetailModel);
             dismiss();
         }else if(view.getId()==R.id.btnCancel){
@@ -160,11 +178,17 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
                 etWidth.setError("En giriniz!");
             }else if(TextUtils.isEmpty(etUnitPrice.getText().toString())){
                 etUnitPrice.setError("Birim fiyat giriniz!");
-            }else{
-                double width=Double.parseDouble(etWidth.getText().toString());
-                double unitPrice=Double.parseDouble(etUnitPrice.getText().toString());
-                orderLineDetailModel.setPropertyWidth(width);
+            }else if(TextUtils.isEmpty(etHeight.getText().toString())){
+                etHeight.setError("Boy giriniz!");
+            } else{
+
+                double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
+                double width = Double.parseDouble(etWidth.getText().toString());
+                double height=Double.parseDouble(etHeight.getText().toString());
+
                 orderLineDetailModel.setUnitPrice(unitPrice);
+                orderLineDetailModel.setPropertyWidth(width);
+                orderLineDetailModel.setPropertyHeight(height);
                 orderLines.add(orderLineDetailModel);
                 addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
                 calculateOrderLine(addOrderLineDetailListModel);
@@ -173,17 +197,15 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
         }
     }
 
-
     @Override
     public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
-        String sessionId = getSessionIdFromPref();
-        mAddOrderLinePresenter.calculateOrderLine(orderLineDetailListModel, sessionId);
+        String sessionId=getSessionIdFromPref();
+        mAddOrderLinePresenter.calculateOrderLine(orderLineDetailListModel,sessionId);
     }
 
     @Override
     public void showAlert(String message) {
         StyleableToast.makeText(getActivity(),message,R.style.info_toast_style).show();
-
     }
 
     @Override
@@ -202,17 +224,19 @@ public class SunBlindCurtain extends DialogFragment implements View.OnClickListe
         return xAuthToken;
     }
 
-    @Override
-    public void navigateLogin() {
-        startActivity(new Intent(getActivity(), LoginActivity.class));
-    }
 
     @Override
     public void updateAmount(CalculationResponse calculationResponse) {
-        double totalPrice = calculationResponse.getTotalAmount();
-        double totalM= calculationResponse.getUsedMaterial();
-        tvTotalPrice.setText(String.format("%.2f",totalPrice)+" TL");
-        tvTotalM.setText(String.format("%.2f",totalM)+" m");
+        double totalM2=calculationResponse.getUsedMaterial();
+        double totalPrice=calculationResponse.getTotalAmount();
+        tvTotalM2.setText(String.format("%.2f",totalM2)+" m2");
+        tvTotalPrice.setText(String.format("%.2f", totalPrice)+" TL");
+
+    }
+
+    @Override
+    public void navigateLogin() {
+        startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
     @Override

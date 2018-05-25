@@ -68,6 +68,7 @@ public class HomeActivity extends AppCompatActivity
     FragmentTransaction fragmentTransaction;
     public static final String ARG_NOTIFICATIONS = "home-notifications";
     public static final String ARG_DASHBOARD = "dashboard";
+    public static final String ARG_CUSTOMERS = "customers";
 
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation ahBottomNavigation;
@@ -123,10 +124,20 @@ public class HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         getAppUtilInfoFromServer();
         Bundle bundle=getIntent().getExtras();
+
         if(bundle!=null){
             if(bundle.containsKey("init-key")){
-                getNotificationFragment();
-                ahBottomNavigation.setCurrentItem(3);
+
+                if(bundle.getString("init-key").equals("get-customers-fragment")){
+                    getCustomerFragment();
+                    ahBottomNavigation.setCurrentItem(3);
+                }else if(bundle.getString("init-key").equals("get-notification-fragment")){
+                    getNotificationFragment();
+                    ahBottomNavigation.setCurrentItem(4);
+                }else{
+                    getDashboardFragment();
+                }
+
             }else{
                 getDashboardFragment();
             }
@@ -151,9 +162,12 @@ public class HomeActivity extends AppCompatActivity
         AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
         AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
         AHBottomNavigationItem item_notification = new AHBottomNavigationItem(R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_customer = new AHBottomNavigationItem(R.string.title_customer, R.drawable.ic_account_circle_black_24dp, R.color.hintColor);
+
         ahBottomNavigation.addItem(item_home);
         ahBottomNavigation.addItem(item_orders);
         ahBottomNavigation.addItem(item_add_order);
+        ahBottomNavigation.addItem(item_customer);
         ahBottomNavigation.addItem(item_notification);
         ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
         ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
@@ -163,7 +177,7 @@ public class HomeActivity extends AppCompatActivity
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         if(notfCount>0){
-            ahBottomNavigation.setNotification(""+notfCount,3);
+            ahBottomNavigation.setNotification(""+notfCount,4);
         }
         ahBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
             if(position==0){
@@ -179,12 +193,19 @@ public class HomeActivity extends AppCompatActivity
                 startActivity(measure);
                 return true;
             }else if(position==3){
+                getCustomerFragment();
+                return true;
+            }else if(position==4){
                 getNotificationFragment();
                 return true;
             }
             return true;
         });
 
+    }
+
+    private void getCustomerFragment() {
+        initFragment(fragmentManager,fragmentTransaction,new CustomersFragment(),null,ARG_CUSTOMERS,ARG_CUSTOMERS);
     }
 
     private void getDashboardFragment() {
@@ -440,9 +461,9 @@ public class HomeActivity extends AppCompatActivity
         HomeNotificationFragment homeNotificationFragment= (HomeNotificationFragment) getSupportFragmentManager().findFragmentByTag(ARG_NOTIFICATIONS);
         if(count>0){
             String notificationCount=String.valueOf(count);
-            ahBottomNavigation.setNotification(notificationCount,3);
+            ahBottomNavigation.setNotification(notificationCount,4);
         }else{
-            ahBottomNavigation.setNotification("",3);
+            ahBottomNavigation.setNotification("",4);
             if(homeNotificationFragment!=null){
                 homeNotificationFragment.setEmptyBackground();
             }
@@ -493,7 +514,7 @@ public class HomeActivity extends AppCompatActivity
         if(key=="notf-count"){
             notfCount=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
             if(notfCount>0){
-                ahBottomNavigation.setNotification(""+notfCount,3);
+                ahBottomNavigation.setNotification(""+notfCount,4);
             }
         }
     }

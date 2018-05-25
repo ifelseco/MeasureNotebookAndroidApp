@@ -52,7 +52,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class OrdersActivity extends AppCompatActivity
         implements OrdersView,
-        View.OnLongClickListener, SwipeRefreshLayout.OnRefreshListener,
+        SwipeRefreshLayout.OnRefreshListener,
         SearchView.OnQueryTextListener, AdapterView.OnItemSelectedListener, View.OnClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     @BindView(R.id.recycle_orders)
@@ -90,13 +90,11 @@ public class OrdersActivity extends AppCompatActivity
     OrdersPresenter mOrdersPresenter;
     List<OrderDetailResponseModel> orderList = new ArrayList<>();
     OrderDetailPage curOrderDetailPage=new OrderDetailPage();
-    ArrayList<OrderDetailResponseModel> selectedOrderList = new ArrayList<>();
     public static final String ARG_SAVED_ORDERS = "last-saved-orders";
 
     private int first = 0;
     private int rows = 10;
 
-    boolean isActionModeActive = false;
     boolean isScrooling = false;
     int countSelectedOrders = 0;
     private int currentItems, totalItems, scrollOutItems;
@@ -124,8 +122,6 @@ public class OrdersActivity extends AppCompatActivity
         initView();
         initRcyclerView();
 
-
-
         if (savedInstanceState == null) {
             sendPageRequest(first, rows);
         }
@@ -147,9 +143,11 @@ public class OrdersActivity extends AppCompatActivity
         AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
         AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
         AHBottomNavigationItem item_notification = new AHBottomNavigationItem(R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.hintColor);
+        AHBottomNavigationItem item_customer = new AHBottomNavigationItem(R.string.title_customer, R.drawable.ic_account_circle_black_24dp, R.color.hintColor);
         ahBottomNavigation.addItem(item_home);
         ahBottomNavigation.addItem(item_orders);
         ahBottomNavigation.addItem(item_add_order);
+        ahBottomNavigation.addItem(item_customer);
         ahBottomNavigation.addItem(item_notification);
         ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
         ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
@@ -159,7 +157,7 @@ public class OrdersActivity extends AppCompatActivity
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.secondaryDarkColor));
         if(notfCount>0){
-            ahBottomNavigation.setNotification(""+notfCount,3);
+            ahBottomNavigation.setNotification(""+notfCount,4);
         }
         ahBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
             if(position==0){
@@ -175,6 +173,11 @@ public class OrdersActivity extends AppCompatActivity
                 startActivity(measure);
                 return true;
             }else if(position==3){
+                Intent home = new Intent(OrdersActivity.this, HomeActivity.class);
+                home.putExtra("init-key", "get-customers-fragment");
+                startActivity(home);
+                return true;
+            }else if(position==4){
                 Intent home = new Intent(OrdersActivity.this, HomeActivity.class);
                 home.putExtra("init-key", "get-notification-fragment");
                 startActivity(home);
@@ -206,7 +209,6 @@ public class OrdersActivity extends AppCompatActivity
             return false;
         });
         searchView.setOnSearchClickListener(this);
-
 
     }
 
@@ -278,18 +280,7 @@ public class OrdersActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.item_delete) {
-            if (this.selectedOrderList.size() > 0) {
-                showConfirmDialog(this.selectedOrderList);
-
-            } else {
-                StyleableToast.makeText(this,"Sipariş seçmediniz.",R.style.info_toast_style).show();
-                clearActionMode();
-            }
-
-
-        } else if (id == R.id.item_filter) {
+        if (id == R.id.item_filter) {
             isFilterMode = true;
             showFilterSpinner();
 
@@ -325,34 +316,9 @@ public class OrdersActivity extends AppCompatActivity
     }
 
 
-    private void showConfirmDialog(final ArrayList<OrderDetailResponseModel> selectedOrderList) {
-        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Onaylıyor musunuz?")
-                .setContentText("Siparişler silinecek.")
-                .setConfirmText("Evet")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sendDeleteOrderListRequest(selectedOrderList);
-                        sDialog.dismissWithAnimation();
-                    }
-                })
-                .showCancelButton(true)
-                .setCancelText("Vazgeç!")
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.cancel();
-                    }
-                })
-                .show();
-    }
-
     public void clearActionMode() {
-        this.selectedOrderList.clear();
         hideArrowButton();
         isFilterMode = false;
-        isActionModeActive = false;
         adapter.notifyDataSetChanged();
         clearToolbarAppendNewMenu(R.menu.menu_orders);
         tvOrderSelectCount.setVisibility(View.GONE);
@@ -471,70 +437,22 @@ public class OrdersActivity extends AppCompatActivity
     public void getOrders(OrderSummaryPageReponseModel orderSummaryPageReponseModel) {
         this.orderList=orderSummaryPageReponseModel.getOrderDetailPage().getContent();
         this.curOrderDetailPage=orderSummaryPageReponseModel.getOrderDetailPage();
-
         OrderAdapter orderAdapter = (OrderAdapter) adapter;
         orderAdapter.updateList(orderSummaryPageReponseModel);
 
     }
 
 
-    @Override
-    public boolean onLongClick(View view) {
-        Log.d("Selecetde order :", "" + selectedOrderList.size());
-        clearToolbarAppendNewMenu(R.menu.menu_action_delete);
-        hideFilterSpinner();
-        searchView.setVisibility(View.GONE);
-        tvOrderSelectCount.setVisibility(View.VISIBLE);
-        isActionModeActive = true;
-        adapter.notifyDataSetChanged();
-        showArrowButton();
-        return true;
-    }
-
-
-    public void showArrowButton() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);// show back button
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
-    }
-
     public void hideArrowButton() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);// show back button
     }
 
-    public void prepareSelection(View view, int position) {
-        Log.d("Selecetde order :", "" + selectedOrderList.size());
-        if (((CheckBox) view).isChecked()) {
-            selectedOrderList.add(this.orderList.get(position));
-            Log.d("SelectedOrder", " " + selectedOrderList.size());
-            countSelectedOrders++;
-            updateCounter(countSelectedOrders);
-        } else {
-            selectedOrderList.remove(this.orderList.get(position));
-            Log.d("SelectedOrder", " " + selectedOrderList.size());
 
-            countSelectedOrders--;
-            updateCounter(countSelectedOrders);
-        }
-
-    }
-
-    public void updateCounter(int counter) {
-        if (counter == 0) {
-            tvOrderSelectCount.setText("0 sipariş seçildi");
-        } else {
-            tvOrderSelectCount.setText(counter + " sipariş seçildi");
-        }
-    }
 
     @Override
     public void onBackPressed() {
-        if (isActionModeActive) {
-            clearActionMode();
-            adapter.notifyDataSetChanged();
-        } else {
-            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+        startActivity(intent);
     }
 
 
@@ -637,7 +555,7 @@ public class OrdersActivity extends AppCompatActivity
         if(key=="notf-count"){
             notfCount=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
             if(notfCount>0){
-                ahBottomNavigation.setNotification(""+notfCount,3);
+                ahBottomNavigation.setNotification(""+notfCount,4);
             }
         }
     }

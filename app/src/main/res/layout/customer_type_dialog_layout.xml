@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_new_customer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:backgroundTint="@color/primaryDarkColor"
+        android:text="Yeni Müşteri"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/btn_saved_customer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:backgroundTint="@color/secondaryColor"
+        android:text="Kayıtlı Müşteri"
+        android:textColor="@android:color/black"/>
+
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:backgroundTint="@android:color/holo_red_light"
+        android:text="Vazgeç"
+        android:textColor="@android:color/white"/>
+
+
+
+</LinearLayout>

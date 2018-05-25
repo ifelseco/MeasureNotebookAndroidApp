@@ -19,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
@@ -34,6 +33,7 @@ import com.javaman.olcudefteri.model.OrderLineSummaryResponseModel;
 import com.javaman.olcudefteri.presenter.OrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.OrderLinePresenterImpl;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
+import com.javaman.olcudefteri.ui.orders.dialogs.OrderStatusUpdateDialog;
 import com.javaman.olcudefteri.view.OrderDetailVew;
 import com.javaman.olcudefteri.utill.MyUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
@@ -92,7 +92,6 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     private OrderLineSummaryResponseModel orderLineSummaryResponseModel;
     private List<OrderLineDetailModel> orderLines = new ArrayList<>();
     private Long orderId;
-    private Long orderIdFromNotification;
     Bundle arguments;
     OrderLinePresenter mOrderLinePresenter;
     SharedPreferenceHelper sharedPreferenceHelper;

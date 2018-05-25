@@ -86,7 +86,6 @@ public class OrderDetailFragment extends Fragment implements OrderView{
     @BindView(R.id.linear_layout_order_mount)
     LinearLayout linearLayoutMountDate;
 
-
     public OrderDetailFragment() {
     }
 
@@ -111,7 +110,6 @@ public class OrderDetailFragment extends Fragment implements OrderView{
         return rootView;
     }
 
-
     public void setView() {
 
         pDialog=new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
@@ -123,7 +121,6 @@ public class OrderDetailFragment extends Fragment implements OrderView{
         }else{
             tvOrderDeliveryDate.setText("");
         }
-
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(orderDetailResponseModel.getOrderDate());
@@ -145,7 +142,6 @@ public class OrderDetailFragment extends Fragment implements OrderView{
             minutesString=""+minutes;
         }
 
-
         String fullTime=hoursString+":"+minutesString;
 
         tvOrderTime.setText(fullTime);
@@ -156,31 +152,18 @@ public class OrderDetailFragment extends Fragment implements OrderView{
             String measureDate=simpleDateFormat.format(orderDetailResponseModel.getMeasureDate());
             tvMeasureDate.setText(measureDate);
         }
-
         if(orderDetailResponseModel.isMountExist()){
             linearLayoutMountDate.setVisibility(View.VISIBLE);
             checkBoxIsMount.setChecked(true);
-
         }
-
-
-
 
         tvOrderTotalAmount.setText(""+currency.getSymbol()+" "+String.format("%.2f",orderDetailResponseModel.getTotalAmount()));
         tvOrderDeposit.setText(""+currency.getSymbol()+" "+String.format("%.2f",orderDetailResponseModel.getDepositeAmount()));
-
         double remainAmount=orderDetailResponseModel.getTotalAmount()-orderDetailResponseModel.getDepositeAmount();
-
         tvOrderRemain.setText(""+currency.getSymbol()+" "+String.format("%.2f",remainAmount));
 
 
-
-
-
     }
-
-
-
 
     @Override
     @Subscribe
@@ -219,7 +202,6 @@ public class OrderDetailFragment extends Fragment implements OrderView{
         String headerData=getSessionIdFromPref();
         mOrderPresenter.orderUpdate(orderUpdateModel,headerData);
     }
-
 
     @Override
     public String getSessionIdFromPref() {
@@ -297,8 +279,10 @@ public class OrderDetailFragment extends Fragment implements OrderView{
 
 
         if(orderUpdateModel.isMountExist()){
+            linearLayoutMountDate.setVisibility(View.VISIBLE);
             checkBoxIsMount.setChecked(true);
         }else{
+            linearLayoutMountDate.setVisibility(View.GONE);
             checkBoxIsMount.setChecked(false);
         }
 
@@ -345,8 +329,6 @@ public class OrderDetailFragment extends Fragment implements OrderView{
         EventBus.getDefault().unregister(this);
 
     }
-
-
 
 }
 
