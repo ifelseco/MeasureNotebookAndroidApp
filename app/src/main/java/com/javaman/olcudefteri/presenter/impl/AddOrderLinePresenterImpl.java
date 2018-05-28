@@ -20,8 +20,6 @@ import com.javaman.olcudefteri.view.OrderLineView;
 public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
         AddOrderLineIntractor.onAddOrderLineListener,
         AddOrderLineIntractor.onAddOrderLinesListener,
-        AddOrderLineIntractor.onDeleteOrderLineListener,
-        AddOrderLineIntractor.onDeleteOrderLinesListener,
         AddOrderLineIntractor.onCalculateOrderLineListener{
 
     AddOrderLineView mAddOrderLineView;
@@ -158,25 +156,6 @@ public class AddOrderLinePresenterImpl implements AddOrderLinePresenter,
         }
     }
 
-    @Override
-    public void onSuccessDeleteOrderLine() {
-
-    }
-
-    @Override
-    public void onFailureDeleteOrderLine(String message) {
-
-    }
-
-    @Override
-    public void onSuccessDeleteOrderLines() {
-
-    }
-
-    @Override
-    public void onFailureDeleteOrderLines(String message) {
-
-    }
 
 
     @Override

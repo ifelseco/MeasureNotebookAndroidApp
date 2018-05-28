@@ -46,7 +46,7 @@ public class CustomerIntractorImpl implements CustomerIntractor {
                     try {
                         String errorBody = response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if (jObjError.get("baseModel") != null) {
+                        if (jObjError.has("baseModel") ) {
                             listener.onFailureSearchCustomer("Bir hata oluştu : " + jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         } else if (jObjError.getString("responseMessage") != null) {
                             listener.onFailureSearchCustomer("Bir hata oluştu : " + jObjError.getString("responseMessage"));
@@ -110,7 +110,7 @@ public class CustomerIntractorImpl implements CustomerIntractor {
                     try {
                         String errorBody = response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if (jObjError.get("baseModel") != null) {
+                        if (jObjError.has("baseModel")) {
                             listener.onFailureCustomnerOrders("Bir hata oluştu : " + jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         } else if (jObjError.getString("responseMessage") != null) {
                             listener.onFailureCustomnerOrders("Bir hata oluştu : " + jObjError.getString("responseMessage"));

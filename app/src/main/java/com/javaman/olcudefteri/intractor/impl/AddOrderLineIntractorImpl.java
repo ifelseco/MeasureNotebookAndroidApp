@@ -62,7 +62,7 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureAddOrderLine("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
                             listener.onFailureAddOrderLine("Bir hata oluştu : "+jObjError.getString("message"));
@@ -140,7 +140,7 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureAddOrderLines("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
                             listener.onFailureAddOrderLines("Bir hata oluştu : "+jObjError.getString("message"));
@@ -188,15 +188,6 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
         });
     }
 
-    @Override
-    public void deleteOrderLine(long id, String headerData, onDeleteOrderLineListener listener) {
-
-    }
-
-    @Override
-    public void deleteOrderLines(DeleteOrderLinesModel deleteOrderLinesModel, String headerData, onDeleteOrderLinesListener listener) {
-
-    }
 
     @Override
     public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel, String headerData, final onCalculateOrderLineListener listener) {
@@ -227,7 +218,7 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureCalculateOrderLines("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
                             listener.onFailureCalculateOrderLines("Bir hata oluştu : "+jObjError.getString("message"));

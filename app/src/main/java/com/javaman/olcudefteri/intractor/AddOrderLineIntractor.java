@@ -25,15 +25,6 @@ public interface AddOrderLineIntractor {
         void navigateToLogin();
     }
 
-    interface onDeleteOrderLineListener{
-        void onSuccessDeleteOrderLine();
-        void onFailureDeleteOrderLine(String message);
-    }
-
-    interface onDeleteOrderLinesListener{
-        void onSuccessDeleteOrderLines();
-        void onFailureDeleteOrderLines(String message);
-    }
 
     interface onCalculateOrderLineListener{
         void onSuccessCalculateOrderLines(CalculationResponse calculationResponse);
@@ -45,8 +36,6 @@ public interface AddOrderLineIntractor {
 
     void addOrderLine(OrderLineDetailModel orderLineDetailModel, String headerData, onAddOrderLineListener listener);
     void addOrderLines(AddOrderLineDetailListModel orderLineDetailListModel, String headerData, onAddOrderLinesListener listener);
-    void deleteOrderLine(long id, String headerData, onDeleteOrderLineListener listener);
-    void deleteOrderLines(DeleteOrderLinesModel deleteOrderLinesModel, String headerData, onDeleteOrderLinesListener listener);
     void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel, String headerData, onCalculateOrderLineListener listener);
 
 

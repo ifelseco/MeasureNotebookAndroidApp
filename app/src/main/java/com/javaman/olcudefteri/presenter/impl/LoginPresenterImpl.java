@@ -88,7 +88,7 @@ public class LoginPresenterImpl implements LoginPresenter,LoginIntractor.onLogin
     public void onFailure(String message) {
         if(mLoginView!=null){
             mLoginView.hideProgress();
-            mLoginView.showAlert(message);
+            mLoginView.showAlert(message,true);
         }
     }
 }

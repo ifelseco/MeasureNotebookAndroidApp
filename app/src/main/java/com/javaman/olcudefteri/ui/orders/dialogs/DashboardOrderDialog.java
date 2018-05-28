@@ -24,6 +24,7 @@ import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.model.OrderSummaryModel;
 import com.javaman.olcudefteri.presenter.ReportPresenter;
 import com.javaman.olcudefteri.presenter.impl.ReportPresenterImpl;
+import com.javaman.olcudefteri.ui.orders.OrderDetailActivity;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 import com.javaman.olcudefteri.view.ReportView;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -204,5 +205,12 @@ public class DashboardOrderDialog extends DialogFragment implements View.OnClick
 
     public int getReportNumber() {
         return reportNumber;
+    }
+
+    public void gotoOrderDetail(Long id) {
+        Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+        intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , id);
+        getActivity().startActivity(intent);
+        dismiss();
     }
 }

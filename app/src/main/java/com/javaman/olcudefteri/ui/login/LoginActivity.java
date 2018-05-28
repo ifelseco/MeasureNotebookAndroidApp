@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -143,8 +142,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void showAlert(String message) {
-        StyleableToast.makeText(this,message,R.style.info_toast_style).show();
+    public void showAlert(String message, boolean isError) {
+        if(isError){
+            StyleableToast.makeText(this,message,R.style.error_toast_style).show();
+        }else{
+            StyleableToast.makeText(this,message,R.style.info_toast_style).show();
+        }
     }
 
     @Override

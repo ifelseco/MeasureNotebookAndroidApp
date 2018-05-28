@@ -11,7 +11,7 @@ public interface LoginView {
     void setUserNameEmptyError();
     void setPasswordEmptyError();
     void navigatetoHome(boolean isTailor);
-    void showAlert(String message);
+    void showAlert(String message, boolean isError);
     void openSession(String sessionId);
     void setRememberMe(String username,String password,boolean rememberMeActive);
 }

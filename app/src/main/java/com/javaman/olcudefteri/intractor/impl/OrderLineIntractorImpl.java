@@ -60,7 +60,7 @@ public class OrderLineIntractorImpl implements OrderLineIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureGetOrderLines("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
                             listener.onFailureGetOrderLines("Bir hata oluştu : "+jObjError.getString("message"));

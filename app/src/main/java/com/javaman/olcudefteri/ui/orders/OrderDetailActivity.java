@@ -32,6 +32,7 @@ import com.javaman.olcudefteri.model.OrderDetailResponseModel;
 import com.javaman.olcudefteri.model.OrderLineSummaryResponseModel;
 import com.javaman.olcudefteri.presenter.OrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.OrderLinePresenterImpl;
+import com.javaman.olcudefteri.ui.home.HomeActivity;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.ui.orders.dialogs.OrderStatusUpdateDialog;
 import com.javaman.olcudefteri.view.OrderDetailVew;
@@ -173,15 +174,12 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
 
                     if (position == 1) {
-                        clearMenu();
                         initCustomerFabMenu();
                     } else if (position == 2) {
 
                         hideFab();
-                        getAddLineMenu();
                     } else {
                         initOrderFabMenu();
-                        clearMenu();
                     }
 
 
@@ -202,19 +200,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     }
 
-    private void clearMenu() {
-        toolbar.getMenu().clear();
-    }
 
-    private void getAddLineMenu() {
-        toolbar.getMenu().clear();
-        toolbar.inflateMenu(R.menu.menu_add_order_line);
-        MenuItem menuItemAddLine = toolbar.getMenu().findItem(R.id.item_add);
-
-        if (menuItemAddLine != null) {
-            MyUtil.tintMenuIcon(this, menuItemAddLine, android.R.color.white);
-        }
-    }
 
 
 
@@ -285,7 +271,17 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        //getMenuInflater().inflate(R.menu.menu_order_detail_tabbed, menu);
+        getMenuInflater().inflate(R.menu.menu_add_order_line, menu);
+        MenuItem menuItemAddLine = toolbar.getMenu().findItem(R.id.item_add);
+        MenuItem menuItemHome = toolbar.getMenu().findItem(R.id.item_home);
+
+        if (menuItemAddLine != null) {
+            MyUtil.tintMenuIcon(this, menuItemAddLine, android.R.color.white);
+        }
+
+        if (menuItemHome != null) {
+            MyUtil.tintMenuIcon(this, menuItemHome, android.R.color.white);
+        }
         return true;
     }
 
@@ -295,6 +291,9 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         if (id == android.R.id.home) {
             Intent intent = new Intent(getApplicationContext(), OrdersActivity.class);
             startActivity(intent);
+            return true;
+        }else if (id == R.id.item_home) {
+            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
             return true;
         }else if(id==R.id.item_add){
             gotoAddOrderLine();

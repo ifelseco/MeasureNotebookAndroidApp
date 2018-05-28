@@ -91,7 +91,7 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
                         try {
                             String errorBody = response.errorBody().string();
                             JSONObject jObjError = new JSONObject(errorBody);
-                            if (jObjError.get("baseModel") != null) {
+                            if (jObjError.has("baseModel")) {
                                 listener.onFailure("Bir hata oluştu : " + jObjError.getJSONObject("baseModel").getString("responseMessage"));
                             } else {
                                 listener.onFailure("Bir hata oluştu : " + jObjError.getString("message"));
@@ -167,7 +167,7 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
                     try {
                         String errorBody = response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if (jObjError.get("baseModel") != null) {
+                        if (jObjError.has("baseModel")) {
                             listener.onFailure("Bir hata oluştu : " + jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         } else {
                             listener.onFailure("Bir hata oluştu : " + jObjError.getString("message"));

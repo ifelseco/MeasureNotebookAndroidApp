@@ -57,11 +57,7 @@ public class BaseIntractorImpl implements BaseIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
-
-                            listener.onFailureCheckSession("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
-
-                        }else if(jObjError.getString("responseMessage")!=null){
+                        if(jObjError.getString("responseMessage")!=null){
 
                             listener.onFailureCheckSession("Bir hata oluştu : "+jObjError.getString("responseMessage"));
 
@@ -146,7 +142,7 @@ public class BaseIntractorImpl implements BaseIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureCheckSession("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
                             listener.onFailureCheckSession("Bir hata oluştu : "+jObjError.getString("message"));

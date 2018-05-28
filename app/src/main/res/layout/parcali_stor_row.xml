@@ -30,14 +30,7 @@
                 android:layout_weight="1"
                 android:textSize="15sp" />
 
-            <ImageButton
-                android:id="@+id/btn_delete_row"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:layout_gravity="right"
-                android:tint="@android:color/black"
-                android:src="@drawable/ic_dialog_close_light"/>
+
 
         </LinearLayout>
 

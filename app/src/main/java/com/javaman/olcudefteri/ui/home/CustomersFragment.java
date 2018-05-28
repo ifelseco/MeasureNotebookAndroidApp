@@ -226,7 +226,9 @@ public class CustomersFragment extends Fragment implements CustomerView, SearchV
             handler.removeCallbacksAndMessages(null);
             handler.postDelayed(() -> {
                 searchCustomer(newText);
+                searchView.clearFocus();
             },1000);
+
         }else{
             handler.removeCallbacksAndMessages(null);
         }

@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.ui.orders.dialogs;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,13 +14,15 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.event.MechanismEvent;
 import com.javaman.olcudefteri.model.AddOrderLineDetailListModel;
 import com.javaman.olcudefteri.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.model.ProductDetailModel;
@@ -32,6 +35,7 @@ import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,28 +46,62 @@ import butterknife.OnClick;
 
 /**
  * Created by javaman on 18.12.2017.
- * Jaluzi Dialog
+ * Stor perde dialog
  */
 
-public class JalouiseCurtain extends DialogFragment implements View.OnClickListener,CalculateView{
+public class JalouiseCurtain extends DialogFragment implements View.OnClickListener, CalculateView {
 
+
+
+    String pattern, variant, alias, desc, beadNo, skirtNo;
+    int parcaCount,mechanisStatus;
+
+
+    @BindView(R.id.radioGroupZincir)
+    RadioGroup radioGroupDirection;
+
+    @BindView(R.id.editTextStorUnitPrice)
+    EditText etUnitPrice;
+    @BindView(R.id.editTextWidth)
+    EditText etWidth;
+    @BindView(R.id.editTextHeight)
+    EditText etHeight;
     @BindView(R.id.btnCancel) Button btnCancel;
     @BindView(R.id.btnSave) Button btnSave;
     @BindView(R.id.btnCalculate) Button btnCalculate;
-    @BindView(R.id.editTextWidth) EditText etWidth;
-    @BindView(R.id.editTextHeight) EditText etHeight;
-    @BindView(R.id.editTextJalousieUnitPrice) EditText etUnitPrice;
-    @BindView(R.id.editTextVariant) EditText etVariant;
-    @BindView(R.id.editTextPattern) EditText etPattern;
-    @BindView(R.id.editTextAlias) EditText etAlias;
-    @BindView(R.id.editTextDesc) EditText etDesc;
-    @BindView(R.id.textViewJalousieM2) TextView tvTotalM2;
-    @BindView(R.id.textViewJalousieTotalPrice) TextView tvTotalPrice;
-    @BindView(R.id.radio_group_direction) RadioGroup radioGroupDirection;
-    @BindView(R.id.progress_bar_calc) ProgressBar progressBarCalc;
+    @BindView(R.id.textViewStorM2)
+    TextView tvStorM2;
+    @BindView(R.id.textViewStorTotalPrice)
+    TextView tvTotalPrice;
+    @BindView(R.id.textViewProductValue)
+    TextView tvProductValue;
+    @BindView(R.id.progress_bar_calc)
+    ProgressBar progressBarCalc;
 
-    private AddOrderLinePresenter mAddOrderLinePresenter;
+    @BindView(R.id.linear_layout_normal)
+    LinearLayout linearLayoutNormalWidthHeight;
+    @BindView(R.id.linear_layout_normal_direction)
+    LinearLayout linearLayoutNormalDirection;
+
+    @BindView(R.id.editTextVariant)
+    EditText etVariant;
+    @BindView(R.id.editTextPattern)
+    EditText etPattern;
+    @BindView(R.id.editTextAlias)
+    EditText etAlias;
+    @BindView(R.id.editTextStorDesc)
+    EditText etDesc;
+    @BindView(R.id.editTextBoncuk)
+    EditText etBead;
+    @BindView(R.id.editTextEtekDilimiNo)
+    EditText etSkirt;
+
+    @BindView(R.id.tableMeasureParcali)
+    TableLayout tableLayoutParcali;
+
     public static final int ARG_PRODUCT_VALUE = 4;
+    private AddOrderLinePresenter mAddOrderLinePresenter;
+
     SharedPreferenceHelper sharedPreferenceHelper;
 
 
@@ -82,125 +120,310 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.jalouise_curtain,null);
-        sharedPreferenceHelper=new SharedPreferenceHelper(getActivity().getApplicationContext());
-        mAddOrderLinePresenter=new AddOrderLinePresenterImpl(this);
-        ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.roller_curtain, null);
+        sharedPreferenceHelper = new SharedPreferenceHelper(getActivity().getApplicationContext());
+        mAddOrderLinePresenter = new AddOrderLinePresenterImpl(this);
+        ButterKnife.bind(this, view);
+        initView();
+        return view;
+    }
+
+    private void initView() {
         setCancelable(false);
 
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
             getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
+        tvProductValue.setText("Jaluzi");
+        linearLayoutNormalWidthHeight.setVisibility(View.GONE);
+        linearLayoutNormalDirection.setVisibility(View.GONE);
+        showDialog(new MechanismDialog(),"mechanism-dialog");
+    }
 
-        return view;
+    @Subscribe
+    public void getDialogData(MechanismEvent mechanismEvent) {
+        if(mechanismEvent.getMechanismStatus()==-1){
+            dismiss();
+        }else{
+            parcaCount=mechanismEvent.getPiecesCount();
+            mechanisStatus=mechanismEvent.getMechanismStatus();
+            setView();
+        }
+    }
+
+    private void setView() {
+
+        if (mechanisStatus == 3) {
+            linearLayoutNormalWidthHeight.setVisibility(View.GONE);
+            linearLayoutNormalDirection.setVisibility(View.GONE);
+            createTableView(parcaCount);
+
+        }else if(mechanisStatus == 2){
+            linearLayoutNormalWidthHeight.setVisibility(View.GONE);
+            linearLayoutNormalDirection.setVisibility(View.GONE);
+            createTableView(parcaCount);
+        }
+        else if(mechanisStatus==1){
+            tableLayoutParcali.removeAllViews();
+            tableLayoutParcali.setVisibility(View.GONE);
+            linearLayoutNormalWidthHeight.setVisibility(View.VISIBLE);
+            linearLayoutNormalDirection.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+    private void createTableView(int parcaCount) {
+        for (int j = 0; j < parcaCount; j++) {
+            View row = getLayoutInflater().inflate(R.layout.parcali_stor_row, null, false);
+            TextView textView = row.findViewById(R.id.labelParca);
+            textView.setText("Parça " + (j + 1));
+
+            tableLayoutParcali.addView(row);
+        }
     }
 
 
     @Override
-    @OnClick({R.id.btnSave,R.id.btnCalculate,R.id.btnCancel})
+    @OnClick({R.id.btnCancel, R.id.btnSave, R.id.btnCalculate})
     public void onClick(View view) {
-        List<OrderLineDetailModel> orderLines = new ArrayList<>();
 
         if (view.getId() == R.id.btnSave) {
-            OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
-            ProductDetailModel productDetailModel=new ProductDetailModel();
+
+            AddOrderLineDetailListModel addOrderLineDetailListModel = new AddOrderLineDetailListModel();
+            List<OrderLineDetailModel> orderLines = new ArrayList<>();
+            ProductDetailModel productDetailModel = new ProductDetailModel();
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
-            orderLineDetailModel.setProduct(productDetailModel);
-            if (!etWidth.getText().toString().isEmpty()) {
-                double width = Double.parseDouble(etWidth.getText().toString());
-                orderLineDetailModel.setPropertyWidth(width);
-            }
-
-            if (!etHeight.getText().toString().isEmpty()) {
-                double height = Double.parseDouble(etHeight.getText().toString());
-                orderLineDetailModel.setPropertyHeight(height);
-            }
-
-            if (radioGroupDirection.getCheckedRadioButtonId() != -1) {
-                int  direction;
-                int checkedId = radioGroupDirection.getCheckedRadioButtonId();
-                if (checkedId == R.id.radioButtonJaluziLeft) {
-                    direction = 1;
-                } else if (checkedId == R.id.radioButtonJaluziRight) {
-                    direction = 2;
-                } else {
-                    direction = 0;
-                }
-
-                orderLineDetailModel.setDirection(direction);
-            }
-
-            if (!etUnitPrice.getText().toString().isEmpty()) {
-                double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
-                orderLineDetailModel.setUnitPrice(unitPrice);
-            }
-
-
 
             if (!etPattern.getText().toString().isEmpty()) {
-                String pattern =etPattern.getText().toString();
-                productDetailModel.setPatternCode(pattern);
-                orderLineDetailModel.setProduct(productDetailModel);
+                pattern = etPattern.getText().toString();
+
             }
 
+
             if (!etVariant.getText().toString().isEmpty()) {
-                String variant=etVariant.getText().toString();
-                productDetailModel.setVariantCode(variant);
-                orderLineDetailModel.setProduct(productDetailModel);
+                variant = etVariant.getText().toString();
+
             }
 
             if (!etAlias.getText().toString().isEmpty()) {
-                String alias=etAlias.getText().toString();
-                productDetailModel.setAliasName(alias);
-                orderLineDetailModel.setProduct(productDetailModel);
+                alias = etAlias.getText().toString();
+
             }
 
             if (!etDesc.getText().toString().isEmpty()) {
-                String desc=etDesc.getText().toString();
-                orderLineDetailModel.setLineDescription(desc);
+                desc = etDesc.getText().toString();
+            }
+
+            if (!etBead.getText().toString().isEmpty()) {
+                beadNo = etBead.getText().toString();
+
+            }
+
+            if (!etSkirt.getText().toString().isEmpty()) {
+                skirtNo = etSkirt.getText().toString();
+
             }
 
 
+            if (parcaCount > 0) {
 
-            EventBus.getDefault().post(orderLineDetailModel);
+                for (int count = 0; count < parcaCount; count++) {
+                    TableRow row = (TableRow) tableLayoutParcali.getChildAt(count);
+                    EditText etWidthP = row.findViewById(R.id.editTextWidthP);
+                    EditText etHeightP = row.findViewById(R.id.editTextHeightP);
+                    RadioGroup radioGroupDirectionP = row.findViewById(R.id.radioGroupDirectionP);
+                    OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
+                    orderLineDetailModel.setProduct(productDetailModel);
+
+                    if (!TextUtils.isEmpty(etWidthP.getText().toString())) {
+                        double width = Double.parseDouble(etWidthP.getText().toString());
+                        orderLineDetailModel.setPropertyWidth(width);
+                    }
+
+                    if (!TextUtils.isEmpty(etHeightP.getText().toString())) {
+                        double height = Double.parseDouble(etWidthP.getText().toString());
+                        orderLineDetailModel.setPropertyHeight(height);
+                    }
+
+                    if (!TextUtils.isEmpty(etUnitPrice.getText().toString())) {
+                        double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
+                        orderLineDetailModel.setUnitPrice(unitPrice);
+                    }
+
+                    if (radioGroupDirectionP.getCheckedRadioButtonId() != -1) {
+                        int checkedId = radioGroupDirectionP.getCheckedRadioButtonId();
+                        if (checkedId == R.id.radioButtonStorLeftP) {
+                            int direction = 1;
+                            orderLineDetailModel.setDirection(direction);
+                        } else if (checkedId == R.id.radioButtonStorRightP) {
+                            int direction = 2;
+                            orderLineDetailModel.setDirection(direction);
+
+                        } else {
+                            int direction = 2;
+                            orderLineDetailModel.setDirection(direction);
+
+                        }
+                    }
+
+
+                    productDetailModel.setPatternCode(pattern);
+                    productDetailModel.setVariantCode(variant);
+                    productDetailModel.setAliasName(alias);
+                    orderLineDetailModel.setProduct(productDetailModel);
+                    orderLineDetailModel.setLineDescription(desc);
+                    orderLineDetailModel.setBeadNo(beadNo);
+                    orderLineDetailModel.setSkirtNo(skirtNo);
+
+
+                    orderLineDetailModel.setPiecesCount(parcaCount);
+                    orderLineDetailModel.setMechanismStatus(mechanisStatus);
+                    orderLines.add(orderLineDetailModel);
+
+                }
+
+                addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
+                EventBus.getDefault().post(addOrderLineDetailListModel);
+
+            } else {
+
+                OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
+                orderLineDetailModel.setProduct(productDetailModel);
+
+                if (!TextUtils.isEmpty(etWidth.getText().toString())) {
+                    double width = Double.parseDouble(etWidth.getText().toString());
+                    orderLineDetailModel.setPropertyWidth(width);
+                }
+
+                if (!TextUtils.isEmpty(etHeight.getText().toString())) {
+                    double height = Double.parseDouble(etHeight.getText().toString());
+                    orderLineDetailModel.setPropertyHeight(height);
+                }
+
+                if (!TextUtils.isEmpty(etUnitPrice.getText().toString())) {
+                    double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
+                    orderLineDetailModel.setUnitPrice(unitPrice);
+                }
+
+                if (radioGroupDirection.getCheckedRadioButtonId() != -1) {
+                    int checkedId = radioGroupDirection.getCheckedRadioButtonId();
+                    if (checkedId == R.id.radioButtonStorLeft) {
+                        int direction = 1;
+                        orderLineDetailModel.setDirection(direction);
+                    } else if (checkedId == R.id.radioButtonStorRight) {
+                        int direction = 2;
+                        orderLineDetailModel.setDirection(direction);
+
+                    } else {
+                        int direction = 2;
+                        orderLineDetailModel.setDirection(direction);
+
+                    }
+                }
+
+                productDetailModel.setPatternCode(pattern);
+                productDetailModel.setVariantCode(variant);
+                productDetailModel.setAliasName(alias);
+                orderLineDetailModel.setProduct(productDetailModel);
+                orderLineDetailModel.setLineDescription(desc);
+                orderLineDetailModel.setBeadNo(beadNo);
+                orderLineDetailModel.setSkirtNo(skirtNo);
+
+                orderLineDetailModel.setPiecesCount(parcaCount);
+                orderLineDetailModel.setMechanismStatus(mechanisStatus);
+                EventBus.getDefault().post(orderLineDetailModel);
+
+            }
+
+
             dismiss();
-        }else if(view.getId()==R.id.btnCancel){
+        } else if (view.getId() == R.id.btnCancel) {
             dismiss();
-        }else{
+        } else {
 
             AddOrderLineDetailListModel addOrderLineDetailListModel = new AddOrderLineDetailListModel();
-            OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
+            List<OrderLineDetailModel> orderLines = new ArrayList<>();
             ProductDetailModel productDetailModel = new ProductDetailModel();
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
-            orderLineDetailModel.setProduct(productDetailModel);
 
-            if(TextUtils.isEmpty(etWidth.getText().toString())){
-                etWidth.setError("En giriniz!");
-            }else if(TextUtils.isEmpty(etUnitPrice.getText().toString())){
-                etUnitPrice.setError("Birim fiyat giriniz!");
-            }else if(TextUtils.isEmpty(etHeight.getText().toString())){
-                etHeight.setError("Boy giriniz!");
-            } else{
+            if (parcaCount > 0) {
 
-                double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
-                double width = Double.parseDouble(etWidth.getText().toString());
-                double height=Double.parseDouble(etHeight.getText().toString());
 
-                orderLineDetailModel.setUnitPrice(unitPrice);
-                orderLineDetailModel.setPropertyWidth(width);
-                orderLineDetailModel.setPropertyHeight(height);
-                orderLines.add(orderLineDetailModel);
-                addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
-                calculateOrderLine(addOrderLineDetailListModel);
+                if (TextUtils.isEmpty(etUnitPrice.getText().toString())) {
+                    etUnitPrice.setError("Birim fiyat giriniz!");
+                } else {
+                    for (int count = 0; count < parcaCount; count++) {
+                        TableRow row = (TableRow) tableLayoutParcali.getChildAt(count);
+                        EditText etWidthP = row.findViewById(R.id.editTextWidthP);
+                        EditText etHeightP = row.findViewById(R.id.editTextHeightP);
+                        RadioGroup radioGroupDirectionP = row.findViewById(R.id.radioGroupDirectionP);
+
+                        if (TextUtils.isEmpty(etWidthP.getText().toString())) {
+                            etWidthP.setError("Parça en giriniz!");
+                        } else if (TextUtils.isEmpty(etHeightP.getText().toString())) {
+                            etHeightP.setError("Parça boy giriniz!");
+                        } else {
+                            OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
+                            orderLineDetailModel.setProduct(productDetailModel);
+                            double width = Double.parseDouble(etWidthP.getText().toString());
+                            double height = Double.parseDouble(etWidthP.getText().toString());
+                            double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
+                            orderLineDetailModel.setPropertyWidth(width);
+                            orderLineDetailModel.setPropertyHeight(height);
+                            orderLineDetailModel.setUnitPrice(unitPrice);
+                            orderLines.add(orderLineDetailModel);
+                        }
+                    }
+
+                    if (parcaCount == orderLines.size()) {
+                        addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
+                        calculateOrderLine(addOrderLineDetailListModel);
+                    } else {
+                        StyleableToast.makeText(getActivity(),"Parçalardan biri eksik bilgi içeriyor",R.style.warn_toast_style).show();
+
+                    }
+
+
+                }
+
+
+            } else {
+
+                if (TextUtils.isEmpty(etWidth.getText().toString())) {
+                    etWidth.setError("Parça en giriniz!");
+                } else if (TextUtils.isEmpty(etHeight.getText().toString())) {
+                    etHeight.setError("Parça boy giriniz!");
+                }
+                if (TextUtils.isEmpty(etUnitPrice.getText().toString())) {
+                    etUnitPrice.setError("Birim fiyat giriniz!");
+                } else {
+                    OrderLineDetailModel orderLineDetailModel = new OrderLineDetailModel();
+                    orderLineDetailModel.setProduct(productDetailModel);
+                    double width = Double.parseDouble(etWidth.getText().toString());
+                    double height = Double.parseDouble(etHeight.getText().toString());
+                    double unitPrice = Double.parseDouble(etUnitPrice.getText().toString());
+                    orderLineDetailModel.setPropertyWidth(width);
+                    orderLineDetailModel.setPropertyHeight(height);
+                    orderLineDetailModel.setUnitPrice(unitPrice);
+                    orderLines.add(orderLineDetailModel);
+                    addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
+                    calculateOrderLine(addOrderLineDetailListModel);
+
+                }
+
             }
 
         }
+    }
+
+    public void showDialog(DialogFragment dialogFragment , String fragmentTag){
+        dialogFragment.show(getFragmentManager(),fragmentTag);
     }
 
     @Override
     public void calculateOrderLine(AddOrderLineDetailListModel orderLineDetailListModel) {
-        String sessionId=getSessionIdFromPref();
-        mAddOrderLinePresenter.calculateOrderLine(orderLineDetailListModel,sessionId);
+        String sessionId = getSessionIdFromPref();
+        mAddOrderLinePresenter.calculateOrderLine(orderLineDetailListModel, sessionId);
     }
 
     @Override
@@ -220,23 +443,17 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
 
     @Override
     public String getSessionIdFromPref() {
-        String xAuthToken=sharedPreferenceHelper.getStringPreference("sessionId",null);
+        String xAuthToken = sharedPreferenceHelper.getStringPreference("sessionId", null);
         return xAuthToken;
     }
 
-
     @Override
     public void updateAmount(CalculationResponse calculationResponse) {
-        double totalM2=calculationResponse.getUsedMaterial();
-        double totalPrice=calculationResponse.getTotalAmount();
-        tvTotalM2.setText(String.format("%.2f",totalM2)+" m2");
-        tvTotalPrice.setText(String.format("%.2f", totalPrice)+" TL");
+        double totalM2 = calculationResponse.getUsedMaterial();
+        double totalPrice = calculationResponse.getTotalAmount();
 
-    }
-
-    @Override
-    public void navigateLogin() {
-        startActivity(new Intent(getActivity(), LoginActivity.class));
+        tvStorM2.setText(String.format("%.2f", totalM2) + " m2");
+        tvTotalPrice.setText(String.format("%.2f", totalPrice) + " TL");
     }
 
     @Override
@@ -244,5 +461,23 @@ public class JalouiseCurtain extends DialogFragment implements View.OnClickListe
         super.onDestroy();
         mAddOrderLinePresenter.onDestroyCalculate();
     }
-}
 
+
+
+    @Override
+    public void navigateLogin() {
+        startActivity(new Intent(getActivity(), LoginActivity.class));
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+}

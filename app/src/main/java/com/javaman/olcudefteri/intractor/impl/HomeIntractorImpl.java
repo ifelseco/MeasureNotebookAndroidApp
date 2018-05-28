@@ -65,9 +65,7 @@ public class HomeIntractorImpl implements HomeIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
-                            Log.e("FBase RegId Send Error",jObjError.getJSONObject("baseModel").getString("responseMessage"));
-                        }else if(jObjError.getString("responseMessage")!=null){
+                        if(jObjError.getString("responseMessage")!=null){
                             Log.e("FBase RegId Send Error:",jObjError.getString("responseMessage"));
                         }
                         else{
@@ -149,7 +147,7 @@ public class HomeIntractorImpl implements HomeIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureGetNotification("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
                             listener.onFailureGetNotification("Bir hata oluştu : "+jObjError.getString("message"));
@@ -220,9 +218,7 @@ public class HomeIntractorImpl implements HomeIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
-                            listener.onFailureDelete("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
-                        }else if(jObjError.getString("responseMessage")!=null){
+                        if(jObjError.getString("responseMessage")!=null){
                             listener.onFailureDelete("Bir hata oluştu : "+jObjError.getString("responseMessage"));
                         }
                         else{
@@ -289,9 +285,7 @@ public class HomeIntractorImpl implements HomeIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
-                            listener.onFailureDelete("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
-                        }else if(jObjError.getString("responseMessage")!=null){
+                        if(jObjError.getString("responseMessage")!=null){
                             listener.onFailureDelete("Bir hata oluştu : "+jObjError.getString("responseMessage"));
                         }else{
                             listener.onFailureDelete("Bir hata oluştu : "+jObjError.getString("message"));
@@ -361,7 +355,7 @@ public class HomeIntractorImpl implements HomeIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailure("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
                             listener.onFailure("Bir hata oluştu : "+jObjError.getString("message"));

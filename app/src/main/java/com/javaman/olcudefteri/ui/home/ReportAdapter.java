@@ -2,6 +2,7 @@ package com.javaman.olcudefteri.ui.home;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -72,7 +73,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
 
     }
 
-    public class ReportViewHolder extends RecyclerView.ViewHolder {
+    public class ReportViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.tv_order_number)
         TextView tvOrderNumber;
@@ -110,10 +111,14 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
         @BindView(R.id.linear_layout_order_date)
         LinearLayout linearLayoutOrderDate;
 
+        @BindView(R.id.card_report_order_item)
+        CardView cardViewReportOrderItem;
+
 
         public ReportViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            cardViewReportOrderItem.setOnClickListener(this);
         }
 
         public void bind(OrderDetailModel orderDetailModel, int position) {
@@ -210,6 +215,14 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.ReportView
 
             }else{
                 return "";
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            OrderDetailModel orderDetailModel=(OrderDetailModel)itemView.getTag();
+            if(v.getId()==R.id.card_report_order_item){
+                dashboardOrderDialog.gotoOrderDetail(orderDetailModel.getId());
             }
         }
     }

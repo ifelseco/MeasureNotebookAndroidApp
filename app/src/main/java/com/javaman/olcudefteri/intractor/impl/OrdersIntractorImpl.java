@@ -74,7 +74,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureGetOrders("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
                             listener.onFailureGetOrders("Bir hata oluştu : "+jObjError.getString("message"));
@@ -154,7 +154,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureDeleteOrders("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else if(jObjError.getString("responseMessage")!=null){
                             listener.onFailureDeleteOrders("Bir hata oluştu : "+jObjError.getString("responseMessage"));
@@ -228,7 +228,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureGetFilterOrders("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"),orderStatus);
                         }else{
                             listener.onFailureGetFilterOrders("Bir hata oluştu : "+jObjError.getString("message"),orderStatus);
@@ -305,7 +305,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureGetTailorFilterOrders("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
                             listener.onFailureGetTailorFilterOrders("Bir hata oluştu : "+jObjError.getString("message"));
@@ -377,7 +377,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureUpdateOrder("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else if(jObjError.getString("responseMessage")!=null){
                             listener.onFailureUpdateOrder("Bir hata oluştu : "+jObjError.getString("responseMessage"));
@@ -450,7 +450,7 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     try {
                         String errorBody=response.errorBody().string();
                         JSONObject jObjError = new JSONObject(errorBody);
-                        if(jObjError.get("baseModel")!=null){
+                        if(jObjError.has("baseModel")){
                             listener.onFailureSearchOder("Bir hata oluştu : "+jObjError.getJSONObject("baseModel").getString("responseMessage"));
                         }else{
                             listener.onFailureSearchOder("Bir hata oluştu : "+jObjError.getString("message"));

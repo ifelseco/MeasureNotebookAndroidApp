@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/item_home"
+        android:title="Anasayfa"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:iconTint="#ffffff"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/item_add"
         android:title="Sil"
-        android:icon="@drawable/ic_add_circle_black_24dp"
+        android:icon="@drawable/fab_add"
         android:iconTint="#ffffff"
         app:showAsAction="always" />
 
