@@ -7,11 +7,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.model.NotificationDetailModel;
+import com.javaman.olcudefteri.model.OrderDetailModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,7 +70,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         notifyDataSetChanged();
     }
 
-    public class NotificationViewHolder extends RecyclerView.ViewHolder {
+    public class NotificationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.notification_title)
         TextView tvNotfTitle;
@@ -85,7 +87,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         @BindView(R.id.notification_item_bg)
         RelativeLayout relativeLayoutBackground;
 
-
+        @BindView(R.id.frame_layout_notf)
+        FrameLayout frameLayoutNotf;
 
 
 
@@ -94,6 +97,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         public NotificationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            frameLayoutNotf.setOnClickListener(this);
         }
 
         public void bind(NotificationDetailModel notificationDetailModel, int position) {
@@ -143,6 +147,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
 
 
+        }
+
+        @Override
+        public void onClick(View v) {
+            NotificationDetailModel notificationDetailModel=(NotificationDetailModel)itemView.getTag();
+            if(v.getId()==R.id.frame_layout_notf){
+                mHomeNotificationFragment.gotoOrder(notificationDetailModel.getData());
+            }
         }
     }
 }

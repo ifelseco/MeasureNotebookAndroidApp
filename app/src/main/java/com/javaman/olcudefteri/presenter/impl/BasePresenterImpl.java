@@ -48,6 +48,7 @@ public class BasePresenterImpl implements BasePresenter,BaseIntractor.onBaseProc
             mBaseViev.hideProgress();
             mBaseViev.removeKeyFromPref("sessionId");
             mBaseViev.removeKeyFromPref("lastActivity");
+            mBaseViev.removeKeyFromPref("notf-count");
             mBaseViev.showAlert(message,true);
 
             new Handler().postDelayed(new Runnable() {

@@ -1,5 +1,6 @@
 package com.javaman.olcudefteri.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.model.NotificationDetailModel;
 import com.javaman.olcudefteri.model.NotificationSummaryModel;
+import com.javaman.olcudefteri.ui.orders.OrderDetailActivity;
 import com.javaman.olcudefteri.ui.tailor.TailorHomeActivity;
 import com.javaman.olcudefteri.utill.MyUtil;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -194,6 +196,16 @@ public class HomeNotificationFragment extends Fragment implements RecyclerItemTo
             ((TailorHomeActivity)getActivity()).getNotificationFragment();
         }else{
             ((HomeActivity)getActivity()).getNotificationFragment();
+        }
+    }
+
+    public void gotoOrder(String id) {
+        if(isTailor){
+
+        }else{
+            Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+            intent.putExtra(OrderDetailActivity.ARG_CURRENT_ORDER , Long.parseLong(id));
+            getActivity().startActivity(intent);
         }
     }
 }

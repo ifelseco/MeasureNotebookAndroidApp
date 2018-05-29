@@ -32,111 +32,52 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
 
     @Override
     public void addNewCustomer(AddCustomerModel addCustomerModel, String headerData, final onSendCustomerListener listener) {
+        String nameSurname = addCustomerModel.getCustomerDetailModel().getNameSurname();
+        String fixedPhone = addCustomerModel.getCustomerDetailModel().getFixedPhone();
+        String mobilePhone = addCustomerModel.getCustomerDetailModel().getMobilePhone();
 
-        if (TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getNameSurname())) {
+        if (TextUtils.isEmpty(nameSurname)) {
             listener.onNameEmptyError();
-        } else if (TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getMobilePhone()) &&
-                TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getFixedPhone())) {
+        } else if (twoPhoneExist(fixedPhone, mobilePhone)) {
+            if (validatePhoneNumber(fixedPhone) && !validatePhoneNumber(mobilePhone)) {
+                listener.onPhoneFormatError(true, false);
+            } else if (!validatePhoneNumber(fixedPhone) && !validatePhoneNumber(mobilePhone)) {
+                listener.onPhoneFormatError(true, true);
+            } else if (!validatePhoneNumber(fixedPhone) && validatePhoneNumber(mobilePhone)) {
+                listener.onPhoneFormatError(false, true);
+            } else {
+
+                sendCustomer(headerData,addCustomerModel,listener);
+            }
+        }else if(twoPhoneNotExist(fixedPhone,mobilePhone)){
             listener.onPhoneEmptyError();
-        } else if (!TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getMobilePhone()) && !TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getFixedPhone())) {
-                if(addCustomerModel.getCustomerDetailModel().getMobilePhone().length()!=11 && addCustomerModel.getCustomerDetailModel().getFixedPhone().length()!=11){
-                    listener.onPhoneFormatError(true,true);
-                }else if(addCustomerModel.getCustomerDetailModel().getMobilePhone().length()!=11 && addCustomerModel.getCustomerDetailModel().getFixedPhone().length()==11){
-                    listener.onPhoneFormatError(true,false);
-                }else if(addCustomerModel.getCustomerDetailModel().getMobilePhone().length()==11 && addCustomerModel.getCustomerDetailModel().getFixedPhone().length()!=11){
-                    listener.onPhoneFormatError(false,true);
-                }else{
-                    listener.onPhoneFormatError(false,false);
-                }
+        } else{
+            String existingPhone=findExistingPhone(fixedPhone,mobilePhone);
 
-        } else if (!TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getMobilePhone()) && TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getFixedPhone())) {
-
-            if(addCustomerModel.getCustomerDetailModel().getMobilePhone().length()!=11){
-                listener.onPhoneFormatError(true,false);
-            }else{
-                listener.onPhoneFormatError(false,false);
+            if(existingPhone.equals(fixedPhone)){
+             if(validatePhoneNumber(existingPhone)){
+                 sendCustomer(headerData,addCustomerModel,listener);
+             }else{
+                 listener.onPhoneFormatError(false,true);
+             }
+            }else if(existingPhone.equals(mobilePhone)){
+               if(validatePhoneNumber(existingPhone)){
+                   sendCustomer(headerData,addCustomerModel,listener);
+               }else{
+                   listener.onPhoneFormatError(true,false);
+               }
             }
-
-        } else if (TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getMobilePhone()) && !TextUtils.isEmpty(addCustomerModel.getCustomerDetailModel().getFixedPhone())) {
-            if(addCustomerModel.getCustomerDetailModel().getFixedPhone().length()!=11){
-                listener.onPhoneFormatError(false,true);
-            }else{
-                listener.onPhoneFormatError(false,false);
-            }
-        } else {
-            customerService = ApiClient.getClient().create(CustomerService.class);
-            String xAuthToken = headerData;
-            Call<AddCustomerResponse> addCustomerResponse = customerService.addCustomer(xAuthToken, addCustomerModel);
-            addCustomerResponse.enqueue(new Callback<AddCustomerResponse>() {
-                @Override
-                public void onResponse(Call<AddCustomerResponse> call, Response<AddCustomerResponse> response) {
-
-                    //request servera ulaştı ve herhangi bir response döndü
-
-                    if (response.isSuccessful()) {
-                        //response [200 ,300) aralığında ise
-                        AddCustomerResponse addCustomerResponse = response.body();
-                        listener.onSuccess(addCustomerResponse);
-                        Log.d("Response body", response.body().toString());
-                        Log.d("Auth response:", addCustomerResponse.toString());
-                    } else if (response.code() == 401) {
-                        String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
-                        listener.onFailure(message);
-                        listener.navigateToLogin();
-                    } else if (response.code() == 503) {
-                        String message = "Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
-                        listener.onFailure(message);
-                    } else {
-
-                        try {
-                            String errorBody = response.errorBody().string();
-                            JSONObject jObjError = new JSONObject(errorBody);
-                            if (jObjError.has("baseModel")) {
-                                listener.onFailure("Bir hata oluştu : " + jObjError.getJSONObject("baseModel").getString("responseMessage"));
-                            } else {
-                                listener.onFailure("Bir hata oluştu : " + jObjError.getString("message"));
-                            }
-
-                        } catch (Exception e) {
-                            listener.onFailure("Beklenmedik hata : " + e.getMessage() + "\n" + response.message());
-                        }
-
-
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Call<AddCustomerResponse> call, Throwable t) {
-
-                    //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
-
-                    if (t instanceof HttpException) {
-
-                        Gson gson = new GsonBuilder().create();
-
-                        try {
-
-                            String errorBody = ((HttpException) t).response().errorBody().string();
-                            ApiError apiError = gson.fromJson(errorBody, ApiError.class);
-
-                            Log.d("Request Error :", apiError.getStatus() + " " + apiError.getMessage());
-                            listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
-
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            listener.onFailure("Beklenmedik hata..." + e.getMessage());
-                        }
-                    } else {
-
-                        listener.onFailure("Ağ hatası : " + t.getMessage());
-                    }
-
-
-                }
-            });
         }
     }
+
+    private boolean twoPhoneNotExist(String fixedPhone, String mobilePhone) {
+        if (TextUtils.isEmpty(fixedPhone) && TextUtils.isEmpty(mobilePhone)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     public void addOrderToCustomer(AddCustomerModel addCustomerModel, String headerData, onSendCustomerListener listener) {
@@ -213,5 +154,106 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
         });
     }
 
+    //http service codes
+    private void sendCustomer(String headerData,AddCustomerModel addCustomerModel,onSendCustomerListener listener) {
+        customerService = ApiClient.getClient().create(CustomerService.class);
+        String xAuthToken = headerData;
+        Call<AddCustomerResponse> addCustomerResponse = customerService.addCustomer(xAuthToken, addCustomerModel);
+        addCustomerResponse.enqueue(new Callback<AddCustomerResponse>() {
+            @Override
+            public void onResponse(Call<AddCustomerResponse> call, Response<AddCustomerResponse> response) {
 
+                //request servera ulaştı ve herhangi bir response döndü
+
+                if (response.isSuccessful()) {
+                    //response [200 ,300) aralığında ise
+                    AddCustomerResponse addCustomerResponse = response.body();
+                    listener.onSuccess(addCustomerResponse);
+                    Log.d("Response body", response.body().toString());
+                    Log.d("Auth response:", addCustomerResponse.toString());
+                } else if (response.code() == 401) {
+                    String message = "Oturum zaman aşımına uğradı ,tekrar giriş yapınız!";
+                    listener.onFailure(message);
+                    listener.navigateToLogin();
+                } else if (response.code() == 503) {
+                    String message = "Servis şuanda çalışmıyor, daha sonra tekrar deneyiniz.";
+                    listener.onFailure(message);
+                } else {
+
+                    try {
+                        String errorBody = response.errorBody().string();
+                        JSONObject jObjError = new JSONObject(errorBody);
+                        if (jObjError.has("baseModel")) {
+                            listener.onFailure("Bir hata oluştu : " + jObjError.getJSONObject("baseModel").getString("responseMessage"));
+                        } else {
+                            listener.onFailure("Bir hata oluştu : " + jObjError.getString("message"));
+                        }
+
+                    } catch (Exception e) {
+                        listener.onFailure("Beklenmedik hata : " + e.getMessage() + "\n" + response.message());
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<AddCustomerResponse> call, Throwable t) {
+
+                //request servera ulaşamadı yada request oluşurken herhangi bir exception oluştu
+
+                if (t instanceof HttpException) {
+
+                    Gson gson = new GsonBuilder().create();
+
+                    try {
+
+                        String errorBody = ((HttpException) t).response().errorBody().string();
+                        ApiError apiError = gson.fromJson(errorBody, ApiError.class);
+
+                        Log.d("Request Error :", apiError.getStatus() + " " + apiError.getMessage());
+                        listener.onFailure(apiError.getStatus() + " " + apiError.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        listener.onFailure("Beklenmedik hata..." + e.getMessage());
+                    }
+                } else {
+
+                    listener.onFailure("Ağ hatası : " + t.getMessage());
+                }
+
+
+            }
+        });
+    }
+
+    private String findExistingPhone(String fixedPhone, String mobilePhone) {
+        if(!fixedPhone.isEmpty()){
+            return fixedPhone;
+        }else {
+            return mobilePhone;
+        }
+    }
+
+    private boolean validatePhoneNumber(String phone) {
+        if (phone.length() == 11) {
+            if (phone.matches("[0-9]+")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private boolean twoPhoneExist(String fixedPhone, String mobilePhone) {
+        if (TextUtils.isEmpty(fixedPhone) && TextUtils.isEmpty(mobilePhone)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
