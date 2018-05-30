@@ -15,7 +15,6 @@
         <item name="cardViewStyle">@style/CardView</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
 
-
     </style>
 
 
@@ -33,8 +32,6 @@
     </style>
 
     <style name="App_EditTextStyle" parent="@android:style/Widget.EditText">
-        <!--<item name="colorControlNormal">?android:textColorHint</item>
-        <item name="colorControlActivated">@color/colorControlActivated</item>-->
         <item name="android:textSize">15sp</item>
     </style>
 
@@ -64,7 +61,7 @@
         <item name="textColor">#fff</item>
         <item name="font">@font/roboto_regular</item>
         <item name="textSize">14sp</item>
-        <item name="colorBackground">@color/secondaryColor</item>
+        <item name="colorBackground">@color/primaryLightColor</item>
         <item name="solidBackground">true</item>
         <item name="iconStart">@drawable/ic_error_black_24dp</item>
         <item name="length">SHORT</item>
