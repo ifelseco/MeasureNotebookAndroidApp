@@ -18,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -146,10 +145,10 @@ public class AddOrderActivity extends AppCompatActivity
         ahBottomNavigation.addItem(item_add_order);
         ahBottomNavigation.addItem(item_customer);
         ahBottomNavigation.addItem(item_notification);
-        ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
-        ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
-        ahBottomNavigation.setInactiveColor(fetchColor(R.color.primaryDarkColor));
-        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.secondaryDarkColor));
+        ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.colorBottomNavBackground));
+        ahBottomNavigation.setAccentColor(fetchColor(R.color.colorBottomNavActive));
+        ahBottomNavigation.setInactiveColor(fetchColor(R.color.colorBottomNavInactive));
+        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.colorBottomNavNotification));
         ahBottomNavigation.setCurrentItem(2);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);

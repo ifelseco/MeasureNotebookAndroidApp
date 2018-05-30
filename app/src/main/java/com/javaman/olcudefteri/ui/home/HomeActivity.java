@@ -169,10 +169,10 @@ public class HomeActivity extends AppCompatActivity
         ahBottomNavigation.addItem(item_add_order);
         ahBottomNavigation.addItem(item_customer);
         ahBottomNavigation.addItem(item_notification);
-        ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
-        ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
-        ahBottomNavigation.setInactiveColor(fetchColor(R.color.primaryDarkColor));
-        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.secondaryDarkColor));
+        ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.colorBottomNavBackground));
+        ahBottomNavigation.setAccentColor(fetchColor(R.color.colorBottomNavActive));
+        ahBottomNavigation.setInactiveColor(fetchColor(R.color.colorBottomNavInactive));
+        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.colorBottomNavNotification));
         ahBottomNavigation.setCurrentItem(0);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);

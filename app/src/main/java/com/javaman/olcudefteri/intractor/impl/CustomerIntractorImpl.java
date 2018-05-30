@@ -2,12 +2,13 @@ package com.javaman.olcudefteri.intractor.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.javaman.olcudefteri.api.ApiClient;
+import com.javaman.olcudefteri.utill.ApiClient;
 import com.javaman.olcudefteri.intractor.CustomerIntractor;
 import com.javaman.olcudefteri.model.ApiError;
 import com.javaman.olcudefteri.model.CustomerSummaryModel;
 import com.javaman.olcudefteri.model.OrderSummaryModel;
 import com.javaman.olcudefteri.service.CustomerService;
+import com.javaman.olcudefteri.utill.NoConnectivityException;
 
 import org.json.JSONObject;
 
@@ -77,7 +78,10 @@ public class CustomerIntractorImpl implements CustomerIntractor {
                         e.printStackTrace();
                         listener.onFailureSearchCustomer("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureSearchCustomer("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureSearchCustomer("Ağ hatası : " + t.getMessage());
                 }
@@ -141,7 +145,10 @@ public class CustomerIntractorImpl implements CustomerIntractor {
                         e.printStackTrace();
                         listener.onFailureCustomnerOrders("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureCustomnerOrders("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureCustomnerOrders("Ağ hatası : " + t.getMessage());
                 }

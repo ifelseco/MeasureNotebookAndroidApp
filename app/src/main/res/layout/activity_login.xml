@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryColor"
+    android:background="@color/primaryLightColor"
     tools:context=".ui.login.LoginActivity">
 
 
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:cursorVisible="true"
-                android:textCursorDrawable="@color/primaryDarkColor"
+                android:textCursorDrawable="@android:color/white"
                 android:padding="20dp"
                 android:background="@drawable/edittext_border_bg_primary"
                 android:gravity="center|left|bottom"
@@ -60,7 +60,7 @@
                 android:layout_margin="10dp"
                 android:padding="20dp"
                 android:cursorVisible="true"
-                android:textCursorDrawable="@color/primaryDarkColor"
+                android:textCursorDrawable="@android:color/white"
                 android:gravity="center|left|bottom"
                 android:background="@drawable/edittext_border_bg_primary"
                 android:hint="@string/password_text"

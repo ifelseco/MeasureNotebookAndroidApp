@@ -233,10 +233,10 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
         ahBottomNavigation.addItem(item_processing);
         ahBottomNavigation.addItem(item_processed);
         ahBottomNavigation.addItem(item_notification);
-        ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
-        ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
-        ahBottomNavigation.setInactiveColor(fetchColor(R.color.primaryDarkColor));
-        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.secondaryDarkColor));
+        ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.colorBottomNavBackground));
+        ahBottomNavigation.setAccentColor(fetchColor(R.color.colorBottomNavActive));
+        ahBottomNavigation.setInactiveColor(fetchColor(R.color.colorBottomNavInactive));
+        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.colorBottomNavNotification));
         ahBottomNavigation.setCurrentItem(0);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         if(notfCount>0){

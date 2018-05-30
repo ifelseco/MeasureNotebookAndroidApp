@@ -6,12 +6,13 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.javaman.olcudefteri.api.ApiClient;
+import com.javaman.olcudefteri.utill.ApiClient;
 import com.javaman.olcudefteri.intractor.LoginIntractor;
 import com.javaman.olcudefteri.service.LoginService;
 import com.javaman.olcudefteri.model.ApiError;
 import com.javaman.olcudefteri.utill.ApiUtils;
 import com.javaman.olcudefteri.model.AuthResponse;
+import com.javaman.olcudefteri.utill.NoConnectivityException;
 
 import org.json.JSONObject;
 
@@ -119,7 +120,10 @@ public class LoginIntractorImpl implements LoginIntractor {
                             e.printStackTrace();
                             listener.onFailure("Beklenmedik hata..." + e.getMessage());
                         }
-                    } else {
+                    }else if (t instanceof NoConnectivityException) {
+                        listener.onFailure("İnternet bağlantısı yok.");
+                    }
+                    else {
 
                         listener.onFailure("Ağ hatası : " + t.getMessage());
                     }

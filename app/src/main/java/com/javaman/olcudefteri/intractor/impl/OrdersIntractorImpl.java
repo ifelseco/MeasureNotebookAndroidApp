@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.javaman.olcudefteri.api.ApiClient;
+import com.javaman.olcudefteri.utill.ApiClient;
 import com.javaman.olcudefteri.intractor.OrdersIntractor;
 import com.javaman.olcudefteri.model.OrderUpdateModel;
 import com.javaman.olcudefteri.model.OrdersDeleteModel;
@@ -16,6 +16,7 @@ import com.javaman.olcudefteri.model.OrderSummaryModel;
 import com.javaman.olcudefteri.model.OrderSummaryPageReponseModel;
 import com.javaman.olcudefteri.service.OrderService;
 import com.javaman.olcudefteri.service.OrdersService;
+import com.javaman.olcudefteri.utill.NoConnectivityException;
 
 import org.json.JSONObject;
 
@@ -108,7 +109,10 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                         listener.onFailureGetOrders("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureGetOrders("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureGetOrders("Ağ hatası : " + t.getMessage()+t.getClass());
                 }
@@ -191,7 +195,10 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                     listener.onFailureDeleteOrders("Beklenmedik hata..." + e.getMessage());
 
                 }
-            } else {
+            }else if (t instanceof NoConnectivityException) {
+                listener.onFailureDeleteOrders("İnternet bağlantısı yok.");
+            }
+            else {
 
                 listener.onFailureDeleteOrders("Ağ hatası : " + t.getMessage());
             }
@@ -263,7 +270,10 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                         listener.onFailureGetFilterOrders("Beklenmedik hata..." + e.getMessage(),orderStatus);
 
                     }
-                } else {
+                } else if (t instanceof NoConnectivityException) {
+                    listener.onFailureGetFilterOrders("İnternet bağlantısı yok.",orderStatus);
+                }
+                else {
 
                     listener.onFailureGetFilterOrders("Ağ hatası : " + t.getMessage()+t.getClass(),orderStatus);
                 }
@@ -339,7 +349,10 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                         listener.onFailureGetTailorFilterOrders("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureGetTailorFilterOrders("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureGetTailorFilterOrders("Ağ hatası : " + t.getMessage()+t.getClass());
                 }
@@ -413,7 +426,10 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                         e.printStackTrace();
                         listener.onFailureUpdateOrder("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureUpdateOrder("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureUpdateOrder("Ağ hatası : " + t.getMessage());
                 }
@@ -484,7 +500,10 @@ public class OrdersIntractorImpl implements OrdersIntractor {
                         listener.onFailureSearchOder("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureSearchOder("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureSearchOder("Ağ hatası : " + t.getMessage()+t.getClass());
                 }

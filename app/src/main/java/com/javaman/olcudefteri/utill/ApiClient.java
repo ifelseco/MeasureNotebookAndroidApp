@@ -1,4 +1,4 @@
-package com.javaman.olcudefteri.api;
+package com.javaman.olcudefteri.utill;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,6 +6,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
+import com.javaman.olcudefteri.MeasureNotebookApp;
 import com.javaman.olcudefteri.utill.ApiUtils;
 
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class ApiClient {
                 .readTimeout(30,TimeUnit.SECONDS)
                 .writeTimeout(15,TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
+                .addInterceptor(new ConnectivityInterceptor(MeasureNotebookApp.getContext()))
                 .build();
 
         GsonBuilder builder = new GsonBuilder();

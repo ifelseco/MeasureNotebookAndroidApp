@@ -13,18 +13,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
-import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
-import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -48,7 +45,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemSelected;
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class OrdersActivity extends AppCompatActivity
         implements OrdersView,
@@ -149,13 +145,13 @@ public class OrdersActivity extends AppCompatActivity
         ahBottomNavigation.addItem(item_add_order);
         ahBottomNavigation.addItem(item_customer);
         ahBottomNavigation.addItem(item_notification);
-        ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.secondaryTextColor));
-        ahBottomNavigation.setAccentColor(fetchColor(R.color.secondaryDarkColor));
-        ahBottomNavigation.setInactiveColor(fetchColor(R.color.primaryDarkColor));
+        ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.colorBottomNavBackground));
+        ahBottomNavigation.setAccentColor(fetchColor(R.color.colorBottomNavActive));
+        ahBottomNavigation.setInactiveColor(fetchColor(R.color.colorBottomNavInactive));
+        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.colorBottomNavNotification));
         ahBottomNavigation.setCurrentItem(1);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-        ahBottomNavigation.setNotificationBackgroundColor(fetchColor(R.color.secondaryDarkColor));
         if(notfCount>0){
             ahBottomNavigation.setNotification(""+notfCount,4);
         }

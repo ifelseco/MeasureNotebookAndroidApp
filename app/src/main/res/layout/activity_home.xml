@@ -38,12 +38,12 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/primaryColor"
+        android:background="@color/primaryTextColor"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_home"
         app:menu="@menu/activity_home_drawer"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white" />
+        app:itemIconTint="@android:color/black"
+        app:itemTextColor="@android:color/black" />
 
 
 </android.support.v4.widget.DrawerLayout>

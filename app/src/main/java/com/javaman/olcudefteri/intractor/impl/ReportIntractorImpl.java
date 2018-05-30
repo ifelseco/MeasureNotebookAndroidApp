@@ -4,13 +4,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.javaman.olcudefteri.api.ApiClient;
+import com.javaman.olcudefteri.utill.ApiClient;
 import com.javaman.olcudefteri.intractor.ReportIntractor;
 import com.javaman.olcudefteri.model.ApiError;
 import com.javaman.olcudefteri.model.OrderSummaryModel;
-import com.javaman.olcudefteri.model.OrderSummaryPageReponseModel;
-import com.javaman.olcudefteri.service.OrdersService;
 import com.javaman.olcudefteri.service.ReportService;
+import com.javaman.olcudefteri.utill.NoConnectivityException;
 
 import org.json.JSONObject;
 
@@ -89,7 +88,10 @@ public class ReportIntractorImpl implements ReportIntractor {
                         listener.onFailure("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailure("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailure("Ağ hatası : " + t.getMessage()+t.getClass());
                 }
@@ -162,7 +164,10 @@ public class ReportIntractorImpl implements ReportIntractor {
                         listener.onFailure("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailure("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailure("Ağ hatası : " + t.getMessage()+t.getClass());
                 }
@@ -235,7 +240,10 @@ public class ReportIntractorImpl implements ReportIntractor {
                         listener.onFailure("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailure("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailure("Ağ hatası : " + t.getMessage()+t.getClass());
                 }

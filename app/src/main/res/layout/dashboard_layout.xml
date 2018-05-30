@@ -32,7 +32,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/cerclebackgroundprimary"
                 android:padding="10dp"
-                android:tint="@color/secondaryLightColor"
+                android:tint="@color/primaryTextColor"
                 app:srcCompat="@drawable/ic_date_range_black_24dp" />
 
             <TextView
@@ -71,7 +71,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/cerclebackgroundprimary"
                 android:padding="10dp"
-                android:tint="@color/secondaryLightColor"
+                android:tint="@color/primaryTextColor"
                 app:srcCompat="@drawable/ic_measure" />
 
             <TextView
@@ -111,7 +111,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/cerclebackgroundprimary"
                 android:padding="10dp"
-                android:tint="@color/secondaryLightColor"
+                android:tint="@color/primaryTextColor"
                 app:srcCompat="@drawable/ic_receipt_black_24dp" />
 
             <TextView

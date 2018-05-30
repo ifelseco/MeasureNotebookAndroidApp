@@ -3,36 +3,48 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp"
-    android:padding="10dp"
+    android:layout_margin="20dp"
+    android:padding="20dp"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_new_customer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:backgroundTint="@color/primaryDarkColor"
-        android:text="Yeni Müşteri"
-        android:textColor="@android:color/white"/>
-
-    <Button
-        android:id="@+id/btn_saved_customer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:backgroundTint="@color/secondaryColor"
-        android:text="Kayıtlı Müşteri"
-        android:textColor="@android:color/black"/>
-
-    <Button
+    <ImageButton
         android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_weight="1"
+        android:text="Vazgeç"
+        android:background="@null"
+        android:tint="@color/primaryDarkColor"
+        android:src="@drawable/ic_dialog_close_dark"
+        android:textColor="@android:color/white"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:backgroundTint="@android:color/holo_red_light"
-        android:text="Vazgeç"
-        android:textColor="@android:color/white"/>
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_new_customer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/primaryLightColor"
+            android:text="Yeni Müşteri"
+            android:textColor="@android:color/black"/>
+
+        <Button
+            android:id="@+id/btn_saved_customer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/secondaryLightColor"
+            android:text="Kayıtlı Müşteri"
+            android:textColor="@android:color/black"/>
+    </LinearLayout>
+
+
 
 
 

@@ -4,16 +4,16 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.javaman.olcudefteri.api.ApiClient;
+import com.javaman.olcudefteri.utill.ApiClient;
 import com.javaman.olcudefteri.intractor.AddOrderLineIntractor;
 import com.javaman.olcudefteri.model.ApiError;
 import com.javaman.olcudefteri.model.AddOrderLineDetailListModel;
-import com.javaman.olcudefteri.model.DeleteOrderLinesModel;
 import com.javaman.olcudefteri.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.model.AddOrderLineListResponse;
 import com.javaman.olcudefteri.model.AddOrderLineResponse;
 import com.javaman.olcudefteri.model.CalculationResponse;
 import com.javaman.olcudefteri.service.OrderLineService;
+import com.javaman.olcudefteri.utill.NoConnectivityException;
 
 import org.json.JSONObject;
 
@@ -101,7 +101,10 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
                         e.printStackTrace();
                         listener.onFailureAddOrderLine("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureAddOrderLine("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureAddOrderLine("Ağ hatası : " + t.getMessage());
                 }
@@ -178,7 +181,10 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
                         e.printStackTrace();
                         listener.onFailureAddOrderLines("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureAddOrderLines("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureAddOrderLines("Ağ hatası : " + t.getMessage());
                 }
@@ -254,7 +260,10 @@ public class AddOrderLineIntractorImpl implements AddOrderLineIntractor {
                         e.printStackTrace();
                         listener.onFailureCalculateOrderLines("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureCalculateOrderLines("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureCalculateOrderLines("Ağ hatası : " + t.getMessage());
                 }

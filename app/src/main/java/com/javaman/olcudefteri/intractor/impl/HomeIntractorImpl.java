@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.javaman.olcudefteri.api.ApiClient;
+import com.javaman.olcudefteri.utill.ApiClient;
 import com.javaman.olcudefteri.intractor.HomeIntractor;
 import com.javaman.olcudefteri.model.ApiError;
 import com.javaman.olcudefteri.model.AppUtilInfoModel;
@@ -15,6 +15,7 @@ import com.javaman.olcudefteri.service.AppInfoService;
 import com.javaman.olcudefteri.service.NotificationService;
 import com.javaman.olcudefteri.model.FirebaseRegIdModel;
 import com.javaman.olcudefteri.service.FirebaseService;
+import com.javaman.olcudefteri.utill.NoConnectivityException;
 
 import org.json.JSONObject;
 
@@ -101,7 +102,8 @@ public class HomeIntractorImpl implements HomeIntractor {
                         e.printStackTrace();
                         //listener.onFailureGetOrderLines("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }
+                else {
 
                     //listener.onFailureGetOrderLines("Ağ hatası : " + t.getMessage());
                 }
@@ -179,7 +181,10 @@ public class HomeIntractorImpl implements HomeIntractor {
                         listener.onFailureGetNotification("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureGetNotification("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureGetNotification("Ağ hatası : " + t.getMessage());
                 }
@@ -250,7 +255,10 @@ public class HomeIntractorImpl implements HomeIntractor {
                         listener.onFailureDelete("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureDelete("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureDelete("Ağ hatası : " + t.getMessage());
                 }
@@ -318,7 +326,10 @@ public class HomeIntractorImpl implements HomeIntractor {
                         listener.onFailureDeleteAll("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureDeleteAll("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureDeleteAll("Ağ hatası : " + t.getMessage());
                 }
@@ -388,7 +399,10 @@ public class HomeIntractorImpl implements HomeIntractor {
                         listener.onFailure("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                } else if (t instanceof NoConnectivityException) {
+                    listener.onFailure("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailure("Ağ hatası : " + t.getMessage());
                 }

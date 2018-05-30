@@ -4,13 +4,14 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.javaman.olcudefteri.api.ApiClient;
+import com.javaman.olcudefteri.utill.ApiClient;
 
 import com.javaman.olcudefteri.intractor.BaseIntractor;
 import com.javaman.olcudefteri.model.ApiError;
 import com.javaman.olcudefteri.model.BaseModel;
 import com.javaman.olcudefteri.model.LoginUserModel;
 import com.javaman.olcudefteri.service.LoginService;
+import com.javaman.olcudefteri.utill.NoConnectivityException;
 
 import org.json.JSONObject;
 
@@ -96,7 +97,10 @@ public class BaseIntractorImpl implements BaseIntractor {
                         e.printStackTrace();
                         listener.onFailureLogout("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureLogout("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureLogout("Ağ hatası : " + t.getMessage());
                 }
@@ -180,7 +184,10 @@ public class BaseIntractorImpl implements BaseIntractor {
                         e.printStackTrace();
                         listener.onFailureCheckSession("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureCheckSession("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureCheckSession("Ağ hatası : " + t.getMessage());
                 }

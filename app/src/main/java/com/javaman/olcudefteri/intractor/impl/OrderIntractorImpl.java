@@ -4,12 +4,13 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.javaman.olcudefteri.api.ApiClient;
+import com.javaman.olcudefteri.utill.ApiClient;
 import com.javaman.olcudefteri.intractor.OrderIntractor;
 import com.javaman.olcudefteri.model.ApiError;
 import com.javaman.olcudefteri.model.BaseModel;
 import com.javaman.olcudefteri.model.OrderUpdateModel;
 import com.javaman.olcudefteri.service.OrderService;
+import com.javaman.olcudefteri.utill.NoConnectivityException;
 
 import org.json.JSONObject;
 
@@ -92,7 +93,10 @@ public class OrderIntractorImpl implements OrderIntractor {
                         e.printStackTrace();
                         listener.onFailureUpdateOrder("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureUpdateOrder("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureUpdateOrder("Ağ hatası : " + t.getMessage());
                 }
@@ -166,7 +170,10 @@ public class OrderIntractorImpl implements OrderIntractor {
                         listener.onFailureDeleteOrder("Beklenmedik hata..." + e.getMessage());
 
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailureDeleteOrder("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailureDeleteOrder("Ağ hatası : " + t.getMessage());
                 }

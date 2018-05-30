@@ -30,7 +30,7 @@ public class CustomerTypeDialog extends DialogFragment implements View.OnClickLi
     Button btnSavedCust;
 
     @BindView(R.id.btn_close)
-    Button buttonClose;
+    ImageButton buttonClose;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

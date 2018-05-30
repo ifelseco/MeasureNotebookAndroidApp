@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -49,7 +50,7 @@ public class MechanismDialog extends DialogFragment implements RadioGroup.OnChec
     Button btnSave;
 
     @BindView(R.id.btn_cancel)
-    Button btnCancel;
+    ImageButton btnCancel;
 
     @BindView(R.id.linear_layout_pices_count)
     LinearLayout linearLayoutPiecesCount;

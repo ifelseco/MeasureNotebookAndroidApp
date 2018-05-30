@@ -8,10 +8,11 @@ import com.google.gson.GsonBuilder;
 import com.javaman.olcudefteri.intractor.AddOrderIntractor;
 import com.javaman.olcudefteri.service.CustomerService;
 import com.javaman.olcudefteri.model.AddCustomerResponse;
-import com.javaman.olcudefteri.api.ApiClient;
+import com.javaman.olcudefteri.utill.ApiClient;
 import com.javaman.olcudefteri.model.ApiError;
 
 import com.javaman.olcudefteri.model.AddCustomerModel;
+import com.javaman.olcudefteri.utill.NoConnectivityException;
 
 import org.json.JSONObject;
 
@@ -38,7 +39,9 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
 
         if (TextUtils.isEmpty(nameSurname)) {
             listener.onNameEmptyError();
-        } else if (twoPhoneExist(fixedPhone, mobilePhone)) {
+        }else if(twoPhoneNotExist(fixedPhone,mobilePhone)){
+            listener.onPhoneEmptyError();
+        }else if (twoPhoneExist(fixedPhone, mobilePhone)) {
             if (validatePhoneNumber(fixedPhone) && !validatePhoneNumber(mobilePhone)) {
                 listener.onPhoneFormatError(true, false);
             } else if (!validatePhoneNumber(fixedPhone) && !validatePhoneNumber(mobilePhone)) {
@@ -49,9 +52,7 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
 
                 sendCustomer(headerData,addCustomerModel,listener);
             }
-        }else if(twoPhoneNotExist(fixedPhone,mobilePhone)){
-            listener.onPhoneEmptyError();
-        } else{
+        }else{
             String existingPhone=findExistingPhone(fixedPhone,mobilePhone);
 
             if(existingPhone.equals(fixedPhone)){
@@ -70,13 +71,7 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
         }
     }
 
-    private boolean twoPhoneNotExist(String fixedPhone, String mobilePhone) {
-        if (TextUtils.isEmpty(fixedPhone) && TextUtils.isEmpty(mobilePhone)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
 
     @Override
@@ -144,7 +139,10 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
                         e.printStackTrace();
                         listener.onFailure("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailure("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailure("Ağ hatası : " + t.getMessage());
                 }
@@ -219,7 +217,10 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
                         e.printStackTrace();
                         listener.onFailure("Beklenmedik hata..." + e.getMessage());
                     }
-                } else {
+                }else if (t instanceof NoConnectivityException) {
+                    listener.onFailure("İnternet bağlantısı yok.");
+                }
+                else {
 
                     listener.onFailure("Ağ hatası : " + t.getMessage());
                 }
@@ -250,6 +251,16 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
     }
 
     private boolean twoPhoneExist(String fixedPhone, String mobilePhone) {
+        if (TextUtils.isEmpty(fixedPhone) && TextUtils.isEmpty(mobilePhone)) {
+            return false;
+        } else if(!TextUtils.isEmpty(fixedPhone) && !TextUtils.isEmpty(mobilePhone)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private boolean twoPhoneNotExist(String fixedPhone, String mobilePhone) {
         if (TextUtils.isEmpty(fixedPhone) && TextUtils.isEmpty(mobilePhone)) {
             return true;
         } else {
