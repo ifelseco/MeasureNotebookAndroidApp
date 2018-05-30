@@ -20,8 +20,8 @@
         fab:menu_labels_colorNormal="#333333"
         fab:menu_labels_colorPressed="#444444"
         fab:menu_labels_colorRipple="#66FFFFFF"
-        fab:menu_colorNormal="#8BC34A"
-        fab:menu_colorPressed="#a1c183"
+        fab:menu_colorNormal="@color/primaryColor"
+        fab:menu_colorPressed="@color/primaryLightColor"
         fab:menu_colorRipple="#99FFFFFF"
         fab:menu_labels_showShadow="true"
         fab:menu_labels_maxLines="-1"
@@ -35,8 +35,8 @@
             android:id="@+id/fab_order_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="#8BC34A"
-            fab:fab_colorPressed="#a1c183"
+            fab:fab_colorNormal="@color/primaryColor"
+            fab:fab_colorPressed="@color/primaryLightColor"
             fab:fab_colorRipple="#99FFFFFF"
             android:src="@android:drawable/ic_menu_edit"
             fab:fab_label="Sipariş bilgilerini düzenle"
@@ -48,8 +48,8 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_edit"
             fab:fab_label="Müşteri bilgilerini düzenle"
-            fab:fab_colorNormal="#8BC34A"
-            fab:fab_colorPressed="#a1c183"
+            fab:fab_colorNormal="@color/primaryColor"
+            fab:fab_colorPressed="@color/primaryLightColor"
             fab:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini" />
 
@@ -59,8 +59,8 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_delete"
             fab:fab_label="Müşteri sil"
-            fab:fab_colorNormal="#8BC34A"
-            fab:fab_colorPressed="#a1c183"
+            fab:fab_colorNormal="@color/primaryColor"
+            fab:fab_colorPressed="@color/primaryLightColor"
             fab:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini" />
 
@@ -70,8 +70,8 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_add"
             fab:fab_label="Sipariş durumunu değiştir"
-            fab:fab_colorNormal="#8BC34A"
-            fab:fab_colorPressed="#a1c183"
+            fab:fab_colorNormal="@color/primaryColor"
+            fab:fab_colorPressed="@color/primaryLightColor"
             fab:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini" />
 
@@ -81,8 +81,8 @@
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_delete"
             fab:fab_label="Siparişi sil"
-            fab:fab_colorNormal="#8BC34A"
-            fab:fab_colorPressed="#a1c183"
+            fab:fab_colorNormal="@color/primaryColor"
+            fab:fab_colorPressed="@color/primaryLightColor"
             fab:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini" />
 

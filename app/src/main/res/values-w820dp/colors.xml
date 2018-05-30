@@ -9,14 +9,20 @@
     <color name="secondaryDarkColor">#c66800</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
-    <color name="colorButtonNormal">#7da453</color>
-    <color name="colorControlHighlight">#e1ffb1</color>
+
+    <color name="colorButtonNormal">@color/primaryDarkColor</color>
+    <color name="colorControlHighlight">@color/primaryLightColor</color>
+
     <color name="colorControlActivated">@color/primaryDarkColor</color>
     <color name="colorBottomNavBackground">@color/primaryColor</color>
     <color name="colorBottomNavInactive">@color/primaryTextColor</color>
     <color name="colorBottomNavActive">@color/secondaryColor</color>
     <color name="colorBottomNavNotification">@color/secondaryColor</color>
+    <color name="general_bg_lightblue">@color/lightBlue</color>
+    <color name="general_bg_lightgray">@color/lightgray</color>
 
+
+    <!--    custom color for order status etc..-->
     <color name="hintColor">#424242</color>
     <color name="lime">#CDDC39</color>
     <color name="lightBlue">#e1f5fe</color>
