@@ -2,6 +2,9 @@ package com.javaman.olcudefteri.ui.orders;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -203,32 +206,39 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             //renklendirme işlemleri yapılacak...
 
             if (order.getOrderStatus() == 0) {
-                tvOrderStatus.setText("Eksik Sipariş");
+                tvOrderStatus.setText("Eksik");
                 linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_gray);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_remove_circle_black_24dp);
+                imageViewOrderStatus.setColorFilter(ordersActivity.getResources().getColor(R.color.primaryTextColor));
 
             } else if (order.getOrderStatus() == 1) {
                 tvOrderStatus.setText("Ölçüye gidilecek");
-                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_light_green);
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_purple);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_measure);
+                imageViewOrderStatus.setColorFilter(ordersActivity.getResources().getColor(R.color.primaryTextColor));
             } else if (order.getOrderStatus() == 2) {
                 tvOrderStatus.setText("Sipariş kaydı alındı.");
-                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_green);
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_yellow);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_assignment_turned_in_black_24dp);
+                imageViewOrderStatus.setColorFilter(ordersActivity.getResources().getColor(R.color.primaryTextColor));
             } else if (order.getOrderStatus() == 3) {
-                tvOrderStatus.setText("Sipariş terzide.");
+                tvOrderStatus.setText("Terzide");
                 linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_pink);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_tailor);
+                imageViewOrderStatus.setColorFilter(ordersActivity.getResources().getColor(R.color.primaryTextColor));
             } else if (order.getOrderStatus() == 4) {
-                tvOrderStatus.setText("Terzi işlemi bitti");
-                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_purple);
+                tvOrderStatus.setText("Hazır");
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_green);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_check_circle_black_24dp);
+                imageViewOrderStatus.setColorFilter(ordersActivity.getResources().getColor(R.color.primaryTextColor));
             } else if (order.getOrderStatus() == 5) {
-                tvOrderStatus.setText("Sipariş teslim edildi");
-                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_yellow);
+                tvOrderStatus.setText("Teslim Edildi");
+                linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_primary);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_delivered);
+                imageViewOrderStatus.setColorFilter(ordersActivity.getResources().getColor(R.color.primaryTextColor));
             } else if (order.getOrderStatus() == 6) {
-                tvOrderStatus.setText("Sipariş teklifi.");
+                tvOrderStatus.setText("Teklif");
+                tvOrderStatus.setTextColor(ordersActivity.getResources().getColor(R.color.secondaryTextColor));
                 linearLayoutOrderStatus.setBackgroundResource(R.drawable.rectangle_background_lime);
                 imageViewOrderStatus.setImageResource(R.drawable.ic_local_offer_black_24dp);
             }

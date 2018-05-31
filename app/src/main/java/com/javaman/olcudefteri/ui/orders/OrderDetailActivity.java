@@ -1,6 +1,9 @@
 package com.javaman.olcudefteri.ui.orders;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -9,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +23,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
@@ -234,13 +239,16 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     public void initOrderFabMenu() {
         fabMenu.setVisibility(View.VISIBLE);
+        fabMenu.getMenuIconView().setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_assignment_black_24dp));
+        fabMenu.getMenuIconView().setColorFilter(this.getResources().getColor(R.color.primaryTextColor),PorterDuff.Mode.SRC_IN);
+
 
         fabCsutomerDelete.setVisibility(View.GONE);
         fabCustomerEdit.setVisibility(View.GONE);
         fabOrderDelete.setVisibility(View.VISIBLE);
         fabOrderEdit.setVisibility(View.VISIBLE);
         fabOrderStatus.setVisibility(View.VISIBLE);
-
+        initDefaultFab();
         fabMenu.setOnMenuToggleListener(this);
 
         fabOrderDelete.setOnClickListener(this);
@@ -249,15 +257,37 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabMenu.close(true);
     }
 
+    private void initDefaultFab() {
+        fabCsutomerDelete.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_delete_forever_white_24dp));
+        fabCustomerEdit.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_mode_edit_white_24dp));
+        fabOrderStatus.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_find_replace_white_24dp));
+        fabOrderEdit.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_mode_edit_white_24dp));
+        fabOrderDelete.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_delete_forever_white_24dp));
+
+        /*
+
+                MyUtil.tintImageButton(fabCsutomerDelete,this.getResources().getDrawable(R.drawable.ic_delete_forever_black_24dp),R.color.primaryTextColor);
+                MyUtil.tintImageButton(fabCustomerEdit,this.getResources().getDrawable(R.drawable.ic_mode_edit_black_24dp),R.color.primaryTextColor);
+                MyUtil.tintImageButton(fabOrderStatus,this.getResources().getDrawable(R.drawable.ic_find_replace_black_24dp),R.color.primaryTextColor);
+                MyUtil.tintImageButton(fabOrderEdit,this.getResources().getDrawable(R.drawable.ic_mode_edit_black_24dp),R.color.primaryTextColor);
+                MyUtil.tintImageButton(fabOrderDelete,this.getResources().getDrawable(R.drawable.ic_delete_forever_black_24dp),R.color.primaryTextColor);
+        */
+
+    }
+
     public void initCustomerFabMenu() {
 
         fabMenu.setVisibility(View.VISIBLE);
+        fabMenu.getMenuIconView().setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_account_circle_black_24dp));
+
 
         fabOrderDelete.setVisibility(View.GONE);
         fabOrderEdit.setVisibility(View.GONE);
         fabOrderStatus.setVisibility(View.GONE);
         fabCsutomerDelete.setVisibility(View.VISIBLE);
         fabCustomerEdit.setVisibility(View.VISIBLE);
+
+        initDefaultFab();
 
         fabCustomerEdit.setOnClickListener(this);
         fabCsutomerDelete.setOnClickListener(this);
@@ -526,6 +556,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
             return mFragmentTitleList.get(position);
         }
     }
+
 
 
     @Override

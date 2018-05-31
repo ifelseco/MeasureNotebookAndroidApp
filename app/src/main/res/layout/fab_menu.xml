@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:id="@+id/fab_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:ignore="NamespaceTypo">
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fab_menu"
@@ -38,16 +40,14 @@
             fab:fab_colorNormal="@color/primaryColor"
             fab:fab_colorPressed="@color/primaryLightColor"
             fab:fab_colorRipple="#99FFFFFF"
-            android:src="@android:drawable/ic_menu_edit"
-            fab:fab_label="Sipariş bilgilerini düzenle"
+            fab:fab_label="Sipariş Düzenle"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_customer_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_edit"
-            fab:fab_label="Müşteri bilgilerini düzenle"
+            fab:fab_label="Müşteri Düzenle"
             fab:fab_colorNormal="@color/primaryColor"
             fab:fab_colorPressed="@color/primaryLightColor"
             fab:fab_colorRipple="#99FFFFFF"
@@ -57,8 +57,7 @@
             android:id="@+id/fab_customer_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_delete"
-            fab:fab_label="Müşteri sil"
+            fab:fab_label="Müşteri Sil"
             fab:fab_colorNormal="@color/primaryColor"
             fab:fab_colorPressed="@color/primaryLightColor"
             fab:fab_colorRipple="#99FFFFFF"
@@ -68,8 +67,7 @@
             android:id="@+id/fab_order_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_add"
-            fab:fab_label="Sipariş durumunu değiştir"
+            fab:fab_label="Sipariş Durumu Değiştir"
             fab:fab_colorNormal="@color/primaryColor"
             fab:fab_colorPressed="@color/primaryLightColor"
             fab:fab_colorRipple="#99FFFFFF"
@@ -79,8 +77,7 @@
             android:id="@+id/fab_order_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_delete"
-            fab:fab_label="Siparişi sil"
+            fab:fab_label="Siparişi Sil"
             fab:fab_colorNormal="@color/primaryColor"
             fab:fab_colorPressed="@color/primaryLightColor"
             fab:fab_colorRipple="#99FFFFFF"

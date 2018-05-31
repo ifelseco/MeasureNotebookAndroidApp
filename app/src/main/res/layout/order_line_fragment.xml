@@ -14,7 +14,34 @@
             android:name="com.javaman.olcudefteri.orders.OrderListFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/order_line_item" />
+            tools:listitem="@layout/order_line_item"/>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_zero_order_line"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:padding="10dp"
+                    android:tint="@color/primaryDarkColor"
+                    app:srcCompat="@drawable/ic_measure" />
+
+                <TextView
+                    android:id="@+id/tv_empty_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/primaryDarkColor"
+                    android:gravity="center"
+                    android:text="Bu siparişte hiç ölçü yok."
+                    android:textSize="15sp" />
+
+        </LinearLayout>
 
 
 </LinearLayout>

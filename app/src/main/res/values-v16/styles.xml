@@ -53,6 +53,7 @@
         <item name="textSize">14sp</item>
         <item name="colorBackground">@android:color/holo_red_light</item>
         <item name="solidBackground">true</item>
+
         <item name="iconStart">@drawable/ic_error_black_24dp</item>
         <item name="length">SHORT</item>
         <item name="radius">5dp</item>
@@ -63,10 +64,9 @@
         <item name="textColor">#fff</item>
         <item name="font">@font/roboto_regular</item>
         <item name="textSize">14sp</item>
-        <item name="colorBackground">@color/primaryLightColor</item>
+        <item name="colorBackground">@color/main_green_color</item>
         <item name="solidBackground">true</item>
-
-        <item name="iconStart">@drawable/ic_error_black_24dp</item>
+        <item name="iconStart">@drawable/ic_info_outline_black_24dp</item>
         <item name="length">SHORT</item>
         <item name="radius">5dp</item>
     </style>
@@ -78,8 +78,7 @@
         <item name="textSize">14sp</item>
         <item name="colorBackground">@color/yello</item>
         <item name="solidBackground">true</item>
-
-        <item name="iconStart">@drawable/ic_info_outline_black_24dp</item>
+        <item name="iconStart">@drawable/ic_warning_black_24dp</item>
         <item name="length">SHORT</item>
         <item name="radius">5dp</item>
     </style>

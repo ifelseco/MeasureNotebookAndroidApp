@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.model.CustomerDetailModel;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,12 +58,8 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
     ImageButton imageButtonNavigation;
 
 
-
-
-
-
-
-    public CustomerDetailFragment() {}
+    public CustomerDetailFragment() {
+    }
 
 
     @Override
@@ -77,7 +75,7 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.customer_detail_fragment, container, false);
-        ButterKnife.bind(this,rootView);
+        ButterKnife.bind(this, rootView);
         return rootView;
     }
 
@@ -96,39 +94,38 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
         textViewCustomerName.setText(customerDetailModel.getNameSurname());
 
 
-        if(customerDetailModel.getFixedPhone()!=null){
-            if(customerDetailModel.getFixedPhone().length()==11){
+        if (customerDetailModel.getFixedPhone() != null) {
+            if (customerDetailModel.getFixedPhone().length() == 11) {
                 textViewCustomerFixedPhone.setText(String.format(String.format("(%s) %s-%s-%s", customerDetailModel.getFixedPhone().substring(0, 4), customerDetailModel.getFixedPhone().substring(4, 7),
-                        customerDetailModel.getFixedPhone().substring(7, 9),customerDetailModel.getFixedPhone().substring(9, 11))));
-            }else if(customerDetailModel.getFixedPhone().length()==10){
+                        customerDetailModel.getFixedPhone().substring(7, 9), customerDetailModel.getFixedPhone().substring(9, 11))));
+            } else if (customerDetailModel.getFixedPhone().length() == 10) {
                 textViewCustomerFixedPhone.setText(String.format(String.format("(%s) %s-%s-%s", customerDetailModel.getFixedPhone().substring(0, 3), customerDetailModel.getFixedPhone().substring(3, 6),
-                        customerDetailModel.getFixedPhone().substring(6, 8),customerDetailModel.getFixedPhone().substring(8, 10))));
-            }else{
+                        customerDetailModel.getFixedPhone().substring(6, 8), customerDetailModel.getFixedPhone().substring(8, 10))));
+            } else {
                 textViewCustomerFixedPhone.setText(customerDetailModel.getFixedPhone());
             }
-        }else{
+        } else {
             textViewCustomerFixedPhone.setText("");
         }
 
-        if(customerDetailModel.getMobilePhone()!=null){
-            if(customerDetailModel.getMobilePhone().length()==11){
+        if (customerDetailModel.getMobilePhone() != null) {
+            if (customerDetailModel.getMobilePhone().length() == 11) {
                 textViewCustomerMobilePhone.setText(String.format(String.format("(%s) %s-%s-%s", customerDetailModel.getMobilePhone().substring(0, 4), customerDetailModel.getMobilePhone().substring(4, 7),
-                        customerDetailModel.getMobilePhone().substring(7, 9),customerDetailModel.getMobilePhone().substring(9, 11))));
-            }else if(customerDetailModel.getMobilePhone().length()==10){
+                        customerDetailModel.getMobilePhone().substring(7, 9), customerDetailModel.getMobilePhone().substring(9, 11))));
+            } else if (customerDetailModel.getMobilePhone().length() == 10) {
                 textViewCustomerMobilePhone.setText(String.format(String.format("(%s) %s-%s-%s", customerDetailModel.getMobilePhone().substring(0, 3), customerDetailModel.getMobilePhone().substring(3, 6),
-                        customerDetailModel.getMobilePhone().substring(6, 8),customerDetailModel.getMobilePhone().substring(8, 10))));
-            }
-            else{
+                        customerDetailModel.getMobilePhone().substring(6, 8), customerDetailModel.getMobilePhone().substring(8, 10))));
+            } else {
                 textViewCustomerMobilePhone.setText(customerDetailModel.getMobilePhone());
             }
-        }else{
+        } else {
             textViewCustomerMobilePhone.setText("");
         }
 
 
         textViewCustomerAddress.setText(customerDetailModel.getAddress());
 
-        if(customerDetailModel.isNewsletterAccepted()){
+        if (customerDetailModel.isNewsletterAccepted()) {
             linearLayoutNewsLetter.setVisibility(View.VISIBLE);
             checkBoxNewsletter.setChecked(true);
         }
@@ -136,20 +133,20 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        int id=v.getId();
+        int id = v.getId();
 
-        switch (id){
+        switch (id) {
             case R.id.image_button_call:
                 String callNumber1 = customerDetailModel.getMobilePhone();
-                String callNumber2 =customerDetailModel.getFixedPhone();
+                String callNumber2 = customerDetailModel.getFixedPhone();
                 Intent intentCall = new Intent(Intent.ACTION_DIAL);
 
-                if(!callNumber1.isEmpty()){
+                if (!callNumber1.isEmpty()) {
 
-                    intentCall.setData(Uri.parse("tel:" +callNumber1));
+                    intentCall.setData(Uri.parse("tel:" + callNumber1));
 
-                }else{
-                    intentCall.setData(Uri.parse("tel:" +callNumber2));
+                } else {
+                    intentCall.setData(Uri.parse("tel:" + callNumber2));
                 }
                 startActivity(intentCall);
                 break;
@@ -161,7 +158,16 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
                 startActivity(intentSms);
                 break;
             case R.id.image_button_navigation:
+                if (!TextUtils.isEmpty(customerDetailModel.getAddress())) {
 
+                    String address=customerDetailModel.getAddress();
+                    Uri adressUri=Uri.parse("google.navigation:q="+address);
+                    Intent intentAddress = new Intent(Intent.ACTION_VIEW, adressUri);
+                    startActivity(intentAddress);
+
+                } else {
+                    StyleableToast.makeText(getActivity(),"Adres bilgisi kayıtlı değil",R.style.info_toast_style).show();
+                }
                 break;
             default:
                 break;
