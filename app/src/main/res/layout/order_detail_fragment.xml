@@ -28,37 +28,29 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="6dp">
+                    android:padding="6dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/primaryDarkColor"
+                        android:text="Sip. Durumu:"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/tv_order_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
                         android:layout_weight="1"
-                        android:gravity="left"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Sipariş Durumu:"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/tv_order_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text=""
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Sipariş Durumu"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -66,37 +58,29 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="6dp">
+                    android:layout_weight="1"
+                    android:padding="6dp"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/primaryDarkColor"
+                        android:text="Sip. No:"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/tv_order_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="left"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Sipariş No:"
-                            android:textSize="17sp" />
-
-                        <TextView
-                            android:id="@+id/tv_order_no"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Sipariş numarası"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
+                        android:gravity="right"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Sipariş numarası"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -126,6 +110,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:fontFamily="@font/roboto_regular"
+                            android:textColor="@color/primaryDarkColor"
                             android:text="Sipariş Tarihi:"
                             android:textSize="17sp" />
 
@@ -194,6 +179,7 @@
                         android:layout_marginLeft="5dp"
                         android:fontFamily="@font/roboto_regular"
                         android:text="Teslim Tarihi:"
+                        android:textColor="@color/primaryDarkColor"
                         android:textSize="17sp" />
 
                     <TextView
@@ -232,6 +218,7 @@
                         android:layout_marginLeft="5dp"
                         android:fontFamily="@font/roboto_regular"
                         android:text="Ölçü Tarihi:"
+                        android:textColor="@color/primaryDarkColor"
                         android:textSize="17sp" />
 
                     <TextView
@@ -262,6 +249,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:clickable="false"
+                        android:textColor="@color/primaryDarkColor"
                         android:enabled="false"
                         android:focusable="false"
                         android:fontFamily="@font/roboto_regular"
@@ -290,13 +278,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Kayıt Alan Personel"
+                        android:layout_weight="0.5"
+                        android:text="Kayıt Alan Personel:"
+                        android:textColor="@color/primaryDarkColor"
                         android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/tv_order_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:layout_marginLeft="5dp"
                         android:fontFamily="@font/roboto_regular"
                         android:text="30-12-2019"
@@ -363,6 +354,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="end"
                             android:text="Toplam:"
+                            android:textColor="@color/primaryDarkColor"
                             android:textAlignment="viewEnd"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -409,6 +401,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="end"
                             android:text="Depozit:"
+                            android:textColor="@color/primaryDarkColor"
                             android:textAlignment="viewEnd"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -456,6 +449,7 @@
                             android:fontFamily="@font/roboto_regular"
                             android:gravity="end"
                             android:text="Kalan:"
+                            android:textColor="@color/primaryDarkColor"
                             android:textAlignment="viewEnd"
                             android:textSize="17sp"
                             android:textStyle="bold" />

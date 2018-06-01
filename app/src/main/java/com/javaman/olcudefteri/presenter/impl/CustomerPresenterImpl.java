@@ -2,18 +2,29 @@ package com.javaman.olcudefteri.presenter.impl;
 
 import com.javaman.olcudefteri.intractor.CustomerIntractor;
 import com.javaman.olcudefteri.intractor.impl.CustomerIntractorImpl;
+import com.javaman.olcudefteri.model.CustomerDetailModel;
 import com.javaman.olcudefteri.model.CustomerSummaryModel;
 import com.javaman.olcudefteri.model.OrderSummaryModel;
 import com.javaman.olcudefteri.presenter.CustomerPresenter;
+import com.javaman.olcudefteri.view.AddOrderView;
 import com.javaman.olcudefteri.view.CustomerView;
 
-public class CustomerPresenterImpl implements CustomerPresenter,CustomerIntractor.onCustomerSearchListener,CustomerIntractor.onCustomerOrdersListener {
+public class CustomerPresenterImpl implements CustomerPresenter,
+        CustomerIntractor.onCustomerSearchListener,
+        CustomerIntractor.onCustomerOrdersListener,
+        CustomerIntractor.onCustomerUpdateListener{
 
     CustomerView customerView;
+    AddOrderView addOrderView;
     CustomerIntractor customerIntractor;
 
     public CustomerPresenterImpl(CustomerView customerView) {
         this.customerView = customerView;
+        customerIntractor = new CustomerIntractorImpl();
+    }
+
+    public CustomerPresenterImpl(AddOrderView addOrderView) {
+        this.addOrderView = addOrderView;
         customerIntractor = new CustomerIntractorImpl();
     }
 
@@ -30,6 +41,14 @@ public class CustomerPresenterImpl implements CustomerPresenter,CustomerIntracto
         if(customerView!=null){
             customerView.showProgress("Siparişler listeleniyor...");
             customerIntractor.getCustomerOrders(headerData,customerId,this);
+        }
+    }
+
+    @Override
+    public void updateCustomer(CustomerDetailModel customerDetailModel, String headerData) {
+        if(addOrderView!=null){
+            addOrderView.showProgress();
+            customerIntractor.updateCustomer(customerDetailModel,headerData,this);
         }
     }
 
@@ -65,6 +84,21 @@ public class CustomerPresenterImpl implements CustomerPresenter,CustomerIntracto
     }
 
     @Override
+    public void onSuccessCustomnerUpdate(CustomerDetailModel customerDetailModel) {
+        if(addOrderView!=null){
+            addOrderView.hideProgress();
+            addOrderView.updateData(customerDetailModel);
+        }
+    }
+
+    @Override
+    public void onFailureCustomnerUpdate(String message) {
+        if(addOrderView!=null){
+            addOrderView.hideProgress();
+        }
+    }
+
+    @Override
     public void navigateLogin() {
         if(customerView!=null){
             customerView.navigateToLogin();
@@ -79,4 +113,30 @@ public class CustomerPresenterImpl implements CustomerPresenter,CustomerIntracto
             customerView=null;
         }
     }
+
+    @Override
+    public void onNameEmptyError() {
+        if(addOrderView!=null){
+            addOrderView.hideProgress();
+            addOrderView.setNameEmptyError();
+        }
+    }
+
+    @Override
+    public void onPhoneEmptyError() {
+        if(addOrderView!=null){
+            addOrderView.hideProgress();
+            addOrderView.setPhoneEmptyError();
+        }
+    }
+
+    @Override
+    public void onPhoneFormatError(boolean isMobile,boolean isFixed) {
+        if(addOrderView!=null){
+            addOrderView.hideProgress();
+            addOrderView.setPhoneFormatError(isMobile,isFixed);
+        }
+    }
+
+
 }

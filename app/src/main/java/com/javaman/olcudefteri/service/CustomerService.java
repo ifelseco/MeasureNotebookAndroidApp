@@ -2,6 +2,8 @@ package com.javaman.olcudefteri.service;
 
 import com.javaman.olcudefteri.model.AddCustomerResponse;
 import com.javaman.olcudefteri.model.AddCustomerModel;
+import com.javaman.olcudefteri.model.BaseModel;
+import com.javaman.olcudefteri.model.CustomerDetailModel;
 import com.javaman.olcudefteri.model.CustomerSummaryModel;
 import com.javaman.olcudefteri.model.OrderSummaryModel;
 
@@ -11,6 +13,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -44,4 +47,10 @@ public interface CustomerService {
     Call<OrderSummaryModel> getCustomerOrders(@Header("X-Auth-Token") String xAuthToken , @Path("id") long customerId);
 
 
+    @PUT("/customer/update/")
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    Call<BaseModel> updateCustomer(@Header("X-Auth-Token") String xAuthToken,  @Body CustomerDetailModel customerDetailModel);
 }

@@ -1,5 +1,6 @@
 package com.javaman.olcudefteri.ui.orders;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,9 @@ import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.model.CustomerDetailModel;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -26,7 +30,7 @@ import butterknife.ButterKnife;
  * Created by javaman on 08.03.2018.
  */
 
-public class CustomerDetailFragment extends Fragment implements View.OnClickListener {
+public class CustomerDetailFragment extends Fragment implements View.OnClickListener{
 
     private CustomerDetailModel customerDetailModel;
 
@@ -82,10 +86,10 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setView();
+        setView(customerDetailModel);
     }
 
-    private void setView() {
+    private void setView(CustomerDetailModel customerDetailModel) {
 
         imageButtonCall.setOnClickListener(this);
         imageButtonSms.setOnClickListener(this);
@@ -131,6 +135,11 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
         }
     }
 
+    @Subscribe
+    public void updateCustomerView(CustomerDetailModel customerDetailModel){
+        setView(customerDetailModel);
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -174,6 +183,20 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
 
 
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+
     }
 
 

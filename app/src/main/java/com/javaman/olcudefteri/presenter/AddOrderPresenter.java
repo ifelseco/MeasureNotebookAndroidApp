@@ -1,6 +1,7 @@
 package com.javaman.olcudefteri.presenter;
 
 import com.javaman.olcudefteri.model.AddCustomerModel;
+import com.javaman.olcudefteri.model.CustomerDetailModel;
 
 /**
  * Created by javaman on 15.02.2018.

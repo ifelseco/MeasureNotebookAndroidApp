@@ -2,6 +2,7 @@ package com.javaman.olcudefteri.presenter.impl;
 
 import com.javaman.olcudefteri.model.AddCustomerModel;
 import com.javaman.olcudefteri.model.AddCustomerResponse;
+import com.javaman.olcudefteri.model.CustomerDetailModel;
 import com.javaman.olcudefteri.presenter.AddOrderPresenter;
 import com.javaman.olcudefteri.view.AddOrderView;
 import com.javaman.olcudefteri.intractor.AddOrderIntractor;
@@ -40,6 +41,7 @@ public class AddOrderPresenterImpl implements AddOrderPresenter,AddOrderIntracto
             mAddOrderIntractor.addOrderToCustomer(addCustomerModel,headerData,this);
         }
     }
+
 
     @Override
     public void onDestroy() {

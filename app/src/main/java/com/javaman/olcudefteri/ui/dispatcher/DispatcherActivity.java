@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.javaman.olcudefteri.ui.splash.SplashScreenActivity;
 import com.javaman.olcudefteri.service.MyService;
+import com.javaman.olcudefteri.utill.FirebaseUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 /**
@@ -24,6 +26,7 @@ public class DispatcherActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
         Log.i(TAG, "onCreate()");
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         Intent serviceIntent = new Intent(this, MyService.class);

@@ -116,7 +116,7 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView, 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Müşteri bilgilerini gir.");
+        getActivity().setTitle("Müşteri Bilgilerini Gir");
 
 
 
@@ -239,6 +239,11 @@ public class RegisterCustomerFragment extends Fragment implements AddOrderView, 
     @Override
     public void navigateLogin() {
         startActivity(new Intent(getActivity(), LoginActivity.class));
+    }
+
+    @Override
+    public void updateData(CustomerDetailModel customerDetailModel) {
+
     }
 
     @Override

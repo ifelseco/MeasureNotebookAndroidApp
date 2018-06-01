@@ -1,8 +1,6 @@
 package com.javaman.olcudefteri.ui.orders;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -23,7 +21,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.gson.Gson;
@@ -39,7 +36,9 @@ import com.javaman.olcudefteri.presenter.OrderLinePresenter;
 import com.javaman.olcudefteri.presenter.impl.OrderLinePresenterImpl;
 import com.javaman.olcudefteri.ui.home.HomeActivity;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
+import com.javaman.olcudefteri.ui.orders.dialogs.CustomerUpdateDialog;
 import com.javaman.olcudefteri.ui.orders.dialogs.OrderStatusUpdateDialog;
+import com.javaman.olcudefteri.ui.orders.dialogs.OrderUpdateDialog;
 import com.javaman.olcudefteri.view.OrderDetailVew;
 import com.javaman.olcudefteri.utill.MyUtil;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
@@ -79,8 +78,6 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     @BindView(R.id.fab_customer_edit)
     com.github.clans.fab.FloatingActionButton fabCustomerEdit;
 
-    @BindView(R.id.fab_customer_delete)
-    com.github.clans.fab.FloatingActionButton fabCsutomerDelete;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -107,6 +104,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     public static final String ARG_ORDER_LINES = "current_order_lines";
     public static final String ARG_SAVED_ORDER = "saved_order";
     public static final String ARG_GOTO_UPDATE_ORDER_FROM_ORDER_DETAIL = "update_order";
+    public static final String ARG_GOTO_UPDATE_CUSTOMER_FROM_ORDER_DETAIL = "update_customer";
     private boolean isUpdateOrderLine;
 
     @Override
@@ -243,7 +241,6 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabMenu.getMenuIconView().setColorFilter(this.getResources().getColor(R.color.primaryTextColor),PorterDuff.Mode.SRC_IN);
 
 
-        fabCsutomerDelete.setVisibility(View.GONE);
         fabCustomerEdit.setVisibility(View.GONE);
         fabOrderDelete.setVisibility(View.VISIBLE);
         fabOrderEdit.setVisibility(View.VISIBLE);
@@ -258,20 +255,11 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     }
 
     private void initDefaultFab() {
-        fabCsutomerDelete.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_delete_forever_white_24dp));
         fabCustomerEdit.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_mode_edit_white_24dp));
         fabOrderStatus.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_find_replace_white_24dp));
         fabOrderEdit.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_mode_edit_white_24dp));
         fabOrderDelete.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_delete_forever_white_24dp));
 
-        /*
-
-                MyUtil.tintImageButton(fabCsutomerDelete,this.getResources().getDrawable(R.drawable.ic_delete_forever_black_24dp),R.color.primaryTextColor);
-                MyUtil.tintImageButton(fabCustomerEdit,this.getResources().getDrawable(R.drawable.ic_mode_edit_black_24dp),R.color.primaryTextColor);
-                MyUtil.tintImageButton(fabOrderStatus,this.getResources().getDrawable(R.drawable.ic_find_replace_black_24dp),R.color.primaryTextColor);
-                MyUtil.tintImageButton(fabOrderEdit,this.getResources().getDrawable(R.drawable.ic_mode_edit_black_24dp),R.color.primaryTextColor);
-                MyUtil.tintImageButton(fabOrderDelete,this.getResources().getDrawable(R.drawable.ic_delete_forever_black_24dp),R.color.primaryTextColor);
-        */
 
     }
 
@@ -284,13 +272,11 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         fabOrderDelete.setVisibility(View.GONE);
         fabOrderEdit.setVisibility(View.GONE);
         fabOrderStatus.setVisibility(View.GONE);
-        fabCsutomerDelete.setVisibility(View.VISIBLE);
         fabCustomerEdit.setVisibility(View.VISIBLE);
 
         initDefaultFab();
 
         fabCustomerEdit.setOnClickListener(this);
-        fabCsutomerDelete.setOnClickListener(this);
         fabMenu.close(true);
     }
 
@@ -360,13 +346,14 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         } else if (v.getId() == R.id.fab_order_status) {
             openOrderStatusEdit();
             fabMenu.close(true);
-        } else if (v.getId() == R.id.fab_customer_delete) {
-            fabMenu.close(true);
-        } else if (v.getId() == R.id.fab_customer_edit) {
+        }else if (v.getId() == R.id.fab_customer_edit) {
+            openCustomerUpdate();
             fabMenu.close(true);
         }
 
     }
+
+
 
     private void openOrderStatusEdit() {
         OrderStatusUpdateDialog orderStatusUpdateDialog=new OrderStatusUpdateDialog();
@@ -390,6 +377,14 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         bundle.putParcelable(ARG_GOTO_UPDATE_ORDER_FROM_ORDER_DETAIL,orderDetailResponseModel);
         orderUpdateDialog.setArguments(bundle);
         showDialog(orderUpdateDialog,"order-update-dialog");
+    }
+
+    private void openCustomerUpdate() {
+        CustomerUpdateDialog customerUpdateDialog=new CustomerUpdateDialog();
+        Bundle bundle=new Bundle();
+        bundle.putParcelable(ARG_GOTO_UPDATE_CUSTOMER_FROM_ORDER_DETAIL,orderDetailResponseModel.getCustomer());
+        customerUpdateDialog.setArguments(bundle);
+        showDialog(customerUpdateDialog,"customer-update-dialog");
     }
 
     @Override
@@ -570,6 +565,8 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
+
 
     @Subscribe
     public void updatedOrder(OrderUpdateEvent event){

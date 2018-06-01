@@ -53,15 +53,7 @@
             fab:fab_colorRipple="#99FFFFFF"
             fab:fab_size="mini" />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_customer_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_label="Müşteri Sil"
-            fab:fab_colorNormal="@color/primaryColor"
-            fab:fab_colorPressed="@color/primaryLightColor"
-            fab:fab_colorRipple="#99FFFFFF"
-            fab:fab_size="mini" />
+
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_order_status"

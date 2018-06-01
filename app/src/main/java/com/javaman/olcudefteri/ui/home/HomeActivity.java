@@ -108,7 +108,7 @@ public class HomeActivity extends AppCompatActivity
         sharedPreferenceHelper.removeKey("orderDetailResponse");
 
 
-        FirebaseMessaging.getInstance().subscribeToTopic(FirebaseUtil.TOPIC_GLOBAL);
+
 
         mHomePresenter=new HomePresenterImpl(this);
         mBasePresenter=new BasePresenterImpl(this);

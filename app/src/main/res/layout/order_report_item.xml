@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textStyle="bold"
+                android:textColor="@color/primaryDarkColor"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Sipariş No:"
                 android:textSize="15sp" />
@@ -52,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/primaryDarkColor"
                 android:textStyle="bold"
 
                 android:fontFamily="@font/roboto_regular"
@@ -79,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textStyle="bold"
-
+                android:textColor="@color/primaryDarkColor"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Sipariş Tarihi:"
                 android:textSize="15sp" />
@@ -108,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textStyle="bold"
-
+                android:textColor="@color/primaryDarkColor"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Ölçü Tarihi:"
                 android:textSize="15sp" />
@@ -136,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textStyle="bold"
-
+                android:textColor="@color/primaryDarkColor"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Teslim Tarihi:"
                 android:textSize="15sp" />
