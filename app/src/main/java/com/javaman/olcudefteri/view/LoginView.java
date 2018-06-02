@@ -10,7 +10,7 @@ public interface LoginView {
     void hideProgress();
     void setUserNameEmptyError();
     void setPasswordEmptyError();
-    void navigatetoHome(boolean isTailor);
+    void navigatetoHome(String role);
     void showAlert(String message, boolean isError);
     void openSession(String sessionId);
     void setRememberMe(String username,String password,boolean rememberMeActive);

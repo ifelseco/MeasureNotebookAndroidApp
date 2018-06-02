@@ -225,6 +225,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
         for(OrderLineDetailModel orderLineDetailModel:orderLineSummaryResponseModel.getOrderLineDetailList()){
             orderLineDetailModel.setOrder(new OrderDetailModel());
             orderLineDetailModel.getOrder().setId(orderDetailResponseModel.getId());
+            orderLineDetailModel.getOrder().setOrderStatus(orderDetailResponseModel.getOrderStatus());
             orderLines.add(orderLineDetailModel);
         }
 
@@ -312,7 +313,15 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
             return true;
         }else if(id==R.id.item_add){
-            gotoAddOrderLine();
+            if(orderDetailResponseModel.getOrderStatus()==4 || orderDetailResponseModel.getOrderStatus()==5){
+                if(orderDetailResponseModel.getOrderStatus()==4){
+                    StyleableToast.makeText(this,"Bitmiş siparişe ölçü ekleyemezsin",R.style.warn_toast_style).show();
+                }else if(orderDetailResponseModel.getOrderStatus()==5){
+                    StyleableToast.makeText(this,"Teslim edilmis siparişe ölçü ekleyemezsin",R.style.warn_toast_style).show();
+                }
+            }else{
+                gotoAddOrderLine();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

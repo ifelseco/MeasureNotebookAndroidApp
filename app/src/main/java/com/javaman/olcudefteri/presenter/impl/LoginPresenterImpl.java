@@ -62,12 +62,8 @@ public class LoginPresenterImpl implements LoginPresenter,LoginIntractor.onLogin
     public void onSuccess(AuthResponse authResponse) {
 
         if(mLoginView!=null){
-            boolean isTailor = false;
-            if(TextUtils.equals(authResponse.getUserDetailModel().getRole(),"r3")){
-                isTailor=true;
-            }
             mLoginView.hideProgress();
-            mLoginView.navigatetoHome(isTailor);
+            mLoginView.navigatetoHome(authResponse.getUserDetailModel().getRole());
         }
     }
 

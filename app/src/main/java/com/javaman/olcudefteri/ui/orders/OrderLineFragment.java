@@ -108,8 +108,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
             init_modal_bottomsheet();
 
         }else{
-            linearLayoutZeroOrderLine.setVisibility(View.VISIBLE);
-            recyclerViewOrderLine.setVisibility(View.GONE);
+            setEmptyBackground();
         }
 
         return rootView;
@@ -528,6 +527,10 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
         orderLineAdapter.removeItemFromList(orderLineDetailModel);
     }
 
+    public void setEmptyBackground(){
+        linearLayoutZeroOrderLine.setVisibility(View.VISIBLE);
+        recyclerViewOrderLine.setVisibility(View.GONE);
+    }
     @Override
     public void onStart() {
         super.onStart();

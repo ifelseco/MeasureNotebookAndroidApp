@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -96,7 +97,9 @@ public class OrdersActivity extends AppCompatActivity
     private int currentItems, totalItems, scrollOutItems;
     private boolean spinnerFirstLoad = true;
     private boolean isFilterMode = false;
+    private static final String ARG_ROLE_USER="r2";
     int notfCount=0;
+    String role;
 
 
     @Override
@@ -108,7 +111,7 @@ public class OrdersActivity extends AppCompatActivity
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        notfCount=getNotificationCountFromPref();
+        getAppUtilInfoFromPref();
         initBottomNav();
         if (savedInstanceState != null) {
             this.orderList = savedInstanceState.getParcelableArrayList(ARG_SAVED_ORDERS);
@@ -125,26 +128,39 @@ public class OrdersActivity extends AppCompatActivity
 
     }
 
-    private int getNotificationCountFromPref() {
+
+    public void getAppUtilInfoFromPref() {
         if(sharedPreferenceHelper.containKey("notf-count")){
-            return sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
+            notfCount= sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
         }else{
-            return -1;
+            notfCount= -1;
+        }
+
+
+        if(sharedPreferenceHelper.containKey("role")){
+            role=sharedPreferenceHelper.getStringPreference("role","");
         }
     }
 
 
     private void initBottomNav() {
         AHBottomNavigationItem item_home = new AHBottomNavigationItem(R.string.title_home, R.drawable.ic_home_black_24dp, R.color.hintColor);
-        AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
-        AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
-        AHBottomNavigationItem item_notification = new AHBottomNavigationItem(R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.hintColor);
-        AHBottomNavigationItem item_customer = new AHBottomNavigationItem(R.string.title_customer, R.drawable.ic_account_circle_black_24dp, R.color.hintColor);
         ahBottomNavigation.addItem(item_home);
+
+        AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
         ahBottomNavigation.addItem(item_orders);
+
+        AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
         ahBottomNavigation.addItem(item_add_order);
+
+        AHBottomNavigationItem item_customer = new AHBottomNavigationItem(R.string.title_customer, R.drawable.ic_account_circle_black_24dp, R.color.hintColor);
         ahBottomNavigation.addItem(item_customer);
-        ahBottomNavigation.addItem(item_notification);
+
+        if(!TextUtils.equals(role,ARG_ROLE_USER)){
+            AHBottomNavigationItem item_notification = new AHBottomNavigationItem(R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.hintColor);
+            ahBottomNavigation.addItem(item_notification);
+        }
+
         ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.colorBottomNavBackground));
         ahBottomNavigation.setAccentColor(fetchColor(R.color.colorBottomNavActive));
         ahBottomNavigation.setInactiveColor(fetchColor(R.color.colorBottomNavInactive));
@@ -152,9 +168,15 @@ public class OrdersActivity extends AppCompatActivity
         ahBottomNavigation.setCurrentItem(1);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-        if(notfCount>0){
-            ahBottomNavigation.setNotification(""+notfCount,4);
+
+        if(TextUtils.equals(role,ARG_ROLE_USER)){
+            ahBottomNavigation.disableItemAtPosition(4);
+        }else{
+            if(notfCount>0){
+                ahBottomNavigation.setNotification(""+notfCount,4);
+            }
         }
+
         ahBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
             if(position==0){
                 Intent home = new Intent(OrdersActivity.this, HomeActivity.class);
@@ -174,9 +196,12 @@ public class OrdersActivity extends AppCompatActivity
                 startActivity(home);
                 return true;
             }else if(position==4){
-                Intent home = new Intent(OrdersActivity.this, HomeActivity.class);
-                home.putExtra("init-key", "get-notification-fragment");
-                startActivity(home);
+                if(!TextUtils.equals(role,ARG_ROLE_USER)){
+                    Intent home = new Intent(OrdersActivity.this, HomeActivity.class);
+                    home.putExtra("init-key", "get-notification-fragment");
+                    startActivity(home);
+                }
+
                 return true;
             }
             return true;
@@ -551,7 +576,10 @@ public class OrdersActivity extends AppCompatActivity
         if(key=="notf-count"){
             notfCount=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
             if(notfCount>0){
-                ahBottomNavigation.setNotification(""+notfCount,4);
+                if(ahBottomNavigation.getItem(4)!=null){
+                    ahBottomNavigation.setNotification(""+notfCount,4);
+                }
+
             }
         }
     }

@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private static final String TAG = LoginActivity.class.getSimpleName();
     private static final String ARG_LOGIN_1="78s78ds78d45f";
     private static final String ARG_LOGIN_2="343434dfdfdfdf";
+    private static final String ARG_ROLE_TAILOR="r3";
+
 
     @BindView(R.id.et_username)
     EditText editTextUsername;
@@ -131,9 +133,9 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void navigatetoHome(boolean isTailor) {
-
-        if(isTailor){
+    public void navigatetoHome(String role) {
+        sharedPreferenceHelper.setStringPreference("role",role);
+        if(TextUtils.equals(role,ARG_ROLE_TAILOR)){
             startActivity(new Intent(LoginActivity.this , TailorHomeActivity.class));
         }else{
             startActivity(new Intent(LoginActivity.this , HomeActivity.class));

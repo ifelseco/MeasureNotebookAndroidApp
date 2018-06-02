@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.javaman.olcudefteri.R;
+import com.javaman.olcudefteri.model.OrderLineDetailModel;
 import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.event.OrderDeleteEvent;
 import com.javaman.olcudefteri.event.OrderUpdateEvent;
@@ -28,8 +30,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -288,6 +292,18 @@ public class OrderDetailFragment extends Fragment implements OrderView{
 
         tvOrderStatus.setText(orderStatus[orderUpdateModel.getOrderStatus()]);
 
+        if (getArguments().containsKey(OrderDetailActivity.ARG_ORDER_LINES)) {
+            List<OrderLineDetailModel> orderLines =  getArguments().getParcelableArrayList(OrderDetailActivity.ARG_ORDER_LINES);
+            List<OrderLineDetailModel> updatedOrderLines =new ArrayList<>();
+            for (OrderLineDetailModel orderLineDetailModel:orderLines){
+                orderLineDetailModel.getOrder().setOrderStatus(orderUpdateModel.getOrderStatus());
+                updatedOrderLines.add(orderLineDetailModel);
+            }
+
+            getArguments().remove(OrderDetailActivity.ARG_ORDER_LINES);
+            getArguments().putParcelableArrayList(OrderDetailActivity.ARG_ORDER_LINES, (ArrayList<? extends Parcelable>) updatedOrderLines);
+        }
+
         double remainAmount=orderUpdateModel.getTotalAmount()-orderUpdateModel.getDepositeAmount();
 
         tvOrderRemain.setText(""+currency.getSymbol()+" "+String.format("%.2f",remainAmount));
@@ -307,7 +323,9 @@ public class OrderDetailFragment extends Fragment implements OrderView{
 
     @Override
     public void hideProgress() {
-        pDialog.hide();
+        if(!getActivity().isFinishing()){
+            pDialog.hide();
+        }
     }
 
     @Override

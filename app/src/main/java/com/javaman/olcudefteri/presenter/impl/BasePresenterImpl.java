@@ -51,12 +51,7 @@ public class BasePresenterImpl implements BasePresenter,BaseIntractor.onBaseProc
             mBaseViev.removeKeyFromPref("notf-count");
             mBaseViev.showAlert(message,true);
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mBaseViev.navigateToLogin();
-                }
-            },2000);
+            new Handler().postDelayed(() -> mBaseViev.navigateToLogin(),2000);
 
 
         }

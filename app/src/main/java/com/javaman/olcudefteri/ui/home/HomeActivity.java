@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -87,10 +88,12 @@ public class HomeActivity extends AppCompatActivity
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
-
+    private static final String ARG_ROLE_USER="r2";
     int notfCount=0;
     private String companyName;
     private String nameSurname;
+    private String role;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +151,7 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+
     private void setAppInfo() {
         View navHeader=navigationView.getHeaderView(0);
         TextView tvCompanyName=navHeader.findViewById(R.id.tv_company_name);
@@ -158,17 +162,25 @@ public class HomeActivity extends AppCompatActivity
 
     private void initBottomNav() {
 
-        AHBottomNavigationItem item_home = new AHBottomNavigationItem(R.string.title_home, R.drawable.ic_home_black_24dp, R.color.hintColor);
-        AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
-        AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
-        AHBottomNavigationItem item_notification = new AHBottomNavigationItem(R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.hintColor);
-        AHBottomNavigationItem item_customer = new AHBottomNavigationItem(R.string.title_customer, R.drawable.ic_account_circle_black_24dp, R.color.hintColor);
 
+        AHBottomNavigationItem item_home = new AHBottomNavigationItem(R.string.title_home, R.drawable.ic_home_black_24dp, R.color.hintColor);
         ahBottomNavigation.addItem(item_home);
+
+        AHBottomNavigationItem item_orders = new AHBottomNavigationItem(R.string.title_orders, R.drawable.ic_assignment_black_24dp, R.color.hintColor);
         ahBottomNavigation.addItem(item_orders);
+
+        AHBottomNavigationItem item_add_order = new AHBottomNavigationItem(R.string.title_add_order, R.drawable.ic_add_circle_black_24dp, R.color.hintColor);
         ahBottomNavigation.addItem(item_add_order);
+
+        AHBottomNavigationItem item_customer = new AHBottomNavigationItem(R.string.title_customer, R.drawable.ic_account_circle_black_24dp, R.color.hintColor);
         ahBottomNavigation.addItem(item_customer);
-        ahBottomNavigation.addItem(item_notification);
+
+        if(!TextUtils.equals(role,ARG_ROLE_USER)){
+            AHBottomNavigationItem item_notification = new AHBottomNavigationItem(R.string.title_notifications, R.drawable.ic_notifications_black_24dp, R.color.hintColor);
+            ahBottomNavigation.addItem(item_notification);
+        }
+
+
         ahBottomNavigation.setDefaultBackgroundColor(fetchColor(R.color.colorBottomNavBackground));
         ahBottomNavigation.setAccentColor(fetchColor(R.color.colorBottomNavActive));
         ahBottomNavigation.setInactiveColor(fetchColor(R.color.colorBottomNavInactive));
@@ -176,9 +188,17 @@ public class HomeActivity extends AppCompatActivity
         ahBottomNavigation.setCurrentItem(0);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         ahBottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-        if(notfCount>0){
-            ahBottomNavigation.setNotification(""+notfCount,4);
+
+
+
+        if(TextUtils.equals(role,ARG_ROLE_USER)){
+            ahBottomNavigation.disableItemAtPosition(4);
+        }else{
+            if(notfCount>0){
+                ahBottomNavigation.setNotification(""+notfCount,4);
+            }
         }
+
         ahBottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
             if(position==0){
                 getDashboardFragment();
@@ -196,11 +216,14 @@ public class HomeActivity extends AppCompatActivity
                 getCustomerFragment();
                 return true;
             }else if(position==4){
-                getNotificationFragment();
+                if(!TextUtils.equals(role,ARG_ROLE_USER)){
+                    getNotificationFragment();
+                }
                 return true;
             }
             return true;
         });
+
 
     }
 
@@ -348,6 +371,10 @@ public class HomeActivity extends AppCompatActivity
 
         if(sharedPreferenceHelper.containKey("name-surname")){
             nameSurname=sharedPreferenceHelper.getStringPreference("name-surname","");
+        }
+
+        if(sharedPreferenceHelper.containKey("role")){
+            role=sharedPreferenceHelper.getStringPreference("role","");
         }
     }
 
@@ -514,7 +541,10 @@ public class HomeActivity extends AppCompatActivity
         if(key=="notf-count"){
             notfCount=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
             if(notfCount>0){
-                ahBottomNavigation.setNotification(""+notfCount,4);
+                if(ahBottomNavigation.getItem(4)!=null){
+                    ahBottomNavigation.setNotification(""+notfCount,4);
+                }
+
             }
         }
     }

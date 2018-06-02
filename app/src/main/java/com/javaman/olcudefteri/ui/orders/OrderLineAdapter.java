@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.javaman.olcudefteri.R;
 import com.javaman.olcudefteri.model.OrderLineDetailModel;
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
 
 import java.util.ArrayList;
 import java.util.Currency;
@@ -68,6 +69,9 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
     public void removeItemFromList(OrderLineDetailModel orderLineDetailModel){
         orderLines.remove(orderLineDetailModel);
         notifyDataSetChanged();
+        if(orderLines.size()==0){
+            orderLineFragment.setEmptyBackground();
+        }
 
     }
 
@@ -219,17 +223,41 @@ public class OrderLineAdapter extends RecyclerView.Adapter<OrderLineAdapter.Orde
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             OrderLineDetailModel orderLineDetailModel= (OrderLineDetailModel) itemView.getTag();
+            int orderStatus=orderLineDetailModel.getOrder().getOrderStatus();
+
             switch(item.getItemId()){
 
                 case R.id.menu_item_delete_line:
 
-                    orderLineFragment.showDeleteConfirmDialog(orderLineDetailModel);
+                    if(orderStatus==4 || orderStatus==5){
+                        if(orderStatus==4){
+                            StyleableToast.makeText(mContext,"Bitmiş siparişi silemezsin",R.style.warn_toast_style).show();
+                        }else if(orderStatus==5){
+                            StyleableToast.makeText(mContext,"Teslim edilmis siparişi silemezsin",R.style.warn_toast_style).show();
+                        }
+                    }else{
+                        orderLineFragment.showDeleteConfirmDialog(orderLineDetailModel);
+                    }
+
                     break;
                 case R.id.menu_item_update_line:
 
-                    orderLineFragment.showUpdateDilog(orderLineDetailModel);
+                    if(orderStatus==4 || orderStatus==5){
+                        if(orderStatus==4){
+                            StyleableToast.makeText(mContext,"Bitmiş siparişi düzenleyemezsin",R.style.warn_toast_style).show();
+                        }else if(orderStatus==5){
+                            StyleableToast.makeText(mContext,"Teslim edilmis siparişi düzenleyemezsin",R.style.warn_toast_style).show();
+                        }
+                    }else{
+                        orderLineFragment.showUpdateDilog(orderLineDetailModel);
+                    }
+
                     break;
             }
+
+
+
+
             return false;
         }
     }
