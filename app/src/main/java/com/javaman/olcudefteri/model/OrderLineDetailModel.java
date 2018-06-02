@@ -13,7 +13,7 @@ import lombok.Data;
  */
 
 @Data
-public class OrderLineDetailModel implements Parcelable {
+public class OrderLineDetailModel implements Parcelable,Cloneable {
 
     @SerializedName("id")
     @Expose
@@ -116,6 +116,11 @@ public class OrderLineDetailModel implements Parcelable {
     private String propertyModelName;
 
     public OrderLineDetailModel() {
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     @Override

@@ -30,8 +30,8 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private static final String ARG_LOGIN_1="78s78ds78d45f";
-    private static final String ARG_LOGIN_2="343434dfdfdfdf";
+    public static final String ARG_LOGIN_1="78s78ds78d45f";
+    public static final String ARG_LOGIN_2="343434dfdfdfdf";
     private static final String ARG_ROLE_TAILOR="r3";
 
 

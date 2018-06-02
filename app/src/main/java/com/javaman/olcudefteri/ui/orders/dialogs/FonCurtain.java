@@ -332,11 +332,20 @@ public class FonCurtain extends DialogFragment implements RadioGroup.OnCheckedCh
             if (sashCount == 2) {
                 orderLineDetailModel.setFonType(fonType);
                 orderLineDetailModel.setPileName(pileName);
-                OrderLineDetailModel otherOrderLine = orderLineDetailModel;
+
+                OrderLineDetailModel otherOrderLine=new OrderLineDetailModel();
+                try {
+                    otherOrderLine=(OrderLineDetailModel) orderLineDetailModel.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+
                 otherOrderLine.setDirection(1);
                 orderLines.add(otherOrderLine);
+
                 orderLineDetailModel.setDirection(2);
                 orderLines.add(orderLineDetailModel);
+
                 addOrderLineDetailListModel.setOrderLineDetailModelList(orderLines);
                 EventBus.getDefault().post(addOrderLineDetailListModel);
             } else {

@@ -18,7 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:divider="@drawable/vertical_divider_gray"
+            android:divider="@drawable/vertical_divider_primary"
             android:orientation="vertical"
             android:showDividers="middle|end">
 
@@ -313,10 +313,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/secondaryLightColor"
+            android:background="@color/primaryColor"
             android:divider="@drawable/vertical_divider_primary"
             android:orientation="vertical"
-
             android:padding="6dp"
             android:showDividers="middle">
 
@@ -329,10 +328,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Kullanılan Malzeme :"
-                    android:textColor="@color/primaryDarkColor"
+                    android:gravity=""
+                    android:textColor="@color/secondaryLightColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -341,8 +341,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/primaryTextColor"
                     android:fontFamily="@font/roboto_regular"
-
+                    android:gravity="right"
                     android:text="Kullanılan Malzeme"
                     android:textSize="15sp" />
 
@@ -359,10 +360,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Birim Fiyat :"
-                    android:textColor="@color/primaryDarkColor"
+                    android:textColor="@color/secondaryLightColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -371,8 +372,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/primaryTextColor"
                     android:fontFamily="@font/roboto_regular"
-
+                    android:gravity="right"
                     android:text="Birim Fiyat"
                     android:textSize="15sp" />
 
@@ -389,10 +391,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Tutar :"
-                    android:textColor="@color/primaryDarkColor"
+                    android:textColor="@color/secondaryLightColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -401,8 +403,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/primaryTextColor"
                     android:fontFamily="@font/roboto_regular"
-
+                    android:gravity="right"
                     android:text="Tutar"
                     android:textSize="15sp" />
 

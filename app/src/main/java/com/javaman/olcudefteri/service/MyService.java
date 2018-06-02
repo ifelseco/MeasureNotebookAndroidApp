@@ -6,6 +6,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.javaman.olcudefteri.ui.login.LoginActivity;
 import com.javaman.olcudefteri.utill.SharedPreferenceHelper;
 
 /**
@@ -49,10 +50,14 @@ public class MyService extends Service {
         String firebaseRegId=sharedPreferenceHelper.getStringPreference("firebase_reg_id","");
         int notf_count=sharedPreferenceHelper.getIntegerPreference("notf-count",-1);
         boolean rememberMe=sharedPreferenceHelper.getBooleanPreference("rememberMe",false);
+        String key1=sharedPreferenceHelper.getStringPreference(LoginActivity.ARG_LOGIN_1,"");
+        String key2=sharedPreferenceHelper.getStringPreference(LoginActivity.ARG_LOGIN_2,"");
         sharedPreferenceHelper.removeAll();
         sharedPreferenceHelper.setStringPreference("firebase_reg_id",firebaseRegId);
         sharedPreferenceHelper.setIntegerPreference("notf-count",notf_count);
         sharedPreferenceHelper.setBooleanPreference("rememberMe",rememberMe);
+        sharedPreferenceHelper.setStringPreference(LoginActivity.ARG_LOGIN_1,key1);
+        sharedPreferenceHelper.setStringPreference(LoginActivity.ARG_LOGIN_2,key2);
     }
 
     @Override

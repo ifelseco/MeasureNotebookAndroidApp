@@ -48,11 +48,13 @@
             android:label="@string/app_name"
             android:noHistory="true"
             android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.dispatcher.DispatcherActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,32 +66,39 @@
             android:name=".ui.orders.AddOrderActivity"
             android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_customer_measure"
+            android:screenOrientation="portrait"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.orders.OrdersActivity"
             android:label="@string/title_activity_orders"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.splash.SplashScreenActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".ui.orders.OrderDetailActivity"
             android:label=""
+            android:screenOrientation="portrait"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.tailor.TailorHomeActivity"
             android:label="@string/title_activity_tailor_home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:noHistory="true" />
         <activity android:name=".ui.tailor.TailorOrderDetailActivity"
             android:label="Terzi detay"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:noHistory="true"/>
     </application>

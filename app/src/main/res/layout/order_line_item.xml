@@ -331,6 +331,7 @@
                     android:layout_weight="0.5"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Kullanılan Malzeme :"
+                    android:gravity=""
                     android:textColor="@color/secondaryLightColor"
                     android:textSize="17sp"
                     android:textStyle="bold" />
@@ -340,8 +341,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/primaryTextColor"
                     android:fontFamily="@font/roboto_regular"
-
+                    android:gravity="right"
                     android:text="Kullanılan Malzeme"
                     android:textSize="15sp" />
 
@@ -370,8 +372,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/primaryTextColor"
                     android:fontFamily="@font/roboto_regular"
-
+                    android:gravity="right"
                     android:text="Birim Fiyat"
                     android:textSize="15sp" />
 
@@ -400,8 +403,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textColor="@color/primaryTextColor"
                     android:fontFamily="@font/roboto_regular"
-
+                    android:gravity="right"
                     android:text="Tutar"
                     android:textSize="15sp" />
 

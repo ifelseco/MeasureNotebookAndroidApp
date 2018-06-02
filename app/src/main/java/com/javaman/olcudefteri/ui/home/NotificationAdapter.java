@@ -113,7 +113,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
             if(notificationDetailModel.getMessage()!=null){
                 if(!TextUtils.isEmpty(notificationDetailModel.getMessage())){
-                    tvNotfMessage.setText(notificationDetailModel.getMessage());
+                    String message=notificationDetailModel.getMessage();
+                    tvNotfMessage.setText(message);
                 }
             }
 

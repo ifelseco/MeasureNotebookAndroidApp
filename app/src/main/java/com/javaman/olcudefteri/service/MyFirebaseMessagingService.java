@@ -52,9 +52,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             if(remoteMessage.getData().containsKey("message")){
                 message =remoteMessage.getData().get("message");
-                message=Character.toUpperCase(message.charAt(0)) + message.substring(1);
-
-
             }
 
             if(remoteMessage.getData().containsKey("time")){
