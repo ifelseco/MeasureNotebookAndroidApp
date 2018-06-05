@@ -133,21 +133,21 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
             orderLineDetailModel.setProduct(productDetailModel);
 
-            if (!etWidth.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etWidth.getText().toString())) {
                 double width = Double.parseDouble(etWidth.getText().toString());
                 orderLineDetailModel.setPropertyWidth(width);
             }
 
-            if (!etHeight.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etHeight.getText().toString())) {
                 double height = Double.parseDouble(etHeight.getText().toString());
                 orderLineDetailModel.setPropertyHeight(height);            }
 
-            if (!etUnitprice.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etUnitprice.getText().toString())) {
                 double unitPrice = Double.parseDouble(etUnitprice.getText().toString());
                 orderLineDetailModel.setUnitPrice(unitPrice);
             }
 
-            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !TextUtils.isEmpty(etOtherPile.getText().toString())) {
                 if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                     int checkedId = radioGroupPile.getCheckedRadioButtonId();
                     if (checkedId == R.id.radioButton2) {
@@ -164,25 +164,25 @@ public class NetCurtain extends DialogFragment implements View.OnClickListener, 
                 orderLineDetailModel.setSizeOfPile(pile);
             }
 
-            if (!etPattern.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etPattern.getText().toString())) {
                 String pattern =etPattern.getText().toString();
                 productDetailModel.setPatternCode(pattern);
                 orderLineDetailModel.setProduct(productDetailModel);
             }
 
-            if (!etVariant.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etVariant.getText().toString())) {
                 String variant=etVariant.getText().toString();
                 productDetailModel.setVariantCode(variant);
                 orderLineDetailModel.setProduct(productDetailModel);
             }
 
-            if (!etAlias.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etAlias.getText().toString())) {
                 String alias=etAlias.getText().toString();
                 productDetailModel.setAliasName(alias);
                 orderLineDetailModel.setProduct(productDetailModel);
             }
 
-            if (!etDesc.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etDesc.getText().toString())) {
                 String desc=etDesc.getText().toString();
                 orderLineDetailModel.setLineDescription(desc);
             }

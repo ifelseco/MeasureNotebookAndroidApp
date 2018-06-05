@@ -211,13 +211,13 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
                     tvStorDirection.setText("Zincir Sağda");
                 }
 
-                if (orderLineDetailModel.getBeadNo().isEmpty()) {
+                if (TextUtils.isEmpty(orderLineDetailModel.getBeadNo())) {
                     tvStorBeadNo.setText("Boncuk Yok");
                 } else {
                     tvStorBeadNo.setText(orderLineDetailModel.getBeadNo());
                 }
 
-                if (orderLineDetailModel.getSkirtNo().isEmpty()) {
+                if (TextUtils.isEmpty(orderLineDetailModel.getSkirtNo())) {
                     tvStorSkirtNo.setText("Etek Dilimi Yok");
                 } else {
                     tvStorSkirtNo.setText(orderLineDetailModel.getBeadNo());
@@ -251,13 +251,13 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
                     tvStorDirection.setText("Zincir Sağda");
                 }
 
-                if (orderLineDetailModel.getBeadNo().isEmpty()) {
+                if (TextUtils.isEmpty(orderLineDetailModel.getBeadNo())) {
                     tvStorBeadNo.setText("Boncuk yok");
                 } else {
                     tvStorBeadNo.setText(orderLineDetailModel.getBeadNo());
                 }
 
-                if (orderLineDetailModel.getSkirtNo().isEmpty()) {
+                if (TextUtils.isEmpty(orderLineDetailModel.getSkirtNo())) {
                     tvStorSkirtNo.setText("Etek Dilimi yok");
                 } else {
                     tvStorSkirtNo.setText(orderLineDetailModel.getBeadNo());
@@ -396,13 +396,13 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
                     tvStorDirection.setText("Zincir Sağda");
                 }
 
-                if (orderLineDetailModel.getBeadNo().isEmpty()) {
+                if (TextUtils.isEmpty(orderLineDetailModel.getBeadNo())) {
                     tvStorBeadNo.setText("Boncuk yok");
                 } else {
                     tvStorBeadNo.setText(orderLineDetailModel.getBeadNo());
                 }
 
-                if (orderLineDetailModel.getSkirtNo().isEmpty()) {
+                if (TextUtils.isEmpty(orderLineDetailModel.getSkirtNo())) {
                     tvStorSkirtNo.setText("Etek Dilimi yok");
                 } else {
                     tvStorSkirtNo.setText(orderLineDetailModel.getBeadNo());

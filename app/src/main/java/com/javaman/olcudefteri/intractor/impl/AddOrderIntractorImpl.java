@@ -231,7 +231,7 @@ public class AddOrderIntractorImpl implements AddOrderIntractor {
     }
 
     private String findExistingPhone(String fixedPhone, String mobilePhone) {
-        if(!fixedPhone.isEmpty()){
+        if(!TextUtils.isEmpty(fixedPhone)){
             return fixedPhone;
         }else {
             return mobilePhone;

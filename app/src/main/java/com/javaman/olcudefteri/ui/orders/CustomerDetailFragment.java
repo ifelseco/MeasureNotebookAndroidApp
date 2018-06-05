@@ -150,7 +150,7 @@ public class CustomerDetailFragment extends Fragment implements View.OnClickList
                 String callNumber2 = customerDetailModel.getFixedPhone();
                 Intent intentCall = new Intent(Intent.ACTION_DIAL);
 
-                if (!callNumber1.isEmpty()) {
+                if (!TextUtils.isEmpty(callNumber1)) {
 
                     intentCall.setData(Uri.parse("tel:" + callNumber1));
 

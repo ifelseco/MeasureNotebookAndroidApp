@@ -164,33 +164,33 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
             orderLineDetailModel.setProduct(productDetailModel);
 
-            if (!etWidth.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etWidth.getText().toString())) {
                 double width = Double.parseDouble(etWidth.getText().toString());
                 orderLineDetailModel.setPropertyWidth(width);
             }
 
-            if (!etHeight.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etHeight.getText().toString())) {
                 double height = Double.parseDouble(etHeight.getText().toString());
                 orderLineDetailModel.setPropertyHeight(height);
             }
 
-            if (!etLeftWidth.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etLeftWidth.getText().toString())) {
                 double leftWidth = Double.parseDouble(etLeftWidth.getText().toString());
                 orderLineDetailModel.setPropertyLeftWidth(leftWidth);
             }
 
-            if (!etRigthWidth.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etRigthWidth.getText().toString())) {
                 double rightWidth = Double.parseDouble(etRigthWidth.getText().toString());
                 orderLineDetailModel.setPropertyRightWidth(rightWidth);
             }
 
 
-            if (!etUnitprice.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etUnitprice.getText().toString())) {
                 double unitPrice = Double.parseDouble(etUnitprice.getText().toString());
                 orderLineDetailModel.setUnitPrice(unitPrice);
             }
 
-            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !TextUtils.isEmpty(etOtherPile.getText().toString())) {
                 double pile;
                 if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                     int checkedId = radioGroupPile.getCheckedRadioButtonId();
@@ -208,25 +208,25 @@ public class CurtainDoubleNet extends DialogFragment implements View.OnClickList
                 orderLineDetailModel.setSizeOfPile(pile);
             }
 
-            if (!etPattern.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etPattern.getText().toString())) {
                 String pattern =etPattern.getText().toString();
                 productDetailModel.setPatternCode(pattern);
                 orderLineDetailModel.setProduct(productDetailModel);
             }
 
-            if (!etVariant.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etVariant.getText().toString())) {
                 String variant=etVariant.getText().toString();
                 productDetailModel.setVariantCode(variant);
                 orderLineDetailModel.setProduct(productDetailModel);
             }
 
-            if (!etAlias.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etAlias.getText().toString())) {
                 String alias=etAlias.getText().toString();
                 productDetailModel.setAliasName(alias);
                 orderLineDetailModel.setProduct(productDetailModel);
             }
 
-            if (!etDesc.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etDesc.getText().toString())) {
                 String desc=etDesc.getText().toString();
                 orderLineDetailModel.setLineDescription(desc);
             }

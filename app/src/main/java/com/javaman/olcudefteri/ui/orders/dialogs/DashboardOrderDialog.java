@@ -203,6 +203,11 @@ public class DashboardOrderDialog extends DialogFragment implements View.OnClick
         recyclerViewReport.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void setLogoutPref(boolean isLogout) {
+
+    }
+
     public int getReportNumber() {
         return reportNumber;
     }

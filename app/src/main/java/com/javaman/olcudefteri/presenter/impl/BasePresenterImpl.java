@@ -49,6 +49,7 @@ public class BasePresenterImpl implements BasePresenter,BaseIntractor.onBaseProc
             mBaseViev.removeKeyFromPref("sessionId");
             mBaseViev.removeKeyFromPref("lastActivity");
             mBaseViev.removeKeyFromPref("notf-count");
+            mBaseViev.setLogoutPref(true);
             mBaseViev.showAlert(message,true);
 
             new Handler().postDelayed(() -> mBaseViev.navigateToLogin(),2000);

@@ -155,37 +155,37 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
             ProductDetailModel productDetailModel = new ProductDetailModel();
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
 
-            if (!etPattern.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etPattern.getText().toString())) {
                 pattern = etPattern.getText().toString();
 
             }
 
 
-            if (!etVariant.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etVariant.getText().toString())) {
                 variant = etVariant.getText().toString();
 
             }
 
-            if (!etAlias.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etAlias.getText().toString())) {
                 alias = etAlias.getText().toString();
 
             }
 
-            if (!etDesc.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etDesc.getText().toString())) {
                 desc = etDesc.getText().toString();
             }
 
-            if (!etFarbelaWidth.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etFarbelaWidth.getText().toString())) {
                 farbelaWidth = Double.parseDouble(etFarbelaWidth.getText().toString());
 
             }
 
-            if (!etFarbelaHeight.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etFarbelaHeight.getText().toString())) {
                 farbelaHeight = Double.parseDouble(etFarbelaHeight.getText().toString());
 
             }
 
-            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !TextUtils.isEmpty(etOtherPile.getText().toString())) {
                 if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                     int checkedId = radioGroupPile.getCheckedRadioButtonId();
                     if (checkedId == R.id.radioButton2) {
@@ -221,12 +221,12 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
                         orderLineDetailModel.setPropertyHeight(height);
                     }
 
-                    if (!etUnitprice.getText().toString().isEmpty()) {
+                    if (!TextUtils.isEmpty(etUnitprice.getText().toString())) {
                         double unitPrice = Double.parseDouble(etUnitprice.getText().toString());
                         orderLineDetailModel.setUnitPrice(unitPrice);
                     }
 
-                    if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+                    if (radioGroupPile.getCheckedRadioButtonId() != -1 || !TextUtils.isEmpty(etOtherPile.getText().toString())) {
                         if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                             int checkedId = radioGroupPile.getCheckedRadioButtonId();
                             if (checkedId == R.id.radioButton2) {
@@ -278,7 +278,7 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
                     orderLineDetailModel.setUnitPrice(unitPrice);
                 }
 
-                if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+                if (radioGroupPile.getCheckedRadioButtonId() != -1 || !TextUtils.isEmpty(etOtherPile.getText().toString())) {
                     if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                         int checkedId = radioGroupPile.getCheckedRadioButtonId();
                         if (checkedId == R.id.radioButton2) {
@@ -340,7 +340,7 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
                             double height = Double.parseDouble(etWidthP.getText().toString());
                             double unitPrice = Double.parseDouble(etUnitprice.getText().toString());
 
-                            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+                            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !TextUtils.isEmpty(etOtherPile.getText().toString())) {
                                 if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                                     int checkedId = radioGroupPile.getCheckedRadioButtonId();
                                     if (checkedId == R.id.radioButton2) {
@@ -394,7 +394,7 @@ public class BrizCurtain extends DialogFragment implements View.OnClickListener,
                     double height = Double.parseDouble(etBrizHeight.getText().toString());
                     double unitPrice = Double.parseDouble(etUnitprice.getText().toString());
 
-                    if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+                    if (radioGroupPile.getCheckedRadioButtonId() != -1 || !TextUtils.isEmpty(etOtherPile.getText().toString())) {
                         if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                             int checkedId = radioGroupPile.getCheckedRadioButtonId();
                             if (checkedId == R.id.radioButton2) {

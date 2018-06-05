@@ -392,6 +392,11 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
     }
 
     @Override
+    public void setLogoutPref(boolean isLogout) {
+
+    }
+
+    @Override
     public void showAlert(String message) {
         StyleableToast.makeText(this,message,R.style.info_toast_style).show();
     }

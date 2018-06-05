@@ -376,6 +376,11 @@ public class AddOrderActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void setLogoutPref(boolean isLogout) {
+
+    }
+
 
     @Override
     public void logout() {

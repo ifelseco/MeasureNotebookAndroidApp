@@ -80,26 +80,24 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             boolean rememberMeActive=sharedPreferenceHelper.getBooleanPreference("rememberMe",false);
             cbRememberMe.setChecked(rememberMeActive);
             if(rememberMeActive){
-                if(sharedPreferenceHelper.containKey(ARG_LOGIN_1)){
-                    if(!TextUtils.isEmpty(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_1,""))){
+                if(sharedPreferenceHelper.containKey(ARG_LOGIN_1) && sharedPreferenceHelper.containKey(ARG_LOGIN_2) ){
+                    if(!TextUtils.isEmpty(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_1,""))
+                            && !TextUtils.isEmpty(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_2,""))){
                         try {
                             editTextUsername.setText(CipherHelper.decrypt(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_1,"")));
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                if(sharedPreferenceHelper.containKey(ARG_LOGIN_2)){
-                    if(!TextUtils.isEmpty(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_2,""))){
-                        try {
                             editTextPassword.setText(CipherHelper.decrypt(sharedPreferenceHelper.getStringPreference(ARG_LOGIN_2,"")));
+                            if(sharedPreferenceHelper.containKey("logout")){
+                                if(sharedPreferenceHelper.getBooleanPreference("logout",false)==false){
+                                    btnLogin.setEnabled(false);
+                                    btnLogin.setText("Giriş Yapılıyor");
+                                    btnLogin.performClick();
+                                }
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                 }
-
 
             }
         }
@@ -107,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @OnClick(R.id.btn_login)
     public void onClick(View v){
+        btnLogin.setText("Giriş Yapılıyor");
         mLoginPresenter.validateCredential(editTextUsername.getText().toString().trim() ,
                 editTextPassword.getText().toString().trim(),cbRememberMe.isChecked());
     }
@@ -154,6 +153,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void openSession(String sessionId) {
+        sharedPreferenceHelper.setBooleanPreference("logout",false);
         sharedPreferenceHelper.setStringPreference("sessionId", sessionId);
     }
 

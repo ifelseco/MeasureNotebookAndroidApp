@@ -207,6 +207,11 @@ public class CustomersFragment extends Fragment implements CustomerView, SearchV
         progressBarSearch.setVisibility(View.GONE);
     }
 
+    @Override
+    public void setLogoutPref(boolean isLogout) {
+
+    }
+
 
     @Override
     public void navigateToLogin() {

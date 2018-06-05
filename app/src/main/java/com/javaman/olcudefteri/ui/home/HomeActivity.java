@@ -441,6 +441,11 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
+    public void setLogoutPref(boolean isLogout) {
+        sharedPreferenceHelper.setBooleanPreference("logout",isLogout);
+    }
+
+    @Override
     public void showAlert(String message) {
         StyleableToast.makeText(this,message,R.style.info_toast_style).show();
     }

@@ -10,4 +10,5 @@ public interface BaseView {
     void showAlert(String message,boolean isToast);
     void showProgress(String message);
     void hideProgress();
+    void setLogoutPref(boolean isLogout);
 }

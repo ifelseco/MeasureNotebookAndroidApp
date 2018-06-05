@@ -197,32 +197,32 @@ public class NetStorCurtain extends DialogFragment implements View.OnClickListen
             ProductDetailModel productDetailModel = new ProductDetailModel();
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
 
-            if (!etPattern.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etPattern.getText().toString())) {
                 pattern = etPattern.getText().toString();
 
             }
 
 
-            if (!etVariant.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etVariant.getText().toString())) {
                 variant = etVariant.getText().toString();
 
             }
 
-            if (!etAlias.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etAlias.getText().toString())) {
                 alias = etAlias.getText().toString();
 
             }
 
-            if (!etDesc.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etDesc.getText().toString())) {
                 desc = etDesc.getText().toString();
             }
 
-            if (!etBead.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etBead.getText().toString())) {
                 beadNo = etBead.getText().toString();
 
             }
 
-            if (!etSkirt.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(etSkirt.getText().toString())) {
                 skirtNo = etSkirt.getText().toString();
 
             }

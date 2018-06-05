@@ -11,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -393,7 +394,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
         }else if (id == R.id.cb_door) {
             if (checkBoxDoor.isChecked()) {
                 checkBoxWindow.setChecked(false);
-                if (!locationTypeCount.isEmpty()) {
+                if (!TextUtils.isEmpty(locationTypeCount)) {
                     locationProduct.setLocationType("Kapı " + locationTypeCount);
                     tvLocationType.setText(locationProduct.getLocationType());
 
@@ -410,7 +411,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
             if (checkBoxWindow.isChecked()) {
                 checkBoxDoor.setChecked(false);
 
-                if (!locationTypeCount.isEmpty()) {
+                if (!TextUtils.isEmpty(locationTypeCount)) {
                     locationProduct.setLocationType("Cam " + locationTypeCount);
                     tvLocationType.setText(locationProduct.getLocationType());
 
@@ -596,7 +597,7 @@ public class AddOrderLineFragment extends Fragment implements View.OnClickListen
                 spinnerLocation.setVisibility(View.GONE);
                 etLocationOther.setVisibility(View.VISIBLE);
                 imageButtonClose.setVisibility(View.VISIBLE);
-                if (!etLocationOther.getText().toString().isEmpty()) {
+                if (!TextUtils.isEmpty(etLocationOther.getText().toString())) {
                     String location = etLocationOther.getText().toString();
                     locationProduct.setLocationName(location);
                     tvLocationName.setText(location);

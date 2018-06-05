@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,21 +97,21 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
             productDetailModel.setProductValue(ARG_PRODUCT_VALUE);
             orderLineDetailModel.setProduct(productDetailModel);
 
-            if (!editTextWidth.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(editTextWidth.getText().toString())) {
                 double width = Double.parseDouble(editTextWidth.getText().toString());
                 orderLineDetailModel.setPropertyWidth(width);
             }
 
-            if (!editTextHeight.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(editTextHeight.getText().toString())) {
                 orderLineDetailModel.setPropertyModelName(editTextHeight.getText().toString());
             }
 
-            if (!editTextModel.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(editTextModel.getText().toString())) {
                 double height = Double.parseDouble(editTextHeight.getText().toString());
                 orderLineDetailModel.setPropertyHeight(height);
             }
 
-            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !etOtherPile.getText().toString().isEmpty()) {
+            if (radioGroupPile.getCheckedRadioButtonId() != -1 || !TextUtils.isEmpty(etOtherPile.getText().toString())) {
                 double pile;
                 if (radioGroupPile.getCheckedRadioButtonId() != -1) {
                     int checkedId = radioGroupPile.getCheckedRadioButtonId();
@@ -128,30 +129,30 @@ public class FarbelaCurtain extends DialogFragment implements View.OnClickListen
                 orderLineDetailModel.setSizeOfPile(pile);
             }
 
-            if (!editTextPattern.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(editTextPattern.getText().toString())) {
                 String pattern =editTextPattern.getText().toString();
                 productDetailModel.setPatternCode(pattern);
                 orderLineDetailModel.setProduct(productDetailModel);
             }
 
-            if (!editTextVariant.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(editTextVariant.getText().toString())) {
                 String variant=editTextVariant.getText().toString();
                 productDetailModel.setVariantCode(variant);
                 orderLineDetailModel.setProduct(productDetailModel);
             }
 
-            if (!editTextAlias.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(editTextAlias.getText().toString())) {
                 String alias=editTextAlias.getText().toString();
                 productDetailModel.setAliasName(alias);
                 orderLineDetailModel.setProduct(productDetailModel);
             }
 
-            if (!editTextDesc.getText().toString().isEmpty()) {
+            if (!TextUtils.isEmpty(editTextDesc.getText().toString())) {
                 String desc=editTextDesc.getText().toString();
                 orderLineDetailModel.setLineDescription(desc);
             }
 
-            if(!editTextTotalPrice.getText().toString().isEmpty()){
+            if(!TextUtils.isEmpty(editTextTotalPrice.getText().toString())){
                 double lineAmount=Double.parseDouble(editTextTotalPrice.getText().toString());
                 orderLineDetailModel.setLineAmount(lineAmount);
             }
