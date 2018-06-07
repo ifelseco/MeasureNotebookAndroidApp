@@ -69,7 +69,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="En"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -84,7 +84,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="Boy"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -283,7 +283,7 @@
                                 android:layout_height="wrap_content"
                                 android:hint="@string/unitprice_text"
                                 android:ems="10"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 />
 
                         </android.support.design.widget.TextInputLayout>

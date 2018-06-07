@@ -59,7 +59,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="Briz En"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -74,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="Briz Boy"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -99,7 +99,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="Farbela En"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -114,7 +114,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="Farbela Boy"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
 
                     </android.support.design.widget.TextInputLayout>
 

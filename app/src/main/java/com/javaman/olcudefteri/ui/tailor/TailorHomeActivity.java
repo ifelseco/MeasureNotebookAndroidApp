@@ -393,7 +393,7 @@ public class TailorHomeActivity extends AppCompatActivity implements BaseView,Ta
 
     @Override
     public void setLogoutPref(boolean isLogout) {
-
+        sharedPreferenceHelper.setBooleanPreference("logout",isLogout);
     }
 
     @Override
