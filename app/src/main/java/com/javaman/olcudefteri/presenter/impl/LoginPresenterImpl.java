@@ -77,7 +77,9 @@ public class LoginPresenterImpl implements LoginPresenter,LoginIntractor.onLogin
 
     @Override
     public void setRememberMe(String username, String password, boolean isRememberMe) {
-        mLoginView.setRememberMe(username,password,isRememberMe);
+       if(mLoginView!=null){
+           mLoginView.setRememberMe(username,password,isRememberMe);
+       }
     }
 
     @Override
