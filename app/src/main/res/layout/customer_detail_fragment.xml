@@ -84,8 +84,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:padding="10dp"
-                    android:layout_margin="10dp"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -95,13 +95,7 @@
                         app:srcCompat="@drawable/ic_account_circle_black_24dp" />
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Ad Soyad:"
-                        android:textColor="@color/primaryDarkColor"
-                        android:textSize="17sp" />
+
 
                     <TextView
                         android:id="@+id/tv_customer_name"
@@ -123,8 +117,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_margin="10dp"
-                    android:padding="10dp">
+                    android:padding="5dp"
+                    android:layout_margin="5dp">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -132,14 +126,7 @@
                         android:tint="@color/primaryDarkColor"
                         app:srcCompat="@drawable/ic_phonelink_ring_black_24dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Cep Tel:"
-                        android:textColor="@color/primaryDarkColor"
-                        android:textSize="17sp" />
+
 
                     <TextView
                         android:id="@+id/tv_customer_mobile_phone"
@@ -164,8 +151,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:layout_margin="10dp">
+                    android:padding="5dp"
+                    android:layout_margin="5dp">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -174,14 +161,7 @@
                         app:srcCompat="@drawable/ic_phone_black_24dp" />
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Sabit Tel:"
-                        android:textColor="@color/primaryDarkColor"
-                        android:textSize="17sp" />
+
 
                     <TextView
                         android:id="@+id/tv_customer_fixed_tel"
@@ -205,8 +185,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:layout_margin="10dp">
+                    android:padding="5dp"
+                    android:layout_margin="5dp">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -215,14 +195,7 @@
                         app:srcCompat="@drawable/ic_location_on_black_24dp" />
 
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:textColor="@color/primaryDarkColor"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Adres:"
-                        android:textSize="17sp" />
+
 
                     <TextView
                         android:id="@+id/tv_customer_address"
@@ -245,8 +218,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="10dp"
-                    android:layout_margin="10dp"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
                     android:visibility="gone">
 
                     <CheckBox

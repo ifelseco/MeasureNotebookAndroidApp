@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="15dp"
-            android:backgroundTint="@color/primaryDarkColor"
+            android:background="@color/primaryDarkColor"
             android:padding="10dp"
             android:text="Giriş yap"
             android:textColor="@android:color/white"

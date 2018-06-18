@@ -302,7 +302,7 @@
                         android:layout_weight="1"
                         android:padding="3dp"
                         android:text="@string/cancel_button_text"
-                        android:backgroundTint="@android:color/holo_red_light"
+                        android:background="@android:color/holo_red_light"
                         android:textColor="#ffffff" />
 
                     <Button

@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_format_list_bulleted_black_24dp"
             android:tint="@android:color/white"
-            android:backgroundTint="@color/primaryDarkColor"
+            android:background="@color/primaryDarkColor"
             android:layout_gravity="right"/>
 
 

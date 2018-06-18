@@ -1,5 +1,6 @@
 package com.javaman.olcudefteri.ui.orders;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,6 +58,10 @@ import butterknife.ButterKnife;
 import butterknife.OnTouch;
 
 public class OrderDetailActivity extends AppCompatActivity implements FloatingActionMenu.OnMenuToggleListener, View.OnClickListener, OrderDetailVew, View.OnTouchListener {
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     @BindView(R.id.tabs)
     TabLayout tabLayout;
@@ -238,7 +245,8 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
 
     public void initOrderFabMenu() {
         fabMenu.setVisibility(View.VISIBLE);
-        fabMenu.getMenuIconView().setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_assignment_black_24dp));
+        fabMenu.getMenuIconView().setImageDrawable(getResources().getDrawable(R.drawable.ic_assignment_black_24dp));
+        //fabMenu.getMenuIconView().setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_assignment_black_24dp));
         fabMenu.getMenuIconView().setColorFilter(this.getResources().getColor(R.color.primaryTextColor),PorterDuff.Mode.SRC_IN);
 
 
@@ -256,10 +264,10 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     }
 
     private void initDefaultFab() {
-        fabCustomerEdit.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_mode_edit_white_24dp));
-        fabOrderStatus.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_find_replace_white_24dp));
-        fabOrderEdit.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_mode_edit_white_24dp));
-        fabOrderDelete.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_delete_forever_white_24dp));
+        fabCustomerEdit.setImageDrawable(getResources().getDrawable(R.drawable.ic_mode_edit_white_24dp));
+        fabOrderStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_find_replace_white_24dp));
+        fabOrderEdit.setImageDrawable(getResources().getDrawable(R.drawable.ic_mode_edit_white_24dp));
+        fabOrderDelete.setImageDrawable(getResources().getDrawable(R.drawable.ic_delete_forever_white_24dp));
 
 
     }
@@ -267,7 +275,7 @@ public class OrderDetailActivity extends AppCompatActivity implements FloatingAc
     public void initCustomerFabMenu() {
 
         fabMenu.setVisibility(View.VISIBLE);
-        fabMenu.getMenuIconView().setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_account_circle_black_24dp));
+        fabMenu.getMenuIconView().setImageDrawable(getResources().getDrawable(R.drawable.ic_account_circle_black_24dp));
 
 
         fabOrderDelete.setVisibility(View.GONE);

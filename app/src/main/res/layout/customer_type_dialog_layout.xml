@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/primaryLightColor"
+            android:background="@color/primaryLightColor"
             android:text="Yeni Müşteri"
             android:textColor="@android:color/black"/>
 
@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/secondaryLightColor"
+            android:background="@color/secondaryLightColor"
             android:text="Kayıtlı Müşteri"
             android:textColor="@android:color/black"/>
     </LinearLayout>
