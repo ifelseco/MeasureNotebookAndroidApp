@@ -326,13 +326,13 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
                 radioGroupDirection.check(R.id.rb_right);
             }
 
-            if (TextUtils.equals(orderLineDetailModel.getPileName(), "AP")) {
+            if (TextUtils.equals(orderLineDetailModel.getPileName(), "AP") || TextUtils.equals(orderLineDetailModel.getPileName(), "Amerikan Pile")) {
                 radioGroupPileName.check(R.id.rb_american);
-            } else if (TextUtils.equals(orderLineDetailModel.getPileName(), "KP")) {
+            } else if (TextUtils.equals(orderLineDetailModel.getPileName(), "KP") || TextUtils.equals(orderLineDetailModel.getPileName(), "Kanun Pile")) {
                 radioGroupPileName.check(R.id.rb_kanun);
-            } else if (TextUtils.equals(orderLineDetailModel.getPileName(), "YP")) {
+            } else if (TextUtils.equals(orderLineDetailModel.getPileName(), "YP") || TextUtils.equals(orderLineDetailModel.getPileName(), "Yan Pile")) {
                 radioGroupPileName.check(R.id.rb_yan);
-            } else if(TextUtils.equals(orderLineDetailModel.getPileName(), "O")){
+            } else if(TextUtils.equals(orderLineDetailModel.getPileName(), "O") || TextUtils.equals(orderLineDetailModel.getPileName(), "Diğer")){
                 radioGroupPileName.check(R.id.rb_other);
             }else{
                 radioGroupPileName.check(R.id.rb_other);
@@ -579,22 +579,22 @@ public class OrderLineUpdateDialog extends DialogFragment implements OnClickList
         if (radioGroupPileName.getCheckedRadioButtonId() != -1) {
             int checkedId = radioGroupPileName.getCheckedRadioButtonId();
             if (checkedId == R.id.rb_american) {
-                String pileName="AP";
+                String pileName="Amerikan Pile";
                 orderLineDetailModel.setPileName(pileName);
             } else if (checkedId == R.id.rb_kanun) {
-                String pileName="KP";
+                String pileName="Kanun Pile";
                 orderLineDetailModel.setPileName(pileName);
 
             } else if(checkedId==R.id.rb_yan){
-                String pileName="YP";
+                String pileName="Yan Pile";
                 orderLineDetailModel.setPileName(pileName);
 
             }else if(checkedId==R.id.rb_other){
-                String pileName="O";
+                String pileName="Diğer";
                 orderLineDetailModel.setPileName(pileName);
 
             }else{
-                String pileName="O";
+                String pileName="Diğer";
                 orderLineDetailModel.setPileName(pileName);
             }
 

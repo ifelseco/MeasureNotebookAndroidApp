@@ -65,7 +65,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
             tvBrizAltWidth, tvBrizAltHeight, tvFarbelaModel, tvFonPile,
             tvFonDirection, tvFonType, tvFonPileName, tvOrderLineDesc;
 
-    LinearLayout linearLayoutDetail, linearLayoutDesc;
+    LinearLayout linearLayoutDetail, linearLayoutDesc,linearLayoutProduct;
     ImageButton imageButtonClose;
     View detailView;
     private OrderLinePresenter mOrderLinePresenter;
@@ -132,6 +132,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
     private void initDialogView(View modalbottomsheet) {
 
         linearLayoutDetail = modalbottomsheet.findViewById(R.id.linear_layout_order_line_detail);
+        linearLayoutProduct=modalbottomsheet.findViewById(R.id.linear_layout_product);
         tvLocationName = modalbottomsheet.findViewById(R.id.tv_location_name);
         tvLocationType = modalbottomsheet.findViewById(R.id.tv_location_type);
         tvProductValue = modalbottomsheet.findViewById(R.id.tv_product_value);
@@ -152,6 +153,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
 
     private void setDialogView(OrderLineDetailModel orderLineDetailModel) {
         linearLayoutDetail.setVisibility(View.VISIBLE);
+        linearLayoutProduct.setVisibility(View.VISIBLE);
         tvLocationName.setText(orderLineDetailModel.getLocationName());
         tvLocationType.setText(orderLineDetailModel.getLocationType());
         tvProductALias.setText(orderLineDetailModel.getProduct().getAliasName());
@@ -344,8 +346,8 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
                 if (orderLineDetailModel.getFonType() == 1) {
                     tvFonType.setText("Kruvaze Kanat");
 
-                    setPileName(orderLineDetailModel);
-
+                    //setPileName(orderLineDetailModel);
+                    tvFonPileName.setText(orderLineDetailModel.getPileName());
                     tvFonPile.setText(String.format("%.2f", orderLineDetailModel.getSizeOfPile()));
 
                     if (orderLineDetailModel.getDirection() == 1) {
@@ -357,7 +359,8 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
 
                 } else if (orderLineDetailModel.getFonType() == 2) {
                     tvFonType.setText("Fon Kanat");
-                    setPileName(orderLineDetailModel);
+                    //setPileName(orderLineDetailModel);
+                    tvFonPileName.setText(orderLineDetailModel.getPileName());
                     tvFonPile.setText(String.format("%.2f", orderLineDetailModel.getSizeOfPile()));
 
                     if (orderLineDetailModel.getDirection() == 1) {
@@ -413,7 +416,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    private void setPileName(OrderLineDetailModel orderLineDetailModel) {
+    /*private void setPileName(OrderLineDetailModel orderLineDetailModel) {
 
         if (TextUtils.equals(orderLineDetailModel.getPileName(), "AP")) {
             tvFonPileName.setText("Amerikan Pile");
@@ -424,7 +427,7 @@ public class OrderLineFragment extends Fragment implements View.OnClickListener,
         } else {
             tvFonPileName.setText("Diğer");
         }
-    }
+    }*/
 
     @Override
     public void onClick(View v) {

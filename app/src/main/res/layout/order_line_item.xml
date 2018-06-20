@@ -121,84 +121,124 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="right"
                     android:fontFamily="@font/roboto_regular"
                     android:text="Ürün Türü"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/tv_product_alias"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Ürün İsmi"
-                    android:textSize="15sp" />
+
 
 
             </LinearLayout>
 
 
             <LinearLayout
+                android:id="@+id/linear_layout_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:layout_margin="5dp"
-                android:padding="6dp">
+                android:orientation="vertical"
+                android:divider="@drawable/vertical_divider_primary"
+                android:visibility="gone"
+                android:showDividers="middle">
 
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Desen:"
-                    android:textStyle="bold"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/tv_product_pattern"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Desen"
-                    android:textSize="15sp" />
+                    android:orientation="horizontal"
+                    android:layout_margin="5dp"
+                    android:padding="6dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Desen:"
+                        android:textStyle="bold"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/tv_product_pattern"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Desen"
+                        android:gravity="right"
+                        android:textSize="15sp" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_margin="5dp"
+                    android:padding="6dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Varyant:"
+                        android:textStyle="bold"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/tv_product_variant"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Varyant"
+                        android:gravity="right"
+                        android:textSize="15sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_margin="5dp"
+                    android:padding="6dp">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="İsim:"
+                        android:textStyle="bold"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:id="@+id/tv_product_alias"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Ürün İsmi"
+                        android:gravity="right"
+                        android:textSize="15sp" />
+
+
+                </LinearLayout>
+
+
 
 
             </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:layout_margin="5dp"
-                android:padding="6dp">
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Varyant:"
-                    android:textStyle="bold"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/tv_product_variant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Varyant"
-                    android:textSize="15sp" />
-
-
-            </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -231,6 +271,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
                         android:text="En"
+                        android:gravity="center"
                         android:textSize="15sp" />
 
                 </LinearLayout>
@@ -257,6 +298,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/roboto_regular"
                         android:text="Boy"
+                        android:gravity="right"
                         android:textSize="15sp" />
 
                 </LinearLayout>
@@ -271,6 +313,7 @@
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:padding="6dp"
+                android:layout_margin="5dp"
                 android:visibility="gone">
 
 

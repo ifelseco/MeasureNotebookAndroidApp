@@ -45,7 +45,6 @@
                             android:id="@+id/editTextName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_account_circle_black_24dp"
                             android:ems="10"
                             android:hint="@string/name_surname_text"
                             android:inputType="textPersonName|textCapWords" />
@@ -77,7 +76,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:maxLength="11"
-                            android:drawableLeft="@drawable/ic_phonelink_ring_black_24dp"
                             android:ems="10"
                             android:inputType="phone" />
                     </android.support.design.widget.TextInputLayout>
@@ -107,7 +105,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:maxLength="11"
-                            android:drawableLeft="@drawable/ic_phone_black_24dp"
                             android:ems="10"
                             android:inputType="phone" />
 
@@ -134,7 +131,6 @@
                             android:id="@+id/editTextAddress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_location_on_black_24dp"
                             android:gravity="top|left"
                             android:hint="@string/address_text"
                             android:inputType="textMultiLine|textCapWords"
@@ -181,6 +177,7 @@
                         android:id="@+id/btn_cancel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@android:color/holo_red_light"
                         android:layout_alignParentRight="true"
@@ -194,7 +191,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_margin="5dp"
                         android:layout_alignParentRight="true"
+                        android:background="@color/primaryColor"
                         android:text="@string/save_button_text"
                         android:textColor="#ffffff"
                         android:textSize="15sp" />

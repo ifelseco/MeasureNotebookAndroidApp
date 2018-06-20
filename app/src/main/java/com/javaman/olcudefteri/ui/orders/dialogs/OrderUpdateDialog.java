@@ -152,7 +152,7 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
             editTextDepositAmount.setText("0");
 
         } else {
-            editTextDepositAmount.setText(String.format("%.2f",orderDetailResponseModel.getDepositeAmount()));
+            editTextDepositAmount.setText(String.valueOf(orderDetailResponseModel.getDepositeAmount()));
         }
 
 
@@ -160,7 +160,7 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
             editTextTotalAmount.setText("0");
 
         } else {
-            editTextTotalAmount.setText(String.format("%.2f",orderDetailResponseModel.getTotalAmount()));
+            editTextTotalAmount.setText(String.valueOf(orderDetailResponseModel.getTotalAmount()));
         }
 
         if (orderDetailResponseModel.getDeliveryDate() == null) {

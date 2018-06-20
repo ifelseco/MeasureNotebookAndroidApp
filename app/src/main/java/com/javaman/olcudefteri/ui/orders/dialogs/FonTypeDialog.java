@@ -119,13 +119,13 @@ public class FonTypeDialog extends DialogFragment implements  View.OnClickListen
             }
         }else if(id==R.id.radiGroupPileType){
             if (checkedId == R.id.radioButtonAmerican) {
-                pileName = "AP";
+                pileName = "Amerikan Pile";
             } else if (checkedId == R.id.radioButtonKanun) {
-                pileName = "KP";
+                pileName = "Kanun Pile";
             } else if (checkedId == R.id.radioButtonYan) {
-                pileName = "YP";
+                pileName = "Yan Pile";
             } else {
-                pileName = "O";
+                pileName = "Diğer";
             }
         }
 
