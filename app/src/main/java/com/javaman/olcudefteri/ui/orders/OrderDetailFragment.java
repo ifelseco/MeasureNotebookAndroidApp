@@ -269,16 +269,16 @@ public class OrderDetailFragment extends Fragment implements OrderView{
 
 
         if(orderUpdateModel.getTotalAmount()==0){
-            tvOrderTotalAmount.setText("0");
+            tvOrderTotalAmount.setText(currency.getSymbol()+" 0");
         }else{
-            tvOrderTotalAmount.setText(""+orderUpdateModel.getTotalAmount());
+            tvOrderTotalAmount.setText(currency.getSymbol()+" "+orderUpdateModel.getTotalAmount());
         }
 
 
         if(orderUpdateModel.getDepositeAmount()==0){
-            tvOrderDeposit.setText("0");
+            tvOrderDeposit.setText(currency.getSymbol()+" 0");
         }else{
-            tvOrderDeposit.setText(""+orderUpdateModel.getDepositeAmount());
+            tvOrderDeposit.setText(currency.getSymbol()+" "+orderUpdateModel.getDepositeAmount());
         }
 
 
@@ -306,7 +306,7 @@ public class OrderDetailFragment extends Fragment implements OrderView{
 
         double remainAmount=orderUpdateModel.getTotalAmount()-orderUpdateModel.getDepositeAmount();
 
-        tvOrderRemain.setText(""+currency.getSymbol()+" "+String.format("%.2f",remainAmount));
+        tvOrderRemain.setText(currency.getSymbol()+" "+String.format("%.2f",remainAmount));
         OrderUpdateEvent event=new OrderUpdateEvent();
         event.setOrderUpdateModel(orderUpdateModel);
         EventBus.getDefault().post(event);

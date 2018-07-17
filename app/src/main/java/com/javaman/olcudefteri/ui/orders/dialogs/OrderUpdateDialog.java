@@ -299,22 +299,14 @@ public class OrderUpdateDialog extends DialogFragment implements View.OnClickLis
                                 "Ölçü tarihi :" + mMeasureDate+"\n"+
                                 "Montaj :" + (orderUpdateModel.isMountExist() == true ? "Var" : "Yok"))
                 .setConfirmText("Evet")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        EventBus.getDefault().post(orderUpdateModel);
-                        sDialog.dismissWithAnimation();
-                        dismiss();
-                    }
+                .setConfirmClickListener(sDialog -> {
+                    EventBus.getDefault().post(orderUpdateModel);
+                    sDialog.dismissWithAnimation();
+                    dismiss();
                 })
                 .showCancelButton(true)
                 .setCancelText("Vazgeç!")
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.cancel();
-                    }
-                })
+                .setCancelClickListener(sDialog -> sDialog.cancel())
                 .show();
     }
 

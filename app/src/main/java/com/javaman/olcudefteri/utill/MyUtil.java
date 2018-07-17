@@ -20,12 +20,5 @@ public class MyUtil {
         item.setIcon(wrapDrawable);
     }
 
-    public static void tintImageButton(ImageButton imageButton,Drawable drawable,int color){
-        Drawable wrapDrawable = DrawableCompat.wrap(drawable);
-        DrawableCompat.setTint(wrapDrawable,color);
-        imageButton.setImageDrawable(wrapDrawable);
-
-    }
-
 
 }
