@@ -104,7 +104,6 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
         sharedPreferenceHelper=new SharedPreferenceHelper(getApplicationContext());
         sharedPreferenceHelper.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         sharedPreferenceHelper.removeKey("orderLineSummaryResponse");

@@ -69,7 +69,7 @@
     <string-array name="order_status">
         <item>Eksik</item>
         <item>Ölçüye Gidilecek</item>
-        <item>Siapriş Kaydı Alındı</item>
+        <item>Sipariş Kaydı Alındı</item>
         <item>Terzide</item>
         <item>Hazır</item>
         <item>Teslim Edildi</item>

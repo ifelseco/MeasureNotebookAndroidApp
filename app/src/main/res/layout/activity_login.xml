@@ -46,7 +46,7 @@
                 android:gravity="center|left|bottom"
                 android:hint="@string/username_text"
                 android:textColor="@android:color/white"
-                android:inputType="text"
+                android:inputType="textEmailAddress"
                 android:maxLength="50"
                 android:textSize="18sp" />
 

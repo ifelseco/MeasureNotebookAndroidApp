@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key'
+            keyPassword 'g8903.Ifelseco.'
+            storeFile file('/home/javaman/Android/keys/olcudefterim.jks')
+            storePassword 'g8903.Ifelseco.'
+        }
+    }
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.javaman.olcudefteri"
@@ -22,10 +30,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
     buildToolsVersion '27.0.3'
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -52,8 +60,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.tomer:fadingtextview:2.5'
-    implementation 'com.android.support:gridlayout-v7:27.1.1'
     implementation 'com.google.android.gms:play-services:11.8.0'
     implementation 'com.android.support:mediarouter-v7:27.1.1'
     implementation 'com.android.support:multidex:1.0.3'
@@ -64,6 +70,7 @@ dependencies {
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
     implementation 'com.muddzdev:styleabletoast:2.1.2'
 }
+
 
 
 apply plugin: 'com.google.gms.google-services'
