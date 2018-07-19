@@ -4,14 +4,55 @@
     package="com.javaman.olcudefteri">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-sdk tools:overrideLibrary="com.muddzdev.styleabletoastlibrary"/>
 
+    <compatible-screens>
+        <screen android:screenSize="normal" android:screenDensity="480" />
+        <screen android:screenSize="large" android:screenDensity="480" />
+        <screen android:screenSize="xlarge" android:screenDensity="480" />
+
+        <screen android:screenSize="normal" android:screenDensity="640" />
+        <screen android:screenSize="large" android:screenDensity="640" />
+        <screen android:screenSize="xlarge" android:screenDensity="640" />
+
+        <screen android:screenSize="small" android:screenDensity="ldpi" />
+        <screen android:screenSize="small" android:screenDensity="mdpi" />
+        <screen android:screenSize="small" android:screenDensity="hdpi" />
+        <screen android:screenSize="small" android:screenDensity="xhdpi"/>
+
+        <!--all normal size screens -->
+        <screen android:screenSize="normal" android:screenDensity="ldpi" />
+        <screen android:screenSize="normal" android:screenDensity="mdpi" />
+        <screen android:screenSize="normal" android:screenDensity="hdpi" />
+        <screen android:screenSize="normal" android:screenDensity="xhdpi" />
+
+        <!-- all large size screens -->
+        <screen android:screenSize="large" android:screenDensity="ldpi" />
+        <screen android:screenSize="large" android:screenDensity="mdpi" />
+        <screen android:screenSize="large" android:screenDensity="hdpi" />
+        <screen android:screenSize="large" android:screenDensity="xhdpi" />
+
+        <!-- all xlarge size screens -->
+        <screen android:screenSize="xlarge" android:screenDensity="ldpi" />
+        <screen android:screenSize="xlarge" android:screenDensity="mdpi" />
+        <screen android:screenSize="xlarge" android:screenDensity="hdpi" />
+        <screen android:screenSize="xlarge" android:screenDensity="xhdpi" />
+
+
+
+        <!-- Special case for Nexus 7 -->
+        <screen android:screenSize="large" android:screenDensity="213" />
+
+    </compatible-screens>
+
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:resizeable="true"
+        android:anyDensity="true"/>
 
 
     <meta-data
