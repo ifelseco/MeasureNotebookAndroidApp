@@ -13,7 +13,7 @@ import java.security.KeyStoreException;
 public class ApiUtils {
 
    //public static final String BASE_URL="https://measure-notebook-api.herokuapp.com/";
-   public static final String BASE_URL="https://api.olcudefteri.com:8181";
+   public static final String BASE_URL="https://api.teraasist.com:8181";
 
     public static String getAuthToken(String username , String password) {
         byte[] data = new byte[0];

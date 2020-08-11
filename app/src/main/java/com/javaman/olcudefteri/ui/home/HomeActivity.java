@@ -240,7 +240,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void initFragment(FragmentManager mFragmentManager, FragmentTransaction mFragmentTransaction, Fragment fragment, Parcelable parcelable, String key, String tag) {
         mFragmentManager = getSupportFragmentManager();
-        mFragmentTransaction = mFragmentManager.beginTransaction();
+        //mFragmentTransaction = mFragmentManager.beginTransaction();
         Bundle bundle=new Bundle();
         bundle.putParcelable(key, parcelable);
         fragment.setArguments(bundle);

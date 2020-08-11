@@ -14,7 +14,7 @@ public interface AddOrderLineView {
     void addOrderLineList(AddOrderLineDetailListModel orderLineDetailListModel);
     void updateOrder(OrderUpdateModel orderUpdateModel);
 
-    String getSessionIdFromPref();
+    String getSessionIdFromPref();  
     void navigateToLogin();
     void checkSession();
     void showAlert(String message,boolean isError);
